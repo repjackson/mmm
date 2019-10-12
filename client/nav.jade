@@ -3,20 +3,30 @@ template(name='nav')
         a.active.item(href='/' class="{{isActivePath '/'}}") 
             img.ui.tiny.image(src="{{c.url 'mmm_logo' height=200 }}" title='Home')
             //- |Home
-        a.item(href='/teachers') Schools
-        a.item(href='/classrooms') Classrooms
-        a.item(href='/teachers') Teachers
-        a.item(href='/students') Students
-        a.item(href='/marketplace') Marketplace
-        a.item(href='/admin') Admin
+        a.item(href='/schools' title='schools') 
+            +i name='school'
+            //- schools
+        a.item(href='/classrooms' title='classrooms')
+            +i name='class'
+            //- |classrooms
+        a.item(href='/teachers' title='teachers')
+            +i name='teacher'
+            //- |teachers
+        a.item(href='/students' title='students') 
+            +i name='students'
+            //- |students
+        a.item(href='/shop' title='shop') 
+            +i name='shop'
+            //- |shop
+        a.item(href='/admin' title='admin')
+            +i name='user-shield'
+            //- |admin
         .right.menu
-            a.item(href='/members' class="{{isActivePath '/members'}}")
-                i.users.icon
             unless currentUser
                 .item
-                    a.ui.button(href='/login' title='login') Log in
+                    a.ui.button(href='/login' title='login') log in
                 .item
-                    a.ui.primary.button Sign Up
+                    a.ui.primary.button sign up
             if currentUser
                 unless logging_out
                     //- a.ui.button(href="/member/#{currentUser.username}/finance" class="{{isActiveRoute regex='member_finance'}}" title='credits')
@@ -36,9 +46,9 @@ template(name='nav')
 
 
 template(name='footer')
-    .ui.stackable.grid
+    .ui.stackable.secondary.grid
         .eight.wide.column
-            //- +add_button label='bug' model='bug' icon='bug'
+            +add_button label='bug' model='bug' icon='bug'
             if is_dev    
                 with current_user
                     +role_switcher
@@ -47,7 +57,7 @@ template(name='footer')
                 a.ui.big.button(href='/login')
                     i.sign.in.icon
                     |login
-            //- +footer_chat
+            +footer_chat
             if is_eric
                 with currentUser
                     +role_switcher
@@ -56,7 +66,6 @@ template(name='footer')
                 
 template(name='footer_chat')
     .ui.grey.inline.header 
-        //- i.outline.comments.icon
         +i name='chat'
         |chat
     .ui.list.scroll

@@ -1,21 +1,46 @@
 if Meteor.isClient
-    Router.route '/classroom/:doc_id/view', (->
+    Router.route '/shop', (->
         @layout 'layout'
-        @render 'classroom_view'
-        ), name:'classroom_view'
+        @render 'shop'
+        ), name:'shop'
+    Router.route '/shop/:doc_id/edit', (->
+        @layout 'layout'
+        @render 'shop_edit'
+        ), name:'shop_edit'
+    Router.route '/shop/:doc_id/view', (->
+        @layout 'layout'
+        @render 'shop_view'
+        ), name:'shop_view'
 
 
-    Template.classroom_view.onCreated ->
+
+    Template.shop_edit.onRendered ->
+        Meteor.setTimeout ->
+            $('.accordion').accordion()
+        , 1000
+
+
+    Template.shop_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
 
-    Template.classroom_view.onRendered ->
+    Template.shop_edit.events
+        'click .add_shop_item': ->
+            new_mi_id = Docs.insert
+                model:'shop_item'
+            Router.go "/shop/#{_id}/edit"
+
+
+    Template.shop_view.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+
+    Template.shop_view.onRendered ->
         Meteor.call 'increment_view', Router.current().params.doc_id, ->
-    Template.classrooms.onRendered ->
+    Template.shop.onRendered ->
         Session.setDefault 'view_mode', 'cards'
-    Template.classrooms.helpers
+    Template.shop.helpers
         viewing_cards: -> Session.equals 'view_mode', 'cards'
         viewing_segments: -> Session.equals 'view_mode', 'segments'
-    Template.classrooms.events
+    Template.shop.events
         'click .set_card_view': ->
             Session.set 'view_mode', 'cards'
         'click .set_segment_view': ->
@@ -38,43 +63,22 @@ if Meteor.isClient
     #                 hourly_reservation_price:hourly_reservation_price
     #                 daily_reservation_price:daily_reservation_price
 
-    Template.classroom_stats.events
-        'click .refresh_classroom_stats': ->
-            Meteor.call 'refresh_classroom_stats', @_id
+    Template.shop_stats.events
+        'click .refresh_shop_stats': ->
+            Meteor.call 'refresh_shop_stats', @_id
 
-
-    Template.reserve_button.events
-        'click .new_reservation': (e,t)->
-            new_reservation_id = Docs.insert
-                model:'reservation'
-                classroom_id: @_id
-            Router.go "/reservation/#{new_reservation_id}/edit"
-
-
-    Template.reservation_segment.events
-        'click .calc_res_numbers': ->
-            start_date = moment(@start_timestamp).date()
-            start_month = moment(@start_timestamp).month()
-            start_minute = moment(@start_timestamp).minute()
-            start_hour = moment(@start_timestamp).hour()
-            Docs.update @_id,
-                $set:
-                    start_date:start_date
-                    start_month:start_month
-                    start_hour:start_hour
-                    start_minute:start_minute
 
 
 
 if Meteor.isServer
-    Meteor.publish 'classroom_reservations_by_id', (classroom_id)->
+    Meteor.publish 'shop_reservations_by_id', (shop_id)->
         Docs.find
             model:'reservation'
-            classroom_id: classroom_id
+            shop_id: shop_id
 
-    Meteor.publish 'classrooms', (product_id)->
+    Meteor.publish 'shops', (product_id)->
         Docs.find
-            model:'classroom'
+            model:'shop'
             product_id:product_id
 
     Meteor.publish 'reservation_by_day', (product_id, month_day)->
@@ -89,14 +93,14 @@ if Meteor.isServer
             product_id:product_id
 
     Meteor.publish 'reservation_slot', (moment_ob)->
-        classrooms_return = []
+        shops_return = []
         for day in [0..6]
             day_number++
             # long_form = moment(now).add(day, 'days').format('dddd MMM Do')
             date_string =  moment(now).add(day, 'days').format('YYYY-MM-DD')
             console.log date_string
-            classrooms.return.push date_string
-        classrooms_return
+            shops.return.push date_string
+        shops_return
 
         # data.long_form
         # Docs.find
@@ -104,38 +108,38 @@ if Meteor.isServer
 
 
     Meteor.methods
-        refresh_classroom_stats: (classroom_id)->
-            classroom = Docs.findOne classroom_id
-            # console.log classroom
-            reservations = Docs.find({model:'reservation', classroom_id:classroom_id})
+        refresh_shop_stats: (shop_id)->
+            shop = Docs.findOne shop_id
+            # console.log shop
+            reservations = Docs.find({model:'reservation', shop_id:shop_id})
             reservation_count = reservations.count()
             total_earnings = 0
-            total_classroom_hours = 0
-            average_classroom_duration = 0
+            total_shop_hours = 0
+            average_shop_duration = 0
 
             # shortest_reservation =
             # longest_reservation =
 
             for res in reservations.fetch()
                 total_earnings += parseFloat(res.cost)
-                total_classroom_hours += parseFloat(res.hour_duration)
+                total_shop_hours += parseFloat(res.hour_duration)
 
-            average_classroom_cost = total_earnings/reservation_count
-            average_classroom_duration = total_classroom_hours/reservation_count
+            average_shop_cost = total_earnings/reservation_count
+            average_shop_duration = total_shop_hours/reservation_count
 
-            Docs.update classroom_id,
+            Docs.update shop_id,
                 $set:
                     reservation_count: reservation_count
                     total_earnings: total_earnings.toFixed(0)
-                    total_classroom_hours: total_classroom_hours.toFixed(0)
-                    average_classroom_cost: average_classroom_cost.toFixed(0)
-                    average_classroom_duration: average_classroom_duration.toFixed(0)
+                    total_shop_hours: total_shop_hours.toFixed(0)
+                    average_shop_cost: average_shop_cost.toFixed(0)
+                    average_shop_duration: average_shop_duration.toFixed(0)
 
             # .ui.small.header total earnings
-            # .ui.small.header classroom ranking #reservations
-            # .ui.small.header classroom ranking $ earned
+            # .ui.small.header shop ranking #reservations
+            # .ui.small.header shop ranking $ earned
             # .ui.small.header # different renters
-            # .ui.small.header avg classroom time
+            # .ui.small.header avg shop time
             # .ui.small.header avg daily earnings
             # .ui.small.header avg weekly earnings
             # .ui.small.header avg monthly earnings

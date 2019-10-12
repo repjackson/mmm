@@ -1,0 +1,69 @@
+template(name='schools')
+    .ui.stackable.padded.grid
+        .ui.header 
+            +i name='school'
+            |Schools
+        each schools
+            .four.wide.column
+                a(href="/school/#{slug}")
+                    .ui.card.home_segment
+                        img.ui.fluid.image(src="{{c.url image width=400 height=200 crop='fill'}}")
+                        .content
+                            .ui.large.header #{school_code}
+                                each school_numbers
+                                    .ui.basic.label #{this}
+                            .ui.grey.small.header #{school_street}
+                
+                
+template(name='school_view')
+    .ui.padded.stackable.grid
+        .row
+            .sixteen.wide.column
+                a.ui.big.button(href="/schools")
+                    i.chevron.left.icon
+                    +i name='school' classes='ui inline mini image'
+                    |schools
+                if is_dev
+                    .ui.icon.input
+                        i.home.icon
+                        //- +ismall name='home' classes='ui inline mini image'
+                        input.classroom_number(type='number' placeholder='classroom number')
+                    .ui.icon.input
+                        i.school.icon
+                        //- +ismall name='school' classes='ui inline mini image'
+                        input.school_number(type='number' placeholder='classroom school number')
+                    .ui.icon.input
+                        i.header.icon
+                        //- +ismall name='school' classes='ui inline mini image'
+                        input.school_label(type='text' placeholder='classroom school label')
+                .ui.large.inline.header 
+                    small school
+                    strong #{school.school_code}
+                each school.school_numbers
+                    .ui.basic.large.label #{this}
+        .row
+            .ui.sixteen.wide.column
+                .ui.three.cards
+                    each classrooms
+                        +classroom_card
+
+    
+template(name='school_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .six.wide.column 
+                    .ui.header 
+                        i.pencil.icon
+                        | edit '#{title}' school
+                    a.ui.big.fluid.button(href="/school/#{_id}/view" title='save')
+                        i.checkmark.large.green.icon
+                        |save
+                    +remove_button
+                    +image_edit key='school_image_id' icon='image' label='image' direct=true
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                .ten.wide.column 
+                    +text_edit key='title' direct=true
+                    +number_edit key='price' icon='money' direct=true
+                    +textarea_edit key='description' label='description' icon='content' direct=true
+                

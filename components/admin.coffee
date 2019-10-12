@@ -1,8 +1,6 @@
 if Meteor.isClient
     Router.route '/admin', -> @render 'admin'
     Router.route '/student_dash', -> @render 'student_dash'
-    Router.route '/teachers', -> @render 'teacher_dash'
-    Router.route '/classrooms', -> @render 'classrooms'
 
     Template.add_student.onCreated ->
         Session.set 'permission', false
