@@ -18,8 +18,34 @@ if Meteor.isClient
 
     Template.classroom_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'model_docs', 'feature'
+
+    Template.classroom_edit.helpers
+        features: ->
+            Docs.find
+                model:'feature'
+        feature_edit_template: ->
+            "#{@title}_edit_template"
+
+        selected_features: ->
+            classroom = Docs.findOne Router.current().params.doc_id
+            Docs.find(
+                _id: $in: classroom.feature_ids
+                model:'feature'
+            ).fetch()
+
 
     Template.classroom_edit.events
+        'click .toggle_feature': ->
+            classroom = Docs.findOne Router.current().params.doc_id
+            if classroom.feature_ids and @_id in classroom.feature_ids
+                Docs.update Router.current().params.doc_id,
+                    $pull: feature_ids: @_id
+            else
+                Docs.update Router.current().params.doc_id,
+                    $addToSet: feature_ids: @_id
+
+
         'click .add_shop_item': ->
             new_shop_id = Docs.insert
                 model:'shop_item'

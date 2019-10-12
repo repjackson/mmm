@@ -1,23 +1,23 @@
 template(name='home')
     // Sidebar Menu
-    .ui.vertical.inverted.sidebar.menu
-        a.item Home
-        a.item Work
-        a.item Company
-        a.item Careers
-        a.item Login
-        a.item Signup
+    .ui.vertical.sidebar.menu
+        a.item home
+        a.item work
+        a.item company
+        a.item careers
+        a.item login
+        a.item signup
     // Page Contents
     .pusher
-        .ui.inverted.vertical.masthead.center.aligned.segment
+        .ui.vertical.masthead.center.aligned.segment
             .ui.text.container
-                h1.ui.inverted.header
-                    img.ui.centered.image(src="{{c.url 'mmm_logo' height=500 }}")
+                h1.ui.header
+                    img.ui.centered.image(src="{{c.url 'mmlogo' height=500 }}")
                     div
-                    | Mini Money Management
-            h2 Do whatever you want when you want to.
-            .ui.huge.primary.button
-                | Get Started 
+                    | minimoney
+            h2 the game of life
+            .ui.huge.button
+                .f6 get started 
                 i.right.arrow.icon
         .ui.vertical.stripe.segment
             .ui.middle.aligned.stackable.grid.container
@@ -61,24 +61,24 @@ template(name='home')
       
       
 //- template(name='footer')      
-//-     .ui.inverted.vertical.footer.segment
+//-     .ui.vertical.footer.segment
 //-         .ui.container
-//-             .ui.stackable.inverted.divided.equal.height.stackable.grid
+//-             .ui.stackable.divided.equal.height.stackable.grid
 //-                 .three.wide.column
-//-                     h4.ui.inverted.header About
-//-                     .ui.inverted.link.list
+//-                     h4.ui.header About
+//-                     .ui.link.list
 //-                         a.item(href='#') Sitemap
 //-                         a.item(href='#') Contact Us
 //-                         a.item(href='#') Religious Ceremonies
 //-                         a.item(href='#') Gazebo Plans
 //-                 .three.wide.column
-//-                     h4.ui.inverted.header Services
-//-                     .ui.inverted.link.list
+//-                     h4.ui.header Services
+//-                     .ui.link.list
 //-                     a.item(href='#') Banana Pre-Order
 //-                     a.item(href='#') DNA FAQ
 //-                     a.item(href='#') How To Access
 //-                     a.item(href='#') Favorite X-Men
 //-                 .seven.wide.column
-//-                     h4.ui.inverted.header Footer Header
+//-                     h4.ui.header Footer Header
 //-                     p
 //-                     | Extra space for a call to action inside the footer that could help re-engage users.

@@ -1,7 +1,7 @@
 template(name='nav')
     .ui.attached.borderless.menu
-        a.active.item(href='/' class="{{isActivePath '/'}}") 
-            img.ui.tiny.image(src="{{c.url 'mmm_logo' height=200 }}" title='Home')
+        a.compact.item(href='/' class="{{isActivePath '/'}}") 
+            img.ui.tiny.compact.image(src="{{c.url 'mmlogo' height=200 }}" title='Home')
             //- |Home
         a.item(href='/schools' title='schools') 
             +i name='school'
@@ -18,6 +18,9 @@ template(name='nav')
         a.item(href='/shop' title='shop') 
             +i name='shop'
             //- |shop
+        a.item(href='/jobs' title='jobs') 
+            +i name='find-matching-job'
+            //- |shop
         a.item(href='/admin' title='admin')
             +i name='user-shield'
             //- |admin
@@ -26,7 +29,7 @@ template(name='nav')
                 .item
                     a.ui.button(href='/login' title='login') log in
                 .item
-                    a.ui.primary.button sign up
+                    a.ui.teal.button sign up
             if currentUser
                 unless logging_out
                     //- a.ui.button(href="/member/#{currentUser.username}/finance" class="{{isActiveRoute regex='member_finance'}}" title='credits')

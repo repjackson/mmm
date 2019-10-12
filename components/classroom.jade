@@ -9,52 +9,24 @@ template(name='classrooms')
                     |add classroom
                 .ui.stackable.cards
                     each classrooms
-                        .ui.card
-                            img.ui.fluid.image(src="{{c.url classroom_image_id width=400 height=200 crop='fill'}}")
-                            .content
-                                a.ui.header(href="/classroom/#{_id}/view") #{title}
-                                .ui.small.header net income #{net_income}
+                        +classroom_card
 
 template(name='classroom_card')
-    //- .ui.card    
-    a.ui.card(href="/classroom/#{_id}")
+    .ui.card
+        a(href="/classroom/#{_id}/view")
+            img.ui.fluid.image(src="{{c.url classroom_image_id width=400 height=200 crop='fill'}}")
         .content
-            .ui.large.header #{classroom_number}
-            //- .ui.small.header school #{school_code}
-            //- a.ui.large.button(href="/classroom/#{_id}")
-            //-     i.yellow.right.chevron.icon
-            div
-            +i name='rent' title='owner(s)'
-            //- i.dollar.icon
-            each owners
-                .ui.basic.large.label
-                    img.ui.rounded.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
-                    |#{first_name} #{last_name}
-            div
-            //- i.home.icon
-            +i name='home' title='renters'
-            each residents
-                .ui.basic.large.label
-                    img.ui.rounded.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
-                    |#{first_name} #{last_name}
-            div
-            //- if is_springdale
-            //-     +classroom_permits
-            //-     +i name='badge'
-            //-     each permits
-            //-         .ui.basic.label #{license_plate}
-            .ui.small.header #{notes}
-            if is_dev
-                +number_view key='school_number' direct=true
-                +number_view key='classroom_number' direct=true
+            a.ui.header(href="/classroom/#{_id}/view") #{title}
+            .ui.small.header net income #{net_income}
+
                     
 
 
 template(name='classroom_edit')
     with current_doc
         .ui.stackable.padded.grid
-            .three.column.row
-                .column 
+            .row
+                .four.wide.column 
                     .ui.header 
                         i.pencil.icon
                         | edit '#{title}' classroom
@@ -67,53 +39,93 @@ template(name='classroom_edit')
                     +image_edit key='classroom_image_id' label='image' direct=true
                     +textarea_edit key='description' label='description' icon='content' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
-                .column
-                    .ui.segment
-                        .ui.header 
-                            +i name='deposit'
-                            |income settings
-                        +number_edit key='bonus_amount' label='bonus amount' direct=true
-                        +boolean_edit key='daily' label='daily' direct=true
-                        +boolean_edit key='weekly' label='weekly' direct=true
-                        +number_edit key='daily_salary_amount' label='daily salary amount' direct=true
-                        +number_edit key='overtime_amount' label='overtime amount' direct=true
-                        +number_edit key='good_grades_amount' label='good grades amount' direct=true
-                .column
-                    .ui.segment
-                        .ui.header 
-                            +i name='initiate-money-transfer'
-                            |expenses settings
-                        +number_edit key='desk_rental_amount' label='desk rental amount' direct=true
-                        +number_edit key='janitor_amount' label='janitor amount' direct=true
-                        +number_edit key='lunch_amount' label='lunch amount' direct=true
-                        +number_edit key='fines_amount' label='fines amount' direct=true
-                        +number_edit key='rent_supplies_amount' label='rent supplies amount' direct=true
-            .three.column.row
-                .column
-                    .ui.header 
-                        +i name='shop'
-                        |shop
-                    .ui.button.add_shop_item 
-                        i.plus.icon
-                        |add item
-                    each classroom_shop_items
-                        .ui.header #{title}
-                .column
-                    .ui.header
-                        +i name='debt'
-                        |loans
-                .column
-                    .ui.header 
-                        +i name='students'
-                        |students
-                    a.ui.button(href='/add_student') 
-                        i.user.plus.icon
-                        |add student
-                    +multi_user_edit key='students' direct=true
-                .column
+                .twelve.wide.column
+                    .ui.stackable.grid
+                        .row
+                            .sixteen.wide.column
+                                each features
+                                    .ui.button.toggle_feature 
+                                        +i name=icon classes='ui inline mini image'
+                                        |#{title}
+                                
+                        .three.column.row
+                            each selected_features
+                                .column
+                                    .ui.header 
+                                        +i name=icon
+                                        |#{title}
+                                    +Template.dynamic template=feature_edit_template
+                            .column
+                                .ui.header 
+                                    +i name='invoice'
+                                    |balance sheet
+                            .column
+                                .ui.header
+                                    +i name='find-matching-job'
+                                    |job board 
+                            .column
+                                .ui.header
+                                    +i name='goal'
+                                    |goals 
+                            .column
+                                .ui.header
+                                    +i name='foul'
+                                    |penalties 
+                            .column
+                                .ui.header 
+                                    +i name='shop'
+                                    |shop  
+                                each shop_items
+                                    .ui.header #{title}
+                            .column
+                                .ui.header 
+                                    +i name='debt'
+                                    |loans  
+                            .column
+                            .column
+                                .ui.segment
+                                    .ui.header 
+                                        +i name='initiate-money-transfer'
+                                        |expenses settings
+                                    +number_edit key='desk_rental_amount' label='desk rental amount' direct=true
+                                    +number_edit key='janitor_amount' label='janitor amount' direct=true
+                                    +number_edit key='lunch_amount' label='lunch amount' direct=true
+                                    +number_edit key='fines_amount' label='fines amount' direct=true
+                                    +number_edit key='rent_supplies_amount' label='rent supplies amount' direct=true
+                            .column
+                                .ui.header 
+                                    +i name='shop'
+                                    |shop
+                                .ui.button.add_shop_item 
+                                    i.plus.icon
+                                    |add item
+                                each classroom_shop_items
+                                    .ui.header #{title}
+                            .column
+                                .ui.header
+                                    +i name='debt'
+                                    |loans
+                            .column
+                                .ui.header 
+                                    +i name='students'
+                                    |students
+                                a.ui.button(href='/add_student') 
+                                    i.user.plus.icon
+                                    |add student
+                                +multi_user_edit key='students' direct=true
                 
 
-
+template(name='deposit_edit_template')
+    .ui.segment
+        .ui.header 
+            +i name='deposit'
+            |income settings
+        +number_edit key='bonus_amount' label='bonus amount' direct=true
+        +boolean_edit key='daily' label='daily' direct=true
+        +boolean_edit key='weekly' label='weekly' direct=true
+        +number_edit key='daily_salary_amount' label='daily salary amount' direct=true
+        +number_edit key='overtime_amount' label='overtime amount' direct=true
+        +number_edit key='good_grades_amount' label='good grades amount' direct=true
 
 
 
@@ -122,48 +134,65 @@ template(name='classroom_view')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
-                    a.ui.button(href="/classrooms")
+                    a.ui.fluid.small.button(href="/classrooms")
                         i.chevron.left.icon
                         +i name='classroom' classes='ui inline mini image'
                         |classrooms
                     .ui.header classroom page
                     +image_view key='classroom_image_id' label='image' direct=true
                     .ui.header teacher name #{teacher_name}
-                    .ui.header classroom/company name #{company_name}
-                    a.ui.button(href="/classroom/#{_id}/edit")
+                    .ui.header company name #{company_name}
+                    a.ui.fluid.button(href="/classroom/#{_id}/edit")
                         i.pencil.icon
                         |edit
-                .six.wide.column
-                    .ui.header 
-                        +i name='invoice'
-                        |balance sheet
-                    .ui.header
-                        +i name='find-matching-job'
-                        |job board 
-                    .ui.header 
-                        +i name='shop'
-                        |shop  
-                    each shop_items
-                        .ui.header #{title}
-                    .ui.header 
-                .six.wide.column
-                    .ui.header 
-                        +i name='deposit'
-                        |income settings
-                    +number_view key='bonus_amount' label='bonus amount' direct=true
-                    +boolean_view key='daily' label='daily' direct=true
-                    +boolean_view key='weekly' label='weekly' direct=true
-                    +number_view key='daily_salary_amount' label='daily salary amount' direct=true
-                    +number_view key='overtime_amount' label='overtime amount' direct=true
-                    +number_view key='good_grades_amount' label='good grades amount' direct=true
-                    .ui.header 
-                        +i name='initiate-money-transfer'
-                        |expenses settings
-                    +number_view key='desk_rental_amount' label='desk rental amount' direct=true
-                    +number_view key='janitor_amount' label='janitor amount' direct=true
-                    +number_view key='lunch_amount' label='lunch amount' direct=true
-                    +number_view key='fines_amount' label='fines amount' direct=true
-                    +number_view key='rent_supplies_amount' label='rent supplies amount' direct=true
+                .twelve.wide.column
+                    .ui.stackable.grid
+                        .three.column.row
+                            .column
+                                .ui.header 
+                                    +i name='invoice'
+                                    |balance sheet
+                            .column
+                                .ui.header
+                                    +i name='find-matching-job'
+                                    |job board 
+                            .column
+                                .ui.header
+                                    +i name='goal'
+                                    |goals 
+                            .column
+                                .ui.header
+                                    +i name='foul'
+                                    |penalties 
+                            .column
+                                .ui.header 
+                                    +i name='shop'
+                                    |shop  
+                                each shop_items
+                                    .ui.header #{title}
+                            .column
+                                .ui.header 
+                                    +i name='debt'
+                                    |loans  
+                            .column
+                                .ui.header 
+                                    +i name='deposit'
+                                    |income settings
+                                +number_view key='bonus_amount' label='bonus amount' direct=true
+                                +boolean_view key='daily' label='daily' direct=true
+                                +boolean_view key='weekly' label='weekly' direct=true
+                                +number_view key='daily_salary_amount' label='daily salary amount' direct=true
+                                +number_view key='overtime_amount' label='overtime amount' direct=true
+                                +number_view key='good_grades_amount' label='good grades amount' direct=true
+                            .column
+                                .ui.header 
+                                    +i name='initiate-money-transfer'
+                                    |expenses settings
+                                +number_view key='desk_rental_amount' label='desk rental amount' direct=true
+                                +number_view key='janitor_amount' label='janitor amount' direct=true
+                                +number_view key='lunch_amount' label='lunch amount' direct=true
+                                +number_view key='fines_amount' label='fines amount' direct=true
+                                +number_view key='rent_supplies_amount' label='rent supplies amount' direct=true
                     
             .row
                 .eight.wide.column
@@ -211,12 +240,4 @@ template(name='classroom_stats')
         //- .item avg monthly earnings
         //- .item biggest renter
         //- .item predicted payback duration 
-        //- .item predicted payback date 
-
-    //-     //- .ui.header res slot exists
-    //-     +reservation_slot_template
-    //- else
-    //-     if is_product_author
-    //-         .ui.button.new_slot
-    //-             |new slot
         

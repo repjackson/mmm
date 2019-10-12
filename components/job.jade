@@ -1,0 +1,133 @@
+template(name='jobs')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+                .ui.header 
+                    +i name='find-matching-job'
+                    |jobs
+                .ui.button.add_job
+                    +i name='plus' classes='ui inline mini image'
+                    |add job
+                .ui.stackable.cards
+                    each jobs
+                        .ui.card
+                            img.ui.fluid.image(src="{{c.url job_image_id width=400 height=200 crop='fill'}}")
+                            .content
+                                a.ui.header(href="/job/#{_id}/view") #{title}
+                                .ui.small.header net income #{net_income}
+
+template(name='job_card')
+    //- .ui.card    
+    a.ui.card(href="/job/#{_id}/view")
+        .content
+            .ui.large.header #{job_number}
+            //- .ui.small.header school #{school_code}
+            //- a.ui.large.button(href="/job/#{_id}")
+            //-     i.yellow.right.chevron.icon
+            div
+            +i name='rent' title='owner(s)'
+            //- i.dollar.icon
+            each owners
+                .ui.basic.large.label
+                    if kiosk_photo
+                        img.ui.rounded.image(src="{{c.url kiosk_photo width=200 height=200 gravity='face' crop='fill'}}")
+                    else if image_id
+                        img.ui.rounded.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+                    |#{first_name} #{last_name}
+            div
+            //- i.home.icon
+            +i name='home' title='renters'
+            each residents
+                .ui.basic.large.label
+                    if kiosk_photo
+                        img.ui.rounded.image(src="{{c.url kiosk_photo width=200 height=200 gravity='face' crop='fill'}}")
+                    else if image_id
+                        img.ui.rounded.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+                    |#{first_name} #{last_name}
+            div
+            .ui.small.header #{notes}
+            if is_dev
+                +number_view key='school_number' direct=true
+                +number_view key='job_number' direct=true
+                    
+
+
+template(name='job_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .six.wide.column 
+                    .ui.header 
+                        i.pencil.icon
+                        | edit '#{title}' job
+                    a.ui.big.fluid.button(href="/job/#{_id}/view" title='save')
+                        i.checkmark.large.green.icon
+                        |save
+                    +remove_button
+                    +image_edit key='job_image_id' icon='image' label='image' direct=true
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                .ten.wide.column 
+                    +text_edit key='title' direct=true
+                    +number_edit key='price' icon='money' direct=true
+                    +textarea_edit key='description' label='description' icon='content' direct=true
+                
+
+
+
+
+
+template(name='job_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .eight.wide.column
+                    a.ui.button(href="/jobs")
+                        i.chevron.left.icon
+                        +i name='job' classes='ui inline mini image'
+                        |job
+                    .ui.header job view 
+                    +image_view key='job_image_id' label='image' direct=true
+                    a.ui.button(href="/job/#{_id}/edit")
+                        i.pencil.icon
+                        |edit
+                .eight.wide.column
+                    .ui.header #{title}
+                    .ui.header 
+                        +i name='job'
+                        |purchases
+                    each purchases
+                        .ui.header #{title}
+                    +comments
+                    
+
+
+template(name='job_stats')
+    //- .ui.accordion
+    //-     .title
+    .ui.header.refresh_job_stats
+        i.line.chart.icon
+        |stats
+    //- i.dropdown.icon
+    //- .content
+    .ui.big.list
+        .item #{views} views
+        .item #{reservation_count} reservations
+        .item #{total_earnings}c/#{total_job_hours}hrs total
+        .item #{average_job_cost}c / #{average_job_duration}hrs avg job
+        //- .item job ranking # reservations
+        //- .item job ranking $ earned
+        //- .item # different renters
+        //- .item avg daily earnings
+        //- .item avg weekly earnings
+        //- .item avg monthly earnings
+        //- .item biggest renter
+        //- .item predicted payback duration 
+        //- .item predicted payback date 
+
+    //-     //- .ui.header res slot exists
+    //-     +reservation_slot_template
+    //- else
+    //-     if is_product_author
+    //-         .ui.button.new_slot
+    //-             |new slot
+        
