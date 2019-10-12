@@ -125,10 +125,10 @@ Meteor.publish 'checkin_guests', (doc_id)->
         _id:$in:session_document.guest_ids
 
 
-Meteor.publish 'resident', (guest_id)->
+Meteor.publish 'student', (guest_id)->
     guest = Docs.findOne guest_id
     Meteor.users.find
-        _id:guest.resident_id
+        _id:guest.student_id
 
 
 
@@ -145,7 +145,7 @@ Meteor.publish 'health_club_members', (username_query)->
         # _id:$nin:active_session_ids
         username: {$regex:"#{username_query}", $options: 'i'}
         # healthclub_checkedin:$ne:true
-        roles:$in:['resident','owner']
+        roles:$in:['student','owner']
         },{ limit:20 })
 
 

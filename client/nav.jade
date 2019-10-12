@@ -1,60 +1,38 @@
 template(name='nav')
-    unless is_frontdesk
-        //- #topnav.topnav.ui.attached.borderless.menu
-        .ui.stackable.grid
-            .sixteen.wide.center.aligned.column
-                if is_loading
-                    i.big.spinning.grey.yin.yang.icon.cancel
-                a.ui.icon.circular.button(href='/' class="{{isActivePath '/'}}")
-                    //- +i name='home' classes='ui mini inline image'
-                    i.home.large.icon
-                //- if is_member
-                //-     each role_models
-                //-         a.set_model(href="/m/#{slug}" class="{{isActivePath '/m/model'}}" title=title)
-                //-             +i name=icon classes='ui mini inline image'
-                if is_dev
-                    a.ui.icon.circular.button(href='/members' class="{{isActivePath '/members'}}")
-                        +i name='groups' classes='ui mini inline image'
-                if is_staff
-                    a.ui.button(href='/staff' class="{{isActivePath '/staff'}}")
-                        +i name='user shield' classes='ui mini inline image'
-                        | staff
-                //- if is_dev
-                //-     a.ui.icon.circular.button(href='/m/model' class="{{isActivePath '/m/model'}}" title='model delta view')
-                //-         +i name='database' classes='ui mini inline image'
-                if currentUser
-                    unless logging_out
-                        if is_member
-                            //- a.ui.button(href="/member/#{currentUser.username}/finance" class="{{isActiveRoute regex='member_finance'}}" title='credits')
-                            //-     i.coins.grey.icon
-                            a.ui.button(href="/member/#{currentUser.username}/dashboard" class=member_nav_button_class title=member_nav_button_title)
-                                if currentUser.profile_image_id
-                                    img.ui.avatar.inline.image(src="{{c.url currentUser.profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
-                                else
-                                    i.user.icon
-                                    //- +i name='user' classes='ui mini inline image'
-                                span.mobile.hidden #{currentUser.name}
-                                    |{{int currentUser.credit}}
+    .ui.attached.borderless.menu
+        a.active.item(href='/' class="{{isActivePath '/'}}") 
+            img.ui.tiny.image(src="{{c.url 'mmm_logo' height=200 }}" title='Home')
+            //- |Home
+        a.item(href='/teachers') Schools
+        a.item(href='/classrooms') Classrooms
+        a.item(href='/teachers') Teachers
+        a.item(href='/students') Students
+        a.item(href='/marketplace') Marketplace
+        a.item(href='/admin') Admin
+        .right.menu
+            a.item(href='/members' class="{{isActivePath '/members'}}")
+                i.users.icon
+            unless currentUser
+                .item
+                    a.ui.button(href='/login' title='login') Log in
+                .item
+                    a.ui.primary.button Sign Up
+            if currentUser
+                unless logging_out
+                    //- a.ui.button(href="/member/#{currentUser.username}/finance" class="{{isActiveRoute regex='member_finance'}}" title='credits')
+                    //-     i.coins.grey.icon
+                    a.item(href="/user/#{currentUser.username}" class=member_nav_button_class title=member_nav_button_title)
+                        if currentUser.profile_image_id
+                            img.ui.avatar.inline.image(src="{{c.url currentUser.profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
                         else
-                            a.ui.button(href="/user/#{currentUser.username}" class="{{isActiveRoute regex='user_profile'}}")
-                                if currentUser.profile_photo
-                                    img.ui.avatar.inline.image(src="{{c.url currentUser.profile_photo width=100 height=100 gravity='face' crop='fill'}}")
-                                else
-                                    i.user.icon
-                                    //- +i name='user' classes='ui mini inline image'
-                                span.mobile.hidden #{currentUser.name}
-                    if logging_out
-                        .ui.button
-                            i.loading.circle.notch.icon
-                    else
-                        a#logout.ui.mobile.hidden.icon.circular.button(href='#' title='log out')
-                            i.sign.out.icon
+                            i.user.icon
+                        span.mobile.hidden #{currentUser.name}
+                if logging_out
+                    .item
+                        i.loading.circle.notch.icon
                 else
-                    unless currentUser
-                        a.ui.button(href='/login' title='login') 
-                            i.sign.in.icon
-                            //- +i name='internal' classes='ui mini inline image'
-                            |login
+                    a#logout.item(href='#' title='log out')
+                        i.sign.out.icon
 
 
 template(name='footer')
@@ -143,5 +121,5 @@ template(name='role_switcher')
     //-     +user_array_element_toggle key='current_roles' value='admin' user=currentUser
     //-     +user_array_element_toggle key='current_roles' value='member' user=currentUser
     //-     +user_array_element_toggle key='current_roles' value='staff' user=currentUser
-    //-     //- +user_array_element_toggle key='roles' value='resident' user=currentUser
+    //-     //- +user_array_element_toggle key='roles' value='student' user=currentUser
     //-     //- +user_array_element_toggle key='roles' value='owner' user=currentUser

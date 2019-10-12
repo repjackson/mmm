@@ -1,0 +1,106 @@
+template(name='schools')
+    .ui.stackable.padded.grid
+        each schools
+            .four.wide.column
+                a(href="/school/#{slug}")
+                    .ui.card.home_segment
+                        img.ui.fluid.image(src="{{c.url image width=400 height=200 crop='fill'}}")
+                        .content
+                            .ui.large.header #{school_code}
+                                each school_numbers
+                                    .ui.basic.label #{this}
+                            .ui.grey.small.header #{school_street}
+                
+                
+template(name='school')
+    .ui.padded.stackable.grid
+        .row
+            .sixteen.wide.column
+                a.ui.big.button(href="/schools")
+                    i.chevron.left.icon
+                    //- i.school.icon
+                    +i name='school' classes='ui inline mini image'
+                    |schools
+                if is_dev
+                    .ui.icon.input
+                        i.home.icon
+                        //- +ismall name='home' classes='ui inline mini image'
+                        input.classroom_number(type='number' placeholder='classroom number')
+                    .ui.icon.input
+                        i.school.icon
+                        //- +ismall name='school' classes='ui inline mini image'
+                        input.school_number(type='number' placeholder='classroom school number')
+                    .ui.icon.input
+                        i.header.icon
+                        //- +ismall name='school' classes='ui inline mini image'
+                        input.school_label(type='text' placeholder='classroom school label')
+                .ui.large.inline.header 
+                    small school
+                    strong #{school.school_code}
+                each school.school_numbers
+                    .ui.basic.large.label #{this}
+        .row
+            .ui.sixteen.wide.column
+                .ui.three.cards
+                    each classrooms
+                        +classroom_card
+
+    
+template(name='classroom_card')
+    //- .ui.card    
+    a.ui.card(href="/classroom/#{_id}")
+        .content
+            .ui.large.header #{classroom_number}
+            //- .ui.small.header school #{school_code}
+            //- a.ui.large.button(href="/classroom/#{_id}")
+            //-     i.yellow.right.chevron.icon
+            div
+            +i name='rent' title='owner(s)'
+            //- i.dollar.icon
+            each owners
+                .ui.basic.large.label
+                    if kiosk_photo
+                        img.ui.rounded.image(src="{{c.url kiosk_photo width=200 height=200 gravity='face' crop='fill'}}")
+                    else if image_id
+                        img.ui.rounded.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+                    |#{first_name} #{last_name}
+            div
+            //- i.home.icon
+            +i name='home' title='renters'
+            each residents
+                .ui.basic.large.label
+                    if kiosk_photo
+                        img.ui.rounded.image(src="{{c.url kiosk_photo width=200 height=200 gravity='face' crop='fill'}}")
+                    else if image_id
+                        img.ui.rounded.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
+                    |#{first_name} #{last_name}
+            div
+            //- if is_springdale
+            //-     +classroom_permits
+            //-     +i name='badge'
+            //-     each permits
+            //-         .ui.basic.label #{license_plate}
+            .ui.small.header #{notes}
+            if is_dev
+                +number_view key='school_number' direct=true
+                +number_view key='classroom_number' direct=true
+                    
+
+
+
+template(name='classrooms')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+                .ui.header 
+                    +i name='classroom'
+                    |classrooms
+                .ui.button.add_classroom
+                    |add classroom
+                .ui.stackable.cards
+                    each classrooms
+                        .ui.card
+                            img.ui.fluid.image(src="{{c.url image width=400 height=200 crop='fill'}}")
+                            .content
+                                a.ui.header(href="/classroom/#{_id}/view") #{title}
+                                .ui.small.header net income #{net_income}

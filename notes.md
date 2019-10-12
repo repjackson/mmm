@@ -18,7 +18,7 @@ front desk
 lost and found
 
 
-resident
+student
     login
     classifides
     services

@@ -178,26 +178,6 @@ if Meteor.isClient
 
 
 
-    Template.user_field.helpers
-        key_value: ->
-            user = Meteor.users.findOne Router.current().params.doc_id
-            user["#{@key}"]
-
-    Template.user_field.events
-        'blur .user_field': (e,t)->
-            value = t.$('.user_field').val()
-            Meteor.users.update Router.current().params.doc_id,
-                $set:"#{@key}":value
-
-
-    Template.goto_model.events
-        'click .goto_model': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', @slug, ->
-                Session.set 'loading', false
-
-
-
     Template.user_list_toggle.onCreated ->
         @autorun => Meteor.subscribe 'user_list', Template.parentData(),@key
     Template.user_list_toggle.events
@@ -437,7 +417,7 @@ if Meteor.isServer
     Meteor.publish 'rules_signed_username', (username)->
         Docs.find
             model:'rules_and_regs_signing'
-            resident:username
+            student:username
             # agree:true
 
     Meteor.publish 'type', (type)->
@@ -447,7 +427,7 @@ if Meteor.isServer
     Meteor.publish 'member_guidelines_username', (username)->
         Docs.find
             model:'member_guidelines_signing'
-            # resident:username
+            # student:username
             # agree:true
 
     Meteor.publish 'guests', ()->

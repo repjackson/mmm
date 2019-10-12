@@ -33,11 +33,10 @@ mizzao:autocomplete
 mquandalle:jade
 underscore@1.0.10
 coffeescript
-ecmascript
+ecmascript@0.12.4
 reywood:publish-composite
 pascoual:pdfkitx
 lookback:emails
 percolate:synced-cron
 flowkey:hotkeys
-mrgalaxy:stripe
-modules
+modules@0.13.0

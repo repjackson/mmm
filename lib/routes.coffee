@@ -81,10 +81,10 @@ Router.route '/verification_confirmation', -> @render 'verification_confirmation
 Router.route '*', -> @render 'not_found'
 
 # Router.route '/user/:username/m/:type', -> @render 'profile_layout', 'user_section'
-Router.route '/add_resident', (->
+Router.route '/add_student', (->
     @layout 'layout'
-    @render 'add_resident'
-    ), name:'add_resident'
+    @render 'add_student'
+    ), name:'add_student'
 Router.route '/forgot_password', -> @render 'forgot_password'
 
 Router.route '/staff', -> @render 'staff'
@@ -111,7 +111,7 @@ Router.route '/login', -> @render 'login'
 # Router.route '/', -> @render 'home'
 Router.route '/', (->
     @layout 'layout'
-    @render 'rentals'
+    @render 'home'
     ), name:'home'
 
 

@@ -1101,7 +1101,7 @@ Template.project_lookup.events
             signing_doc = Docs.findOne Router.current().params.doc_id
             if signing_doc
                 if signing_doc.model is 'rules_and_regs_signing'
-                    user = Meteor.users.findOne username:signing_doc.resident
+                    user = Meteor.users.findOne username:signing_doc.student
                     Meteor.users.update user._id,
                         $set:rules_signed:true
                     Meteor.call 'send_rules_regs_receipt_email', user._id
@@ -1111,7 +1111,7 @@ Template.project_lookup.events
 
                 if signing_doc.model is 'member_guidelines_signing'
                     signing_doc = Docs.findOne Router.current().params.doc_id
-                    user = Meteor.users.findOne username:signing_doc.resident
+                    user = Meteor.users.findOne username:signing_doc.student
                     Meteor.users.update user._id,
                         $set:member_waiver_signed:true
                     # Meteor.call 'send_rules_regs_receipt_email', user._id
@@ -1127,11 +1127,11 @@ Template.project_lookup.events
                     Docs.update checking_in_doc._id,
                         $addToSet: guest_ids: guest_doc._id
 
-                    user = Meteor.users.findOne guest_doc.resident_id
+                    user = Meteor.users.findOne guest_doc.student_id
                     Meteor.users.update user._id,
                         $addToSet:guest_ids: guest_doc._id
 
-                    # Session.set 'displaying_profile', guest_doc.resident_id
+                    # Session.set 'displaying_profile', guest_doc.student_id
                     Router.go "/healthclub_session/#{guest_doc.session_id}"
             # save image as JPEG
         'click .thing': ->

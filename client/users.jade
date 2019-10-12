@@ -1,11 +1,11 @@
-template(name='residents') 
+template(name='students') 
     .ui.left.icon.fluid.input
         i.search.icon
-        input.username_search(type='text' placeholder='lookup resident' autofocus='autofocus')
+        input.username_search(type='text' placeholder='lookup student' autofocus='autofocus')
     .ui.hidden.divider
     .ui.centered.five.stackable.cards
-        each residents
-            +resident
+        each students
+            +student
             
 template(name='members') 
     .ui.left.icon.fluid.input
@@ -80,17 +80,13 @@ template(name='users')
                     each users
                         +user
                 
-template(name='resident')                
+template(name='student')                
     .ui.card
         .image
             //- a(href="/user/#{username}/")
             //- img(src="{{c.url image_id height=400 width=400 background='white' crop='pad'}}")
-            if kiosk_photo
-                a.zoom(href="/user/#{username}/")
-                    img.ui.image(src="{{c.url kiosk_photo width=400 height=400 crop='fit'}}")
-            else if image_id
-                a.zoom(href="/user/#{username}/")
-                    img.ui.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
+            a.zoom(href="/user/#{username}/")
+                img.ui.image(src="{{c.url profile_image_id width=400 height=400 crop='fit'}}")
         .content
             a(href="/user/#{username}/")
                 h2.ui.center.aligned.header #{first_name} #{last_name} 
@@ -104,10 +100,8 @@ template(name='resident')
             +phone_view key='phone' label='phone' direct=true
             +date_view key='start_date' label='start date' direct=true
             +date_view key='expiration_date' label='expiration date' direct=true
-            +healthclub_stats user=this    
             each roles
                 .ui.large.label #{this}
-            +user_check_steps            
 
             
 template(name='user')                

@@ -1,0 +1,191 @@
+template(name='sort_item')
+    .item.set_sort #{label}
+    
+
+
+template(name='classroom_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .eight.wide.column
+                    a.ui.button(href="/classrooms")
+                        i.chevron.left.icon
+                        +i name='classroom' classes='ui inline mini image'
+                        |classrooms
+                    .ui.header classroom page
+                    .ui.header teacher name #{teacher_name}
+                    .ui.header classroom/company name #{company_name}
+                    a.ui.button(href="/classroom/#{_id}/edit")
+                        i.pencil.icon
+                        |edit
+                .eight.wide.column
+                    .ui.header balance sheet
+                    .ui.header job board 
+                    .ui.header marketplace  
+                    each marketplace_items
+                        .ui.header #{title}
+                    .ui.header 
+                    .ui.header 
+                        +i name='deposit'
+                        |income settings
+                    +number_view key='bonus_amount' label='bonus amount' direct=true
+                    +boolean_view key='daily' label='daily' direct=true
+                    +boolean_view key='weekly' label='weekly' direct=true
+                    +number_view key='daily_salary_amount' label='daily salary amount' direct=true
+                    +number_view key='overtime_amount' label='overtime amount' direct=true
+                    +number_view key='good_grades_amount' label='good grades amount' direct=true
+                    .ui.header 
+                        +i name='initiate-money-transfer'
+                        |expenses settings
+                    +number_view key='desk_rental_amount' label='desk rental amount' direct=true
+                    +number_view key='janitor_amount' label='janitor amount' direct=true
+                    +number_view key='lunch_amount' label='lunch amount' direct=true
+                    +number_view key='fines_amount' label='fines amount' direct=true
+                    +number_view key='rent_supplies_amount' label='rent supplies amount' direct=true
+                    
+            .row
+                .eight.wide.column
+                    .ui.header 
+                        +i name='students'
+                        |students
+                    .ui.numbered.list
+                        each classroom_students
+                            .item #{first_name} #{last_name}
+                .eight.wide.column
+                    .ui.header income
+                    .ui.list
+                        .item salary #{salary}
+                        .item behavior #{behavior_total}
+                        .item jobs #{jobs_total}
+                        .item good grades #{jobs_total}
+                    .ui.header expenses
+                    .ui.list
+                        .item Desk Rental $#{desk_rental_amount}
+                        .item Janitor $#{janitor_amount}
+                        .item Lunch $#{lunch_amount}
+                        .item fines #{fines}
+                        .item rent supplies #{rent_supplies}
+
+
+template(name='classroom_stats')
+    //- .ui.accordion
+    //-     .title
+    .ui.header.refresh_classroom_stats
+        i.line.chart.icon
+        |stats
+    //- i.dropdown.icon
+    //- .content
+    .ui.big.list
+        .item #{views} views
+        .item #{reservation_count} reservations
+        .item #{total_earnings}c/#{total_classroom_hours}hrs total
+        .item #{average_classroom_cost}c / #{average_classroom_duration}hrs avg classroom
+        //- .item classroom ranking # reservations
+        //- .item classroom ranking $ earned
+        //- .item # different renters
+        //- .item avg daily earnings
+        //- .item avg weekly earnings
+        //- .item avg monthly earnings
+        //- .item biggest renter
+        //- .item predicted payback duration 
+        //- .item predicted payback date 
+
+    //-     //- .ui.header res slot exists
+    //-     +reservation_slot_template
+    //- else
+    //-     if is_product_author
+    //-         .ui.button.new_slot
+    //-             |new slot
+        
+    
+template(name='classroom_status')
+    if available 
+        .ui.green.label available now
+    else 
+        .ui.basic.label off the clock
+        
+template(name='reserve_button')
+    .ui.big.green.fluid.button.new_reservation 
+        .ui.inverted.header 
+            |reserve
+            //- +i name='play' classes='ui inline mini image'
+
+template(name='classroom_view_reservations')
+    .ui.header 
+        i.clock.icon
+        |reservations
+    .ui.icon.button.set_card_view
+        i.clone.icon
+    .ui.icon.button.set_segment_view
+        i.list.icon
+    .ui.simple.dropdown
+        |sort by
+        |#{current_sort}
+        i.dropdown.icon
+        .menu
+            +sort_item key='most_expensive' label='most expensive' direction='-1'
+            +sort_item key='_timestamp' label='newest' direction='-1'
+            +sort_item key='reservation_count' label='most rented' direction='1'
+            +sort_item key='points' label='most rented' direction='1'
+    div
+    |available
+    +set_date_filter key='today' label='today'
+    +set_date_filter key='tomorrow' label='tomorrow'
+    +set_date_filter key='this_weekend' label='this weekened'
+    
+    .ui.hidden.divider
+    if view_res_cards
+        .ui.stackable.three.cards
+            each reservations
+                +res_card
+    else if view_res_segments
+        each reservations
+            +reservation_segment
+        
+template(name='set_date_filter')        
+    .ui.button.set_date_filter(class=date_filter_class)
+        |#{label}
+        
+        
+
+template(name='reservation_segment')
+    .ui.segment
+        a.ui.small.header.inline.lowercase(href="/reservation/#{_id}/view")
+            small from 
+            |{{cal_time start_datetime}}
+            //- |{{cal_time start_datetime}} [#{start_date}, hour: #{start_hour}]
+            //- |{{long_date start_datetime}}
+            small to 
+            |{{cal_time end_datetime}}
+        div
+        .ui.grey.inline.header #{hour_duration}hrs
+        .ui.grey.inline.header(title='credits')
+            //- i.coins.icon
+            | #{cost}c
+        .ui.small.header #{when} by #{_author_username}
+        a.ui.large.fluid.button(href="/reservation/#{_id}/view")
+            |view
+            i.right.chevron.icon
+                
+                
+                
+                
+template(name='res_card')
+    .ui.card
+        .content
+            a.ui.small.header.inline.lowercase(href="/reservation/#{_id}/view")
+                small from 
+                |{{cal_time start_datetime}}
+                //- |{{cal_time start_datetime}} [#{start_date}, hour: #{start_hour}]
+                //- |{{long_date start_datetime}}
+                small to 
+                |{{cal_time end_datetime}}
+            div
+            .ui.grey.inline.header #{hour_duration} hrs
+            .ui.grey.inline.header(title='credits')
+                //- i.coins.icon
+                | #{cost}c
+            .ui.small.header #{when} by #{_author_username}
+            a.ui.large.fluid.button(href="/reservation/#{_id}/view")
+                |view
+                i.right.chevron.icon

@@ -42,9 +42,9 @@ Meteor.methods
 
 
     check_lease_status: ->
-        residents =
+        students =
             Meteor.users.find(
-                roles:$in:['resident']
+                roles:$in:['student']
             ).fetch()
 
 
@@ -100,7 +100,7 @@ Meteor.methods
                         logout_timestamp:Date.now()
                 # checkedin_members = Meteor.users.find(healthclub_checkedin:true).fetch()
 
-    check_resident_status: (user_id)->
+    check_student_status: (user_id)->
         user = Meteor.users.findOne user_id
 
 

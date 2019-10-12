@@ -204,7 +204,7 @@ template(name='user_email')
 template(name='big_user_card')
     with user
         //- .ui.card
-        //- .ui.card(class=resident_status_class)
+        //- .ui.card(class=student_status_class)
         .ui.card
             .image
                 img.ui.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
@@ -220,7 +220,7 @@ template(name='big_user_card')
                     +number_view key='unit_number' label='apartment #' direct=true
                     +text_view key='building_code' label='building code' direct=true
                     //- +array_view key='tags' label='Tags'
-                    if user_is_resident
+                    if user_is_student
                         +date_view key='start_date' label='start date' direct=true
                         +date_view key='expiration_date' label='expiration date' direct=true
                     +checkin_button
@@ -491,7 +491,7 @@ template(name='member_guidelines_check')
     //-             |rules and regs signed 
                 
         
-template(name='resident_key_check')
+template(name='student_key_check')
     //- unless key_on_file
     //-     .ui.large.orange.basic.button
     //-         i.ban.icon

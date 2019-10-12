@@ -41,16 +41,6 @@ Template.body.events
         Docs.update @_id,
             $inc: views: 1
 
-Template.healthclub.events
-    # 'click .button': ->
-    #     $('.global_container')
-    #     .transition('fade out', 5000)
-    #     .transition('fade in', 5000)
-
-
-
-
-Stripe.setPublishableKey Meteor.settings.public.stripe_publishable
 
 Session.setDefault 'invert', false
 Template.registerHelper 'loading_checkin', () -> Session.get 'loading_checkin'
@@ -64,21 +54,13 @@ Template.registerHelper 'rental', () ->
 Template.registerHelper 'gs', () ->
     Docs.findOne
         model:'global_settings'
-Template.registerHelper 'rick_mode', () ->
-    gs = Docs.findOne
-        model:'global_settings'
-    # if Meteor.user() and 'dev' in Meteor.user().roles
-    #     false
-    # else
-    if gs
-        gs.rick_mode
 Template.registerHelper 'invert_class', () -> if Session.equals('dark_mode',true) then 'invert' else ''
 Template.registerHelper 'display_mode', () -> Session.get('display_mode',true)
 Template.registerHelper 'is_loading', () -> Session.get 'loading'
 Template.registerHelper 'dev', () -> Meteor.isDevelopment
 Template.registerHelper 'is_author', ()-> @_author_id is Meteor.userId()
 Template.registerHelper 'is_handler', ()-> @handler_username is Meteor.user().username
-Template.registerHelper 'is_owner', ()-> @owner_username is Meteor.user().username
+Template.registerHelper 'is_teacher', ()-> @teacher_username is Meteor.user().username
 Template.registerHelper 'is_grandparent_author', () ->
     grandparent = Template.parentData(2)
     grandparent._author_id is Meteor.userId()
@@ -171,68 +153,8 @@ Template.registerHelper 'is_grabber', () ->
 #         _id:$in:session_document.guest_ids
 
 
-Meteor.methods
-    submit_checkin: ->
-        Session.set 'adding_guest', false
-        healthclub_session_document = Docs.findOne Router.current().params.doc_id
-        # console.log @
-        resident = Meteor.users.findOne healthclub_session_document.user_id
 
-        # healthclub_session_document = Docs.findOne
-        #     model:'healthclub_session'
-        user = Meteor.users.findOne
-            username:resident.username
-        healthclub_session_document = Docs.findOne Router.current().params.doc_id
-        if healthclub_session_document.guest_ids.length > 0
-            # now = Date.now()
-            current_month = moment().format("MMM")
-            Meteor.users.update user._id,
-                $addToSet:
-                    total_guests:healthclub_session_document.guest_ids.length
-                    "#{current_month}_guests":healthclub_session_document.guest_ids.length
-        Docs.update healthclub_session_document._id,
-            $set:
-                # session_type:'healthclub_checkin'
-                submitted:true
-        Router.go "/healthclub"
-        $('body').toast({
-            title: "#{resident.first_name} #{resident.last_name} checked in"
-            position: 'top center'
-            # class: 'success'
-            className: {
-                toast: 'ui big message'
-            }
-            transition:
-                showMethod   : 'zoom',
-                showDuration : 250,
-                hideMethod   : 'fade',
-                hideDuration : 250
-        })
-
-
-
-
-Template.registerHelper 'resident_guests', () ->
-    Docs.find
-        _id:$in:@guest_ids
-
-Template.registerHelper 'is_springdale', () ->
-    console.log @
-    unit = Docs.findOne Router.current().params.unit_id
-    console.log unit
-    if unit.building_code is 'springdale' or 'sp' then true else false
-
-Template.registerHelper 'current_month_guests', () ->
-    # console.log @
-    current_month = moment().format("MMM")
-    @["#{current_month}_guests"]
-
-Template.registerHelper 'referenced_product', () ->
-    Docs.findOne
-        _id:@product_id
-
-
-Template.registerHelper 'resident_status_class', ()->
+Template.registerHelper 'student_status_class', ()->
     # console.log @
     unless @rules_and_regs_signed
         'red_flagged'
@@ -333,23 +255,23 @@ Template.registerHelper 'is_staff', () ->
 
 
 
-Template.registerHelper 'is_owner', () ->
+Template.registerHelper 'is_teacher', () ->
     if Meteor.user() and Meteor.user().roles
         # if _.intersection(['dev','staff'], Meteor.user().roles) then true else false
-        if 'owner' in Meteor.user().roles then true else false
-Template.registerHelper 'is_current_owner', () ->
+        if 'teacher' in Meteor.user().roles then true else false
+Template.registerHelper 'is_current_teacher', () ->
     if Meteor.user() and Meteor.user().roles
         # if _.intersection(['dev','staff'], Meteor.user().roles) then true else false
-        if 'owner' in Meteor.user().current_roles then true else false
+        if 'teacher' in Meteor.user().current_roles then true else false
 
-Template.registerHelper 'is_frontdesk', () ->
+Template.registerHelper 'is_student', () ->
     if Meteor.user() and Meteor.user().roles
         # if _.intersection(['dev','staff'], Meteor.user().roles) then true else false
-        if 'frontdesk' in Meteor.user().roles then true else false
-Template.registerHelper 'is_current_frontdesk', () ->
+        if 'student' in Meteor.user().roles then true else false
+Template.registerHelper 'is_current_student', () ->
     if Meteor.user() and Meteor.user().roles
         # if _.intersection(['dev','staff'], Meteor.user().roles) then true else false
-        if 'frontdesk' in Meteor.user().current_roles then true else false
+        if 'student' in Meteor.user().current_roles then true else false
 
 
 Template.registerHelper 'is_dev', () ->
@@ -366,9 +288,9 @@ Template.registerHelper 'is_current_manager', () ->
 # Template.registerHelper 'is_handler', () ->
 #     if Meteor.user() and Meteor.user().roles
 #         if 'handler' in Meteor.user().roles then true else false
-Template.registerHelper 'is_resident', () ->
+Template.registerHelper 'is_student', () ->
     if Meteor.user() and Meteor.user().roles
-        if 'resident' in Meteor.user().roles then true else false
+        if 'student' in Meteor.user().roles then true else false
 
 Template.registerHelper 'is_member', () ->
     if Meteor.user() and Meteor.user().roles
@@ -377,26 +299,26 @@ Template.registerHelper 'is_current_member', () ->
     if Meteor.user() and Meteor.user().roles
         if 'member' in Meteor.user().current_roles then true else false
 
-Template.registerHelper 'is_resident_or_user', () ->
+Template.registerHelper 'is_student_or_user', () ->
     if Meteor.user() and Meteor.user().roles
-        # console.log _.intersection(Meteor.user().roles, ['resident','user']).length
-        if _.intersection(Meteor.user().roles, ['resident','user']).length then true else false
+        # console.log _.intersection(Meteor.user().roles, ['student','user']).length
+        if _.intersection(Meteor.user().roles, ['student','user']).length then true else false
 
 Template.registerHelper 'is_staff_or_manager', () ->
     if Meteor.user() and Meteor.user().roles
-        # console.log _.intersection(Meteor.user().roles, ['resident','user']).length
+        # console.log _.intersection(Meteor.user().roles, ['student','user']).length
         if _.intersection(Meteor.user().roles, ['manager','staff']).length then true else false
 
 
 
 
-Template.registerHelper 'user_is_resident', () -> if @roles and 'resident' in @roles then true else false
-Template.registerHelper 'user_is_owner', () -> if @roles and 'owner' in @roles then true else false
+Template.registerHelper 'user_is_student', () -> if @roles and 'student' in @roles then true else false
+Template.registerHelper 'user_is_teacher', () -> if @roles and 'teacher' in @roles then true else false
 Template.registerHelper 'user_is_staff', () -> if @roles and 'staff' in @roles then true else false
 Template.registerHelper 'user_is_admin', () -> if @roles and 'admin' in @roles then true else false
 Template.registerHelper 'user_is_member', () -> if @roles and 'member' in @roles then true else false
 Template.registerHelper 'user_is_handler', () -> if @roles and 'handler' in @roles then true else false
-Template.registerHelper 'user_is_resident_or_owner', () -> if @roles and _.intersection(@roles,['resident','owner']) then true else false
+Template.registerHelper 'user_is_student_or_teacher', () -> if @roles and _.intersection(@roles,['student','teacher']) then true else false
 
 Template.registerHelper 'is_eric', () -> if Meteor.userId() and Meteor.userId() in ['ytjpFxiwnWaJELZEd','rDqxdcTBTszjeMh9T'] then true else false
 
@@ -475,11 +397,6 @@ Template.registerHelper 'sorted_field_values', () ->
         _.sortBy parent["#{@key}"], 'number'
 
 
-Template.registerHelper 'is_marketplace', () -> @model is 'marketplace'
-Template.registerHelper 'is_post', () -> @model is 'post'
-Template.registerHelper 'is_meal', () -> @model is 'meal'
-
-
 Template.registerHelper 'in_dev', () -> Meteor.isDevelopment
 
 Template.registerHelper 'calculated_size', (metric) ->
@@ -498,7 +415,5 @@ Template.registerHelper 'calculated_size', (metric) ->
     else if whole is 8 then 'f8'
     else if whole is 9 then 'f9'
     else if whole is 10 then 'f10'
-
-
 
 Template.registerHelper 'in_dev', () -> Meteor.isDevelopment

@@ -1,0 +1,55 @@
+template(name='classroom_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .three.column.row
+                .column 
+                    .ui.header 
+                        i.pencil.icon
+                        | edit '#{title}' classroom
+                    a.ui.big.fluid.button(href="/classroom/#{_id}/view" title='save')
+                        i.checkmark.large.green.icon
+                        |save
+                    +remove_button
+                    +text_edit key='title' direct=true
+                    +textarea_edit key='description' label='description' icon='content' direct=true
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                .column
+                    .ui.segment
+                        .ui.header 
+                            +i name='deposit'
+                            |income settings
+                        +number_edit key='bonus_amount' label='bonus amount' direct=true
+                        +boolean_edit key='daily' label='daily' direct=true
+                        +boolean_edit key='weekly' label='weekly' direct=true
+                        +number_edit key='daily_salary_amount' label='daily salary amount' direct=true
+                        +number_edit key='overtime_amount' label='overtime amount' direct=true
+                        +number_edit key='good_grades_amount' label='good grades amount' direct=true
+                .column
+                    .ui.segment
+                        .ui.header 
+                            +i name='initiate-money-transfer'
+                            |expenses settings
+                        +number_edit key='desk_rental_amount' label='desk rental amount' direct=true
+                        +number_edit key='janitor_amount' label='janitor amount' direct=true
+                        +number_edit key='lunch_amount' label='lunch amount' direct=true
+                        +number_edit key='fines_amount' label='fines amount' direct=true
+                        +number_edit key='rent_supplies_amount' label='rent supplies amount' direct=true
+            .three.column.row
+                .column
+                    .ui.header 
+                        +i name='shop'
+                        |marketplace
+                    each classroom_marketplace_items
+                        .ui.header #{title}
+                .column
+                    .ui.header
+                        +i name='debt'
+                        |loans
+                .column
+                    .ui.header 
+                        +i name='students'
+                        |students
+                    a(href='/add_student') add student
+                    +multi_user_edit key='students' direct=true
+                .column
+                

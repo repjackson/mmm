@@ -1,0 +1,12 @@
+template(name='admin')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+                a.ui.header(href='/teachers') teachers
+                a.ui.header(href='/students') students
+                a.ui.header(href='/classrooms') classrooms 
+
+
+template(name='call_method')
+    .ui.button.call_method
+        |#{name}

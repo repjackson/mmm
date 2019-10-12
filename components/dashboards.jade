@@ -1,0 +1,46 @@
+template(name='student_dash')
+    .ui.header student dashboard
+
+template(name='teacher_dash')
+    .ui.header student dashboard
+
+template(name='weekly_class_finances')
+    with classroom_doc
+        .ui.stackable.padded.grid
+            .row
+                .sixteen.wide.column
+                    .ui.header week class finances
+            .row
+                .four.wide.column
+                    |week of #{current_week}
+                .two.wide.column
+                    .ui.header income
+                    .ui.list
+                        .item salary
+                        .item bonus
+                        .item overtime
+                        .item good grades
+                    .ui.header expenses
+                    .ui.list
+                        .item desk rental
+                        .item janitor
+                        .item lunch
+                        .item fines
+                        .item rent supplies
+                .ten.wide.column
+                    each classroom_students
+                        .ui.small.header #{first_name} #{last_name}
+                        div #{salary}
+                        div #{bonus}
+                        div #{overtime}
+                        div #{good_grades}
+                        .ui.divider
+                        div #{desk_rental_amount}
+                        div #{janitor_amount}
+                        div #{lunch_amount}
+                        div #{fines_amount}
+                        div #{rent_supplies_amount}
+                        .ui.divider
+                        div #{net_income}
+                    .ui.header net income
+                    

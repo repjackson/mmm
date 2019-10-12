@@ -1,0 +1,59 @@
+template(name='profile_view')
+    with user_from_username_param
+        .ui.stackable.grid.global_container
+            .row
+                //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
+                .four.wide.column
+                    img.ui.centered.circular.image(src="{{c.url profile_image_id height=300 width=300 gravity='face' crop='fill'}}")
+                    .ui.center.aligned.basic.segment
+                        a(href="/user/#{user.username}")
+                            h1.ui.large.center.aligned.header
+                                strong #{user.first_name} #{user.last_name}
+                                small @#{user.username}        
+                    a.ui.big.button.item(href="/user/#{user_from_username_param.username}/edit")
+                        //- i.cog.icon
+                        +i name='settings' 
+                        |edit
+                    if is_current_user
+                        a.ui.large.button.logout(href="#" title='logout')
+                            //- i.sign.out.alternate.icon
+                            +ismall name='exit' 
+                            |log out
+                        //- a.ui.large.button.logout_other_clients(href="#" title='logout other clients')
+                        //-     //- i.globe.icon
+                        //-     +ismall name='globe' 
+                        //-     |log out other clients
+                    if is_admin
+                        .ui.basic.segment
+                            .ui.header 
+                                +i name='shield'
+                                |roles
+                            each roles
+                                .ui.basic.label #{this}
+                .twelve.wide.column.shadowed-box
+                    .ui.stackable.grid
+                        .three.column.row
+                            .column
+                                .ui.header students classroom
+                            .column
+                                .ui.header students balance
+                            .column
+                                .ui.header students expenditures
+                            .column
+                                .ui.header students income
+                            .column
+                                .ui.header students grades
+template(name='user_log')
+    //- .ui.fluid.styled.accordion
+    .ui.basic.segment
+        .ui.inline.center.aligned.header 
+            //- +i name='overview-pages-4'
+            i.list.icon
+            |log
+        scroll
+            .ui.list
+                each user_log_events
+                    .item
+                        .content
+                            .header #{body}
+                            .description #{when}

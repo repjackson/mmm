@@ -6,14 +6,14 @@
 #             slug:'rules_regs'
 #         rules = rule_doc.content
 #         # console.log rules
-#         user = Meteor.users.findOne username:signing_doc.resident
+#         user = Meteor.users.findOne username:signing_doc.student
 #         # console.log signing_doc
 #         doc = new PDFDocument({size: 'A4', margin: 50})
 #         doc.fontSize(12)
 #         doc.font('Times-Bold').text("Gold Run Rules and Regulations Contract", {align: 'center'})
 #         # console.log key,value
 #         doc.font('Times-Roman').text(rules, {align: 'left', continued:false})
-#         doc.font('Times-Bold').text(" Resident:#{signing_doc.resident}", {align: 'left'})
+#         doc.font('Times-Bold').text(" Resident:#{signing_doc.student}", {align: 'left'})
 #         doc.image(signing_doc.signature, 200, 400, {width: 300})
 #
 #         # doc.moveDown();
@@ -26,7 +26,7 @@ Meteor.methods
         #     slug:'rules_regs'
         # rules = rule_doc.content
         # # console.log rules
-        # user = Meteor.users.findOne username:signing_doc.resident
+        # user = Meteor.users.findOne username:signing_doc.student
         # # console.log signing_doc
         doc = new PDFDocument({size: 'A4', margin: 50})
         doc.fontSize(12)
@@ -52,7 +52,7 @@ Meteor.methods
 
         doc.font('Times-Roman').text("I hereby accept and agree to abide by the terms listed above:")
 
-        # doc.font('Times-Bold').text(" Resident:#{signing_doc.resident}", {align: 'left'})
+        # doc.font('Times-Bold').text(" Resident:#{signing_doc.student}", {align: 'left'})
         # doc.image(signing_doc.signature, 200, 400, {width: 300})
 
         # doc.moveDown();
