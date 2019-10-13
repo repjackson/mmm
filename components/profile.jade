@@ -10,9 +10,9 @@ template(name='profile_view')
                             h1.ui.large.center.aligned.header
                                 strong #{user.first_name} #{user.last_name}
                                 small @#{user.username}        
-                    a.ui.big.button.item(href="/user/#{user_from_username_param.username}/edit")
+                    a.ui.button.item(href="/user/#{user_from_username_param.username}/edit")
                         //- i.cog.icon
-                        +i name='settings' 
+                        +i name='settings' classes='ui inline mini image'
                         |edit
                     if is_current_user
                         a.ui.large.button.logout(href="#" title='logout')
@@ -30,8 +30,29 @@ template(name='profile_view')
                                 |roles
                             each roles
                                 .ui.basic.label #{this}
-                .twelve.wide.column.shadowed-box
+                .twelve.wide.column
                     .ui.stackable.padded.grid
+                        .row
+                            .sixteen.wide.column
+                                .ui.header 
+                                    +i name='dashboard'
+                                    |#{user_from_username_param.first_name}'s dashboard
+                        .three.column.row
+                            .column
+                                .ui.segment
+                                    .ui.header 
+                                        +i name='money-bag'
+                                        |total weekly income
+                            .column
+                                .ui.segment
+                                    .ui.header
+                                        +i name='shopping-cart-loaded'
+                                        |total weekly expenses
+                            .column
+                                .ui.segment
+                                    .ui.header
+                                        +i name='economic-improvement'
+                                        |growth from last week
                         .three.column.row
                             .column
                                 .ui.header students classroom

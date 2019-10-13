@@ -62,10 +62,20 @@ if Meteor.isClient
     Template.classroom_dashboard.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
+    Template.classroom_dashboard.onRendered ->
+        Meteor.setTimeout ->
+            $('#date_calendar')
+                .calendar({
+                    type: 'date'
+                })
+        , 700
+
     Template.classroom_dashboard.helpers
         classroom_students: ->
             Meteor.users.find()
     Template.classroom_dashboard.events
+        'change .date_select': ->
+            console.log $('.date_select').val()
         'click .add_credit': (e,t)->
             console.log @
             Meteor.users.update @_id,

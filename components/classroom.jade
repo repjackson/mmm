@@ -131,8 +131,10 @@ template(name='classroom_dashboard')
                     .ui.large.header
                         +i name='dashboard' classes='ui inline mini image'
                         |classroom dashboard
-                    |week of #{current_week}
-                    input(type='week')
+                    #date_calendar.ui.calendar
+                        .ui.input.left.icon
+                            i.calendar.icon
+                            input.date_select(type='text' placeholder='date')
             
             .row
                 .sixteen.wide.column
@@ -156,63 +158,63 @@ template(name='classroom_dashboard')
                                     td 
                                         a(href="/user/#{username}/view") #{username}
                                     td.positive $20
-                                    td.positive 
+                                    td
                                         .ui.icon.button.add_credit
-                                            i.plus.icon 
-                                    td.positive 
+                                            i.green.plus.icon 
+                                    td 
                                         .ui.icon.button.add_credit
-                                            i.plus.icon 
-                                    td.positive 
+                                            i.green.plus.icon 
+                                    td
                                         .ui.icon.button.add_credit
-                                            i.plus.icon 
+                                            i.green.plus.icon 
                                     td.negative $10
                                     td.negative $10
-                                    td.negative 
+                                    td
                                         .ui.icon.button.remove_credit
-                                            i.minus.icon
-                                    td.negative 
+                                            i.red.minus.icon
+                                    td
                                         .ui.icon.button.remove_credit
-                                            i.minus.icon
+                                            i.red.minus.icon
                                     td.negative $10
                                     td.credit_view
                                         .ui.header.credit_view 
                                             span.credit_view #{credit}
-                    .ui.celled.grid
-                        .row
-                            .two.wide.column
-                                .ui.header income
-                                .ui.list
-                                    .item salary
-                                    .item bonus
-                                    .item overtime
-                                    .item good grades
-                                .ui.header expenses
-                                .ui.list
-                                    .item desk rental
-                                    .item janitor
-                                    .item lunch
-                                    .item fines
-                                    .item rent supplies
-                            .ten.wide.column
-                                each classroom_students
-                                    .ui.small.header #{first_name} #{last_name}
-                                    .ui.button bonus
-                                    .ui.button fine
-                                    .ui.button overtime
-                                    div #{salary}
-                                    div #{bonus}
-                                    div #{overtime}
-                                    div #{good_grades}
-                                    .ui.divider
-                                    div #{desk_rental_amount}
-                                    div #{janitor_amount}
-                                    div #{lunch_amount}
-                                    div #{fines_amount}
-                                    div #{rent_supplies_amount}
-                                    .ui.divider
-                                    div #{net_income}
-                        .row
-                                .ui.header net income
+                    //- .ui.celled.grid
+                    //-     .row
+                    //-         .two.wide.column
+                    //-             .ui.header income
+                    //-             .ui.list
+                    //-                 .item salary
+                    //-                 .item bonus
+                    //-                 .item overtime
+                    //-                 .item good grades
+                    //-             .ui.header expenses
+                    //-             .ui.list
+                    //-                 .item desk rental
+                    //-                 .item janitor
+                    //-                 .item lunch
+                    //-                 .item fines
+                    //-                 .item rent supplies
+                    //-         .ten.wide.column
+                    //-             each classroom_students
+                    //-                 .ui.small.header #{first_name} #{last_name}
+                    //-                 .ui.button bonus
+                    //-                 .ui.button fine
+                    //-                 .ui.button overtime
+                    //-                 div #{salary}
+                    //-                 div #{bonus}
+                    //-                 div #{overtime}
+                    //-                 div #{good_grades}
+                    //-                 .ui.divider
+                    //-                 div #{desk_rental_amount}
+                    //-                 div #{janitor_amount}
+                    //-                 div #{lunch_amount}
+                    //-                 div #{fines_amount}
+                    //-                 div #{rent_supplies_amount}
+                    //-                 .ui.divider
+                    //-                 div #{net_income}
+                    //-     .row
+                    //-             .ui.header net income
                     
 
     
