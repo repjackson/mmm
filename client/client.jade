@@ -18,6 +18,15 @@ head
     script(src='https://cdn.jsdelivr.net/npm/fomantic-ui@2.7.4/dist/semantic.min.js')
     //- /* script(src='tablesort.js') */
     script(src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js")
+    link(rel='stylesheet', href='/layerslider/css/layerslider.css', type='text/css')
+    //- // External libraries: GreenSock
+    //- /* script(src='/layerslider/js/jquery.js', type='text/javascript') */
+    script(src='/layerslider/js/greensock.js', type='text/javascript')
+    //- // LayerSlider script files
+    script(src='/layerslider/js/layerslider.transitions.js', type='text/javascript')
+    script(src='/layerslider/js/layerslider.kreaturamedia.jquery.js', type='text/javascript')
+
+    
     //- /* script(src='https://cdn.jsdelivr.net/jsbarcode/3.6.0/JsBarcode.all.min.js') */
     //- script(async='', src='https://www.googletagmanager.com/gtag/js?id=UA-140259454-1')
     //- script.
@@ -55,14 +64,14 @@ template(name='verification_confirmation')
 
 template(name='not_found')
     .ui.basic.center.aligned.padded.segment
-        .ui.center.aligned.header not found
+        .ui.center.aligned.header page not found
         if is_staff
             a.ui.button(href="/staff") 
                 +i name='user shield'
                 |staff
         else 
             a.ui.button(href="/") 
-                +i name='home'
+                +i name='home' classes='ui inline mini image'
                 |home
 
 

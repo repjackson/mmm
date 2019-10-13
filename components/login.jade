@@ -2,8 +2,10 @@ template(name='login')
     .ui.padded.stackable.grid
         .centered.row
             .eight.wide.column
-                h1.ui.center.aligned.header
-                    | minimoney login
+                .ui.center.aligned.basic.segment
+                    img.ui.rounded.small.centered.inline.image(src="{{c.url 'minilarge' width=400 height=400}}")
+                    .ui.inline.large.header login
+                div
                 if message
                     h4.ui.center.aligned.header #{message}
                 .ui.inline.small.header 

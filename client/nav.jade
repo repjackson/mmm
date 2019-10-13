@@ -1,17 +1,19 @@
 template(name='nav')
-    .ui.attached.borderless.menu
+    .ui.attached.borderless.large.menu
         a.compact.item(href='/' class="{{isActivePath '/'}}") 
             img.ui.tiny.compact.image(src="{{c.url 'mmlogo' height=200 }}" title='Home')
             //- |Home
-        a.item(href='/schools' title='schools') 
-            +i name='school'
+        //- a.item(href='/schools' title='schools') 
+        //-     +i name='school'
             //- schools
-        a.item(href='/classrooms' title='classrooms')
-            +i name='class'
+        a.item(href='/classroom/i4mdNbN8ykJcr6w9q/dashboard' title='classrooms')
+            +i name='dashboard'
+        //- a.item(href='/classrooms' title='classrooms')
+        //-     +i name='class'
             //- |classrooms
-        a.item(href='/teachers' title='teachers')
-            +i name='teacher'
-            //- |teachers
+        //- a.item(href='/teachers' title='teachers')
+        //-     +i name='teacher'
+        //-     //- |teachers
         a.item(href='/students' title='students') 
             +i name='students'
             //- |students
@@ -20,9 +22,11 @@ template(name='nav')
             //- |shop
         a.item(href='/jobs' title='jobs') 
             +i name='find-matching-job'
+        a.item(href='/loans' title='loans') 
+            +i name='debt'
             //- |shop
-        a.item(href='/admin' title='admin')
-            +i name='user-shield'
+        //- a.item(href='/admin' title='admin')
+        //-     +i name='user-shield'
             //- |admin
         .right.menu
             unless currentUser
@@ -32,13 +36,16 @@ template(name='nav')
                     a.ui.teal.button sign up
             if currentUser
                 unless logging_out
-                    //- a.ui.button(href="/member/#{currentUser.username}/finance" class="{{isActiveRoute regex='member_finance'}}" title='credits')
-                    //-     i.coins.grey.icon
+                    a.item(href="/notifications")
+                        i.bell.grey.large.outline.icon
+                    a.item(href="/mail")
+                        //- +i name='envelope'
+                        i.envelope.grey.large.outline.icon
                     a.item(href="/user/#{currentUser.username}" class=member_nav_button_class title=member_nav_button_title)
                         if currentUser.profile_image_id
                             img.ui.avatar.inline.image(src="{{c.url currentUser.profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
                         else
-                            i.user.icon
+                            +i name='user-male'
                         span.mobile.hidden #{currentUser.name} #{currentUser.credit}
                 if logging_out
                     .item
@@ -49,17 +56,23 @@ template(name='nav')
 
 
 template(name='footer')
-    .ui.stackable.secondary.grid
+    .ui.stackable.secondary.padded.grid
         .eight.wide.column
+            .ui.link.big.list
+                a.item(href='/blog') blog
+                a.item(href='/about') about
+                a.item(href="/terms_of_service") terms of service
+                a.item(href='/privacy') privacy policy
+                a.item(href='/investors') investors
             +add_button label='bug' model='bug' icon='bug'
             if is_dev    
                 with current_user
                     +role_switcher
         .eight.wide.column
-            unless currentUser
-                a.ui.big.button(href='/login')
-                    i.sign.in.icon
-                    |login
+            //- unless currentUser
+            //-     a.ui.big.button(href='/login')
+            //-         i.sign.in.icon
+            //-         |login
             +footer_chat
             if is_eric
                 with currentUser

@@ -111,31 +111,6 @@ if Meteor.isServer
             model:'shop'
             product_id:product_id
 
-    Meteor.publish 'reservation_by_day', (product_id, month_day)->
-        # console.log month_day
-        # console.log product_id
-        reservations = Docs.find(model:'reservation',product_id:product_id).fetch()
-        # for reservation in reservations
-            # console.log 'id', reservation._id
-            # console.log reservation.paid_amount
-        Docs.find
-            model:'reservation'
-            product_id:product_id
-
-    Meteor.publish 'reservation_slot', (moment_ob)->
-        shops_return = []
-        for day in [0..6]
-            day_number++
-            # long_form = moment(now).add(day, 'days').format('dddd MMM Do')
-            date_string =  moment(now).add(day, 'days').format('YYYY-MM-DD')
-            console.log date_string
-            shops.return.push date_string
-        shops_return
-
-        # data.long_form
-        # Docs.find
-        #     model:'reservation_slot'
-
 
     Meteor.methods
         refresh_shop_stats: (shop_id)->

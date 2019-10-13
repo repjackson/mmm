@@ -3,19 +3,18 @@ template(name='register')
         .centered.row
             .ten.wide.column
                 .ui.center.aligned.basic.segment
-                    .ui.header mini money management registration
-                    //- i.massive.icons
-                    //-     i.home.grey.icon
-                    //-     i.corner.plus.icon
+                    img.ui.rounded.small.centered.inline.image(src="{{c.url 'minilarge' width=400 height=400}}")
+                    +i name='add-user-male' classes='ui mini inline image'
+                    .ui.inline.header registration
                 if message
                     h4.ui.center.aligned.header #{message}
                 .ui.small.inline.header 
-                    i.user.grey.icons   
+                    +i name='user-male'
                     |username
                 .ui.fluid.input(class=login_class)
                     input.username(type='text')
                 .ui.small.inline.header 
-                    i.lock.grey.icon
+                    +i name='password'
                     | password
                 .ui.fluid.input(class=login_class)
                     input.password(type='password')
@@ -27,11 +26,13 @@ template(name='register')
                 if username
                     if registering
                         .ui.fluid.large.circular.button.enter(class=enter_class)
-                            i.user.plus.icon
+                            +i name='enter-2' classes='ui mini inline image'                    
                             |register '#{username}'
                     else
                         .ui.small.header username "#{username}" found
-                        a.ui.basic.circular.button(href='/login') login
+                        a.ui.basic.circular.button(href='/login') 
+                            +i name='enter-2' classes='ui mini inline image'                    
+                            |login
                         
                         
                 .ui.center.aligned.basic.segment    
@@ -39,6 +40,6 @@ template(name='register')
                     //-     a(href='https://henry-health.com/privacy-policy/' target="_window") Privacy Policy
                     .ui.small.header or
                         a.ui.circular.basic.sign.in.button(href='/login') 
+                            +i name='enter-2' classes='ui mini inline image'                    
                             |login
-                            i.right.chevron.icon
                     

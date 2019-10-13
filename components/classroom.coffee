@@ -28,6 +28,11 @@ if Meteor.isClient
     Template.classroom_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'feature'
+    Template.classroom_edit.onRendered ->
+        Meteor.setTimeout ->
+            $('.tabular.menu .item').tab()
+        , 1000
+
     Template.classroom_edit.helpers
         features: ->
             Docs.find
@@ -59,6 +64,7 @@ if Meteor.isClient
                 model:'shop_item'
             Router.go "/shop/#{new_shop_id}/edit"
 
+
     Template.classroom_dashboard.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
@@ -69,7 +75,6 @@ if Meteor.isClient
                     type: 'date'
                 })
         , 700
-
     Template.classroom_dashboard.helpers
         classroom_students: ->
             Meteor.users.find()
@@ -93,11 +98,36 @@ if Meteor.isClient
 
     Template.classroom_reports.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
+    Template.classroom_reports.onRendered ->
+        Meteor.setTimeout ->
+            $('#date_calendar')
+                .calendar({
+                    type: 'date'
+                })
+        , 700
+    Template.classroom_reports.helpers
+        classroom_students: ->
+            Meteor.users.find()
+    Template.classroom_reports.events
+        'change .date_select': ->
+            console.log $('.date_select').val()
+
+
+
+
+
+
+
     Template.classroom_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'feature'
     Template.classroom_view.onRendered ->
         Meteor.call 'increment_view', Router.current().params.doc_id, ->
+        Meteor.setTimeout ->
+            $('.tabular.menu .item').tab()
+        , 1000
+
     Template.classroom_view.helpers
         features: ->
             Docs.find

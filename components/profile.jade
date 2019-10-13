@@ -37,33 +37,36 @@ template(name='profile_view')
                                 .ui.header 
                                     +i name='dashboard'
                                     |#{user_from_username_param.first_name}'s dashboard
+                                    .ui.sub.header current balance $#{user_from_username_param.credit}
                         .three.column.row
                             .column
                                 .ui.segment
-                                    .ui.header 
+                                    .ui.small.header 
                                         +i name='money-bag'
                                         |total weekly income
                             .column
                                 .ui.segment
-                                    .ui.header
+                                    .ui.small.header
                                         +i name='shopping-cart-loaded'
                                         |total weekly expenses
                             .column
                                 .ui.segment
-                                    .ui.header
+                                    .ui.small.header
                                         +i name='economic-improvement'
                                         |growth from last week
-                        .three.column.row
+                        .two.column.row
                             .column
-                                .ui.header students classroom
+                                .ui.segment
+                                    .ui.header weekly paycheck (credits)
+                                    .ui.divided.list
+                                        each user_credits
+                                            .item 
+                                                +i name=icon
+                                                strong #{body}
+                                                |#{amount}
                             .column
-                                .ui.header students balance
-                            .column
-                                .ui.header students expenditures
-                            .column
-                                .ui.header students income
-                            .column
-                                .ui.header students grades
+                                .ui.segment
+                                    .ui.header weekly expenses (debits)
 template(name='user_log')
     //- .ui.fluid.styled.accordion
     .ui.basic.segment
