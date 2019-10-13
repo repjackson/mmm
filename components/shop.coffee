@@ -11,6 +11,10 @@ if Meteor.isClient
         @layout 'layout'
         @render 'shop_view'
         ), name:'shop_view'
+    Router.route '/shop/:doc_id/checkout', (->
+        @layout 'layout'
+        @render 'shop_checkout'
+        ), name:'shop_checkout'
 
 
 
@@ -18,50 +22,76 @@ if Meteor.isClient
         Meteor.setTimeout ->
             $('.accordion').accordion()
         , 1000
-
-
     Template.shop_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-
     Template.shop_edit.events
-        'click .add_shop_item': ->
-            new_mi_id = Docs.insert
-                model:'shop_item'
-            Router.go "/shop/#{_id}/edit"
 
 
     Template.shop_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-
     Template.shop_view.onRendered ->
         Meteor.call 'increment_view', Router.current().params.doc_id, ->
+
+
+
     Template.shop.onRendered ->
-        Session.setDefault 'view_mode', 'cards'
+        @autorun => Meteor.subscribe 'model_docs', 'shop'
     Template.shop.helpers
-        viewing_cards: -> Session.equals 'view_mode', 'cards'
-        viewing_segments: -> Session.equals 'view_mode', 'segments'
+        products: ->
+            Docs.find
+                model:'shop'
     Template.shop.events
-        'click .set_card_view': ->
-            Session.set 'view_mode', 'cards'
-        'click .set_segment_view': ->
-            Session.set 'view_mode', 'segments'
+        'click .add_product': ->
+            new_shop_id = Docs.insert
+                model:'shop'
+            Router.go "/shop/#{new_shop_id}/edit"
 
 
-    #     'click .calculate_diff': ->
-    #         product = Template.parentData()
-    #         console.log product
-    #         moment_a = moment @start_datetime
-    #         moment_b = moment @end_datetime
-    #         reservation_hours = -1*moment_a.diff(moment_b,'hours')
-    #         reservation_days = -1*moment_a.diff(moment_b,'days')
-    #         hourly_reservation_price = reservation_hours*product.hourly_rate
-    #         daily_reservation_price = reservation_days*product.daily_rate
-    #         Docs.update @_id,
-    #             $set:
-    #                 reservation_hours:reservation_hours
-    #                 reservation_days:reservation_days
-    #                 hourly_reservation_price:hourly_reservation_price
-    #                 daily_reservation_price:daily_reservation_price
+
+
+    Template.shop_view_template.onRendered ->
+        @autorun => Meteor.subscribe 'model_docs', 'shop'
+    Template.shop_view_template.helpers
+        products: ->
+            Docs.find
+                model:'shop'
+    Template.shop_view_template.events
+        'click .buy_product': ->
+            Router.go "/shop/#{@_id}/checkout"
+
+
+
+
+    Template.shop_checkout.onRendered ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    Template.shop_checkout.helpers
+        is_paying: -> Session.get 'paying'
+
+        can_buy: ->
+            Meteor.user().credit > @price
+
+        need_credit: ->
+            Meteor.user().credit < @price
+
+        need_approval: ->
+            @friends_only and Meteor.userId() not in @author.friend_ids
+
+        submit_button_class: ->
+            if @start_datetime and @end_datetime then '' else 'disabled'
+
+        member_balance_after_reservation: ->
+            rental = Docs.findOne @rental_id
+            if rental
+                current_balance = Meteor.user().credit
+                (current_balance-@price).toFixed(2)
+
+
+    Template.shop_checkout.events
+        'click .buy_product': ->
+            Router.go "/shop/#{@_id}/checkout"
+
+
+
 
     Template.shop_stats.events
         'click .refresh_shop_stats': ->

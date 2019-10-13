@@ -292,11 +292,11 @@ body {
 }
 
 
-/* .button:active {
-    color: black !important;
+.button:active {
+    color: teal !important;
     /* background-color: darkgrey !important; */
     /* box-shadow: inset 5px 5px 10px #333 !important; */
-}} */
+}}
 
 .home_segment{
     -webkit-transition: all 0.5s ease;
@@ -467,13 +467,13 @@ input.member_search{
 }
 
 
-.button:not(.select_hour) {
+.button {
     /* background-color: rgba(200, 200, 200, 0.5) !important; */
     box-shadow: 0 1px 1px 1px rgba(50, 50, 100, 0.1) !important;
     margin:2px !important;
     font-weight: bold !important;
     text-size: bold !important;
-    font-size: 110% !important;
+    /* font-size: 110% !important; */
 
     background-color: rgba(250,250,250,1) !important;
     border-radius: 12px !important;

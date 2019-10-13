@@ -39,7 +39,7 @@ template(name='nav')
                             img.ui.avatar.inline.image(src="{{c.url currentUser.profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
                         else
                             i.user.icon
-                        span.mobile.hidden #{currentUser.name}
+                        span.mobile.hidden #{currentUser.name} #{currentUser.credit}
                 if logging_out
                     .item
                         i.loading.circle.notch.icon

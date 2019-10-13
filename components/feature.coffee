@@ -36,40 +36,15 @@ if Meteor.isClient
         Meteor.call 'increment_view', Router.current().params.doc_id, ->
     Template.features.onRendered ->
         @autorun => Meteor.subscribe 'model_docs', 'feature'
-
-        Session.setDefault 'view_mode', 'cards'
     Template.features.helpers
         features: ->
             Docs.find
                 model:'feature'
-        viewing_cards: -> Session.equals 'view_mode', 'cards'
-        viewing_segments: -> Session.equals 'view_mode', 'segments'
     Template.features.events
         'click .add_feature': ->
             new_feature_id = Docs.insert
                 model:'feature'
             Router.go "/feature/#{new_feature_id}/edit"
-        'click .set_card_view': ->
-            Session.set 'view_mode', 'cards'
-        'click .set_segment_view': ->
-            Session.set 'view_mode', 'segments'
-
-
-    #     'click .calculate_diff': ->
-    #         product = Template.parentData()
-    #         console.log product
-    #         moment_a = moment @start_datetime
-    #         moment_b = moment @end_datetime
-    #         reservation_hours = -1*moment_a.diff(moment_b,'hours')
-    #         reservation_days = -1*moment_a.diff(moment_b,'days')
-    #         hourly_reservation_price = reservation_hours*product.hourly_rate
-    #         daily_reservation_price = reservation_days*product.daily_rate
-    #         Docs.update @_id,
-    #             $set:
-    #                 reservation_hours:reservation_hours
-    #                 reservation_days:reservation_days
-    #                 hourly_reservation_price:hourly_reservation_price
-    #                 daily_reservation_price:daily_reservation_price
 
     Template.feature_stats.events
         'click .refresh_feature_stats': ->

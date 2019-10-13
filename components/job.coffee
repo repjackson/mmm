@@ -32,36 +32,36 @@ if Meteor.isClient
 
     Template.job_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-
     Template.job_view.onRendered ->
         Meteor.call 'increment_view', Router.current().params.doc_id, ->
+
     Template.jobs.onRendered ->
-        Session.setDefault 'view_mode', 'cards'
+        @autorun => Meteor.subscribe 'model_docs', 'job'
     Template.jobs.helpers
-        viewing_cards: -> Session.equals 'view_mode', 'cards'
-        viewing_segments: -> Session.equals 'view_mode', 'segments'
+        jobs: ->
+            Docs.find
+                model:'job'
+
+    Template.jobs_view_template.onRendered ->
+        @autorun => Meteor.subscribe 'model_docs', 'job'
+    Template.jobs_view_template.helpers
+        jobs: ->
+            Docs.find
+                model:'job'
+    Template.jobs_view_template.events
+        'click .take_job': ->
+            console.log @
+
+
+
+
     Template.jobs.events
-        'click .set_card_view': ->
-            Session.set 'view_mode', 'cards'
-        'click .set_segment_view': ->
-            Session.set 'view_mode', 'segments'
+        'click .add_job': ->
+            new_job_id = Docs.insert
+                model:'job'
+            Router.go "/job/#{new_job_id}/edit"
 
 
-    #     'click .calculate_diff': ->
-    #         product = Template.parentData()
-    #         console.log product
-    #         moment_a = moment @start_datetime
-    #         moment_b = moment @end_datetime
-    #         reservation_hours = -1*moment_a.diff(moment_b,'hours')
-    #         reservation_days = -1*moment_a.diff(moment_b,'days')
-    #         hourly_reservation_price = reservation_hours*product.hourly_rate
-    #         daily_reservation_price = reservation_days*product.daily_rate
-    #         Docs.update @_id,
-    #             $set:
-    #                 reservation_hours:reservation_hours
-    #                 reservation_days:reservation_days
-    #                 hourly_reservation_price:hourly_reservation_price
-    #                 daily_reservation_price:daily_reservation_price
 
     Template.job_stats.events
         'click .refresh_job_stats': ->

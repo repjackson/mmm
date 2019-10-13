@@ -1,9 +1,18 @@
 if Meteor.isClient
-    Router.route '/classrooms', -> @render 'classrooms'
+    Router.route '/classrooms', ->
+        @render 'classrooms'
     Router.route '/classroom/:doc_id/view', (->
         @layout 'layout'
         @render 'classroom_view'
         ), name:'classroom_view'
+    Router.route '/classroom/:doc_id/dashboard', (->
+        @layout 'layout'
+        @render 'classroom_dashboard'
+        ), name:'classroom_dashboard'
+    Router.route '/classroom/:doc_id/reports', (->
+        @layout 'layout'
+        @render 'classroom_reports'
+        ), name:'classroom_reports'
     Router.route '/classroom/:doc_id/edit', (->
         @layout 'layout'
         @render 'classroom_edit'
@@ -19,7 +28,6 @@ if Meteor.isClient
     Template.classroom_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'feature'
-
     Template.classroom_edit.helpers
         features: ->
             Docs.find
@@ -27,14 +35,16 @@ if Meteor.isClient
         feature_edit_template: ->
             "#{@title}_edit_template"
 
+        toggle_feature_class: ->
+            classroom = Docs.findOne Router.current().params.doc_id
+            if classroom.feature_ids and @_id in classroom.feature_ids then 'blue' else ''
+
         selected_features: ->
             classroom = Docs.findOne Router.current().params.doc_id
             Docs.find(
                 _id: $in: classroom.feature_ids
                 model:'feature'
             ).fetch()
-
-
     Template.classroom_edit.events
         'click .toggle_feature': ->
             classroom = Docs.findOne Router.current().params.doc_id
@@ -44,19 +54,69 @@ if Meteor.isClient
             else
                 Docs.update Router.current().params.doc_id,
                     $addToSet: feature_ids: @_id
-
-
         'click .add_shop_item': ->
             new_shop_id = Docs.insert
                 model:'shop_item'
             Router.go "/shop/#{new_shop_id}/edit"
 
+    Template.classroom_dashboard.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
+    Template.classroom_dashboard.helpers
+        classroom_students: ->
+            Meteor.users.find()
+    Template.classroom_dashboard.events
+        'click .add_credit': (e,t)->
+            console.log @
+            Meteor.users.update @_id,
+                $inc:credit:2
+            $(e.currentTarget).closest('.credit_view').transition('pulse', 200)
+        'click .remove_credit': (e,t)->
+            Meteor.users.update @_id,
+                $inc:credit:-2
+            $(e.currentTarget).closest('.credit_view').transition('pulse', 200)
 
+
+
+
+
+
+    Template.classroom_reports.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
     Template.classroom_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-
+        @autorun => Meteor.subscribe 'model_docs', 'feature'
     Template.classroom_view.onRendered ->
         Meteor.call 'increment_view', Router.current().params.doc_id, ->
+    Template.classroom_view.helpers
+        features: ->
+            Docs.find
+                model:'feature'
+        feature_view_template: ->
+            "#{@title}_view_template"
+
+        selected_features: ->
+            classroom = Docs.findOne Router.current().params.doc_id
+            Docs.find(
+                _id: $in: classroom.feature_ids
+                model:'feature'
+            ).fetch()
+
+
+
+
+    Template.class_feed.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'feed'
+    Template.class_feed.helpers
+        class_feed_items: ->
+            Docs.find
+                model:'feed'
+
+
+
+
+
+
     Template.classrooms.onRendered ->
         Session.setDefault 'view_mode', 'cards'
     Template.classrooms.helpers
@@ -68,23 +128,6 @@ if Meteor.isClient
         'click .set_segment_view': ->
             Session.set 'view_mode', 'segments'
 
-
-    #     'click .calculate_diff': ->
-    #         product = Template.parentData()
-    #         console.log product
-    #         moment_a = moment @start_datetime
-    #         moment_b = moment @end_datetime
-    #         reservation_hours = -1*moment_a.diff(moment_b,'hours')
-    #         reservation_days = -1*moment_a.diff(moment_b,'days')
-    #         hourly_reservation_price = reservation_hours*product.hourly_rate
-    #         daily_reservation_price = reservation_days*product.daily_rate
-    #         Docs.update @_id,
-    #             $set:
-    #                 reservation_hours:reservation_hours
-    #                 reservation_days:reservation_days
-    #                 hourly_reservation_price:hourly_reservation_price
-    #                 daily_reservation_price:daily_reservation_price
-
     Template.classroom_stats.events
         'click .refresh_classroom_stats': ->
             Meteor.call 'refresh_classroom_stats', @_id
@@ -93,10 +136,10 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'classroom_reservations_by_id', (classroom_id)->
-        Docs.find
-            model:'reservation'
-            classroom_id: classroom_id
+    Meteor.publish 'classroom_students', (classroom_id)->
+        classroom = Docs.findOne classroom_id
+        Meteor.users.find
+            username: $in: classroom.students
 
     Meteor.publish 'classrooms', (product_id)->
         Docs.find
