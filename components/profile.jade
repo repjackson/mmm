@@ -4,7 +4,7 @@ template(name='profile_view')
             .row
                 //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                 .four.wide.column
-                    img.ui.centered.circular.image(src="{{c.url profile_image_id height=300 width=300 gravity='face' crop='fill'}}")
+                    img.ui.centered.circular.image(src="{{c.url user_from_username_param.profile_image_id height=300 width=300 gravity='face' crop='fill'}}")
                     .ui.center.aligned.basic.segment
                         a(href="/user/#{user.username}")
                             h1.ui.large.center.aligned.header
@@ -67,6 +67,7 @@ template(name='profile_view')
                             .column
                                 .ui.segment
                                     .ui.header weekly expenses (debits)
+                        //- +range_edit                
 template(name='user_log')
     //- .ui.fluid.styled.accordion
     .ui.basic.segment

@@ -18,15 +18,15 @@ template(name='home')
         +home_slider
         .ui.vertical.stripe.segment
             .ui.middle.aligned.stackable.grid.container
-                h3.ui.center.aligned.header MMM's mission is to empower K-5 students with money management mindset and skills, so that they can make effective financial decisions for themselves, their families and their communities.
+                h3.ui.center.aligned.header MMM's mission is to empower K-5 students with money management mindset and skills, so that they can make effective financial decisions for themselves, their families and their communities
                 .row
                     .eight.wide.column
                         p
-                            |We believe that students, regardless of background, deserve preparation for real-world financial challenges
+                            |we believe that students, regardless of background, deserve preparation for real-world financial challenges
                         //- p
                         //-     |MMM’s mission is to empower K-5 teachers and students with money management mindset and skills, so that they can make effective financial decisions for themselves, their families and their communities. 
                         p
-                            |minimoney is an integrated, elementary classroom-economy app that is engaging for students and low-effort for teachers while simulating real-world financial challenges. 
+                            |minimoney is an integrated, elementary classroom-economy app that is engaging for students and low-effort for teachers while simulating real-world financial challenges
                         //- p
                             //- |minimoney is a classroom economy app that integrates seamlessly into the classroom to empower students with real-world financial literacy
                         a.ui.huge.fluid.center.aligned.button(href='/register') sign up now
@@ -34,7 +34,7 @@ template(name='home')
                         //- p
                         //-     | Yes that&apos;s right, you thought it was the stuff of dreams, but even bananas can be bioengineered.
                     .six.wide.right.floated.column
-                        img.ui.rounded.image(src="{{c.url 'minilarge' width=400 height=400}}")
+                        img.ui.rounded.image(src="{{c.url 'mmm_logo_small' width=400 height=400}}")
                 //- .row
                 //-     .center.aligned.column
             .ui.divider
@@ -140,27 +140,25 @@ template(name='home')
                         //- b Nan
                         //- |  Chief Fun Officer Acme Toys
         .ui.vertical.stripe.segment
-            .ui.text.container
-                h3.ui.header The Problem
-                p
-                    |Millenials have an average of $28,000 in debt with 25% being credit card debt
-                p
-                    |The Council for Economic Education released national financial literacy standards for grades K-12, recently adopted by Colorado
-                p
-                    |There are limited curriculum and other resources available to teachers to achieve these standards
-                p
-                    |The curriculum available uses an old-fashioned way of teaching which typically includes 20 hours of class time
-                a.ui.large.button Read More
-                h4.ui.horizontal.header.divider
-                //- a(href='#') Case Studies
-                h3.ui.header The Solution
-                p
-                    |Mini Money Management is an experiential learning resource for teachers and students to use
-                p
-                    |It meets all the financial literacy standards in Elementary Schools (K-5)
-                p
-                    |It is designed to be used  in the normal course of the school day  to provide  real-life money management experiences for the students
-                a.ui.large.button I&apos;m Still Quite Interested
+            .ui.stackable.grid
+                .eight.wide.column
+                    h3.ui.header problem
+                    p
+                        |millenials have an average of $28,000 in debt with 25% being credit card debt
+                    p
+                        |the Council for Economic Education released national financial literacy standards for grades K-12, recently adopted by Colorado
+                    p
+                        |there are limited curriculum and other resources available to teachers to achieve these standards
+                    p
+                        |the curriculum available uses an old-fashioned way of teaching which typically includes 20 hours of class time
+                .eight.wide.column
+                    h3.ui.header solution
+                    p
+                        |mini money management is an experiential learning resource for teachers and students to use
+                    p
+                        |it meets all the financial literacy standards in Elementary Schools (K-5)
+                    p
+                        |it is designed to be used  in the normal course of the school day  to provide  real-life money management experiences for the students
       
       
 //- template(name='footer')      

@@ -1,4 +1,4 @@
-@selected_rental_tags = new ReactiveArray []
+@selected_tags = new ReactiveArray []
 
 Meteor.startup ->
     process.env.TZ='America/Denver'
@@ -25,10 +25,10 @@ $.cloudinary.config
     # action: 'not_found'
 
 Template.body.events
-    # 'click a': ->
-    #     $('.global_container')
-    #     .transition('fade out', 200)
-    #     .transition('fade in', 200)
+    'click a': ->
+        $('.global_container')
+        .transition('fade out', 250)
+        .transition('fade in', 250)
 
     # 'click .result': ->
     #     $('.global_container')
@@ -320,7 +320,7 @@ Template.registerHelper 'user_is_member', () -> if @roles and 'member' in @roles
 Template.registerHelper 'user_is_handler', () -> if @roles and 'handler' in @roles then true else false
 Template.registerHelper 'user_is_student_or_teacher', () -> if @roles and _.intersection(@roles,['student','teacher']) then true else false
 
-Template.registerHelper 'is_eric', () -> if Meteor.userId() and Meteor.userId() in ['ytjpFxiwnWaJELZEd','rDqxdcTBTszjeMh9T'] then true else false
+Template.registerHelper 'is_eric', () -> if Meteor.userId() and Meteor.userId() in ['SqAW5apg4YXsk8Gab','rDqxdcTBTszjeMh9T'] then true else false
 
 Template.registerHelper 'current_user', () ->  Meteor.users.findOne username:Router.current().params.username
 Template.registerHelper 'is_current_user', () ->

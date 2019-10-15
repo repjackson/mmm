@@ -2,32 +2,28 @@ template(name='shop')
     .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
-                .ui.header 
+                .ui.inline.header 
                     +i name='shop'
                     |shop
                 .ui.button.add_product
                     +i name='plus' classes='ui inline mini image'
                     |product
-                .ui.stackable.cards
+                .ui.hidden.divider
+                .ui.stackable.four.cards
                     each products
-                        .ui.card
-                            img.ui.fluid.image(src="{{c.url shop_image_id width=400 height=200 crop='fill'}}")
-                            .content
-                                a.ui.header(href="/shop/#{_id}/view") #{title}
+                        +shop_card
 
 template(name='shop_card')
     //- .ui.card    
-    a.ui.card(href="/shop/#{_id}")
+    a.ui.card(href="/shop/#{_id}/view")
+        img.ui.fluid.image(src="{{c.url shop_image_id width=400 height=200 crop='fill'}}")
         .content
-            .ui.large.header #{shop_number}
+            .ui.large.inline.header #{title}
+            .ui.big.inline.header $#{price}
             div
-            +number_view key='price' icon='money'
             //- i.dollar.icon
-            .ui.basic.large.label
-                img.ui.rounded.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
-                |#{first_name} #{last_name}
-            a.ui.large.button(href="/shop/#{_id}")
-                i.yellow.right.chevron.icon
+            //- a.ui.large.button(href="/shop/#{_id}")
+            //-     i.yellow.right.chevron.icon
                     
 
 

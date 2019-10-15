@@ -47,12 +47,13 @@ template(name='loan_edit')
                         i.checkmark.large.green.icon
                         |save
                     +remove_button
-                .twelve.wide.column 
+                .six.wide.column 
                     +single_user_edit key='name' label='name' icon='title' direct=true
                     +text_edit key='employer' label='employer' icon='business' direct=true
                     +text_edit key='position' label='position' icon='manager' direct=true
                     +number_edit key='amount_requested' label='amount requested' icon='money' direct=true
                     +textarea_edit key='loan_reason' label='why do you need the loan now?' icon='money' direct=true
+                .six.wide.column 
                     +boolean_edit key='had_loan_before' label='ever had a loan before?' direct=true
                     div
                     if had_loan_before

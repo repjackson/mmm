@@ -21,12 +21,12 @@ if Meteor.isClient
 
 
     Template.nav.events
-        # 'mouseenter .item': (e,t)->
-        #     $(e.currentTarget).closest('.item').transition('pulse')
-        # 'click .menu_dropdown': ->
-            # $('.menu_dropdown').dropdown(
-                # on:'hover'
-            # )
+        'mouseenter .item': (e,t)->
+            $(e.currentTarget).closest('.item').transition('pulse', 400)
+        'click .menu_dropdown': ->
+            $('.menu_dropdown').dropdown(
+                on:'hover'
+            )
 
 
         'click #logout': ->

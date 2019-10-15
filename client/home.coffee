@@ -9,6 +9,6 @@ Template.home.onRendered ->
                 onBottomPassedReverse: ->
                     $('.fixed.menu').transition('fade out')
             })
-        $('.ui.sidebar')
-            .sidebar('attach events', '.toc.item')
-    , 1000
+        # $('.ui.sidebar')
+        #     .sidebar('attach events', '.toc.item')
+    , 500

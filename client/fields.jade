@@ -126,7 +126,7 @@ template(name='i')
     if currentUser.icon_theme
         img(src="https://img.icons8.com/#{currentUser.icon_theme}/48/000000/#{name}.png" class=classes title=title)
     else
-        img(src="https://img.icons8.com/color/48/000000/#{name}.png" class=classes title=title)
+        img(src="https://img.icons8.com/office/48/000000/#{name}.png" class=classes title=title)
     //- i.icon(class=name)
     //- img(src="https://img.icons8.com/cotton/48/000000/#{name}.png" class=classes title=title)
     //- img.icon8(src="https://img.icons8.com/ios/50/000000/#{name}.png" class=classes title=title)
@@ -417,7 +417,7 @@ template(name='slug_view')
             div
             //- if icon
             //-     +i name=icon                
-            .ui.inline.header
+            .ui.inline.small.grey.header
                 if title
                     |#{title}
                 else if label
@@ -426,7 +426,8 @@ template(name='slug_view')
                     |#{key}
                 else
                     |#{this}
-        .ui.inline.header #{field_value}
+        .ui.inline.header 
+            strong #{field_value}
 
 
 
@@ -1166,7 +1167,7 @@ template(name='multi_user_edit')
                 each user_results
                     .select_user.item
                         .ui.header
-                            img.ui.avatar.image(src="{{c.url kiosk_photo width=100 height=100 gravity='face' crop='fill'}}")
+                            img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
                             strong #{first_name} #{last_name}
                             |@#{username}
     +clear_value                

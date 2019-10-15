@@ -110,54 +110,17 @@ template(name='user_status')
 
 template(name='user_card')
     with user
-        .ui.card
-            if is_staff
-                .image
-                    if kiosk_photo
-                        img.ui.rounded.image(src="{{c.url kiosk_photo width=300 height=300 gravity='face' crop='fill'}}")
-                    else if image_id
-                        img.ui.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
+        .ui.small.horizontal.card
+            .image
+                img.ui.rounded.mini.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
             .content    
-                if is_frontdesk
-                    .header 
-                        |#{first_name} #{last_name}
-                else
-                    a.header(href="/user/#{username}") #{first_initial} #{last_name} 
-                    //- .meta @#{username}
-                    if is_staff
-                        .ui.list
-                            .item #{address}
-                            //- .item #{building_code}
-                            //- .item #{unit_number}
-                            //- .item #{building_number}
-                        |#{points} points
-                    if is_admin
-                        div
-                        +user_email
+                a.header(href="/user/#{username}") #{first_name} #{last_name} 
+                //- .meta @#{username}
+                strong $#{credit}
+                small credit
                 //- +emails_edit    
         //- +user_status user
 
-
-template(name='member_card')
-    with user
-        .ui.fluid.card
-            .image
-                if kiosk_photo
-                    img.ui.rounded.image(src="{{c.url kiosk_photo width=300 height=300 gravity='face' crop='fill'}}")
-                else if image_id
-                    img.ui.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
-            .content    
-                a.header(href="/user/#{username}") #{first_initial} #{last_name} 
-                //- .meta @#{username}
-                |#{points} pts
-                span(title='karma')
-                |#{karma} 
-                i.yin.yang.icon
-                if is_admin
-                    div
-                    +user_email
-                //- +emails_edit    
-        +user_status user
 
 template(name='small_horizontal_member_card')
     with user
@@ -210,30 +173,6 @@ template(name='big_user_card')
                      |#{first_name} #{last_name} 
                     //- .meta @#{username}
                     //- +array_view key='tags' label='Tags' direct=true
-            if is_staff
-                .content
-                    +text_view key='address' label='address' direct=true
-                    +number_view key='building_number' label='building #' direct=true
-                    +number_view key='unit_number' label='apartment #' direct=true
-                    +text_view key='building_code' label='building code' direct=true
-                    //- +array_view key='tags' label='Tags'
-                    if user_is_student
-                        +date_view key='start_date' label='start date' direct=true
-                        +date_view key='expiration_date' label='expiration date' direct=true
-                    +checkin_button
-                    +garden_key_checkout
-                    +unit_key_checkout
-                    +email_validation_check
-                    +lease_expiration_check
-                    +rules_and_regs_check
-                    +array_view key='roles' direct=true
-                        
-                    //- +i name='swimming-pool' classes='ui avatar image'
-                    //- +i name='weightlift' classes='ui avatar image'
-                    //- +i name='jacuzzi' classes='ui avatar image'
-                    //- +i name='shower' classes='ui avatar image'
-                    //- +i name='racquetball' classes='ui avatar image'
-                    //- +i name='water-steam' classes='ui avatar image'
 
 
 template(name='unit_key_checkout')

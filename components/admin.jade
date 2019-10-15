@@ -2,9 +2,11 @@ template(name='admin')
     .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
-                a.ui.header(href='/teachers') teachers
-                a.ui.header(href='/students') students
-                a.ui.header(href='/classrooms') classrooms 
+                h1.ui.header 
+                    i.shield.icon
+                    |admin
+            +call_method name='create_delta'
+
 
 
 template(name='call_method')

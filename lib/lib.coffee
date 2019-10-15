@@ -127,20 +127,6 @@ Meteor.methods
 
         Meteor.call 'fum', delta_id, (err,res)->
 
-    add_alpha_facet_filter: (alpha_id, key, filter)->
-        if key is '_keys'
-            new_facet_ob = {
-                key:filter
-                filters:[]
-                res:[]
-            }
-            Docs.update { _id:alpha_id },
-                $addToSet: facets: new_facet_ob
-        Docs.update { _id:alpha_id, "facets.key":key},
-            $addToSet: "facets.$.filters": filter
-
-        Meteor.call 'fa', alpha_id, (err,res)->
-
 
     remove_facet_filter: (delta_id, key, filter)->
         if key is '_keys'
@@ -151,13 +137,6 @@ Meteor.methods
         Meteor.call 'fum', delta_id, (err,res)->
 
 
-    remove_alpha_facet_filter: (alpha_id, key, filter)->
-        if key is '_keys'
-            Docs.update { _id:alpha_id },
-                $pull:facets: {key:filter}
-        Docs.update { _id:alpha_id, "facets.key":key},
-            $pull: "facets.$.filters": filter
-        Meteor.call 'fa', alpha_id, (err,res)->
 
     pin: (doc)->
         if doc.pinned_ids and Meteor.userId() in doc.pinned_ids

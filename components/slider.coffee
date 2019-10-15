@@ -20,7 +20,7 @@ if Meteor.isClient
                 tnHeight: 120,
                 skinsPath: '../../layerslider/skins/'
             });
-        , 2000
+        , 500
 
     Template.home_slider.helpers
         slides: ->

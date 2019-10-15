@@ -50,10 +50,10 @@ template(name='rental_cloud')
         // .ui.hidden.fitted.divider
     //- i.grey.tags.icon
     //- .ui.inline.header tags
-    if selected_rental_tags
+    if selected_tags
         #clear_tags.ui.active.icon.circular.button
             i.remove.icon
-        each selected_rental_tags
+        each selected_tags
             .unselect_rental_tag.ui.active.circular.button
                 strong #{this}
     each all_rental_tags

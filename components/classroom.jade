@@ -20,6 +20,9 @@ template(name='classroom_card')
         .content
             a.ui.header(href="/classroom/#{_id}/view") #{title}
             .ui.small.header net income #{net_income}
+            a.ui.fluid.button(href="/classroom/#{_id}/view")
+                |view 
+                i.right.arrow.icon
 
                     
 
@@ -45,7 +48,7 @@ template(name='classroom_edit')
                     .ui.stackable.grid
                         .row
                             .sixteen.wide.column
-                                .ui.top.attached.tabular.large.four.item.menu
+                                .ui.top.attached.tabular.large.five.item.menu
                                     a.active.item(data-tab="students")     
                                         +i name='groups' 
                                         &nbsp;
@@ -62,22 +65,40 @@ template(name='classroom_edit')
                                         +i name='goal' 
                                         &nbsp;
                                         |goals
+                                    a.item(data-tab="shop")
+                                        +i name='shop' 
+                                        &nbsp;
+                                        |shop
                                 .ui.bottom.attached.active.tab.segment(data-tab='students')
                                     .ui.header 
                                         +i name='students'
                                         |students
-                                    a.ui.button(href='/add_student') 
-                                        i.user.plus.icon
-                                        |add student
-                                    +multi_user_edit key='students' direct=true
+                                    if adding_student
+                                        .ui.header adding student
+                                        .ui.large.form
+                                            .field
+                                                input#first_name(type='text' placeholder='first name' autocomplete='off')
+                                            .field
+                                                input#last_name(type='text' placeholder='last name' autocomplete='off')
+                                            //- .field
+                                            //-     |Username
+                                            //-     input#username(type='text')
+                                        .ui.fluid.green.big.button.create_student
+                                            |create student
+                                    unless adding_student
+                                        .ui.button.set_adding_student
+                                            i.user.plus.icon
+                                            |add student
+                                        +multi_user_edit key='students' direct=true
                                 .ui.bottom.attached.tab.segment(data-tab='income')
                                     +deposit_edit_template    
-                                    +shop_edit_template
                                 .ui.bottom.attached.tab.segment(data-tab='expenses')
                                     +expense_edit_template
                                     +penalties_edit_template
                                 .ui.bottom.attached.tab.segment(data-tab='goals')
                                     +goals_edit_template
+                                .ui.bottom.attached.tab.segment(data-tab='shop')
+                                    +shop
 
 template(name='shop_edit_template')
     .ui.button.add_shop_item 
@@ -117,10 +138,10 @@ template(name='expense_edit_template')
     
     
 template(name='deposit_edit_template')
-    +number_edit key='bonus_amount' label='bonus amount' direct=true
+    +number_edit key='daily_salary_amount' label='daily salary amount' direct=true
     +boolean_edit key='daily' label='daily' direct=true
     +boolean_edit key='weekly' label='weekly' direct=true
-    +number_edit key='daily_salary_amount' label='daily salary amount' direct=true
+    +number_edit key='bonus_amount' label='bonus amount' direct=true
     +number_edit key='overtime_amount' label='overtime amount' direct=true
     +number_edit key='good_grades_amount' label='good grades amount' direct=true
 
@@ -143,84 +164,26 @@ template(name='classroom_dashboard')
                         input.date_select(type='text' placeholder='date')
             .row
                 .sixteen.wide.column
-                    table.ui.celled.table
-                        thead
-                            tr
-                                th student
-                                th salary
-                                th bonus
-                                th overtime
-                                th good grades
-                                th desk rental
-                                th janitor
-                                th lunch
-                                th fines
-                                th rent supplies
-                                th credit
-                        tbody
-                            each classroom_students
-                                tr
-                                    td 
-                                        a(href="/user/#{username}") #{username}
-                                    td.positive $20
-                                    td
-                                        .ui.icon.button.add_credit
-                                            i.green.plus.icon 
-                                    td 
-                                        .ui.icon.button.add_credit
-                                            i.green.plus.icon 
-                                    td
-                                        .ui.icon.button.add_credit
-                                            i.green.plus.icon 
-                                    td.negative $10
-                                    td.negative $10
-                                    td
-                                        .ui.icon.button.remove_credit
-                                            i.red.minus.icon
-                                    td
-                                        .ui.icon.button.remove_credit
-                                            i.red.minus.icon
-                                    td.negative $10
-                                    td.credit_view
-                                        .ui.header.credit_view 
-                                            span.credit_view #{credit}
-                    //- .ui.celled.grid
-                    //-     .row
-                    //-         .two.wide.column
-                    //-             .ui.header income
-                    //-             .ui.list
-                    //-                 .item salary
-                    //-                 .item bonus
-                    //-                 .item overtime
-                    //-                 .item good grades
-                    //-             .ui.header expenses
-                    //-             .ui.list
-                    //-                 .item desk rental
-                    //-                 .item janitor
-                    //-                 .item lunch
-                    //-                 .item fines
-                    //-                 .item rent supplies
-                    //-         .ten.wide.column
-                    //-             each classroom_students
-                    //-                 .ui.small.header #{first_name} #{last_name}
-                    //-                 .ui.button bonus
-                    //-                 .ui.button fine
-                    //-                 .ui.button overtime
-                    //-                 div #{salary}
-                    //-                 div #{bonus}
-                    //-                 div #{overtime}
-                    //-                 div #{good_grades}
-                    //-                 .ui.divider
-                    //-                 div #{desk_rental_amount}
-                    //-                 div #{janitor_amount}
-                    //-                 div #{lunch_amount}
-                    //-                 div #{fines_amount}
-                    //-                 div #{rent_supplies_amount}
-                    //-                 .ui.divider
-                    //-                 div #{net_income}
-                    //-     .row
-                    //-             .ui.header net income
-                    
+                    .ui.stackable.cards
+                        each classroom_students
+                            .ui.small.horizontal.card
+                                .image
+                                    img.ui.tiny.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
+                                .content
+                                    a.header(href="/user/#{username}")
+                                        |#{first_name} #{last_name} 
+                                    each classroom_credits
+                                        +class_credit_button
+                                    each classroom_debits
+                                        +class_debit_button
+                                        
+                                        
+template(name='class_credit_button')
+    .ui.button #{label}
+    
+template(name='class_debit_button')
+    .ui.button #{label}
+
 
     
 template(name='classroom_reports')
@@ -235,37 +198,37 @@ template(name='classroom_reports')
                 .ui.large.header 
                     +i name='invoice' classes='ui inline mini image'
                     |student reports
-            .row
-                .sixteen.wide.column
-                    table.ui.celled.table
-                        thead
+                table.ui.celled.table
+                    thead
+                        tr
+                            th student
+                            th week 1
+                            th week 2
+                            th week 3
+                            th week 4
+                            th credit
+                    tbody
+                        each classroom_students
                             tr
-                                th student
-                                th week 1
-                                th week 2
-                                th week 3
-                                th week 4
-                                th credit
-                        tbody
-                            each classroom_students
-                                tr
-                                    td 
-                                        a(href="/user/#{username}") #{username}
-                                    td 
-                                        div credits
-                                        div debits
-                                    td 
-                                        div credits
-                                        div debits
-                                    td 
-                                        div credits
-                                        div debits
-                                    td 
-                                        div credits
-                                        div debits
-                                    td.credit_view
-                                        .ui.header.credit_view 
-                                            span.credit_view #{credit}
+                                td 
+                                    a(href="/user/#{username}") 
+                                        img.ui.rounded.avatar.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
+                                        |#{username}
+                                td 
+                                    .ui.green.header +1
+                                    .ui.red.header -3
+                                td 
+                                    .ui.green.header +1
+                                    .ui.red.header -3
+                                td 
+                                    .ui.green.header +1
+                                    .ui.red.header -3
+                                td 
+                                    .ui.green.header +1
+                                    .ui.red.header -3
+                                td.credit_view
+                                    .ui.header.credit_view 
+                                        .ui.large.header.credit_view $#{credit}
 
 
 template(name='classroom_view')
@@ -288,23 +251,27 @@ template(name='classroom_view')
                         +i name='pencil' classes='ui inline mini image'
                         |classroom edit
                 .twelve.wide.column
-                    .ui.top.attached.tabular.large.four.item.menu
+                    .ui.top.attached.tabular.large.five.item.menu
                         a.active.item(data-tab="dashboard")     
                             +i name='dashboard' 
-                            &nbsp;
+                            |&nbsp;
                             |dashboard
                         a.item(data-tab="reports")
                             +i name='invoice' 
-                            &nbsp;
+                            |&nbsp;
                             |reports
                         a.item(data-tab="jobs")
                             +i name='business' 
-                            &nbsp;
+                            |&nbsp;
                             |jobs
                         a.item(data-tab="loans")
                             +i name='debt' 
-                            &nbsp;
+                            |&nbsp;
                             |loans
+                        a.item(data-tab="shop")
+                            +i name='shop' 
+                            |&nbsp;
+                            |shop
                     .ui.bottom.attached.active.tab.segment(data-tab='dashboard')
                         .ui.two.column.stackable.grid
                             .column
@@ -318,6 +285,8 @@ template(name='classroom_view')
                         +jobs
                     .ui.bottom.attached.tab.segment(data-tab='loans')
                         +loans
+                    .ui.bottom.attached.tab.segment(data-tab='shop')
+                        +shop
                     //- div
                     //- a.ui.massive.fluid.button(href="/classroom/#{_id}/dashboard")
                     //-     +i name='dashboard' classes='ui inline mini image'
@@ -368,6 +337,10 @@ template(name='class_feed')
     .ui.header 
         +i name='rss'
         |feed
+    .ui.bulleted.list
+        .item Johnny was approved for a $12 loan for the pizza party
+        .item Suzy was bought quiet time with the good pillow for $2
+        .item Tim earned $4 for taking out the trash
     each class_feed_items
         .ui.header #{title}
 
@@ -375,10 +348,15 @@ template(name='class_stats')
     .ui.header 
         +i name='line-chart'
         |stats
-    .ui.large.list
-        .item total balance
-        .item total income
-        .item total expenses
+        div
+        .ui.green.inline.header $72
+        | balance
+        div
+        .ui.green.inline.header $126 
+        | income
+        div
+        .ui.red.inline.header -$50
+        | expenses
         
         
 

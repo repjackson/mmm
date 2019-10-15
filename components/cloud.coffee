@@ -1,9 +1,9 @@
 # if Meteor.isClient
 #     Template.cloud.onCreated ->
-#         @autorun -> Meteor.subscribe('rental_tags', selected_rental_tags.array())
+#         @autorun -> Meteor.subscribe('rental_tags', selected_tags.array())
 #     Template.docs.onCreated ->
 #         @autorun -> Meteor.subscribe('rental_docs',
-#             selected_rental_tags.array()
+#             selected_tags.array()
 #             Session.get('sort_key')
 #             )
 #
@@ -31,7 +31,7 @@
 #         #         when @index <= 12 then ''
 #         #         when @index <= 20 then 'small'
 #         #     return button_class
-#         selected_rental_tags: -> selected_rental_tags.array()
+#         selected_tags: -> selected_tags.array()
 #         # settings: -> {
 #         #     position: 'bottom'
 #         #     limit: 10
@@ -51,9 +51,9 @@
 #             Session.set 'sort_key', @key
 #
 #     Template.cloud.events
-#         'click .select_rental_tag': -> selected_rental_tags.push @name
-#         'click .unselect_rental_tag': -> selected_rental_tags.remove @valueOf()
-#         'click #clear_tags': -> selected_rental_tags.clear()
+#         'click .select_rental_tag': -> selected_tags.push @name
+#         'click .unselect_rental_tag': -> selected_tags.remove @valueOf()
+#         'click #clear_tags': -> selected_tags.clear()
 #
 #         # 'keyup #search': (e,t)->
 #         #     e.preventDefault()
@@ -62,39 +62,39 @@
 #         #         when 13 #enter
 #         #             switch val
 #         #                 when 'clear'
-#         #                     selected_rental_tags.clear()
+#         #                     selected_tags.clear()
 #         #                     $('#search').val ''
 #         #                 else
 #         #                     unless val.length is 0
-#         #                         selected_rental_tags.push val.toString()
+#         #                         selected_tags.push val.toString()
 #         #                         $('#search').val ''
 #         #         when 8
 #         #             if val.length is 0
-#         #                 selected_rental_tags.pop()
+#         #                 selected_tags.pop()
 #         #
 #         # 'autocompleteselect #search': (event, template, doc) ->
-#         #     selected_rental_tags.push doc.name
+#         #     selected_tags.push doc.name
 #         #     $('#search').val ''
 #
 #
 # if Meteor.isServer
-#     Meteor.publish 'rental_tags', (selected_rental_tags)->
+#     Meteor.publish 'rental_tags', (selected_tags)->
 #         # user = Meteor.users.finPdOne @userId
 #         # current_herd = user.profile.current_herd
 #
 #         self = @
 #         match = {}
 #
-#         # selected_rental_tags.push current_herd
+#         # selected_tags.push current_herd
 #
-#         if selected_rental_tags.length > 0 then match.tags = $all: selected_rental_tags
+#         if selected_tags.length > 0 then match.tags = $all: selected_tags
 #         match.model = 'rental'
 #         cloud = Docs.aggregate [
 #             { $match: match }
 #             { $project: tags: 1 }
 #             { $unwind: "$tags" }
 #             { $group: _id: '$tags', count: $sum: 1 }
-#             { $match: _id: $nin: selected_rental_tags }
+#             { $match: _id: $nin: selected_tags }
 #             { $sort: count: -1, _id: 1 }
 #             { $limit: 100 }
 #             { $project: _id: 0, name: '$_id', count: 1 }
@@ -109,14 +109,14 @@
 #         self.ready()
 #
 #
-#     Meteor.publish 'rental_docs', (selected_rental_tags)->
+#     Meteor.publish 'rental_docs', (selected_tags)->
 #         # user = Meteor.users.findOne @userId
-#         console.log selected_rental_tags
+#         console.log selected_tags
 #         # console.log filter
 #         self = @
 #         match = {}
 #         # if filter is 'shop'
 #         #     match.active = true
-#         if selected_rental_tags.length > 0 then match.tags = $all: selected_rental_tags
+#         if selected_tags.length > 0 then match.tags = $all: selected_tags
 #         match.model = 'rental'
 #         Docs.find match, sort:_timestamp:-1

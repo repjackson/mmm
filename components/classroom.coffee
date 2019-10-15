@@ -20,17 +20,18 @@ if Meteor.isClient
 
 
     Template.classroom_edit.onRendered ->
-        Meteor.setTimeout ->
-            $('.accordion').accordion()
-        , 1000
 
 
     Template.classroom_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'feature'
+        Session.set 'permission', false
     Template.classroom_edit.onRendered ->
         Meteor.setTimeout ->
             $('.tabular.menu .item').tab()
+        , 1000
+        Meteor.setTimeout ->
+            $('.accordion').accordion()
         , 1000
 
     Template.classroom_edit.helpers
@@ -50,7 +51,12 @@ if Meteor.isClient
                 _id: $in: classroom.feature_ids
                 model:'feature'
             ).fetch()
+        adding_student: ->
+            Session.get 'adding_student'
+
     Template.classroom_edit.events
+        'click .set_adding_student': ->
+            Session.set 'adding_student', true
         'click .toggle_feature': ->
             classroom = Docs.findOne Router.current().params.doc_id
             if classroom.feature_ids and @_id in classroom.feature_ids
@@ -63,6 +69,47 @@ if Meteor.isClient
             new_shop_id = Docs.insert
                 model:'shop_item'
             Router.go "/shop/#{new_shop_id}/edit"
+
+        'keyup #last_name': (e,t)->
+            first_name = $('#first_name').val()
+            last_name = $('#last_name').val()
+            # $('#username').val("#{first_name.toLowerCase()}_#{last_name.toLowerCase()}")
+            username = "#{first_name.toLowerCase()}_#{last_name.toLowerCase()}"
+            Session.set 'permission',true
+
+
+        'click .create_student': ->
+            first_name = $('#first_name').val()
+            last_name = $('#last_name').val()
+            username = "#{first_name.toLowerCase()}_#{last_name.toLowerCase()}"
+            Meteor.call 'add_user', username, (err,res)=>
+                if err
+                    alert err
+                else
+                    Meteor.users.update res,
+                        $set:
+                            first_name:first_name
+                            last_name:last_name
+                            added_by_username:Meteor.user().username
+                            added_by_user_id:Meteor.userId()
+                            roles:['student']
+                            # healthclub_checkedin:true
+                    Docs.insert
+                        model: 'log_event'
+                        object_id: res
+                        body: "#{username} was created"
+                    # Docs.insert
+                    #     model:'log_event'
+                    #     object_id:res
+                    #     body: "#{username} checked in."
+                    new_user = Meteor.users.findOne res
+                    Session.set 'username_query',null
+                    $('.username_search').val('')
+                    Meteor.call 'email_verified',new_user
+                    Session.set 'adding_student', false
+                    Docs.update Router.current().params.doc_id,
+                        $addToSet: students: new_user.username
+                    # Router.go "/user/#{username}/edit"
 
 
     Template.classroom_dashboard.onCreated ->

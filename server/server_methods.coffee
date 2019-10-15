@@ -3,6 +3,12 @@ Meteor.methods
         Docs.update doc_id,
             $inc:views:1
 
+    create_delta: ->
+        # console.log @
+        Docs.insert
+            model:'model'
+            slug:'model'
+
 
     add_user: (username)->
         options = {}
