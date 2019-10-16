@@ -41,7 +41,7 @@ template(name='rentals')
                 
 
 
-template(name='rental_cloud')
+template(name='cloud')
     div
     //- #cloud
         //- .ui.left.icon.input
@@ -56,7 +56,7 @@ template(name='rental_cloud')
         each selected_tags
             .unselect_rental_tag.ui.active.circular.button
                 strong #{this}
-    each all_rental_tags
+    each all_tags
         .ui.compact.circular.button.select_rental_tag(class=cloud_tag_class) 
             strong #{this.name}
 

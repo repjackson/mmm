@@ -68,15 +68,22 @@ if Meteor.isClient
 
 
     Template.classrooms.onRendered ->
-        Session.setDefault 'view_mode', 'cards'
+    Template.classrooms.onRendered ->
+        # Session.setDefault 'view_mode', 'cards'
     Template.classrooms.helpers
-        viewing_cards: -> Session.equals 'view_mode', 'cards'
-        viewing_segments: -> Session.equals 'view_mode', 'segments'
+        # viewing_cards: -> Session.equals 'view_mode', 'cards'
+        # viewing_segments: -> Session.equals 'view_mode', 'segments'
     Template.classrooms.events
-        'click .set_card_view': ->
-            Session.set 'view_mode', 'cards'
-        'click .set_segment_view': ->
-            Session.set 'view_mode', 'segments'
+        # 'click .set_card_view': ->
+        #     Session.set 'view_mode', 'cards'
+        # 'click .set_segment_view': ->
+        #     Session.set 'view_mode', 'segments'
+
+
+    Template.classroom_card.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'classroom_stats'
+    Template.classrooms.helpers
+
 
 
 
@@ -138,7 +145,7 @@ if Meteor.isClient
                 event_type:'credit'
                 amount: @amount
                 event_type_id: @_id
-                text:"#{student.name()} was credited #{@amount} for #{@title}"
+                text:"was credited #{@amount} for #{@title}"
                 user_id: student._id
                 classroom_id: Router.current().params.doc_id
 
@@ -155,7 +162,7 @@ if Meteor.isClient
                 event_type:'debit'
                 amount: @amount
                 event_type_id: @_id
-                text:"#{student.name()} was debited #{@amount} for #{@title}"
+                text:"was debited #{@amount} for #{@title}"
                 user_id: student._id
                 classroom_id: Router.current().params.doc_id
 
@@ -241,6 +248,18 @@ if Meteor.isClient
         classroom_events: ->
             Docs.find
                 model:'classroom_event'
+
+    Template.classroom_feed.events
+        'click .remove': ->
+            if confirm  "undo #{@event_type}?"
+                # console.log @
+                Docs.remove @_id
+                if @event_type is 'credit'
+                    Meteor.users.update @user_id,
+                        $inc:credit:-@amount
+                else if @event_type is 'debit'
+                    Meteor.users.update @user_id,
+                        $inc:credit:@amount
 
 
 

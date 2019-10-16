@@ -19,8 +19,10 @@ template(name='classroom_card')
             img.ui.fluid.image(src="{{c.url classroom_image_id crop='lpad'}}")
             //- img.ui.fluid.image(src="{{c.url classroom_image_id crop='lpad'}}")
         .content
-            a.ui.header(href="/classroom/#{_id}") #{title}
-            .ui.small.header net income #{net_income}
+            a.ui.header(href="/classroom/#{_id}" title='balance') #{title}
+            .ui.green.inline.header $#{csd.classroom_balance}
+            .ui.green.inline.small.header(title='income') ($#{csd.total_credit_amount}
+            .ui.red.inline.small.header(title='expenses') / -$#{csd.total_debit_amount})
 
                     
 template(name='classroom_view_layout')
@@ -220,15 +222,32 @@ template(name='classroom_feed')
     .ui.header 
         +i name='rss'
         |feed
-    .ui.bulleted.list
+    .ui.feed
         each classroom_events
-            .item 
-                if icon
-                    +i name=icon
-                |#{text}
-                .meta #{when}
-                if is_dev
-                    +remove_button
+            .event 
+                .label
+                    img.ui.avatar.image(src="{{c.url target_user.profile_image_id height=100 gravity='face' crop='fill'}}")
+                    if is_credit
+                        +i name='deposit' classes='ui inline mini image'
+                    if is_debit
+                        +i name='withdrawal' classes='ui inline mini image'
+                    else if icon
+                        +i name=icon
+                .content
+                    .summary
+                        a.user 
+                            |#{target_user.name}
+                        |#{text}
+                        .date #{when}
+                    .meta
+                        +voting_small
+                        //- a.like
+                        //-     i.like.icon 
+                        //-     |4 likes
+                        a.remove
+                            i.undo.icon
+                        //- if is_dev
+                        //-     +remove_button
 
 
 

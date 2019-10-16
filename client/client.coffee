@@ -81,13 +81,26 @@ Template.registerHelper 'from_now', (input) -> moment(input).fromNow()
 Template.registerHelper 'cal_time', (input) -> moment(input).calendar()
 Template.registerHelper 'last_initial', (user) ->
     @last_name[0]+'.'
+
+Template.registerHelper 'csd', () ->
+    if Router.current().params.doc_id
+        Docs.findOne
+            model:'classroom_stats'
+            classroom_id:Router.current().params.doc_id
+    else
+        Docs.findOne
+            model:'classroom_stats'
+            classroom_id:@_id
+
 Template.registerHelper 'first_letter', (user) ->
     @first_name[..0]+'.'
 Template.registerHelper 'first_initial', (user) ->
     @first_name[..2]+'.'
     # moment(input).fromNow()
 Template.registerHelper 'logging_out', () -> Session.get 'logging_out'
-Template.registerHelper 'is_event', () -> @shop_type is 'event'
+Template.registerHelper 'is_credit', () -> @event_type is 'credit'
+Template.registerHelper 'is_debit', () -> @event_type is 'debit'
+
 Template.registerHelper 'is_rental', () -> @model is 'rental'
 Template.registerHelper 'is_service', () -> @model is 'service'
 Template.registerHelper 'is_product', () -> @model is 'product'
@@ -163,6 +176,7 @@ Template.registerHelper 'student_status_class', ()->
     else ''
 
 Template.registerHelper 'author', () -> Meteor.users.findOne @_author_id
+Template.registerHelper 'target_user', () -> Meteor.users.findOne @user_id
 Template.registerHelper 'is_text', () ->
     # console.log @field_type
     @field_type is 'text'
