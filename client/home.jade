@@ -10,7 +10,7 @@ template(name='home')
     // Page Contents
     .pusher
         //- .ui.vertical.masthead.center.aligned.segment
-        //-     img.ui.centered.image(src="{{c.url 'minilarge' }}")
+        //-     img.ui.centered.image(src="{{c.url 'mmmlogo' }}")
         //-     h2 the game of life
         //-     .ui.huge.button
         //-         span.f6 get started 
@@ -18,7 +18,7 @@ template(name='home')
         +home_slider
         .ui.vertical.stripe.segment
             .ui.middle.aligned.stackable.grid.container
-                h3.ui.center.aligned.header MMM's mission is to empower K-5 students with money management mindset and skills, so that they can make effective financial decisions for themselves, their families and their communities
+                h3.ui.center.aligned.header MMM's mission is to empower K-5 students with money management mindset and skills, so that they can make effective financial decisions for themselves, their families, and their communities
                 .row
                     .eight.wide.column
                         p
@@ -34,9 +34,16 @@ template(name='home')
                         //- p
                         //-     | Yes that&apos;s right, you thought it was the stuff of dreams, but even bananas can be bioengineered.
                     .six.wide.right.floated.column
-                        img.ui.rounded.image(src="{{c.url 'mmm_logo_small' width=400 height=400}}")
-                //- .row
-                //-     .center.aligned.column
+                        img.ui.rounded.image.recalc_stats(src="{{c.url 'mmm_logo_small' width=400 height=400}}")
+                        .ui.large.horizontal.list
+                            .item #{hs.user_count} users
+                            .item #{hs.teacher_count} teachers
+                            .item #{hs.donor_count} donors
+                            .item $#{hs.credit_count} money raised
+                            .item #{hs.debit_count} debits
+                            .item #{hs.credit_count} credits
+                            .item #{hs.classroom_count} classrooms
+                            .item #{hs.product_count} products in marketplace
             .ui.divider
             .ui.grid
                 .four.column.center.aligned.row

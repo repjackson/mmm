@@ -16,7 +16,8 @@ template(name='classrooms')
 template(name='classroom_card')
     .ui.card
         a(href="/classroom/#{_id}/view")
-            img.ui.fluid.image(src="{{c.url classroom_image_id width=400 height=200 crop='fill'}}")
+            img.ui.fluid.image(src="{{c.url classroom_image_id crop='lpad'}}")
+            //- img.ui.fluid.image(src="{{c.url classroom_image_id crop='lpad'}}")
         .content
             a.ui.header(href="/classroom/#{_id}/view") #{title}
             .ui.small.header net income #{net_income}
@@ -33,8 +34,9 @@ template(name='classroom_edit')
             .row
                 .four.wide.column 
                     .ui.header 
-                        i.pencil.icon
-                        | edit '#{title}' classroom
+                        small editing 
+                        strong '#{title}' 
+                        small classroom
                     a.ui.big.fluid.button(href="/classroom/#{_id}/view" title='save')
                         i.checkmark.large.green.icon
                         |save
@@ -48,29 +50,33 @@ template(name='classroom_edit')
                     .ui.stackable.grid
                         .row
                             .sixteen.wide.column
-                                .ui.top.attached.tabular.large.five.item.menu
+                                .ui.top.attached.tabular.large.six.item.stackable.menu
                                     a.active.item(data-tab="students")     
                                         +i name='groups' 
-                                        &nbsp;
+                                        |&nbsp;
                                         |students
                                     a.item(data-tab="income")
                                         +i name='deposit' 
-                                        &nbsp;
+                                        |&nbsp;
                                         |income
                                     a.item(data-tab="expenses")
                                         +i name='initiate-money-transfer' 
-                                        &nbsp;
+                                        |&nbsp;
                                         |expenses
                                     a.item(data-tab="goals")
                                         +i name='goal' 
-                                        &nbsp;
+                                        |&nbsp;
                                         |goals
                                     a.item(data-tab="shop")
                                         +i name='shop' 
-                                        &nbsp;
+                                        |&nbsp;
                                         |shop
+                                    a.item(data-tab="stock")
+                                        +i name='line-chart' 
+                                        |&nbsp;
+                                        |stock
                                 .ui.bottom.attached.active.tab.segment(data-tab='students')
-                                    .ui.header 
+                                    .ui.inline.header 
                                         +i name='students'
                                         |students
                                     if adding_student
@@ -86,19 +92,73 @@ template(name='classroom_edit')
                                         .ui.fluid.green.big.button.create_student
                                             |create student
                                     unless adding_student
-                                        .ui.button.set_adding_student
-                                            i.user.plus.icon
-                                            |add student
+                                        .ui.icon.button.set_adding_student(title='add student')
+                                            i.plus.large.green.icon
                                         +multi_user_edit key='students' direct=true
                                 .ui.bottom.attached.tab.segment(data-tab='income')
-                                    +deposit_edit_template    
+                                    +number_edit key='daily_salary_amount' label='daily salary' icon='receive-cash' direct=true
+                                    +boolean_edit key='daily' label='daily' direct=true 
+                                    +boolean_edit key='weekly' label='weekly' direct=true
+                                    +number_edit key='bonus_amount' label='bonus amount' icon='gift' direct=true
+                                    +number_edit key='overtime_amount' label='overtime amount' icon='property-time' direct=true
+                                    +number_edit key='good_grades_amount' label='good grades amount' icon='student-male' direct=true
+                                    div
+                                    .ui.button.add_credit_type
+                                        i.plus.icon
+                                        |add credit type
+                                    each class_credit_types
+                                        .ui.segment.grid
+                                            .four.wide.column
+                                                +image_edit key='image_id' label='image' direct=true
+                                                +icon_edit key='icon' direct=true
+                                            .twelve.wide.column
+                                                +text_edit key='title' direct=true
+                                                +textarea_edit key='description' direct=true
+                                                +number_edit key='amount' direct=true
+                                                +boolean_edit key='automatic' direct=true
+                                                if automatic
+                                                    +boolean_edit key='daily' label='daily' direct=true
+                                                    +boolean_edit key='weekly' label='weekly' direct=true
+                                                +remove_button
                                 .ui.bottom.attached.tab.segment(data-tab='expenses')
-                                    +expense_edit_template
-                                    +penalties_edit_template
+                                    +number_edit key='desk_rental_amount' label='desk rental amount' icon='table' direct=true
+                                    +number_edit key='janitor_amount' label='janitor amount' icon='housekeeper-male' direct=true
+                                    +number_edit key='lunch_amount' label='lunch amount' icon='lunch' direct=true
+                                    +number_edit key='fines_amount' label='fines amount' direct=true
+                                    +number_edit key='rent_supplies_amount' label='rent supplies amount' direct=true
+                                    .ui.divider
+                                    .ui.button.add_class_penalty
+                                        i.plus.icon
+                                        |add penalty
+                                    +textarea_edit key='penalty_notes' label='penalty_notes' direct=true
+                                    each class_penalties
+                                        .ui.header #{title}
                                 .ui.bottom.attached.tab.segment(data-tab='goals')
                                     +goals_edit_template
                                 .ui.bottom.attached.tab.segment(data-tab='shop')
                                     +shop
+                                .ui.bottom.attached.tab.segment(data-tab='stock')
+                                    +class_stock_edit
+
+
+template(name='class_stock_edit')
+    .ui.header stock/ownership
+    if public
+        .ui.header public
+        if shares 
+            .ui.button 
+        .ui.button.issue_stock_certificate 
+            |issue stock certificate
+        each stock_certificate
+            .ui.header #{owner_username} %#{percent}
+        .ui.header available shares
+        each available_shares
+            .ui.header ${price} for #{share_amount} shares 
+                |#{percent_price} percent price
+    else
+        .ui.header private
+        .ui.button.go_public go public
+
 
 template(name='shop_edit_template')
     .ui.button.add_shop_item 
@@ -109,12 +169,6 @@ template(name='shop_edit_template')
     
     
 template(name='penalties_edit_template')
-    .ui.button.add_class_penalty
-        i.plus.icon
-        |add penalty
-    +textarea_edit key='penalty_notes' label='penalty_notes' direct=true
-    each class_penalties
-        .ui.header #{title}
     
     
 template(name='goals_edit_template')
@@ -127,62 +181,42 @@ template(name='goals_edit_template')
     
     
     
-template(name='expense_edit_template')
-    +number_edit key='desk_rental_amount' label='desk rental amount' direct=true
-    +number_edit key='janitor_amount' label='janitor amount' direct=true
-    +number_edit key='lunch_amount' label='lunch amount' direct=true
-    +number_edit key='fines_amount' label='fines amount' direct=true
-    +number_edit key='rent_supplies_amount' label='rent supplies amount' direct=true
-    
-    
-    
-    
-template(name='deposit_edit_template')
-    +number_edit key='daily_salary_amount' label='daily salary amount' direct=true
-    +boolean_edit key='daily' label='daily' direct=true
-    +boolean_edit key='weekly' label='weekly' direct=true
-    +number_edit key='bonus_amount' label='bonus amount' direct=true
-    +number_edit key='overtime_amount' label='overtime amount' direct=true
-    +number_edit key='good_grades_amount' label='good grades amount' direct=true
-
 
 template(name='classroom_dashboard')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                //- .four.wide.column
-                //-     a.ui.big.button(href="/classroom/#{_id}/view" title='save')
-                //-         i.chevron.left.icon
-                //-         |classroom
-                //- .twelve.wide.column
-                //- .ui.large.header
-                //-     +i name='dashboard' classes='ui inline mini image'
-                //-     |classroom dashboard
                 #date_calendar.ui.calendar
                     .ui.input.left.icon
                         i.calendar.icon
                         input.date_select(type='text' placeholder='date')
+                .ui.button 
+                    +i name='calendar' classes='ui mini inline image'
+                    |disperse weekly salary
             .row
                 .sixteen.wide.column
-                    .ui.stackable.cards
+                    .ui.stackable.four.cards
                         each classroom_students
-                            .ui.small.horizontal.card
+                            .ui.small.card
                                 .image
-                                    img.ui.tiny.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
+                                    img.ui.tiny.image(src="{{c.url profile_image_id width=400 height=400 gravity='face' crop='fill'}}")
                                 .content
                                     a.header(href="/user/#{username}")
                                         |#{first_name} #{last_name} 
-                                    each classroom_credits
+                                    each individual_class_credit_types
                                         +class_credit_button
                                     each classroom_debits
                                         +class_debit_button
                                         
                                         
 template(name='class_credit_button')
-    .ui.button #{label}
+    .ui.basic.button.credit_student 
+        i.green.plus.icon
+        |#{amount}
+        |#{title}
     
 template(name='class_debit_button')
-    .ui.button #{label}
+    .ui.basic.button.debit_student #{title} -#{amount}
 
 
     
@@ -242,16 +276,16 @@ template(name='classroom_view')
                         |classrooms
                     +image_view key='classroom_image_id' label='image' direct=true
                     .ui.header
-                        small teacher:
+                        small teacher
                         | #{teacher_name}
                     .ui.header
-                        small company:
+                        small company
                         | #{company_name}
                     a.ui.large.fluid.button(href="/classroom/#{_id}/edit")
                         +i name='pencil' classes='ui inline mini image'
                         |classroom edit
                 .twelve.wide.column
-                    .ui.top.attached.tabular.large.five.item.menu
+                    .ui.top.attached.tabular.large.five.item.stackable.menu
                         a.active.item(data-tab="dashboard")     
                             +i name='dashboard' 
                             |&nbsp;
@@ -274,63 +308,26 @@ template(name='classroom_view')
                             |shop
                     .ui.bottom.attached.active.tab.segment(data-tab='dashboard')
                         .ui.two.column.stackable.grid
-                            .column
-                                +class_feed
-                            .column
-                                +class_stats
+                            .row
+                                .column
+                                    .ui.header total shares
+                                    .ui.header share price
+                                    .ui.header stock price
+                                    .ui.button buy stock
+                            .row
+                                .column
+                                    +class_feed
+                                .column
+                                    +class_stats
                         +classroom_dashboard
                     .ui.bottom.attached.tab.segment(data-tab='reports')
                         +classroom_reports
-                    .ui.bottom.attached.tab.segment(data-tab='jobs')
-                        +jobs
-                    .ui.bottom.attached.tab.segment(data-tab='loans')
-                        +loans
-                    .ui.bottom.attached.tab.segment(data-tab='shop')
-                        +shop
-                    //- div
-                    //- a.ui.massive.fluid.button(href="/classroom/#{_id}/dashboard")
-                    //-     +i name='dashboard' classes='ui inline mini image'
-                    //-     |dashboard
-                    //- div
-                    //- a.ui.massive.fluid.button(href="/classroom/#{_id}/reports")
-                    //-     +i name='invoice' classes='ui inline mini image'
-                    //-     |student reports
-                    //- .ui.stackable.grid
-                    //-     .three.column.row
-                            //- .column 
-                            //-     +class_feed
-                            //- .column
-                            //-     +class_stats
-                            //- each selected_features
-                            //-     .column
-                            //-         .ui.header 
-                            //-             +i name=icon
-                            //-             |#{title}
-                            //-         +Template.dynamic template=feature_view_template
-            //- .row
-            //-     .eight.wide.column
-            //-         .ui.header 
-            //-             +i name='students'
-            //-             |students
-            //-         each students
-            //-             .ui.header #{this}
-            //-         .ui.numbered.list
-            //-             each classroom_students
-            //-                 .item #{first_name} #{last_name}
-            //-     .eight.wide.column
-            //-         .ui.header income
-            //-         .ui.list
-            //-             .item salary #{salary}
-            //-             .item behavior #{behavior_total}
-            //-             .item jobs #{jobs_total}
-            //-             .item good grades #{jobs_total}
-            //-         .ui.header expenses
-            //-         .ui.list
-            //-             .item desk rental $#{desk_rental_amount}
-            //-             .item janitor $#{janitor_amount}
-            //-             .item lunch $#{lunch_amount}
-            //-             .item fines #{fines}
-            //-             .item rent supplies #{rent_supplies}
+                    //- .ui.bottom.attached.tab.segment(data-tab='jobs')
+                    //-     +jobs
+                    //- .ui.bottom.attached.tab.segment(data-tab='loans')
+                    //-     +loans
+                    //- .ui.bottom.attached.tab.segment(data-tab='shop')
+                    //-     +shop
 
 
 template(name='class_feed')
@@ -341,8 +338,11 @@ template(name='class_feed')
         .item Johnny was approved for a $12 loan for the pizza party
         .item Suzy was bought quiet time with the good pillow for $2
         .item Tim earned $4 for taking out the trash
-    each class_feed_items
-        .ui.header #{title}
+        each class_events
+            .item 
+                +i name=icon
+                |#{text}
+                .meta #{when}
 
 template(name='class_stats')
     .ui.header 
@@ -359,16 +359,6 @@ template(name='class_stats')
         | expenses
         
         
-
-
-
-
-
-
-
-
-
-
 
 
 

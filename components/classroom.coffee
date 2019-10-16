@@ -25,6 +25,7 @@ if Meteor.isClient
     Template.classroom_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'feature'
+        @autorun => Meteor.subscribe 'model_docs', 'class_credit_type'
         Session.set 'permission', false
     Template.classroom_edit.onRendered ->
         Meteor.setTimeout ->
@@ -32,12 +33,16 @@ if Meteor.isClient
         , 1000
         Meteor.setTimeout ->
             $('.accordion').accordion()
-        , 1000
+        , 750
 
     Template.classroom_edit.helpers
         features: ->
             Docs.find
                 model:'feature'
+        class_credit_types: ->
+            Docs.find
+                model:'class_credit_type'
+                classroom_id: Router.current().params.doc_id
         feature_edit_template: ->
             "#{@title}_edit_template"
 
@@ -55,6 +60,10 @@ if Meteor.isClient
             Session.get 'adding_student'
 
     Template.classroom_edit.events
+        'click .add_credit_type': ->
+            Docs.insert
+                model:'class_credit_type'
+                classroom_id: Router.current().params.doc_id
         'click .set_adding_student': ->
             Session.set 'adding_student', true
         'click .toggle_feature': ->
@@ -115,6 +124,7 @@ if Meteor.isClient
     Template.classroom_dashboard.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'model_docs', 'class_credit_type'
     Template.classroom_dashboard.onRendered ->
         Meteor.setTimeout ->
             $('#date_calendar')
@@ -123,6 +133,11 @@ if Meteor.isClient
                 })
         , 700
     Template.classroom_dashboard.helpers
+        individual_class_credit_types: ->
+            Docs.find
+                model:'credit_type'
+                weekly:$ne:true
+                classroom_id: Router.current().params.doc_id
         classroom_students: ->
             Meteor.users.find()
     Template.classroom_dashboard.events
@@ -138,7 +153,40 @@ if Meteor.isClient
                 $inc:credit:-2
             $(e.currentTarget).closest('.credit_view').transition('pulse', 200)
 
+    Template.class_credit_button.events
+        'click .credit_student': ->
+            student = Template.parentData()
+            console.log @
+            Meteor.users.update student._id,
+                $inc:credit:@amount
 
+
+
+    Template.class_debit_button.events
+        'click .debit_student': ->
+            console.log @
+
+    Template.class_stock_edit.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'available_share'
+    Template.class_stock_edit.helpers
+        available_shares: ->
+            Docs.find
+                model:'available_share'
+        stock_certificate: ->
+            Docs.find
+                model:'stock_certificate'
+                classroom_id: Router.current().params.doc_id
+
+        available_shares: ->
+            Docs.find
+                model:'stock_certificate'
+                classroom_id: Router.current().params.doc_id
+
+    Template.class_stock_edit.events
+        'click .go_public': ->
+            if confirm 'go public?'
+                Docs.update @_id,
+                    $set:public:true
 
 
 
@@ -193,11 +241,11 @@ if Meteor.isClient
 
 
     Template.class_feed.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'feed'
+        @autorun => Meteor.subscribe 'model_docs', 'class_event'
     Template.class_feed.helpers
         class_feed_items: ->
             Docs.find
-                model:'feed'
+                model:'class_event'
 
 
 

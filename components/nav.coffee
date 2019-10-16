@@ -3,26 +3,24 @@ if Meteor.isClient
         'click .shortcut_modal': ->
             $('.ui.shortcut.modal').modal('show')
     Template.nav.onRendered ->
-        # @autorun =>
-        #     if @subscriptionsReady()
-        #         Meteor.setTimeout ->
-        #             $('.menu_dropdown').dropdown(
-        #                 on:'hover'
-        #             )
-        #         , 3000
+        Meteor.setTimeout ->
+            $('.dropdown').dropdown(
+                on:'click'
+            )
+        , 1000
 
         Meteor.setTimeout ->
             $('.item').popup(
                 preserve:true;
                 hoverable:false;
             )
-        , 3000
+        , 1000
 
 
 
     Template.nav.events
-        'mouseenter .item': (e,t)->
-            $(e.currentTarget).closest('.item').transition('pulse', 400)
+        # 'mouseenter .item': (e,t)->
+            # $(e.currentTarget).closest('.item').transition('pulse', 400)
         'click .menu_dropdown': ->
             $('.menu_dropdown').dropdown(
                 on:'hover'

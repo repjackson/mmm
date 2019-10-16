@@ -5,9 +5,8 @@ template(name='shop')
                 .ui.inline.header 
                     +i name='shop'
                     |shop
-                .ui.button.add_product
+                .ui.iocn.button.add_product(title='add product')
                     +i name='plus' classes='ui inline mini image'
-                    |product
                 .ui.hidden.divider
                 .ui.stackable.four.cards
                     each products
@@ -18,7 +17,7 @@ template(name='shop_card')
     a.ui.card(href="/shop/#{_id}/view")
         img.ui.fluid.image(src="{{c.url shop_image_id width=400 height=200 crop='fill'}}")
         .content
-            .ui.large.inline.header #{title}
+            .ui.inline.header #{title}
             .ui.big.inline.header $#{price}
             div
             //- i.dollar.icon

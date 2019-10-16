@@ -5,49 +5,19 @@ template(name='jobs')
                 .ui.inline.header 
                     +i name='find-matching-job'
                     |jobs
-                .ui.icon.button.add_job
+                .ui.button.add_job
                     +i name='plus' classes='ui inline mini image'
-                .ui.stackable.cards
+                    |add job    
+                .ui.stackable.five.cards
                     each jobs
-                        .ui.card
-                            img.ui.fluid.image(src="{{c.url job_image_id width=400 height=200 crop='fill'}}")
-                            .content
-                                a.ui.header(href="/job/#{_id}/view") #{title}
-                                .ui.small.header net income #{net_income}
+                        +job_card
 
 template(name='job_card')
     //- .ui.card    
     a.ui.card(href="/job/#{_id}/view")
+        img.ui.fluid.image(src="{{c.url job_image_id width=400 height=200 crop='fill'}}")
         .content
-            .ui.large.header #{job_number}
-            //- .ui.small.header school #{school_code}
-            //- a.ui.large.button(href="/job/#{_id}")
-            //-     i.yellow.right.chevron.icon
-            div
-            +i name='rent' title='owner(s)'
-            //- i.dollar.icon
-            each owners
-                .ui.basic.large.label
-                    if kiosk_photo
-                        img.ui.rounded.image(src="{{c.url kiosk_photo width=200 height=200 gravity='face' crop='fill'}}")
-                    else if image_id
-                        img.ui.rounded.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
-                    |#{first_name} #{last_name}
-            div
-            //- i.home.icon
-            +i name='home' title='renters'
-            each residents
-                .ui.basic.large.label
-                    if kiosk_photo
-                        img.ui.rounded.image(src="{{c.url kiosk_photo width=200 height=200 gravity='face' crop='fill'}}")
-                    else if image_id
-                        img.ui.rounded.image(src="{{c.url image_id width=200 height=200 gravity='face' crop='fill'}}")
-                    |#{first_name} #{last_name}
-            div
-            .ui.small.header #{notes}
-            if is_dev
-                +number_view key='school_number' direct=true
-                +number_view key='job_number' direct=true
+            a.ui.header(href="/job/#{_id}/view") #{title}
                     
 
 
