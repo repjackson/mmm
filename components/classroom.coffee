@@ -1,18 +1,48 @@
 if Meteor.isClient
     Router.route '/classrooms', ->
         @render 'classrooms'
-    Router.route '/classroom/:doc_id/view', (->
-        @layout 'layout'
-        @render 'classroom_view'
+    Router.route '/classroom/:doc_id/', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_dashboard'
         ), name:'classroom_view'
     Router.route '/classroom/:doc_id/dashboard', (->
-        @layout 'layout'
+        @layout 'classroom_view_layout'
         @render 'classroom_dashboard'
         ), name:'classroom_dashboard'
     Router.route '/classroom/:doc_id/reports', (->
-        @layout 'layout'
+        @layout 'classroom_view_layout'
         @render 'classroom_reports'
         ), name:'classroom_reports'
+    Router.route '/classroom/:doc_id/stats', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_stats'
+        ), name:'classroom_stats'
+    Router.route '/classroom/:doc_id/students', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_students'
+        ), name:'classroom_students'
+    Router.route '/classroom/:doc_id/feed', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_feed'
+        ), name:'classroom_feed'
+    Router.route '/classroom/:doc_id/leaderboard', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_leaderboard'
+        ), name:'classroom_leaderboard'
+    Router.route '/classroom/:doc_id/grades', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_grades'
+        ), name:'classroom_grades'
+    Router.route '/classroom/:doc_id/shop', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_shop'
+        ), name:'classroom_shop'
+    Router.route '/classroom/:doc_id/services', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_services'
+        ), name:'classroom_services'
+
+
     Router.route '/classroom/:doc_id/edit', (->
         @layout 'layout'
         @render 'classroom_edit'
@@ -25,11 +55,14 @@ if Meteor.isClient
     Template.classroom_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'feature'
-        @autorun => Meteor.subscribe 'model_docs', 'class_credit_type'
+        @autorun => Meteor.subscribe 'model_docs', 'credit_type'
         Session.set 'permission', false
     Template.classroom_edit.onRendered ->
         Meteor.setTimeout ->
-            $('.tabular.menu .item').tab()
+            $('.tabular.menu .item').tab(
+                history: true,
+                historyType: 'hash'
+            )
         , 1000
         Meteor.setTimeout ->
             $('.accordion').accordion()
@@ -39,10 +72,17 @@ if Meteor.isClient
         features: ->
             Docs.find
                 model:'feature'
-        class_credit_types: ->
+
+        credit_types: ->
             Docs.find
-                model:'class_credit_type'
+                model:'credit_type'
                 classroom_id: Router.current().params.doc_id
+
+        debit_types: ->
+            Docs.find
+                model:'debit_type'
+                classroom_id: Router.current().params.doc_id
+
         feature_edit_template: ->
             "#{@title}_edit_template"
 
@@ -56,13 +96,14 @@ if Meteor.isClient
                 _id: $in: classroom.feature_ids
                 model:'feature'
             ).fetch()
+
         adding_student: ->
             Session.get 'adding_student'
 
     Template.classroom_edit.events
         'click .add_credit_type': ->
             Docs.insert
-                model:'class_credit_type'
+                model:'credit_type'
                 classroom_id: Router.current().params.doc_id
         'click .set_adding_student': ->
             Session.set 'adding_student', true
@@ -124,7 +165,7 @@ if Meteor.isClient
     Template.classroom_dashboard.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'model_docs', 'class_credit_type'
+        @autorun => Meteor.subscribe 'model_docs', 'credit_type'
     Template.classroom_dashboard.onRendered ->
         Meteor.setTimeout ->
             $('#date_calendar')
@@ -133,13 +174,14 @@ if Meteor.isClient
                 })
         , 700
     Template.classroom_dashboard.helpers
-        individual_class_credit_types: ->
+        individual_credit_types: ->
             Docs.find
                 model:'credit_type'
-                weekly:$ne:true
+                # weekly:$ne:true
                 classroom_id: Router.current().params.doc_id
         classroom_students: ->
             Meteor.users.find()
+
     Template.classroom_dashboard.events
         'change .date_select': ->
             console.log $('.date_select').val()
@@ -214,16 +256,16 @@ if Meteor.isClient
 
 
 
-    Template.classroom_view.onCreated ->
+    Template.classroom_view_layout.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'feature'
-    Template.classroom_view.onRendered ->
+    Template.classroom_view_layout.onRendered ->
         Meteor.call 'increment_view', Router.current().params.doc_id, ->
         Meteor.setTimeout ->
             $('.tabular.menu .item').tab()
         , 1000
 
-    Template.classroom_view.helpers
+    Template.classroom_view_layout.helpers
         features: ->
             Docs.find
                 model:'feature'
@@ -240,10 +282,10 @@ if Meteor.isClient
 
 
 
-    Template.class_feed.onCreated ->
+    Template.classroom_feed.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'class_event'
-    Template.class_feed.helpers
-        class_feed_items: ->
+    Template.classroom_feed.helpers
+        class_events: ->
             Docs.find
                 model:'class_event'
 

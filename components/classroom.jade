@@ -26,160 +26,100 @@ template(name='classroom_card')
                 i.right.arrow.icon
 
                     
-
-
-template(name='classroom_edit')
+template(name='classroom_view_layout')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .four.wide.column 
-                    .ui.header 
-                        small editing 
-                        strong '#{title}' 
-                        small classroom
-                    a.ui.big.fluid.button(href="/classroom/#{_id}/view" title='save')
-                        i.checkmark.large.green.icon
-                        |save
-                    +remove_button
-                    +text_edit key='title' direct=true
-                    +text_edit key='company_name' label='company name' direct=true
-                    +image_edit key='classroom_image_id' label='image' direct=true
-                    +textarea_edit key='description' label='description' icon='content' direct=true
-                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                .four.wide.column
+                    a.ui.fluid.small.button(href="/classrooms")
+                        i.chevron.left.icon
+                        +i name='classroom' classes='ui inline mini image'
+                        |classrooms
+                    .ui.vertical.fluid.large.pointing.menu
+                        a.item(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
+                            i.icon
+                                +ismall name='home'
+                            |dashboard
+                        a.item(href="/classroom/#{_id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
+                            i.icon
+                                +ismall name='invoice'
+                            | reports
+                        a.item(href="/classroom/#{_id}/students" class="{{isActiveRoute regex='classroom_students'}}")
+                            i.icon
+                                +ismall name='students'
+                            | students
+                        a.item(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
+                            i.icon
+                                +ismall name='rss'
+                            | feed
+                        a.item(href="/classroom/#{_id}/stats" class="{{isActiveRoute regex='classroom_stats'}}")
+                            i.icon
+                                +ismall name='chart'
+                            | stats
+                        a.item(href="/classroom/#{_id}/grades" class="{{isActiveRoute regex='classroom_grades'}}")
+                            |grades
+                            i.icon
+                                +ismall name='leaderboard'
+                        a.item(href="/classroom/#{_id}/jobs" class="{{isActiveRoute regex='classroom_jobs'}}")
+                            |jobs
+                            i.icon
+                                +ismall name='business'
+                        a.item(href="/classroom/#{_id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
+                            i.icon
+                                +ismall name='shop'
+                            |shop
+                        a.item(href="/classroom/#{_id}/services" class="{{isActiveRoute regex='classroom_services'}}")
+                            i.icon
+                                +ismall name='service'
+                            |services
+                        a.item(href="/classroom/#{_id}/stock" class="{{isActiveRoute regex='classroom_stock'}}")
+                            i.icon
+                                +ismall name='stock'
+                            |stock
+                        a.item(href="/classroom/#{_id}/loans" class="{{isActiveRoute regex='classroom_loans'}}")
+                            |loans
+                            i.icon
+                                +ismall name='debt'
+                    +image_view key='classroom_image_id' label='image' direct=true
+                    .ui.header
+                        small teacher
+                        | #{teacher_name}
+                    .ui.header
+                        small company
+                        | #{company_name}
+                    a.ui.fluid.button(href="/classroom/#{_id}/edit")
+                        +i name='pencil' classes='ui inline mini image'
+                        | edit
                 .twelve.wide.column
-                    .ui.stackable.grid
-                        .row
-                            .sixteen.wide.column
-                                .ui.top.attached.tabular.large.six.item.stackable.menu
-                                    a.active.item(data-tab="students")     
-                                        +i name='groups' 
-                                        |&nbsp;
-                                        |students
-                                    a.item(data-tab="income")
-                                        +i name='deposit' 
-                                        |&nbsp;
-                                        |income
-                                    a.item(data-tab="expenses")
-                                        +i name='initiate-money-transfer' 
-                                        |&nbsp;
-                                        |expenses
-                                    a.item(data-tab="goals")
-                                        +i name='goal' 
-                                        |&nbsp;
-                                        |goals
-                                    a.item(data-tab="shop")
-                                        +i name='shop' 
-                                        |&nbsp;
-                                        |shop
-                                    a.item(data-tab="stock")
-                                        +i name='line-chart' 
-                                        |&nbsp;
-                                        |stock
-                                .ui.bottom.attached.active.tab.segment(data-tab='students')
-                                    .ui.inline.header 
-                                        +i name='students'
-                                        |students
-                                    if adding_student
-                                        .ui.header adding student
-                                        .ui.large.form
-                                            .field
-                                                input#first_name(type='text' placeholder='first name' autocomplete='off')
-                                            .field
-                                                input#last_name(type='text' placeholder='last name' autocomplete='off')
-                                            //- .field
-                                            //-     |Username
-                                            //-     input#username(type='text')
-                                        .ui.fluid.green.big.button.create_student
-                                            |create student
-                                    unless adding_student
-                                        .ui.icon.button.set_adding_student(title='add student')
-                                            i.plus.large.green.icon
-                                        +multi_user_edit key='students' direct=true
-                                .ui.bottom.attached.tab.segment(data-tab='income')
-                                    +number_edit key='daily_salary_amount' label='daily salary' icon='receive-cash' direct=true
-                                    +boolean_edit key='daily' label='daily' direct=true 
-                                    +boolean_edit key='weekly' label='weekly' direct=true
-                                    +number_edit key='bonus_amount' label='bonus amount' icon='gift' direct=true
-                                    +number_edit key='overtime_amount' label='overtime amount' icon='property-time' direct=true
-                                    +number_edit key='good_grades_amount' label='good grades amount' icon='student-male' direct=true
-                                    div
-                                    .ui.button.add_credit_type
-                                        i.plus.icon
-                                        |add credit type
-                                    each class_credit_types
-                                        .ui.segment.grid
-                                            .four.wide.column
-                                                +image_edit key='image_id' label='image' direct=true
-                                                +icon_edit key='icon' direct=true
-                                            .twelve.wide.column
-                                                +text_edit key='title' direct=true
-                                                +textarea_edit key='description' direct=true
-                                                +number_edit key='amount' direct=true
-                                                +boolean_edit key='automatic' direct=true
-                                                if automatic
-                                                    +boolean_edit key='daily' label='daily' direct=true
-                                                    +boolean_edit key='weekly' label='weekly' direct=true
-                                                +remove_button
-                                .ui.bottom.attached.tab.segment(data-tab='expenses')
-                                    +number_edit key='desk_rental_amount' label='desk rental amount' icon='table' direct=true
-                                    +number_edit key='janitor_amount' label='janitor amount' icon='housekeeper-male' direct=true
-                                    +number_edit key='lunch_amount' label='lunch amount' icon='lunch' direct=true
-                                    +number_edit key='fines_amount' label='fines amount' direct=true
-                                    +number_edit key='rent_supplies_amount' label='rent supplies amount' direct=true
-                                    .ui.divider
-                                    .ui.button.add_class_penalty
-                                        i.plus.icon
-                                        |add penalty
-                                    +textarea_edit key='penalty_notes' label='penalty_notes' direct=true
-                                    each class_penalties
-                                        .ui.header #{title}
-                                .ui.bottom.attached.tab.segment(data-tab='goals')
-                                    +goals_edit_template
-                                .ui.bottom.attached.tab.segment(data-tab='shop')
-                                    +shop
-                                .ui.bottom.attached.tab.segment(data-tab='stock')
-                                    +class_stock_edit
+                    +yield
 
 
-template(name='class_stock_edit')
-    .ui.header stock/ownership
-    if public
-        .ui.header public
-        if shares 
-            .ui.button 
-        .ui.button.issue_stock_certificate 
-            |issue stock certificate
-        each stock_certificate
-            .ui.header #{owner_username} %#{percent}
-        .ui.header available shares
-        each available_shares
-            .ui.header ${price} for #{share_amount} shares 
-                |#{percent_price} percent price
-    else
-        .ui.header private
-        .ui.button.go_public go public
+template(name='class_stock')
+    .ui.bottom.attached.active.tab.segment(data-tab='dashboard')
+        .ui.two.column.stackable.grid
+            .row
+                .column
+                    .ui.header total shares
+                    .ui.header share price
+                    .ui.header stock price
+                    .ui.button buy stock
+            .row
+                .column
+                    +class_feed
+                .column
+                    +class_stats
+
+template(name='classroom_jobs')        
+    +jobs
+
+template(name='classroom_loans')
+    +loans
+
+template(name='classroom_shop')        
+    +shop
 
 
-template(name='shop_edit_template')
-    .ui.button.add_shop_item 
-        i.plus.icon
-        |add item
-    each classroom_shop_items
-        .ui.header #{title}
-    
-    
-template(name='penalties_edit_template')
-    
-    
-template(name='goals_edit_template')
-    .ui.button.add_class_goal 
-        i.plus.icon
-        |add goal
-    +textarea_edit key='goals_notes' label='goals notes' direct=true
-    each class_goals
-        .ui.header #{title}
-    
-    
+
     
 
 template(name='classroom_dashboard')
@@ -203,9 +143,10 @@ template(name='classroom_dashboard')
                                 .content
                                     a.header(href="/user/#{username}")
                                         |#{first_name} #{last_name} 
-                                    each individual_class_credit_types
+                                    .ui.small.header #{credit}c
+                                    each individual_credit_types
                                         +class_credit_button
-                                    each classroom_debits
+                                    each classroom_debit_types
                                         +class_debit_button
                                         
                                         
@@ -265,72 +206,9 @@ template(name='classroom_reports')
                                         .ui.large.header.credit_view $#{credit}
 
 
-template(name='classroom_view')
-    with current_doc
-        .ui.stackable.padded.grid
-            .row
-                .four.wide.column
-                    a.ui.fluid.small.button(href="/classrooms")
-                        i.chevron.left.icon
-                        +i name='classroom' classes='ui inline mini image'
-                        |classrooms
-                    +image_view key='classroom_image_id' label='image' direct=true
-                    .ui.header
-                        small teacher
-                        | #{teacher_name}
-                    .ui.header
-                        small company
-                        | #{company_name}
-                    a.ui.large.fluid.button(href="/classroom/#{_id}/edit")
-                        +i name='pencil' classes='ui inline mini image'
-                        |classroom edit
-                .twelve.wide.column
-                    .ui.top.attached.tabular.large.five.item.stackable.menu
-                        a.active.item(data-tab="dashboard")     
-                            +i name='dashboard' 
-                            |&nbsp;
-                            |dashboard
-                        a.item(data-tab="reports")
-                            +i name='invoice' 
-                            |&nbsp;
-                            |reports
-                        a.item(data-tab="jobs")
-                            +i name='business' 
-                            |&nbsp;
-                            |jobs
-                        a.item(data-tab="loans")
-                            +i name='debt' 
-                            |&nbsp;
-                            |loans
-                        a.item(data-tab="shop")
-                            +i name='shop' 
-                            |&nbsp;
-                            |shop
-                    .ui.bottom.attached.active.tab.segment(data-tab='dashboard')
-                        .ui.two.column.stackable.grid
-                            .row
-                                .column
-                                    .ui.header total shares
-                                    .ui.header share price
-                                    .ui.header stock price
-                                    .ui.button buy stock
-                            .row
-                                .column
-                                    +class_feed
-                                .column
-                                    +class_stats
-                        +classroom_dashboard
-                    .ui.bottom.attached.tab.segment(data-tab='reports')
-                        +classroom_reports
-                    //- .ui.bottom.attached.tab.segment(data-tab='jobs')
-                    //-     +jobs
-                    //- .ui.bottom.attached.tab.segment(data-tab='loans')
-                    //-     +loans
-                    //- .ui.bottom.attached.tab.segment(data-tab='shop')
-                    //-     +shop
 
 
-template(name='class_feed')
+template(name='classroom_feed')
     .ui.header 
         +i name='rss'
         |feed
@@ -344,7 +222,7 @@ template(name='class_feed')
                 |#{text}
                 .meta #{when}
 
-template(name='class_stats')
+template(name='classroom_stats')
     .ui.header 
         +i name='line-chart'
         |stats
@@ -357,12 +235,6 @@ template(name='class_stats')
         div
         .ui.red.inline.header -$50
         | expenses
-        
-        
-
-
-
-template(name='classroom_stats')
     //- .ui.accordion
     //-     .title
     .ui.header.refresh_classroom_stats
