@@ -3,7 +3,7 @@ if Meteor.isClient
         @render 'classrooms'
     Router.route '/classroom/:doc_id/', (->
         @layout 'classroom_view_layout'
-        @render 'classroom_dashboard'
+        @render 'classroom_students'
         ), name:'classroom_view'
     Router.route '/classroom/:doc_id/dashboard', (->
         @layout 'classroom_view_layout'
@@ -110,6 +110,11 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'model_docs', 'credit_type'
         @autorun => Meteor.subscribe 'model_docs', 'debit_type'
         @autorun => Meteor.subscribe 'model_docs', 'classroom_event'
+    Template.classroom_students.onRendered ->
+        Meteor.setTimeout ->
+            $('.accordion').accordion()
+        , 1000
+
     Template.classroom_students.helpers
         classroom_students: ->
             Meteor.users.find()
@@ -129,6 +134,41 @@ if Meteor.isClient
                 user_id: @_id
 
     Template.classroom_students.events
+        'click .add_bonus': ->
+            # alert 'hi'
+            student = Template.parentData()
+            classroom = Docs.findOne Router.current().params.doc_id
+            # console.log @
+            Meteor.users.update @_id,
+                $inc:credit:classroom.bonus_amount
+            Docs.insert
+                model:'classroom_event'
+                event_type:'credit'
+                amount: classroom.bonus_amount
+                event_type_id: @_id
+                text:"was credited 1 for #{@title}"
+                user_id: student._id
+                classroom_id: Router.current().params.doc_id
+
+
+        'click .add_fine': ->
+            # alert 'hi'
+            student = Template.parentData()
+            classroom = Docs.findOne Router.current().params.doc_id
+
+            Meteor.users.update @_id,
+                $inc:credit:-classroom.fines_amount
+            Docs.insert
+                model:'classroom_event'
+                event_type:'debit'
+                amount: classroom.fines_amount
+                event_type_id: @_id
+                text:"was debited 1 for #{@title}"
+                user_id: student._id
+                classroom_id: Router.current().params.doc_id
+
+
+
         'change .date_select': ->
             console.log $('.date_select').val()
 
@@ -250,10 +290,12 @@ if Meteor.isClient
                 model:'classroom_event'
 
     Template.classroom_feed.events
-        'click .remove': ->
+        'click .remove': (e,t)->
             if confirm  "undo #{@event_type}?"
-                # console.log @
-                Docs.remove @_id
+                $(e.currentTarget).closest('.event').transition('fly right', 1000)
+                Meteor.setTimeout =>
+                    Docs.remove @_id
+                , 1000
                 if @event_type is 'credit'
                     Meteor.users.update @user_id,
                         $inc:credit:-@amount

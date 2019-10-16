@@ -112,27 +112,72 @@ template(name='profile_view')
                                     .ui.header 
                                         +i name='deposit'
                                         |weekly paycheck (credits)
-                                    .ui.bulleted.list
+                                    //- .ui.bulleted.list
+                                    //-     each user_credits
+                                    //-         .item 
+                                    //-             |#{amount}
+                                    //-             if icon
+                                    //-                 +i name=icon
+                                    //-             strong #{text}
+                                    //-             small #{when}
+                                    .ui.feed.mediumscroll
                                         each user_credits
-                                            .item 
-                                                |#{amount}
-                                                if icon
-                                                    +i name=icon
-                                                strong #{text}
-                                                small #{when}
+                                            .event 
+                                                .label
+                                                    if is_credit
+                                                        +i name='deposit' classes='ui inline mini image'
+                                                    if is_debit
+                                                        +i name='withdrawal' classes='ui inline mini image'
+                                                    else if icon
+                                                        +i name=icon
+                                                .content
+                                                    .summary
+                                                        a.user(href="/user/#{target_user.username}")
+                                                            |#{target_user.name}
+                                                        |#{text}
+                                                        .date #{when}
+                                                    .meta
+                                                        +voting_small
+                                                        //- a.like
+                                                        //-     i.like.icon 
+                                                        //-     |4 likes
+                                                        a.remove
+                                                            i.undo.icon
+                                                        //- if is_dev
+                                                        //-     +remove_button
+            
+                                                
+                                                
                             .column
                                 .ui.segment
                                     .ui.header 
                                         +i name='withdrawal'
                                         |weekly expenses (debits)
-                                    .ui.bulleted.list
+                                    .ui.feed.mediumscroll
                                         each user_debits
-                                            .item 
-                                                |#{amount}
-                                                if icon
-                                                    +i name=icon
-                                                strong #{text}
-                                                small #{when}
+                                            .event 
+                                                .label
+                                                    if is_credit
+                                                        +i name='deposit' classes='ui inline mini image'
+                                                    if is_debit
+                                                        +i name='withdrawal' classes='ui inline mini image'
+                                                    else if icon
+                                                        +i name=icon
+                                                .content
+                                                    .summary
+                                                        a.user(href="/user/#{target_user.username}")
+                                                            |#{target_user.name}
+                                                        |#{text}
+                                                        .date #{when}
+                                                    .meta
+                                                        +voting_small
+                                                        //- a.like
+                                                        //-     i.like.icon 
+                                                        //-     |4 likes
+                                                        a.remove
+                                                            i.undo.icon
+                                                        //- if is_dev
+                                                        //-     +remove_button
                 
                         //- +range_edit                
 template(name='user_log')

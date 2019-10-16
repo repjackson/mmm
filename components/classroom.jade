@@ -44,46 +44,51 @@ template(name='classroom_view_layout')
                     a.ui.fluid.button(href="/classroom/#{_id}/edit")
                         +i name='pencil' classes='ui inline mini image'
                         | edit
+                    .ui.segment
+                        .ui.header weekly actions
+                        .ui.button income
+                        .ui.button desk rental
+                
                 .twelve.wide.column
-                    a.ui.button(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
+                    a.ui.large.button(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
                         +ismall name='home'
-                        |dashboard
-                    a.ui.button(href="/classroom/#{_id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
+                        |feed
+                    a.ui.large.button(href="/classroom/#{_id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
                         +ismall name='invoice'
                         | reports
-                    a.ui.button(href="/classroom/#{_id}/students" class="{{isActiveRoute regex='classroom_students'}}")
+                    a.ui.large.button(href="/classroom/#{_id}/students" class="{{isActiveRoute regex='classroom_students'}}")
                         +ismall name='students'
-                        | students
-                    a.ui.button(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
-                        +ismall name='rss'
-                        | feed
-                    a.ui.button(href="/classroom/#{_id}/stats" class="{{isActiveRoute regex='classroom_stats'}}")
-                        +ismall name='line-chart'
-                        | stats
-                    a.ui.button(href="/classroom/#{_id}/credits" class="{{isActiveRoute regex='classroom_credits'}}")
-                        +ismall name='chevron-up'
-                        | credits
-                    a.ui.button(href="/classroom/#{_id}/debits" class="{{isActiveRoute regex='classroom_debits'}}")
-                        +ismall name='chevron-down'
-                        | debits
-                    a.ui.button(href="/classroom/#{_id}/grades" class="{{isActiveRoute regex='classroom_grades'}}")
-                        +ismall name='leaderboard'
-                        |grades
-                    a.ui.button(href="/classroom/#{_id}/jobs" class="{{isActiveRoute regex='classroom_jobs'}}")
-                        +ismall name='business'
-                        |jobs
-                    a.ui.button(href="/classroom/#{_id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
-                        +ismall name='shop'
-                        |shop
-                    a.ui.button(href="/classroom/#{_id}/services" class="{{isActiveRoute regex='classroom_services'}}")
-                        +ismall name='service'
-                        |services
-                    a.ui.button(href="/classroom/#{_id}/stock" class="{{isActiveRoute regex='classroom_stock'}}")
-                        +ismall name='pie-chart'
-                        |stock
-                    a.ui.button(href="/classroom/#{_id}/loans" class="{{isActiveRoute regex='classroom_loans'}}")
-                        +ismall name='debt'
-                        |loans
+                        | dashboard
+                    //- a.ui.button(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
+                    //-     +ismall name='rss'
+                    //-     | feed
+                    //- a.ui.button(href="/classroom/#{_id}/stats" class="{{isActiveRoute regex='classroom_stats'}}")
+                    //-     +ismall name='line-chart'
+                    //-     | stats
+                    //- a.ui.button(href="/classroom/#{_id}/credits" class="{{isActiveRoute regex='classroom_credits'}}")
+                    //-     +ismall name='chevron-up'
+                    //-     | credits
+                    //- a.ui.button(href="/classroom/#{_id}/debits" class="{{isActiveRoute regex='classroom_debits'}}")
+                    //-     +ismall name='chevron-down'
+                    //-     | debits
+                    //- a.ui.button(href="/classroom/#{_id}/grades" class="{{isActiveRoute regex='classroom_grades'}}")
+                    //-     +ismall name='leaderboard'
+                    //-     |grades
+                    //- a.ui.button(href="/classroom/#{_id}/jobs" class="{{isActiveRoute regex='classroom_jobs'}}")
+                    //-     +ismall name='business'
+                    //-     |jobs
+                    //- a.ui.button(href="/classroom/#{_id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
+                    //-     +ismall name='shop'
+                    //-     |shop
+                    //- a.ui.button(href="/classroom/#{_id}/services" class="{{isActiveRoute regex='classroom_services'}}")
+                    //-     +ismall name='service'
+                    //-     |services
+                    //- a.ui.button(href="/classroom/#{_id}/stock" class="{{isActiveRoute regex='classroom_stock'}}")
+                    //-     +ismall name='pie-chart'
+                    //-     |stock
+                    //- a.ui.button(href="/classroom/#{_id}/loans" class="{{isActiveRoute regex='classroom_loans'}}")
+                    //-     +ismall name='debt'
+                    //-     |loans
                     +yield
 
 
@@ -136,26 +141,55 @@ template(name='classroom_dashboard')
                     +classroom_stats
                     
 template(name='classroom_students')
-    .ui.divided.items
+    .ui.styled.accordion
         each classroom_students
-            .ui.item
-                .image
-                    img.ui.mini.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
-                .content
-                    a.header(href="/user/#{username}")
-                        |#{first_name} #{last_name} 
-                    .ui.small.header #{credit}c
-                    .description
-                        each individual_credit_types
-                            +class_credit_button
-                        each classroom_debit_types
-                            +class_debit_button
-                .extra.content
-                    .ui.list
-                        each student_events
-                            .item #{text} #{when}
-                                +remove_button
-                                        
+            .title
+                img.ui.avatar.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
+                .ui.inline.small.header
+                    |#{first_name} #{last_name} 
+                    .ui.small.inline.header #{credit}c
+                i.green.plus.circle.large.icon.add_bonus
+                i.red.minus.circle.large.icon.add_fine
+            //- .ui.item
+            //- .image
+            .content
+                a.ui.green.large.right.floated.button(href="/user/#{username}")
+                    |view profile
+                    i.right.chevron.icon
+                .description
+                    .ui.two.column.stackable.grid
+                        .column
+                            .ui.vertical.buttons
+                                each individual_credit_types
+                                    +class_credit_button
+                        .column
+                            .ui.vertical.buttons
+                                each classroom_debit_types
+                                    +class_debit_button
+                //- .extra.content.smallscroll
+                //-     .ui.list
+                //-         each student_events
+                //-             .item #{text} #{when}
+                //-                 +remove_button
+                                
+            //- .ui.item
+            //-     .image
+            //-         img.ui.mini.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
+            //-     .content
+            //-         a.header(href="/user/#{username}")
+            //-             |#{first_name} #{last_name} 
+            //-         .ui.small.header #{credit}c
+            //-         .description
+            //-             each individual_credit_types
+            //-                 +class_credit_button
+            //-             each classroom_debit_types
+            //-                 +class_debit_button
+            //-     .extra.content.smallscroll
+            //-         .ui.list
+            //-             each student_events
+            //-                 .item #{text} #{when}
+            //-                     +remove_button
+            //- 
                                         
 template(name='class_credit_button')
     .ui.basic.button.credit_student 
@@ -222,7 +256,7 @@ template(name='classroom_feed')
     .ui.header 
         +i name='rss'
         |feed
-    .ui.feed
+    .ui.feed.mediumscroll
         each classroom_events
             .event 
                 .label
@@ -235,7 +269,7 @@ template(name='classroom_feed')
                         +i name=icon
                 .content
                     .summary
-                        a.user 
+                        a.user(href="/user/#{target_user.username}")
                             |#{target_user.name}
                         |#{text}
                         .date #{when}
