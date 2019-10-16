@@ -40,3 +40,4 @@ lookback:emails
 percolate:synced-cron
 flowkey:hotkeys
 modules@0.13.0
+kevohagan:sweetalert

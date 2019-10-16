@@ -16,13 +16,13 @@ template(name='classroom_edit')
                     +text_edit key='title' direct=true
                     +text_edit key='company_name' label='company name' direct=true
                     +image_edit key='classroom_image_id' label='image' direct=true
-                    +textarea_edit key='description' label='description' icon='content' direct=true
+                    +textarea_edit key='description' label='description' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                 .twelve.wide.column
                     .ui.stackable.grid
                         .row
                             .sixteen.wide.column
-                                .ui.top.attached.tabular.large.six.item.stackable.menu
+                                .ui.top.attached.tabular.large.three.item.stackable.menu
                                     a.active.item(data-tab="students")     
                                         +ismall name='groups' 
                                         |&nbsp;
@@ -35,21 +35,21 @@ template(name='classroom_edit')
                                         +ismall name='initiate-money-transfer' 
                                         |&nbsp;
                                         |expenses
-                                    a.item(data-tab="goals")
-                                        +ismall name='goal' 
-                                        |&nbsp;
-                                        |goals
-                                    a.item(data-tab="shop")
-                                        +ismall name='shop' 
-                                        |&nbsp;
-                                        |shop
-                                    a.item(data-tab="stock")
-                                        +ismall name='line-chart' 
-                                        |&nbsp;
-                                        |stock
+                                    //- a.item(data-tab="goals")
+                                    //-     +ismall name='goal' 
+                                    //-     |&nbsp;
+                                    //-     |goals
+                                    //- a.item(data-tab="shop")
+                                    //-     +ismall name='shop' 
+                                    //-     |&nbsp;
+                                    //-     |shop
+                                    //- a.item(data-tab="stock")
+                                    //-     +ismall name='line-chart' 
+                                    //-     |&nbsp;
+                                    //-     |stock
                                 .ui.bottom.attached.active.tab.segment(data-tab='students')
                                     .ui.inline.header 
-                                        +ismall name='students'
+                                        +i name='students'
                                         |students
                                     if adding_student
                                         .ui.header adding student
@@ -70,6 +70,7 @@ template(name='classroom_edit')
                                 .ui.bottom.attached.tab.segment(data-tab='income')
                                     .ui.two.column.grid
                                         .column
+                                            .ui.header presets
                                             .ui.segment
                                                 +number_edit key='daily_salary_amount' label='daily salary' icon='receive-cash' direct=true
                                                 +boolean_edit key='daily' label='daily' direct=true 
@@ -80,7 +81,7 @@ template(name='classroom_edit')
                                             +number_edit key='overtime_amount' label='overtime amount' icon='property-time' direct=true
                                             +number_edit key='good_grades_amount' label='good grades amount' icon='student-male' direct=true
                                         .column
-                                            div
+                                            .ui.header custom
                                             .ui.button.add_credit_type
                                                 i.plus.icon
                                                 |add credit type
@@ -111,7 +112,7 @@ template(name='classroom_edit')
                                             +number_edit key='fines_amount' label='fines amount' direct=true
                                             //- +number_edit key='rent_supplies_amount' label='rent supplies amount' direct=true
                                         .column
-                                            .ui.header customs
+                                            .ui.header custom
                                             .ui.button.add_debit_type
                                                 i.plus.icon
                                                 |add debit type

@@ -133,9 +133,9 @@ template(name='classroom_lunch')
                                 .ui.fluid.button.choose_cafeteria
                                     +i name='food' classes='ui inline mini image'
                                     |cafeteria (-5)
-                .ui.center.aligned.button.back_to_classroom
-                    i.chevron.left.icon
-                    |classroom
+            .ui.center.aligned.large.button.back_to_classroom
+                i.chevron.left.icon
+                |classroom
 
 
 
@@ -177,8 +177,10 @@ template(name='classroom_students')
                 .ui.inline.small.header
                     |#{first_name} #{last_name} 
                     .ui.small.inline.header #{credit}c
-                i.green.plus.circle.large.icon.add_bonus
-                i.red.minus.circle.large.icon.add_fine
+                .ui.icon.button.add_bonus
+                    i.green.plus.circle.large.icon
+                .ui.icon.button.add_fine
+                    i.red.minus.circle.large.icon
             //- .ui.item
             //- .image
             .content

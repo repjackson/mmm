@@ -116,7 +116,11 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'model_docs', 'classroom_event'
     Template.classroom_students.onRendered ->
         Meteor.setTimeout ->
-            $('.accordion').accordion()
+            $('.accordion').accordion(
+                selector: {
+                    trigger: '.title .header'
+                }
+            )
         , 1000
 
     Template.classroom_students.helpers
@@ -138,27 +142,38 @@ if Meteor.isClient
                 user_id: @_id
 
     Template.classroom_students.events
-        'click .add_bonus': ->
+        'click .add_bonus': (e,t)->
             # alert 'hi'
-            student = Template.parentData()
-            classroom = Docs.findOne Router.current().params.doc_id
             # console.log @
+            classroom = Docs.findOne Router.current().params.doc_id
+            $(e.currentTarget).closest('.title').transition('bounce', 1000)
+            # console.log @
+            $('body').toast({
+                message: 'bonus given'
+                class:'success'
+                showProgress: 'bottom'
+            })
+
             Meteor.users.update @_id,
                 $inc:credit:classroom.bonus_amount
             Docs.insert
                 model:'classroom_event'
                 event_type:'credit'
                 amount: classroom.bonus_amount
-                event_type_id: @_id
-                text:"was credited 1 for #{@title}"
-                user_id: student._id
+                text:"was credited #{classroom.bonus_amount}"
+                user_id: @_id
                 classroom_id: Router.current().params.doc_id
 
 
-        'click .add_fine': ->
-            # alert 'hi'
-            student = Template.parentData()
+        'click .add_fine': (e,t)->
             classroom = Docs.findOne Router.current().params.doc_id
+
+            $(e.currentTarget).closest('.title').transition('shake', 1000)
+            $('body').toast({
+                message: 'fine given'
+                class:'error'
+                showProgress: 'bottom'
+            })
 
             Meteor.users.update @_id,
                 $inc:credit:-classroom.fines_amount
@@ -166,9 +181,8 @@ if Meteor.isClient
                 model:'classroom_event'
                 event_type:'debit'
                 amount: classroom.fines_amount
-                event_type_id: @_id
-                text:"was debited 1 for #{@title}"
-                user_id: student._id
+                text:"was fined #{classroom.fines_amount}"
+                user_id: @_id
                 classroom_id: Router.current().params.doc_id
 
 
@@ -189,28 +203,35 @@ if Meteor.isClient
     Template.classroom_lunch.events
         'click .back_to_classroom': ->
             Router.go "/classroom/#{Router.current().params.doc_id}/"
-        'click .choose_home': ->
-            Docs.insert
-                model:'classroom_event'
-                event_type:'debit'
-                amount: -3
-                debit_type: 'lunch'
-                date:moment().format("MM-DD-YYYY")
-                text:"was debited 3 for a home lunch"
-                user_id: @_id
-                classroom_id: Router.current().params.doc_id
+        'click .choose_home': (e,t)->
+            $(e.currentTarget).closest('.button').transition('zoom', 1000)
+            $(e.currentTarget).closest('.card').transition('fade left', 1000)
+            Meteor.setTimeout =>
+                Docs.insert
+                    model:'classroom_event'
+                    event_type:'debit'
+                    amount: -3
+                    debit_type: 'lunch'
+                    date:moment().format("MM-DD-YYYY")
+                    text:"was debited 3 for a home lunch"
+                    user_id: @_id
+                    classroom_id: Router.current().params.doc_id
+            , 1000
 
-        'click .choose_cafeteria': ->
-            Docs.insert
-                model:'classroom_event'
-                event_type:'debit'
-                amount: -5
-                date:moment().format("MM-DD-YYYY")
-                debit_type: 'lunch'
-                text:"was debited 5 for a cafeteria lunch"
-                user_id: @_id
-                classroom_id: Router.current().params.doc_id
-
+        'click .choose_cafeteria': (e,t)->
+            $(e.currentTarget).closest('.button').transition('zoom', 1000)
+            $(e.currentTarget).closest('.card').transition('fade left', 1000)
+            Meteor.setTimeout =>
+                Docs.insert
+                    model:'classroom_event'
+                    event_type:'debit'
+                    amount: -5
+                    date:moment().format("MM-DD-YYYY")
+                    debit_type: 'lunch'
+                    text:"was debited 5 for a cafeteria lunch"
+                    user_id: @_id
+                    classroom_id: Router.current().params.doc_id
+            , 1000
 
     Template.classroom_lunch.helpers
         classroom_students: ->
@@ -348,6 +369,7 @@ if Meteor.isClient
         classroom_events: ->
             Docs.find {
                 model:'classroom_event'
+                classroom_id:Router.current().params.doc_id
             }, sort: _timestamp:-1
 
     Template.classroom_feed.events
@@ -356,7 +378,7 @@ if Meteor.isClient
                 $(e.currentTarget).closest('.event').transition('fly right', 1000)
                 Meteor.setTimeout =>
                     Docs.remove @_id
-                , 1000
+                , 500
                 if @event_type is 'credit'
                     Meteor.users.update @user_id,
                         $inc:credit:-@amount
