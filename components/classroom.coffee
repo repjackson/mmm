@@ -17,6 +17,14 @@ if Meteor.isClient
         @layout 'classroom_view_layout'
         @render 'classroom_stats'
         ), name:'classroom_stats'
+    Router.route '/classroom/:doc_id/debits', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_debits'
+        ), name:'classroom_debits'
+    Router.route '/classroom/:doc_id/credits', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_credits'
+        ), name:'classroom_credits'
     Router.route '/classroom/:doc_id/students', (->
         @layout 'classroom_view_layout'
         @render 'classroom_students'
@@ -25,6 +33,10 @@ if Meteor.isClient
         @layout 'classroom_view_layout'
         @render 'classroom_feed'
         ), name:'classroom_feed'
+    Router.route '/classroom/:doc_id/loans', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_loans'
+        ), name:'classroom_loans'
     Router.route '/classroom/:doc_id/leaderboard', (->
         @layout 'classroom_view_layout'
         @render 'classroom_leaderboard'
@@ -33,133 +45,39 @@ if Meteor.isClient
         @layout 'classroom_view_layout'
         @render 'classroom_grades'
         ), name:'classroom_grades'
+    Router.route '/classroom/:doc_id/stock', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_stock'
+        ), name:'classroom_stock'
+    Router.route '/classroom/:doc_id/sponsor', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_sponsor'
+        ), name:'classroom_sponsor'
     Router.route '/classroom/:doc_id/shop', (->
         @layout 'classroom_view_layout'
         @render 'classroom_shop'
         ), name:'classroom_shop'
+    Router.route '/classroom/:doc_id/jobs', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_jobs'
+        ), name:'classroom_jobs'
     Router.route '/classroom/:doc_id/services', (->
         @layout 'classroom_view_layout'
         @render 'classroom_services'
         ), name:'classroom_services'
 
 
-    Router.route '/classroom/:doc_id/edit', (->
-        @layout 'layout'
-        @render 'classroom_edit'
-        ), name:'classroom_edit'
+    Template.classrooms.onRendered ->
+        Session.setDefault 'view_mode', 'cards'
+    Template.classrooms.helpers
+        viewing_cards: -> Session.equals 'view_mode', 'cards'
+        viewing_segments: -> Session.equals 'view_mode', 'segments'
+    Template.classrooms.events
+        'click .set_card_view': ->
+            Session.set 'view_mode', 'cards'
+        'click .set_segment_view': ->
+            Session.set 'view_mode', 'segments'
 
-
-    Template.classroom_edit.onRendered ->
-
-
-    Template.classroom_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'model_docs', 'feature'
-        @autorun => Meteor.subscribe 'model_docs', 'credit_type'
-        Session.set 'permission', false
-    Template.classroom_edit.onRendered ->
-        Meteor.setTimeout ->
-            $('.tabular.menu .item').tab(
-                history: true,
-                historyType: 'hash'
-            )
-        , 1000
-        Meteor.setTimeout ->
-            $('.accordion').accordion()
-        , 750
-
-    Template.classroom_edit.helpers
-        features: ->
-            Docs.find
-                model:'feature'
-
-        credit_types: ->
-            Docs.find
-                model:'credit_type'
-                classroom_id: Router.current().params.doc_id
-
-        debit_types: ->
-            Docs.find
-                model:'debit_type'
-                classroom_id: Router.current().params.doc_id
-
-        feature_edit_template: ->
-            "#{@title}_edit_template"
-
-        toggle_feature_class: ->
-            classroom = Docs.findOne Router.current().params.doc_id
-            if classroom.feature_ids and @_id in classroom.feature_ids then 'blue' else ''
-
-        selected_features: ->
-            classroom = Docs.findOne Router.current().params.doc_id
-            Docs.find(
-                _id: $in: classroom.feature_ids
-                model:'feature'
-            ).fetch()
-
-        adding_student: ->
-            Session.get 'adding_student'
-
-    Template.classroom_edit.events
-        'click .add_credit_type': ->
-            Docs.insert
-                model:'credit_type'
-                classroom_id: Router.current().params.doc_id
-        'click .set_adding_student': ->
-            Session.set 'adding_student', true
-        'click .toggle_feature': ->
-            classroom = Docs.findOne Router.current().params.doc_id
-            if classroom.feature_ids and @_id in classroom.feature_ids
-                Docs.update Router.current().params.doc_id,
-                    $pull: feature_ids: @_id
-            else
-                Docs.update Router.current().params.doc_id,
-                    $addToSet: feature_ids: @_id
-        'click .add_shop_item': ->
-            new_shop_id = Docs.insert
-                model:'shop_item'
-            Router.go "/shop/#{new_shop_id}/edit"
-
-        'keyup #last_name': (e,t)->
-            first_name = $('#first_name').val()
-            last_name = $('#last_name').val()
-            # $('#username').val("#{first_name.toLowerCase()}_#{last_name.toLowerCase()}")
-            username = "#{first_name.toLowerCase()}_#{last_name.toLowerCase()}"
-            Session.set 'permission',true
-
-
-        'click .create_student': ->
-            first_name = $('#first_name').val()
-            last_name = $('#last_name').val()
-            username = "#{first_name.toLowerCase()}_#{last_name.toLowerCase()}"
-            Meteor.call 'add_user', username, (err,res)=>
-                if err
-                    alert err
-                else
-                    Meteor.users.update res,
-                        $set:
-                            first_name:first_name
-                            last_name:last_name
-                            added_by_username:Meteor.user().username
-                            added_by_user_id:Meteor.userId()
-                            roles:['student']
-                            # healthclub_checkedin:true
-                    Docs.insert
-                        model: 'log_event'
-                        object_id: res
-                        body: "#{username} was created"
-                    # Docs.insert
-                    #     model:'log_event'
-                    #     object_id:res
-                    #     body: "#{username} checked in."
-                    new_user = Meteor.users.findOne res
-                    Session.set 'username_query',null
-                    $('.username_search').val('')
-                    Meteor.call 'email_verified',new_user
-                    Session.set 'adding_student', false
-                    Docs.update Router.current().params.doc_id,
-                        $addToSet: students: new_user.username
-                    # Router.go "/user/#{username}/edit"
 
 
     Template.classroom_dashboard.onCreated ->
@@ -179,21 +97,35 @@ if Meteor.isClient
                 model:'credit_type'
                 # weekly:$ne:true
                 classroom_id: Router.current().params.doc_id
+
+    Template.classroom_students.onCreated ->
+        @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'model_docs', 'credit_type'
+        @autorun => Meteor.subscribe 'model_docs', 'debit_type'
+        @autorun => Meteor.subscribe 'model_docs', 'classroom_event'
+    Template.classroom_students.helpers
         classroom_students: ->
             Meteor.users.find()
+        individual_credit_types: ->
+            Docs.find
+                model:'credit_type'
+                # weekly:$ne:true
+                classroom_id: Router.current().params.doc_id
+        classroom_debit_types: ->
+            Docs.find
+                model:'debit_type'
+                # weekly:$ne:true
+                classroom_id: Router.current().params.doc_id
+        student_events: ->
+            Docs.find
+                model:'classroom_event'
+                user_id: @_id
 
-    Template.classroom_dashboard.events
+    Template.classroom_students.events
         'change .date_select': ->
             console.log $('.date_select').val()
-        'click .add_credit': (e,t)->
-            console.log @
-            Meteor.users.update @_id,
-                $inc:credit:2
-            $(e.currentTarget).closest('.credit_view').transition('pulse', 200)
-        'click .remove_credit': (e,t)->
-            Meteor.users.update @_id,
-                $inc:credit:-2
-            $(e.currentTarget).closest('.credit_view').transition('pulse', 200)
+
+
 
     Template.class_credit_button.events
         'click .credit_student': ->
@@ -201,12 +133,34 @@ if Meteor.isClient
             console.log @
             Meteor.users.update student._id,
                 $inc:credit:@amount
+            Docs.insert
+                model:'classroom_event'
+                event_type:'credit'
+                amount: @amount
+                event_type_id: @_id
+                text:"#{student.name()} was credited #{@amount} for #{@title}"
+                user_id: student._id
+                classroom_id: Router.current().params.doc_id
 
 
 
     Template.class_debit_button.events
         'click .debit_student': ->
+            student = Template.parentData()
             console.log @
+            Meteor.users.update student._id,
+                $inc:credit:-@amount
+            Docs.insert
+                model:'classroom_event'
+                event_type:'debit'
+                amount: @amount
+                event_type_id: @_id
+                text:"#{student.name()} was debited #{@amount} for #{@title}"
+                user_id: student._id
+                classroom_id: Router.current().params.doc_id
+
+
+
 
     Template.class_stock_edit.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'available_share'
@@ -218,7 +172,6 @@ if Meteor.isClient
             Docs.find
                 model:'stock_certificate'
                 classroom_id: Router.current().params.doc_id
-
         available_shares: ->
             Docs.find
                 model:'stock_certificate'
@@ -261,9 +214,9 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'model_docs', 'feature'
     Template.classroom_view_layout.onRendered ->
         Meteor.call 'increment_view', Router.current().params.doc_id, ->
-        Meteor.setTimeout ->
-            $('.tabular.menu .item').tab()
-        , 1000
+        # Meteor.setTimeout ->
+        #     $('.tabular.menu .item').tab()
+        # , 1000
 
     Template.classroom_view_layout.helpers
         features: ->
@@ -283,28 +236,27 @@ if Meteor.isClient
 
 
     Template.classroom_feed.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'class_event'
+        @autorun => Meteor.subscribe 'model_docs', 'classroom_event'
     Template.classroom_feed.helpers
-        class_events: ->
+        classroom_events: ->
             Docs.find
-                model:'class_event'
+                model:'classroom_event'
 
 
 
 
 
 
-    Template.classrooms.onRendered ->
-        Session.setDefault 'view_mode', 'cards'
-    Template.classrooms.helpers
-        viewing_cards: -> Session.equals 'view_mode', 'cards'
-        viewing_segments: -> Session.equals 'view_mode', 'segments'
-    Template.classrooms.events
-        'click .set_card_view': ->
-            Session.set 'view_mode', 'cards'
-        'click .set_segment_view': ->
-            Session.set 'view_mode', 'segments'
 
+    Template.classroom_stats.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'classroom_stats'
+
+
+    Template.classroom_stats.helpers
+        csd: ->
+            Docs.findOne
+                model:'classroom_stats'
+                classroom_id:Router.current().params.doc_id
     Template.classroom_stats.events
         'click .refresh_classroom_stats': ->
             Meteor.call 'refresh_classroom_stats', @_id
@@ -353,29 +305,49 @@ if Meteor.isServer
         refresh_classroom_stats: (classroom_id)->
             classroom = Docs.findOne classroom_id
             # console.log classroom
-            reservations = Docs.find({model:'reservation', classroom_id:classroom_id})
-            reservation_count = reservations.count()
-            total_earnings = 0
-            total_classroom_hours = 0
-            average_classroom_duration = 0
+            classroom_stats_doc = Docs.findOne
+                model:'classroom_stats'
+                classroom_id: classroom_id
 
-            # shortest_reservation =
-            # longest_reservation =
+            unless classroom_stats_doc
+                new_stats_doc_id = Docs.insert
+                    model:'classroom_stats'
+                    classroom_id: classroom_id
+                classroom_stats_doc = Docs.findOne new_stats_doc_id
 
-            for res in reservations.fetch()
-                total_earnings += parseFloat(res.cost)
-                total_classroom_hours += parseFloat(res.hour_duration)
+            student_count = classroom.students.length
 
-            average_classroom_cost = total_earnings/reservation_count
-            average_classroom_duration = total_classroom_hours/reservation_count
+            debits = Docs.find({
+                model:'classroom_event'
+                event_type:'debit'
+                classroom_id:classroom_id})
+            debit_count = debits.count()
+            total_debit_amount = 0
+            for debit in debits.fetch()
+                total_debit_amount += debit.amount
 
-            Docs.update classroom_id,
+            credits = Docs.find({
+                model:'classroom_event'
+                event_type:'credit'
+                classroom_id:classroom_id})
+            total_credit_amount = 0
+            for credit in credits.fetch()
+                total_credit_amount += credit.amount
+
+            classroom_balance = total_credit_amount-total_debit_amount
+
+            average_credit_per_student = total_credit_amount/student_count
+            average_debit_per_student = total_debit_amount/student_count
+
+
+            Docs.update classroom_stats_doc._id,
                 $set:
-                    reservation_count: reservation_count
-                    total_earnings: total_earnings.toFixed(0)
-                    total_classroom_hours: total_classroom_hours.toFixed(0)
-                    average_classroom_cost: average_classroom_cost.toFixed(0)
-                    average_classroom_duration: average_classroom_duration.toFixed(0)
+                    student_count: student_count
+                    total_credit_amount: total_credit_amount
+                    total_debit_amount: total_debit_amount
+                    classroom_balance: classroom_balance
+                    average_credit_per_student: average_credit_per_student
+                    average_debit_per_student: average_debit_per_student
 
             # .ui.small.header total earnings
             # .ui.small.header classroom ranking #reservations

@@ -1,11 +1,11 @@
 template(name='nav')
-    .ui.attached.borderless.big.inverted.blue.topnav.menu
+    .ui.attached.borderless.inverted.blue.topnav.menu
         if is_loading
             .item
                 i.big.loading.money.icon
         if currentUser
             a.compact.item(href='/grid' class="{{isActivePath '/grid'}}") 
-                img.ui.tiny.compact.image(src="{{c.url 'mmm_logo_small' height=200 }}" title='Home')
+                img.ui.tiny.compact.image(src="{{c.url 'mmm_logo_small' height=150 }}" title='Home')
             a.item(href='/classrooms' title='classrooms')
                 +ismall name='class'
                 span.mobile.hidden &nbsp; classrooms

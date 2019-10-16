@@ -9,7 +9,7 @@ template(name='classroom_edit')
                         small editing 
                         strong '#{title}' 
                         small classroom
-                    a.ui.big.fluid.button(href="/classroom/#{_id}/view" title='save')
+                    a.ui.big.fluid.button(href="/classroom/#{_id}" title='save')
                         i.checkmark.large.green.icon
                         |save
                     +remove_button
@@ -24,32 +24,32 @@ template(name='classroom_edit')
                             .sixteen.wide.column
                                 .ui.top.attached.tabular.large.six.item.stackable.menu
                                     a.active.item(data-tab="students")     
-                                        +i name='groups' 
+                                        +ismall name='groups' 
                                         |&nbsp;
                                         |students
                                     a.item(data-tab="income")
-                                        +i name='deposit' 
+                                        +ismall name='deposit' 
                                         |&nbsp;
                                         |income
                                     a.item(data-tab="expenses")
-                                        +i name='initiate-money-transfer' 
+                                        +ismall name='initiate-money-transfer' 
                                         |&nbsp;
                                         |expenses
                                     a.item(data-tab="goals")
-                                        +i name='goal' 
+                                        +ismall name='goal' 
                                         |&nbsp;
                                         |goals
                                     a.item(data-tab="shop")
-                                        +i name='shop' 
+                                        +ismall name='shop' 
                                         |&nbsp;
                                         |shop
                                     a.item(data-tab="stock")
-                                        +i name='line-chart' 
+                                        +ismall name='line-chart' 
                                         |&nbsp;
                                         |stock
                                 .ui.bottom.attached.active.tab.segment(data-tab='students')
                                     .ui.inline.header 
-                                        +i name='students'
+                                        +ismall name='students'
                                         |students
                                     if adding_student
                                         .ui.header adding student
@@ -99,12 +99,23 @@ template(name='classroom_edit')
                                     +number_edit key='fines_amount' label='fines amount' direct=true
                                     +number_edit key='rent_supplies_amount' label='rent supplies amount' direct=true
                                     .ui.divider
-                                    .ui.button.add_class_penalty
+                                    .ui.button.add_debit_type
                                         i.plus.icon
-                                        |add penalty
-                                    +textarea_edit key='penalty_notes' label='penalty_notes' direct=true
-                                    each class_debits
-                                        .ui.header #{title}
+                                        |add debit type
+                                    each debit_types
+                                        .ui.segment.grid
+                                            .four.wide.column
+                                                +image_edit key='image_id' label='image' direct=true
+                                                +icon_edit key='icon' direct=true
+                                            .twelve.wide.column
+                                                +text_edit key='title' direct=true
+                                                +textarea_edit key='description' direct=true
+                                                +number_edit key='amount' direct=true
+                                                +boolean_edit key='automatic' direct=true
+                                                if automatic
+                                                    +boolean_edit key='daily' label='daily' direct=true
+                                                    +boolean_edit key='weekly' label='weekly' direct=true
+                                                +remove_button
                                 .ui.bottom.attached.tab.segment(data-tab='goals')
                                     +goals_edit_template
                                 .ui.bottom.attached.tab.segment(data-tab='shop')

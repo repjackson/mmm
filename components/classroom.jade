@@ -15,18 +15,16 @@ template(name='classrooms')
 
 template(name='classroom_card')
     .ui.card
-        a(href="/classroom/#{_id}/view")
+        a(href="/classroom/#{_id}")
             img.ui.fluid.image(src="{{c.url classroom_image_id crop='lpad'}}")
             //- img.ui.fluid.image(src="{{c.url classroom_image_id crop='lpad'}}")
         .content
-            a.ui.header(href="/classroom/#{_id}/view") #{title}
+            a.ui.header(href="/classroom/#{_id}") #{title}
             .ui.small.header net income #{net_income}
-            a.ui.fluid.button(href="/classroom/#{_id}/view")
-                |view 
-                i.right.arrow.icon
 
                     
 template(name='classroom_view_layout')
+    +nav
     with current_doc
         .ui.stackable.padded.grid
             .row
@@ -35,79 +33,66 @@ template(name='classroom_view_layout')
                         i.chevron.left.icon
                         +i name='classroom' classes='ui inline mini image'
                         |classrooms
-                    .ui.vertical.fluid.large.pointing.menu
-                        a.item(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
-                            i.icon
-                                +ismall name='home'
-                            |dashboard
-                        a.item(href="/classroom/#{_id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
-                            i.icon
-                                +ismall name='invoice'
-                            | reports
-                        a.item(href="/classroom/#{_id}/students" class="{{isActiveRoute regex='classroom_students'}}")
-                            i.icon
-                                +ismall name='students'
-                            | students
-                        a.item(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
-                            i.icon
-                                +ismall name='rss'
-                            | feed
-                        a.item(href="/classroom/#{_id}/stats" class="{{isActiveRoute regex='classroom_stats'}}")
-                            i.icon
-                                +ismall name='chart'
-                            | stats
-                        a.item(href="/classroom/#{_id}/grades" class="{{isActiveRoute regex='classroom_grades'}}")
-                            |grades
-                            i.icon
-                                +ismall name='leaderboard'
-                        a.item(href="/classroom/#{_id}/jobs" class="{{isActiveRoute regex='classroom_jobs'}}")
-                            |jobs
-                            i.icon
-                                +ismall name='business'
-                        a.item(href="/classroom/#{_id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
-                            i.icon
-                                +ismall name='shop'
-                            |shop
-                        a.item(href="/classroom/#{_id}/services" class="{{isActiveRoute regex='classroom_services'}}")
-                            i.icon
-                                +ismall name='service'
-                            |services
-                        a.item(href="/classroom/#{_id}/stock" class="{{isActiveRoute regex='classroom_stock'}}")
-                            i.icon
-                                +ismall name='stock'
-                            |stock
-                        a.item(href="/classroom/#{_id}/loans" class="{{isActiveRoute regex='classroom_loans'}}")
-                            |loans
-                            i.icon
-                                +ismall name='debt'
                     +image_view key='classroom_image_id' label='image' direct=true
+                    .ui.header
+                        | #{title}
                     .ui.header
                         small teacher
                         | #{teacher_name}
-                    .ui.header
-                        small company
-                        | #{company_name}
                     a.ui.fluid.button(href="/classroom/#{_id}/edit")
                         +i name='pencil' classes='ui inline mini image'
                         | edit
                 .twelve.wide.column
+                    a.ui.button(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
+                        +ismall name='home'
+                        |dashboard
+                    a.ui.button(href="/classroom/#{_id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
+                        +ismall name='invoice'
+                        | reports
+                    a.ui.button(href="/classroom/#{_id}/students" class="{{isActiveRoute regex='classroom_students'}}")
+                        +ismall name='students'
+                        | students
+                    a.ui.button(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
+                        +ismall name='rss'
+                        | feed
+                    a.ui.button(href="/classroom/#{_id}/stats" class="{{isActiveRoute regex='classroom_stats'}}")
+                        +ismall name='line-chart'
+                        | stats
+                    a.ui.button(href="/classroom/#{_id}/credits" class="{{isActiveRoute regex='classroom_credits'}}")
+                        +ismall name='chevron-up'
+                        | credits
+                    a.ui.button(href="/classroom/#{_id}/debits" class="{{isActiveRoute regex='classroom_debits'}}")
+                        +ismall name='chevron-down'
+                        | debits
+                    a.ui.button(href="/classroom/#{_id}/grades" class="{{isActiveRoute regex='classroom_grades'}}")
+                        +ismall name='leaderboard'
+                        |grades
+                    a.ui.button(href="/classroom/#{_id}/jobs" class="{{isActiveRoute regex='classroom_jobs'}}")
+                        +ismall name='business'
+                        |jobs
+                    a.ui.button(href="/classroom/#{_id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
+                        +ismall name='shop'
+                        |shop
+                    a.ui.button(href="/classroom/#{_id}/services" class="{{isActiveRoute regex='classroom_services'}}")
+                        +ismall name='service'
+                        |services
+                    a.ui.button(href="/classroom/#{_id}/stock" class="{{isActiveRoute regex='classroom_stock'}}")
+                        +ismall name='pie-chart'
+                        |stock
+                    a.ui.button(href="/classroom/#{_id}/loans" class="{{isActiveRoute regex='classroom_loans'}}")
+                        +ismall name='debt'
+                        |loans
                     +yield
 
 
-template(name='class_stock')
-    .ui.bottom.attached.active.tab.segment(data-tab='dashboard')
-        .ui.two.column.stackable.grid
-            .row
-                .column
-                    .ui.header total shares
-                    .ui.header share price
-                    .ui.header stock price
-                    .ui.button buy stock
-            .row
-                .column
-                    +class_feed
-                .column
-                    +class_stats
+template(name='classroom_stock')
+    .ui.two.column.stackable.grid
+        .row
+            .column
+                .ui.header total shares
+                .ui.header share price
+                .ui.header stock price
+                .ui.button buy stock
 
 template(name='classroom_jobs')        
     +jobs
@@ -120,34 +105,54 @@ template(name='classroom_shop')
 
 
 
+template(name='classroom_credits')
+    +loans
+
+template(name='classroom_debits')        
+    +shop
+
+
+
     
 
 template(name='classroom_dashboard')
     with current_doc
         .ui.stackable.padded.grid
+            //- .row
+            //-     .sixteen.wide.column
+            //-         #date_calendar.ui.calendar
+            //-             .ui.input.left.icon
+            //-                 i.calendar.icon
+            //-                 input.date_select(type='text' placeholder='date')
+            //-         .ui.button 
+            //-             +i name='calendar' classes='ui mini inline image'
+            //-             |disperse weekly salary
             .row
-                #date_calendar.ui.calendar
-                    .ui.input.left.icon
-                        i.calendar.icon
-                        input.date_select(type='text' placeholder='date')
-                .ui.button 
-                    +i name='calendar' classes='ui mini inline image'
-                    |disperse weekly salary
-            .row
-                .sixteen.wide.column
-                    .ui.stackable.four.cards
-                        each classroom_students
-                            .ui.small.card
-                                .image
-                                    img.ui.tiny.image(src="{{c.url profile_image_id width=400 height=400 gravity='face' crop='fill'}}")
-                                .content
-                                    a.header(href="/user/#{username}")
-                                        |#{first_name} #{last_name} 
-                                    .ui.small.header #{credit}c
-                                    each individual_credit_types
-                                        +class_credit_button
-                                    each classroom_debit_types
-                                        +class_debit_button
+                .eight.wide.column
+                    +classroom_feed
+                .eight.wide.column
+                    +classroom_stats
+                    
+template(name='classroom_students')
+    .ui.divided.items
+        each classroom_students
+            .ui.item
+                .image
+                    img.ui.mini.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
+                .content
+                    a.header(href="/user/#{username}")
+                        |#{first_name} #{last_name} 
+                    .ui.small.header #{credit}c
+                    .description
+                        each individual_credit_types
+                            +class_credit_button
+                        each classroom_debit_types
+                            +class_debit_button
+                .extra.content
+                    .ui.list
+                        each student_events
+                            .item #{text} #{when}
+                                +remove_button
                                         
                                         
 template(name='class_credit_button')
@@ -157,7 +162,10 @@ template(name='class_credit_button')
         |#{title}
     
 template(name='class_debit_button')
-    .ui.basic.button.debit_student #{title} -#{amount}
+    .ui.basic.button.debit_student 
+        i.red.minus.icon
+        |#{amount}
+        |#{title}
 
 
     
@@ -213,46 +221,33 @@ template(name='classroom_feed')
         +i name='rss'
         |feed
     .ui.bulleted.list
-        .item Johnny was approved for a $12 loan for the pizza party
-        .item Suzy was bought quiet time with the good pillow for $2
-        .item Tim earned $4 for taking out the trash
-        each class_events
+        each classroom_events
             .item 
-                +i name=icon
+                if icon
+                    +i name=icon
                 |#{text}
                 .meta #{when}
+                if is_dev
+                    +remove_button
+
+
 
 template(name='classroom_stats')
-    .ui.header 
+    .ui.header.refresh_classroom_stats
         +i name='line-chart'
         |stats
         div
-        .ui.green.inline.header $72
+        .ui.green.inline.header #{csd.classroom_balance}
         | balance
         div
-        .ui.green.inline.header $126 
+        .ui.green.inline.header #{csd.total_credit_amount}
         | income
         div
-        .ui.red.inline.header -$50
+        .ui.red.inline.header #{csd.total_debit_amount}
         | expenses
-    //- .ui.accordion
-    //-     .title
-    .ui.header.refresh_classroom_stats
-        i.line.chart.icon
-        |stats
-    //- i.dropdown.icon
-    //- .content
     .ui.big.list
         .item #{views} views
-        .item #{reservation_count} reservations
-        .item #{total_earnings}c/#{total_classroom_hours}hrs total
-        .item #{average_classroom_cost}c / #{average_classroom_duration}hrs avg classroom
-        //- .item classroom ranking # reservations
-        //- .item classroom ranking $ earned
-        //- .item # different renters
-        //- .item avg daily earnings
-        //- .item avg weekly earnings
-        //- .item avg monthly earnings
-        //- .item biggest renter
-        //- .item predicted payback duration 
+        .item #{csd.student_count} students
+        .item $#{csd.average_credit_per_student} credit/student
+        .item $#{csd.average_debit_per_student} debit/student
         
