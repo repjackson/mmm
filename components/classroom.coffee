@@ -17,6 +17,10 @@ if Meteor.isClient
         @layout 'classroom_view_layout'
         @render 'classroom_stats'
         ), name:'classroom_stats'
+    Router.route '/classroom/:doc_id/lunch', (->
+        @layout 'mlayout'
+        @render 'classroom_lunch'
+        ), name:'classroom_lunch'
     Router.route '/classroom/:doc_id/debits', (->
         @layout 'classroom_view_layout'
         @render 'classroom_debits'
@@ -174,6 +178,62 @@ if Meteor.isClient
 
 
 
+
+    Template.classroom_lunch.onCreated ->
+        @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'model_docs', 'classroom_event'
+    Template.classroom_students.onRendered ->
+        # Meteor.setTimeout ->
+        #     $('.accordion').accordion()
+        # , 1000
+    Template.classroom_lunch.events
+        'click .back_to_classroom': ->
+            Router.go "/classroom/#{Router.current().params.doc_id}/"
+        'click .choose_home': ->
+            Docs.insert
+                model:'classroom_event'
+                event_type:'debit'
+                amount: -3
+                debit_type: 'lunch'
+                date:moment().format("MM-DD-YYYY")
+                text:"was debited 3 for a home lunch"
+                user_id: @_id
+                classroom_id: Router.current().params.doc_id
+
+        'click .choose_cafeteria': ->
+            Docs.insert
+                model:'classroom_event'
+                event_type:'debit'
+                amount: -5
+                date:moment().format("MM-DD-YYYY")
+                debit_type: 'lunch'
+                text:"was debited 5 for a cafeteria lunch"
+                user_id: @_id
+                classroom_id: Router.current().params.doc_id
+
+
+    Template.classroom_lunch.helpers
+        classroom_students: ->
+            Meteor.users.find()
+
+        lunch_chosen: ->
+            today = moment().format("MM-DD-YYYY")
+            chosen_lunch = Docs.findOne
+                debit_type:'lunch'
+                date:today
+                user_id: @_id
+            console.log chosen_lunch
+            chosen_lunch
+        classroom_debit_types: ->
+            Docs.find
+                model:'debit_type'
+                # weekly:$ne:true
+                classroom_id: Router.current().params.doc_id
+
+
+
+
+
     Template.class_credit_button.events
         'click .credit_student': ->
             student = Template.parentData()
@@ -286,8 +346,9 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'model_docs', 'classroom_event'
     Template.classroom_feed.helpers
         classroom_events: ->
-            Docs.find
+            Docs.find {
                 model:'classroom_event'
+            }, sort: _timestamp:-1
 
     Template.classroom_feed.events
         'click .remove': (e,t)->

@@ -59,6 +59,9 @@ template(name='classroom_view_layout')
                     a.ui.large.button(href="/classroom/#{_id}/students" class="{{isActiveRoute regex='classroom_students'}}")
                         +ismall name='students'
                         | dashboard
+                    a.ui.large.button(href="/classroom/#{_id}/lunch" class="{{isActiveRoute regex='classroom_lunch'}}")
+                        +ismall name='food'
+                        | lunch
                     //- a.ui.button(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
                     //-     +ismall name='rss'
                     //-     | feed
@@ -109,6 +112,32 @@ template(name='classroom_loans')
 
 template(name='classroom_shop')        
     +shop
+
+
+template(name='classroom_lunch')        
+    .ui.padded.stackable.grid
+        .sixteen.wide.column
+            .ui.center.aligned.large.header 
+                +i name='food'
+                |lunch!
+            .ui.four.stackable.cards
+                each classroom_students
+                    unless lunch_chosen
+                        .ui.card
+                            img.ui.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
+                            .content
+                                .ui.header #{name}
+                                .ui.fluid.button.choose_home
+                                    +i name='home' classes='ui inline mini image'
+                                    |home (-3c)
+                                .ui.fluid.button.choose_cafeteria
+                                    +i name='food' classes='ui inline mini image'
+                                    |cafeteria (-5)
+                .ui.center.aligned.button.back_to_classroom
+                    i.chevron.left.icon
+                    |classroom
+
+
 
 
 
