@@ -11,55 +11,55 @@ template(name='profile_view')
                                 | #{user.first_name} #{user.last_name}
                             //- .ui.small.header @#{user.username}        
                     if is_current_user
-                        a.ui.large.button.logout(href="#" title='logout')
-                            //- i.sign.out.alternate.icon
-                            +ismall name='exit' 
+                        a.ui.fluid.button.logout(href="#" title='logout')
+                            i.sign.out.alternate.icon
+                            //- +ismall name='exit' 
                             |log out
                         //- a.ui.large.button.logout_other_clients(href="#" title='logout other clients')
                         //-     //- i.globe.icon
                         //-     +ismall name='globe' 
                         //-     |log out other clients
-                    .ui.vertical.fluid.large.pointing.menu
-                        a.item(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
-                            i.icon
-                                +ismall name='home'
-                            |dashboard
-                        a.item(href="/classroom/#{_id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
-                            i.icon
-                                +ismall name='invoice'
-                            | reports
-                        a.item(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
-                            i.icon
-                                +ismall name='rss'
-                            | feed
-                        a.item(href="/classroom/#{_id}/stats" class="{{isActiveRoute regex='classroom_stats'}}")
-                            i.icon
-                                +ismall name='chart'
-                            | stats
-                        a.item(href="/classroom/#{_id}/grades" class="{{isActiveRoute regex='classroom_grades'}}")
-                            |grades
-                            i.icon
-                                +ismall name='leaderboard'
-                        a.item(href="/classroom/#{_id}/jobs" class="{{isActiveRoute regex='classroom_jobs'}}")
-                            |jobs
-                            i.icon
-                                +ismall name='business'
-                        a.item(href="/classroom/#{_id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
-                            i.icon
-                                +ismall name='shop'
-                            |shop
-                        a.item(href="/classroom/#{_id}/services" class="{{isActiveRoute regex='classroom_services'}}")
-                            i.icon
-                                +ismall name='service'
-                            |services
-                        a.item(href="/classroom/#{_id}/stock" class="{{isActiveRoute regex='classroom_stock'}}")
-                            i.icon
-                                +ismall name='stock'
-                            |stock
-                        a.item(href="/classroom/#{_id}/loans" class="{{isActiveRoute regex='classroom_loans'}}")
-                            |loans
-                            i.icon
-                                +ismall name='debt'
+                    //- .ui.vertical.fluid.large.pointing.menu
+                    //-     a.item(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
+                    //-         i.icon
+                    //-             +ismall name='home'
+                    //-         |dashboard
+                    //-     a.item(href="/classroom/#{_id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
+                    //-         i.icon
+                    //-             +ismall name='invoice'
+                    //-         | reports
+                    //-     a.item(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
+                    //-         i.icon
+                    //-             +ismall name='rss'
+                    //-         | feed
+                    //-     a.item(href="/classroom/#{_id}/stats" class="{{isActiveRoute regex='classroom_stats'}}")
+                    //-         i.icon
+                    //-             +ismall name='chart'
+                    //-         | stats
+                    //-     a.item(href="/classroom/#{_id}/grades" class="{{isActiveRoute regex='classroom_grades'}}")
+                    //-         |grades
+                    //-         i.icon
+                    //-             +ismall name='leaderboard'
+                    //-     a.item(href="/classroom/#{_id}/jobs" class="{{isActiveRoute regex='classroom_jobs'}}")
+                    //-         |jobs
+                    //-         i.icon
+                    //-             +ismall name='business'
+                    //-     a.item(href="/classroom/#{_id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
+                    //-         i.icon
+                    //-             +ismall name='shop'
+                    //-         |shop
+                    //-     a.item(href="/classroom/#{_id}/services" class="{{isActiveRoute regex='classroom_services'}}")
+                    //-         i.icon
+                    //-             +ismall name='service'
+                    //-         |services
+                    //-     a.item(href="/classroom/#{_id}/stock" class="{{isActiveRoute regex='classroom_stock'}}")
+                    //-         i.icon
+                    //-             +ismall name='stock'
+                    //-         |stock
+                    //-     a.item(href="/classroom/#{_id}/loans" class="{{isActiveRoute regex='classroom_loans'}}")
+                    //-         |loans
+                    //-         i.icon
+                    //-             +ismall name='debt'
                     a.ui.fluid.button.item(href="/user/#{user_from_username_param.username}/edit")
                         +ismall name='settings' classes='ui inline mini image'
                         |edit
@@ -74,21 +74,33 @@ template(name='profile_view')
                     .ui.stackable.padded.grid
                         .row
                             .sixteen.wide.column
-                                .ui.header 
+                                .ui.inline.header.recalc_student_stats
                                     +i name='dashboard'
                                     |#{user_from_username_param.first_name}'s dashboard
-                                    .ui.sub.header current balance $#{user_from_username_param.credit}
+                                .ui.inline.grey.header current balance $#{user_from_username_param.credit}
                         .three.column.row
                             .column
                                 .ui.segment
                                     .ui.small.header 
                                         +i name='money-bag'
-                                        |total weekly income
+                                        strong $#{ssd.total_credit_amount}
+                                        small total weekly income
+                                    .ui.small.header
+                                        +i name='hashtag'
+                                        strong #{ssd.credit_count}
+                                        small credits
+            
                             .column
                                 .ui.segment
                                     .ui.small.header
                                         +i name='shopping-cart-loaded'
-                                        |total weekly expenses
+                                        strong $#{ssd.total_debit_amount}
+                                        small total weekly expenses
+                                    .ui.small.header
+                                        +i name='hashtag'
+                                        strong #{ssd.debit_count}
+                                        small debits
+        
                             .column
                                 .ui.segment
                                     .ui.small.header
@@ -97,16 +109,31 @@ template(name='profile_view')
                         .two.column.row
                             .column
                                 .ui.segment
-                                    .ui.header weekly paycheck (credits)
-                                    .ui.divided.list
+                                    .ui.header 
+                                        +i name='deposit'
+                                        |weekly paycheck (credits)
+                                    .ui.bulleted.list
                                         each user_credits
                                             .item 
-                                                +i name=icon
-                                                strong #{body}
                                                 |#{amount}
+                                                if icon
+                                                    +i name=icon
+                                                strong #{text}
+                                                small #{when}
                             .column
                                 .ui.segment
-                                    .ui.header weekly expenses (debits)
+                                    .ui.header 
+                                        +i name='withdrawal'
+                                        |weekly expenses (debits)
+                                    .ui.bulleted.list
+                                        each user_debits
+                                            .item 
+                                                |#{amount}
+                                                if icon
+                                                    +i name=icon
+                                                strong #{text}
+                                                small #{when}
+                
                         //- +range_edit                
 template(name='user_log')
     //- .ui.fluid.styled.accordion

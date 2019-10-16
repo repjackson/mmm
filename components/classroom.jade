@@ -237,17 +237,19 @@ template(name='classroom_stats')
         +i name='line-chart'
         |stats
         div
-        .ui.green.inline.header #{csd.classroom_balance}
+        .ui.green.inline.header $#{csd.classroom_balance}
         | balance
         div
-        .ui.green.inline.header #{csd.total_credit_amount}
+        .ui.green.inline.header $#{csd.total_credit_amount}
         | income
         div
-        .ui.red.inline.header #{csd.total_debit_amount}
+        .ui.red.inline.header -$#{csd.total_debit_amount}
         | expenses
     .ui.big.list
         .item #{views} views
         .item #{csd.student_count} students
+        .item #{csd.credit_count} total credits
+        .item #{csd.debit_count} total debits
         .item $#{csd.average_credit_per_student} credit/student
         .item $#{csd.average_debit_per_student} debit/student
         

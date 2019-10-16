@@ -330,6 +330,7 @@ if Meteor.isServer
                 model:'classroom_event'
                 event_type:'credit'
                 classroom_id:classroom_id})
+            credit_count = credits.count()
             total_credit_amount = 0
             for credit in credits.fetch()
                 total_credit_amount += credit.amount
@@ -345,9 +346,11 @@ if Meteor.isServer
                     student_count: student_count
                     total_credit_amount: total_credit_amount
                     total_debit_amount: total_debit_amount
+                    debit_count: debit_count
+                    credit_count: credit_count
                     classroom_balance: classroom_balance
-                    average_credit_per_student: average_credit_per_student
-                    average_debit_per_student: average_debit_per_student
+                    average_credit_per_student: average_credit_per_student.toFixed(2)
+                    average_debit_per_student: average_debit_per_student.toFixed(2)
 
             # .ui.small.header total earnings
             # .ui.small.header classroom ranking #reservations
