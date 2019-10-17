@@ -1,0 +1,100 @@
+template(name='reservation_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .three.column.row
+                .column 
+                    .ui.header 
+                        strong #{rental.title}
+                        small reservation
+                    with rental
+                        +image_view key='image' label='image' direct=true
+                    .ui.stackable.grid
+                        .two.column.row
+                            .column
+                                +number_view key='hourly_dollars' label='hourly rate ($)' icon='money' direct=true
+                                +number_view key='daily_dollars' label='daily rate ($)' icon='money' direct=true
+                            .column
+                                +number_view key='hourly_karma' label='hourly rate (karma)' icon='yin-yang' direct=true
+                                +number_view key='daily_karma' label='daily rate (karma)' icon='yin-yang' direct=true
+                    div
+                    +boolean_view key='variable_price' label='variable price' icon='change' direct=true tooltip='allow system to increase/decrease price based on performance and popularity'
+                    if variable_price
+                        +number_view key='min_variable_price' label='minimum variable price' icon='online-request' tooltip='baseline price' direct=true
+                    div
+                    +boolean_view key='negotiable_price' label='negotiable price' icon='collaboration' tooltip='allow people to make bids' direct=true
+                    div
+                    +number_view key='retail_value' label='original retail value' icon='estimate' unit='$' tooltip='general info, helpful to renters to decide, also for price recommendations, and sorting' direct=true
+                    .ui.header 
+                        +i name='online-payment-'
+                        |payment options
+                    +boolean_view key='cash_accepted' label='cash accepted' icon='cash' direct=true
+                    +boolean_view key='venmo_accepted' label='venmo accepted' icon='venmo' direct=true
+                    +boolean_view key='prepay' label='prepayment required' icon='pay-wall' direct=true
+                    +boolean_view key='security_deposit_required' label='security deposit required' icon='card-security' direct=true
+                    if security_deposit_required
+                        +number_view key='security_deposit_amount' label='security deposit amount' icon='card-security' direct=true
+                    div
+                    +boolean_view key='friend_discount' label='friend discount' icon='friends--v2' direct=true
+                    if friend_discount
+                        +number_view key='friend_discount_amount' label='security deposit amount' icon='dollar' direct=true
+                
+                .column 
+                    //- a.ui.header(href="/rental/#{rental._id}/view") reserve #{rental.title}
+                    .ui.fluid.button.reserve_now(class=now_button_class)
+                        +i name='present'
+                        |reserve now
+                    unless now
+                        +date_edit key='start_date' label='start date' icon='date-from' direct=true
+                        +time_edit key='start_time' label='start time' icon='date-to' direct=true
+                    .ui.header 
+                        +i name='date-to'
+                        |duration
+                    +boolean_edit key='daily_reservation' label='daily' icon='sun' direct=true
+                    div
+                    unless daily_reservation
+                        +key_value_edit key='hour_duration' value=.5 label='1/2'
+                        +key_value_edit key='hour_duration' value=1 label='1 hr'
+                        +key_value_edit key='hour_duration' value=2 label='2 hrs'
+                        +key_value_edit key='hour_duration' value=3 label='3 hrs'
+                    else 
+                        +key_value_edit key='day_duration' value=1 label='1 day'
+                        +key_value_edit key='day_duration' value=2 label='2 days'
+                        +key_value_edit key='day_duration' value=3 label='3 days'
+                    +date_edit key='end_date' label='end date' icon='date-to' direct=true
+                    +time_edit key='end_time' label='end time' icon='time' direct=true
+            
+                    //- +key_value_edit key='minute_duration' value=30 label='1/2'
+                    //- +key_value_edit key='minute_duration' value=60 label='1 hour'
+                    //- +key_value_edit key='minute_duration' value=120 label='2 hrs'
+                    //- +key_value_edit key='minute_duration' value=180 label='3 hrs'
+                    //- +number_edit key='minute_duration' label='minute duration' direct=true
+                .column
+                    +date_view key='start_date' label='start date' icon='date-from' direct=true
+                    +time_view key='start_time' label='start time' icon='time' direct=true
+                    +date_view key='end_date' label='end date' icon='date-to' direct=true
+                    +time_view key='end_time' label='end time' icon='time' direct=true
+                    .ui.header 
+                        +i name='money'
+                        |estimated dollars #{hour_duration}*#{rental.hourly_dollars} = $#{estimated_dollars}
+                    .ui.header 
+                        +i name='yin-yang'
+                        |estimated karma #{hour_duration}*#{rental.hourly_karma} = $#{estimated_karma}
+                    .ui.header final cost will be based on actual checked out time
+                    //- +number_view key='minute_duration' label='minute duration' direct=true
+                    +number_view key='hour_duration' label='hour duration' direct=true
+                    unless submitted
+                        .ui.big.green.fluid.button.submit_reservation 
+                            +i name='submit-progress--v1'        
+                            |submit
+                    else
+                        .ui.header submitted {{ from_now submitted_timestamp }}
+                        .ui.orange.button.unsubmit
+                            i.undo.icon
+                            |unsubmit
+                    a.ui.big.fluid.button(href="/reservation/#{_id}/view" title='save')
+                        i.checkmark.large.green.icon
+                        //- +i name='submit-progress--v1'        
+                        |save
+                    .ui.large.icon.button.cancel_reservation
+                        i.cancel.large.icon
+                        |cancel

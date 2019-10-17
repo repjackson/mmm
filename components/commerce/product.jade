@@ -1,0 +1,375 @@
+//- //- template(name='shop_edit')
+//- //-     with current_doc
+//- //-         .ui.stackable.padded.grid
+//- //-             .row
+//- //-                 .four.wide.column
+//- //-                     .ui.inline.header #{title}
+//- //-                     a.ui.big.basic.button(href="/shop/#{_id}/view") save
+//- //-                     .ui.basic.icon.button.delete_shop_item 
+//- //-                         i.trash.icon
+//- //-                     +text_edit key='title' icon='header' direct=true
+//- //-                     +image_edit key='picture' direct=true
+//- //- 
+//- //-                     +array_edit key='tags' icon='tags' direct=true
+//- //-                     +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+//- //-                     +text_edit key='delivery_instructions' icon='truck' label='delivery instructions' direct=true
+//- //-                     //- +boolean_edit key='active' icon='clock' label='active' direct=true
+//- //-                     //- +text_edit key='model' icon='cube' label='model' direct=true
+//- //-                     +number_edit key='inventory' icon='move-by-trolley' label='inventory' direct=true
+//- //-                     +date_edit key='date_available' icon='calendar' label='date available' direct=true
+//- //-                     +time_edit key='time_available' icon='clock' label='time available' direct=true
+//- //-                     +single_doc_edit key='shop_type' ref_model='shop_type' label='shop type' direct=true
+//- //-                     //- +omega_edit model='shop_type'
+//- //-                     if is_event
+//- //-                         .ui.header 
+//- //-                             |event
+//- //-                         +date_edit key='date' label='date' direct=true
+//- //-                         +time_edit key='start_time' label='start time' direct=true
+//- //-                         +time_edit key='end_time' label='end time' direct=true
+//- //-                     else if is_service
+//- //-                         .ui.header service
+//- //-                         +number_edit key='hourly_rate' direct=true
+//- //-                     else if is_product
+//- //-                         .ui.header product
+//- //-                         +boolean_edit key='for_sale' label='for sale' direct=true
+//- //-                         if for_sale
+//- //-                             +number_edit key='dollar_price' icon='money' label='dollar price' direct=true
+//- //-                         +boolean_edit key='rentable' direct=true
+//- //-                         unless rentable
+//- //-                             +boolean_edit key='food' direct=true
+//- //-                             if food
+//- //-                                 +array_edit key='ingredients' direct=true
+//- //-                                 +array_edit key='allergies' direct=true
+//- //-                         if rentable
+//- //-                             +number_edit key='hourly_rate' label='hourly rate' icon='time-span' direct=true
+//- //-                             +number_edit key='daily_rate' label='daily rate' icon='timetable' direct=true
+//- //-                 .eight.wide.column
+//- //-                     +html_edit key='description' direct=true
+//- //-                     +text_edit key='model' direct=true
+//- //-                 .four.wide.column
+//- //-                     .ui.header
+//- //-                         |delivery
+//- //-                     +boolean_edit key='pickup_delivery' label='pickup' direct=true
+//- //-                     +boolean_edit key='home_dropoff_delivery' label='home dropoff' direct=true
+//- //-                     +boolean_edit key='building_dropoff_delivery' label='building dropoff' direct=true
+//- //-                     +boolean_edit key='healthclub_drop_off_delivery' label='health club drop off' direct=true
+//- //-                     .ui.header 
+//- //-                         |pricing
+//- //-                     +boolean_edit key='cash_accepted' label='cash accepted' direct=true
+//- //-                     +boolean_edit key='prepay' label='prepayment required' direct=true
+//- //-                     +boolean_edit key='security_deposit_required' label='security deposit required' direct=true
+//- //-                     if security_deposit_required
+//- //-                         +number_edit key='security_deposit_amount' label='security deposit amount' icon='dollar'
+//- //-                     +boolean_edit key='friend_discount' label='friend discount' direct=true
+//- //-                     if friend_discount
+//- //-                         +number_edit key='security_deposit_amount' label='security deposit amount' icon='dollar'
+//- //-                     .ui.header
+//- //-                         | visibility
+//- //-                     +boolean_edit key='published' label='published' direct=true
+//- //-                     .ui.header visibility
+//- //-                     +boolean_edit key='visible_to_friends' label='friends' direct=true
+//- //-                     +boolean_edit key='visible_to_building' label='building' direct=true
+//- //-                     +boolean_edit key='visible_to_residents' label='residents' direct=true
+//- //-                     +boolean_edit key='visible_to_public' label='public' direct=true
+//- //- 
+//- 
+//- 
+//- template(name='shop_view_layout')
+//-     +nav
+//-     //- a.ui.large.button(href="/m/shop")
+//-     //-     | Shop
+//-     with current_doc
+//-         .ui.stackable.padded.grid
+//-             //- img.ui.large.rounded.image(src="{{c.url image width=500 height=500 gravity='face' crop='fill'}}")
+//-             .row
+//-                 .four.wide.column
+//-                     img.ui.centered.rounded.shadowed.image(src="{{c.url picture width=1000 height=400 crop='fit'}}")
+//- 
+//-                     .ui.large.header #{title}
+//-                     if can_edit
+//-                         a.ui.fluid.button(href="/shop/#{_id}/edit")
+//-                             |edit
+//-                     .ui.large.vertical.fluid.menu
+//-                         a.item(href="/shop/#{_id}/info" class="{{isActiveRoute 'shop_info'}}")
+//-                             |info
+//-                         if rentable
+//-                             a.item(href="/shop/#{_id}/rentals" class="{{isActiveRoute 'shop_rentals'}}")
+//-                                 |rentals
+//-                         a.item(href="/shop/#{_id}/chat" class="{{isActiveRoute 'shop_chat'}}")
+//-                             |chat
+//-                         a.item(href="/shop/#{_id}/tasks" class="{{isActiveRoute 'shop_tasks'}}")
+//-                             |tasks
+//-                         a.item(href="/shop/#{_id}/earnings" class="{{isActiveRoute 'shop_earnings'}}")
+//-                             |earnings
+//-                         a.item(href="/shop/#{_id}/stats" class="{{isActiveRoute 'shop_stats'}}")
+//-                             |stats
+//-                         a.item(href="/shop/#{_id}/ownership" class="{{isActiveRoute 'product_ownership'}}")
+//-                             |ownership
+//-                         a.item(href="/shop/#{_id}/projections" class="{{isActiveRoute 'shop_projections'}}")
+//-                             |projections
+//-                         a.item(href="/shop/#{_id}/ads" class="{{isActiveRoute 'shop_ads'}}")
+//-                             |ads
+//-                     .ui.header added by #{_author_username}
+//-                     |#{when}
+//-                     with _author_id
+//-                         +user_card
+//-                     +array_view key='tags' icon='tags' direct=true
+//-                     +array_view key='location_tags' label='location tags' icon='marker' direct=true
+//-                     //- +text_view key='location' icon='marker' label='location description' direct=true
+//- 
+//-                     +number_view key='inventory' label='inventory' icon='move-by-trolley' direct=true
+//-                     //- +dollar_price_view key='dollar_price' icon='money' label='dollar price' direct=true
+//-                     if date_available
+//-                         +date_view key='date_available' label='date available' icon='calendar' direct=true
+//-                     if time_available
+//-                         +time_view key='time_available' label='time available' icon='clock' direct=true
+//-                     +product_adspace
+//-                     .ui.header 
+//-                         |reviews
+//-                 .eight.wide.column
+//-                     +yield
+//-                 .four.wide.column
+//-                     .ui.header $#{past_earnings} past earnings 
+//-                     .ui.header $#{future_earnings} future earnings 
+//-                     .ui.header #{future_reservations} future reservations
+//-                     .ui.header #{past_reservations} past reservations
+//-                     div
+//-                     +product_location
+//-                     .ui.header available_inventory #{inventory_available}
+//-                     if for_sale
+//-                         unless sold_out
+//-                             .ui.big.green.fluid.button.add_to_cart 
+//-                                 |+ cart
+//-                         else 
+//-                             .ui.big.disabled.button
+//-                                 |sold out
+//-                     +voting_full     
+//-                     .ui.basic.segment
+//-                         .ui.small.header
+//-                             |delivery instructions
+//-                         |#{delivery_instructions}      
+//-                     .ui.header
+//-                         |delivery
+//-                     +boolean_view key='pickup_delivery' label='pickup' direct=true
+//-                     +boolean_view key='home_dropoff_delivery' label='home dropoff' direct=true
+//-                     +boolean_view key='building_dropoff_delivery' label='building dropoff' direct=true
+//-                     +boolean_view key='healthclub_drop_off_delivery' label='health club drop off' direct=true
+//-                     .ui.header pricing
+//-                     +boolean_view key='cash_accepted' label='cash accepted' direct=true
+//-                     +boolean_view key='prepay' label='prepayment required' direct=true
+//-                     +boolean_view key='security_deposit_required' label='security deposit required' direct=true
+//-                     if security_deposit_required
+//-                         +number_view key='security_deposit_amount' label='security deposit amount' icon='dollar'
+//-                     .ui.header pricing planning determination
+//-                     +boolean_view key='friend_discount' label='friend discount' direct=true
+//-                     if friend_discount
+//-                         +number_view key='security_deposit_amount' label='security deposit amount' icon='dollar'
+//-                     .ui.header
+//-                         | privacy
+//-                     .ui.small.header visibility
+//-                     +boolean_view key='visible_to_friends' label='friends' direct=true
+//-                     +boolean_view key='visible_to_building' label='building' direct=true
+//-                     +boolean_view key='visible_to_residents' label='residents' direct=true
+//-                     +boolean_view key='visible_to_public' label='public' direct=true
+//-                     .ui.divider
+//-                     +boolean_view key='published' label='published' direct=true
+//-     +footer
+//- 
+//- 
+//- 
+//- template(name='product_adspace')
+//-     .ui.segment
+//-         .ui.header advertisement
+//-         if current_ad
+//-             .ui.header current ad
+//-             .ui.disabled.button buy now
+//-         else
+//-             .ui.button advertise
+//- 
+//- 
+//- 
+//- template(name='product_ads')
+//-     .ui.segment
+//-         .ui.header ads settings
+//-         .ui.segment
+//-             .ui.header ad 1
+//-         .ui.segment
+//-             .ui.header ad 2
+//-         if current_ad
+//-             .ui.header current ad
+//-             .ui.disabled.button buy now
+//-         else
+//-             .ui.button.create_product_ad advertise
+//- 
+//- 
+//- 
+//- 
+//- 
+//- template(name='shop_stats')
+//-     .ui.header admin actions
+//-     .ui.button.calculate_transaction_count calculate transaction count
+//-     .ui.button.advise_price advise price
+//-     .ui.header sale price $#{dollar_price}
+//-     .ui.header transaction count #{transaction_count}
+//-     .ui.header daily rate $#{daily_rate}
+//-     .ui.header sales_total $#{sales_total}
+//-     .ui.header average_sale_price $#{average_sale_price}
+//-     .ui.header advise notes
+//-     |#{advise_notes}
+//-     .ui.header suggested daily rate #{daily_rate}
+//- 
+//-     //- +product_transactions
+//- 
+//- template(name='product_location')
+//-     .ui.inline.header current location
+//-     |#{current_location}
+//- 
+//- 
+//- 
+//- template(name='shop_rentals')
+//-     //- +cal
+//-     +rentals
+//- 
+//- template(name='shop_earnings')
+//-     .ui.header 
+//-         |shop earnings
+//-     .ui.segment
+//-         .ui.small.header 
+//-             |past reservations #{past_reservations}
+//-         .ui.small.header 
+//-             |future reservations #{future_reservations}
+//-         .ui.small.header 
+//-             |past earnings $#{past_earnings}
+//-         .ui.small.header 
+//-             |future earnings $#{future_earnings}
+//-         .ui.grey.button.calculate_future_earnings 
+//-             //- calculate future earnings
+//-     .ui.segment
+//-         .ui.small.header total earnings
+//-         .ui.header sales_total $#{sales_total}
+//-         .ui.button.calculate_total_earnings calculate total earnings
+//-     .ui.segment
+//-         .ui.small.header monthly earnings
+//-     .ui.segment
+//-         .ui.small.header ad earnings
+//-         +product_viewing    
+//- 
+//- template(name='shop_chat')                        
+//-     +comments
+//- 
+//- 
+//- 
+//- 
+//- template(name='shop_projections')                        
+//-     .ui.header shop projections
+//-     .ui.disabled.button bet a certain avg price at a certain time
+//- 
+//- template(name='shop_tasks')                        
+//-     .ui.header
+//-         | product tasks
+//-     |none
+//-     .ui.header
+//-         | unreplied messages
+//-     |none
+//-     .ui.header
+//-         | undelivered orders
+//-     |none
+//-     .ui.header
+//-         | open tickets
+//-     |none
+//- 
+//- template(name='shop_info')    
+//-     if rentable                    
+//-         +rentals    
+//-     +html_view key='description' direct=true
+//-     .ui.grid
+//-         .two.column.row
+//-             .column
+//-                 +product_viewing
+//-             .column
+//-                 +voting_full
+//-     +comments
+//-     if food
+//-         +reservations
+//-     +product_transactions
+//-     .row
+//-         .twelve.wide.column
+//-             if watson
+//-                 .ui.fluid.accordion
+//-                     .title
+//-                         .ui.header 
+//-                             +i name='development-skill'
+//-                             |description analysis
+//-                     .content
+//-                         //- +watson_view
+//- 
+//- template(name='product_viewing')
+//-     .ui.secondary.segment
+//-         .ui.header
+//-             | viewers
+//-         if marked_read
+//-             .ui.button.mark_unread 
+//-                 |mark unread
+//-         else
+//-             .ui.button.mark_read
+//-                 | mark read
+//-         div
+//-         .ui.header reader count #{reader_count}
+//-         each readers
+//-             .ui.label 
+//-                 |#{username}
+//- 
+//- 
+//- template(name='shop_item_transactions')
+//-     .ui.segment
+//-         .ui.header shop item transactions
+//-         if is_author
+//-             .ui.big.button 
+//-                 |mark as sold
+//- 
+//- 
+//- 
+//- 
+//- 
+//- template(name='product_transactions')
+//-     .ui.header 
+//-         +i name='cashbook'
+//-         |transactions
+//-     if is_author
+//-         .ui.big.button.add_transaction
+//-             | add transaction
+//-     .ui.styled.accordion
+//-         each product_transactions
+//-             +public_transaction
+//- 
+//- template(name='public_transaction')
+//-     .title
+//-         +creation_info
+//-         +author_info
+//-     .content
+//-         if is_author
+//-             +boolean_edit key='paid' label='paid' icon='money' direct=true
+//-             if paid
+//-                 +number_edit key='paid_amount' label='amount paid' icon='hashtag' direct=true
+//-                 +date_edit key='paid_date' label='date paid' icon='calendar' direct=true
+//-                 +text_edit key='paid_payment_method' label='payment method' icon='credit card' direct=true
+//-             +boolean_edit key='delivered' label='delivered' direct=true
+//-             unless delivered
+//-                 +image_edit key='dropoff_photo' label='drop off photo' direct=true
+//-                 +datetime_edit key='dropoff_datetime' label='drop off datetime' direct=true
+//-         if is_author
+//-             unless delivered
+//-                 +datetime_edit key='delivery_datetime' label='delivery datetime' direct=true
+//-                 +textarea_edit key='dropoff_instructions' label='dropoff instructions (private)' direct=true
+//-             else
+//-                 +textarea_view key='dropoff_instructions' label='dropoff instructions (private)' direct=true
+//-                 +image_view key='dropoff_photo' label='drop off photo' direct=true
+//-                 div
+//-                 +datetime_view key='dropoff_datetime' label='drop off datetime' direct=true
+//-                 .ui.divider
+//-                 +array_edit key='review_tags' label='review tags' icon='tags' direct=true
+//-                 +voting
+//-         else
+//-             +array_view key='tags' label='tags' icon='tags' direct=true
+//-         +remove_button    
+//- 

@@ -1,4 +1,13 @@
 if Meteor.isClient
+    Router.route '/m/:model_slug', (->
+        @render 'delta'
+        ), name:'delta'
+    Router.route '/m/:model_slug/:doc_id/edit', -> @render 'model_doc_edit'
+    Router.route '/m/:model_slug/:doc_id/view', (->
+        @render 'model_doc_view'
+        ), name:'doc_view'
+    Router.route '/model/edit/:doc_id', -> @render 'model_edit'
+
     Template.delta.onCreated ->
         @autorun -> Meteor.subscribe 'model_from_slug', Router.current().params.model_slug
         @autorun -> Meteor.subscribe 'model_fields', Router.current().params.model_slug
@@ -310,17 +319,20 @@ if Meteor.isClient
 
     Template.delta_result.events
         'click .result': ->
-            # console.log @
+            console.log @
             model_slug =  Router.current().params.model_slug
-
+            #
             if Meteor.user()
                 Docs.update @_id,
                     $inc: views: 1
                     $addToSet:viewer_usernames:Meteor.user().username
+            # else
+            #     Docs.update @_id,
+            #         $inc: views: 1
+            if @model is 'model'
+                Router.go "/m/#{@slug}"
             else
-                Docs.update @_id,
-                    $inc: views: 1
-            Router.go "/m/#{model_slug}/#{@_id}/view"
+                Router.go "/m/#{model_slug}/#{@_id}/view"
 
         'click .set_model': ->
             Meteor.call 'set_delta_facets', @slug, Meteor.userId()

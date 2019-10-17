@@ -2,28 +2,28 @@ template(name='nav')
     .ui.attached.borderless.inverted.blue.topnav.menu
         if is_loading
             .item
-                i.big.loading.money.icon
+                i.big.loading.notched.circle.icon
         if currentUser
             a.compact.item(href='/grid' class="{{isActivePath '/grid'}}") 
                 img.ui.tiny.compact.image(src="{{c.url 'mmm_logo_small' height=150 }}" title='Home')
             a.item(href='/classrooms' title='classrooms')
                 +ismall name='class'
                 span.mobile.hidden &nbsp; classrooms
-            //- a.item(href='/teachers' title='teachers')
-            //-     +ismall name='teacher'
-            //-     //- |teachers
+            a.item(href='/teachers' title='teachers')
+                +ismall name='teacher'
+                //- |teachers
             a.item(href='/students' title='students') 
                 +ismall name='students'
                 span.mobile.hidden &nbsp; students
-            //- a.item(href='/m/shop' title='shop') 
-            //-     +ismall name='shop'
-            //-     span.mobile.hidden &nbsp; shop
-            //- a.item(href='/m/job' title='jobs') 
-            //-     +ismall name='find-matching-job'
-            //-     span.mobile.hidden &nbsp; jobs
-            //- a.item(href='/m/loan' title='loans') 
-            //-     +ismall name='debt'
-            //-     span.mobile.hidden &nbsp; loans
+            a.item(href='/m/shop' title='shop') 
+                +ismall name='shop'
+                span.mobile.hidden &nbsp; shop
+            a.item(href='/m/job' title='jobs') 
+                +ismall name='find-matching-job'
+                span.mobile.hidden &nbsp; jobs
+            a.item(href='/m/loan' title='loans') 
+                +ismall name='debt'
+                span.mobile.hidden &nbsp; loans
         
         else
             a.compact.item(href='/' class="{{isActivePath '/'}}") 
@@ -31,7 +31,7 @@ template(name='nav')
             //- |Home
         //- a.item(href='/schools' title='schools') 
         //-     +ismall name='school'
-            //- schools
+        //-     schools
         //- a.item(href='/classroom/i4mdNbN8ykJcr6w9q/dashboard' title='classrooms')
         //-     +ismall name='dashboard'
         unless currentUser
@@ -58,7 +58,7 @@ template(name='nav')
                         i.shield.icon
                         |admin
                 if is_dev
-                    a.icon.item(href="/m/model")
+                    a.icon.item.set_models(href="/m/model")
                         i.database.icon
                 unless logging_out
                     a.item(href="/chat")

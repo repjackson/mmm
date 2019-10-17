@@ -1,5 +1,5 @@
 template(name='delta')
-    .ui.stackable.grid
+    .ui.stackable.padded.grid
         with current_model
             .row
                 .five.wide.column
@@ -47,8 +47,7 @@ template(name='delta')
                     each sorted_facets
                         +facet
                 .eleven.wide.column
-                    //- .filter_row.ui.basic.segment(class=loading_class)
-                    .filter_row
+                    .filter_row.ui.basic.segment(class=loading_class)
                         .ui.inline.small.grey.header
                             |sort by
                         .ui.compact.small.menu
@@ -225,6 +224,7 @@ template(name='delta_result')
                                 a.ui.button.route_model(href="/model/edit/#{_id}")
                                     i.edit.blue.icon
                                     |edit model
+                            .ui.header #{views} view
                         //- else
                         //-     if can_edit
                         //-         a.ui.large.icon.button(href="/m/#{current_model.slug}/#{_id}/edit" title='edit')

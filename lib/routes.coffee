@@ -70,14 +70,6 @@ Router.route('verify-email', {
 })
 
 
-Router.route '/m/:model_slug', (->
-    @render 'delta'
-    ), name:'delta'
-Router.route '/m/:model_slug/:doc_id/edit', -> @render 'model_doc_edit'
-Router.route '/m/:model_slug/:doc_id/view', (->
-    @render 'model_doc_view'
-    ), name:'doc_view'
-Router.route '/model/edit/:doc_id', -> @render 'model_edit'
 
 # Router.route '/user/:username', -> @render 'user'
 Router.route '/verification_confirmation', -> @render 'verification_confirmation'

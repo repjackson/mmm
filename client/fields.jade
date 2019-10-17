@@ -221,8 +221,8 @@ template(name='link_view')
             +ismall name=icon classes='ui middle aligned image'
         //- .ui.inline.header 
         //-     |#{title} #{label}
-        a.ui.header(href=field_value target='_window') #{label}
-        //- a(href=field_value target='_window') #{field_value}
+        //- a.ui.header(href=field_value target='_window') #{label}
+        a.ui.header(href=field_value target='_window') #{field_value}
         //- img.ui.fluid.image(src=field_value)
 
 template(name='image_view')
@@ -395,8 +395,8 @@ template(name='textarea_edit')
 
 
 template(name='document_edit')
-    // .ui.labeled.fluid.icon.input
-    //     .ui.label 
+    // .ui.large.basic.labeled.fluid.icon.input
+    //     .ui.large.basic.label 
     //         // if icon
     //         //     i.grey.icon(class=icon)
     //         if title
@@ -786,7 +786,7 @@ template(name='array_view')
             .ui.inline.small.grey.header(title=title)
                 |#{label}
         each field_value
-            .ui.label #{this}
+            .ui.large.basic.label #{this}
 
 
 template(name='children_edit')
@@ -876,7 +876,7 @@ template(name='child_view')
 
 
 template(name='youtube_edit')
-    .ui.labeled.fluid.icon.input
+    .ui.large.basic.labeled.fluid.icon.input
         .ui.large.basic.label 
             // if icon
             //     i.grey.icon(class=icon)
@@ -987,7 +987,7 @@ template(name='single_doc_view')
             +ismall name=icon
         .ui.inline.header(title=key)
             |#{title}
-        .ui.label
+        .ui.large.basic.label
             if icon
                 //- i.grey.icon(class=icon)
                 +ismall name=icon classes='ui middle aligned image'
@@ -1355,3 +1355,41 @@ template(name='range_edit')
                     i.calendar.icon
                     input(type='text', placeholder='end' value=end_time)
             .ui.button.fluid.get_end save end
+
+
+
+template(name='html_raw_edit')
+    .ui.form
+        .field
+            label 
+                if icon
+                    //- i.icon(class=field_value)
+                    +i name=icon classes='ui middle aligned image'
+                if title
+                    |#{title}
+                else if label
+                    |#{label}
+                //- else if key
+                //-     |#{key}
+                //- else
+                //-     |#{this}
+            textarea.edit_textarea(rows='5') #{field_value}
+
+    
+    
+template(name='html_raw_view')
+    if field_value
+        div
+        //- if icon
+        //-     i.icon(class=field_value)
+            //- +i name=icon classes='ui inline image'
+        .ui.inline.small.grey.header
+            if title
+                |#{title}
+            else if label
+                |#{label}
+            //- else if key
+            //-     |#{key}
+            //- else
+            //-     |#{this}            
+        .f6 !{field_value}

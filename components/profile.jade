@@ -1,4 +1,5 @@
-template(name='profile_view')
+template(name='profile_layout')
+    +nav
     with user_from_username_param
         .ui.stackable.padded.grid.global_container
             .row
@@ -19,48 +20,7 @@ template(name='profile_view')
                         //-     //- i.globe.icon
                         //-     +ismall name='globe' 
                         //-     |log out other clients
-                    //- .ui.vertical.fluid.large.pointing.menu
-                    //-     a.item(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
-                    //-         i.icon
-                    //-             +ismall name='home'
-                    //-         |dashboard
-                    //-     a.item(href="/classroom/#{_id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
-                    //-         i.icon
-                    //-             +ismall name='invoice'
-                    //-         | reports
-                    //-     a.item(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
-                    //-         i.icon
-                    //-             +ismall name='rss'
-                    //-         | feed
-                    //-     a.item(href="/classroom/#{_id}/stats" class="{{isActiveRoute regex='classroom_stats'}}")
-                    //-         i.icon
-                    //-             +ismall name='chart'
-                    //-         | stats
-                    //-     a.item(href="/classroom/#{_id}/grades" class="{{isActiveRoute regex='classroom_grades'}}")
-                    //-         |grades
-                    //-         i.icon
-                    //-             +ismall name='leaderboard'
-                    //-     a.item(href="/classroom/#{_id}/jobs" class="{{isActiveRoute regex='classroom_jobs'}}")
-                    //-         |jobs
-                    //-         i.icon
-                    //-             +ismall name='business'
-                    //-     a.item(href="/classroom/#{_id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
-                    //-         i.icon
-                    //-             +ismall name='shop'
-                    //-         |shop
-                    //-     a.item(href="/classroom/#{_id}/services" class="{{isActiveRoute regex='classroom_services'}}")
-                    //-         i.icon
-                    //-             +ismall name='service'
-                    //-         |services
-                    //-     a.item(href="/classroom/#{_id}/stock" class="{{isActiveRoute regex='classroom_stock'}}")
-                    //-         i.icon
-                    //-             +ismall name='stock'
-                    //-         |stock
-                    //-     a.item(href="/classroom/#{_id}/loans" class="{{isActiveRoute regex='classroom_loans'}}")
-                    //-         |loans
-                    //-         i.icon
-                    //-             +ismall name='debt'
-                    a.ui.fluid.button.item(href="/user/#{user_from_username_param.username}/edit")
+                    a.ui.fluid.button(href="/user/#{user_from_username_param.username}/edit")
                         +ismall name='settings' classes='ui inline mini image'
                         |edit
                     if is_admin
@@ -71,113 +31,202 @@ template(name='profile_view')
                             each roles
                                 .ui.basic.label #{this}
                 .twelve.wide.column
-                    .ui.stackable.padded.grid
-                        .row
-                            .sixteen.wide.column
-                                .ui.inline.header.recalc_student_stats
-                                    +i name='dashboard'
-                                    |#{user_from_username_param.first_name}'s dashboard
-                                .ui.inline.grey.header current balance $#{user_from_username_param.credit}
-                        .three.column.row
-                            .column
-                                .ui.segment
-                                    .ui.small.header 
-                                        +i name='money-bag'
-                                        strong $#{ssd.total_credit_amount}
-                                        small total weekly income
-                                    .ui.small.header
-                                        +i name='hashtag'
-                                        strong #{ssd.credit_count}
-                                        small credits
-            
-                            .column
-                                .ui.segment
-                                    .ui.small.header
-                                        +i name='shopping-cart-loaded'
-                                        strong $#{ssd.total_debit_amount}
-                                        small total weekly expenses
-                                    .ui.small.header
-                                        +i name='hashtag'
-                                        strong #{ssd.debit_count}
-                                        small debits
-        
-                            .column
-                                .ui.segment
-                                    .ui.small.header
-                                        +i name='economic-improvement'
-                                        |growth from last week
-                        .two.column.row
-                            .column
-                                .ui.segment
-                                    .ui.header 
-                                        +i name='deposit'
-                                        |weekly paycheck (credits)
-                                    //- .ui.bulleted.list
-                                    //-     each user_credits
-                                    //-         .item 
-                                    //-             |#{amount}
-                                    //-             if icon
-                                    //-                 +i name=icon
-                                    //-             strong #{text}
-                                    //-             small #{when}
-                                    .ui.feed.mediumscroll
-                                        each user_credits
-                                            .event 
-                                                .label
-                                                    if is_credit
-                                                        +i name='deposit' classes='ui inline mini image'
-                                                    if is_debit
-                                                        +i name='withdrawal' classes='ui inline mini image'
-                                                    else if icon
-                                                        +i name=icon
-                                                .content
-                                                    .summary
-                                                        a.user(href="/user/#{target_user.username}")
-                                                            |#{target_user.name}
-                                                        |#{text}
-                                                        .date #{when}
-                                                    .meta
-                                                        +voting_small
-                                                        //- a.like
-                                                        //-     i.like.icon 
-                                                        //-     |4 likes
-                                                        a.remove
-                                                            i.undo.icon
-                                                        //- if is_dev
-                                                        //-     +remove_button
-            
-                                                
-                                                
-                            .column
-                                .ui.segment
-                                    .ui.header 
-                                        +i name='withdrawal'
-                                        |weekly expenses (debits)
-                                    .ui.feed.mediumscroll
-                                        each user_debits
-                                            .event 
-                                                .label
-                                                    if is_credit
-                                                        +i name='deposit' classes='ui inline mini image'
-                                                    if is_debit
-                                                        +i name='withdrawal' classes='ui inline mini image'
-                                                    else if icon
-                                                        +i name=icon
-                                                .content
-                                                    .summary
-                                                        a.user(href="/user/#{target_user.username}")
-                                                            |#{target_user.name}
-                                                        |#{text}
-                                                        .date #{when}
-                                                    .meta
-                                                        +voting_small
-                                                        //- a.like
-                                                        //-     i.like.icon 
-                                                        //-     |4 likes
-                                                        a.remove
-                                                            i.undo.icon
-                                                        //- if is_dev
-                                                        //-     +remove_button
+                    a.ui.button(href="/user/#username}/dashboard" class="{{isActiveRoute regex='user_dashboard'}}")
+                        +ismall name='home'
+                        |dashboard
+                    a.ui.button(href="/user/#username}/reports" class="{{isActiveRoute regex='user_reports'}}")
+                        +ismall name='invoice'
+                        | reports
+                    a.ui.button(href="/user/#username}/feed" class="{{isActiveRoute regex='user_feed'}}")
+                        +ismall name='rss'
+                        | feed
+                    a.ui.button(href="/user/#username}/stats" class="{{isActiveRoute regex='user_stats'}}")
+                        +ismall name='chart'
+                        | stats
+                    a.ui.button(href="/user/#username}/grades" class="{{isActiveRoute regex='user_grades'}}")
+                        |grades
+                        +ismall name='leaderboard'
+                    a.ui.button(href="/user/#username}/jobs" class="{{isActiveRoute regex='user_jobs'}}")
+                        |jobs
+                        +ismall name='business'
+                    a.ui.button(href="/user/#username}/shop" class="{{isActiveRoute regex='user_shop'}}")
+                        +ismall name='shop'
+                        |shop
+                    a.ui.button(href="/user/#username}/services" class="{{isActiveRoute regex='user_services'}}")
+                        +ismall name='service'
+                        |services
+                    a.ui.button(href="/user/#username}/stock" class="{{isActiveRoute regex='user_stock'}}")
+                        +ismall name='stock'
+                        |stock
+                    a.ui.button(href="/user/#username}/loans" class="{{isActiveRoute regex='user_loans'}}")
+                        |loans
+                        +ismall name='debt'
+                    a.ui.compact.button(href="/user/#{username}/connections" class="{{isActiveRoute 'user_connections'}}")
+                        +ismall name='handshake' classes='ui inline image'
+                        |connections
+                    a.ui.compact.button(href="/user/#{username}/bookmarks" class="{{isActiveRoute 'user_bookmarks'}}")
+                        +ismall name='star' classes='ui inline image'
+                        |bookmarks
+                    a.ui.compact.button(href="/user/#{username}/contact" class="{{isActiveRoute 'user_contact'}}")
+                        +ismall name='phone' classes='ui inline image'
+                        |contact
+                    a.ui.compact.button(href="/user/#{username}/events" class="{{isActiveRoute 'user_events'}}")
+                        +ismall name='calendar' classes='ui inline image'
+                        |calendar
+                    a.ui.compact.button(href="/user/#{username}/comparison" class="{{isActiveRoute 'user_comparison'}}")
+                        +ismall name='scales' classes='ui inline image'
+                        |comparison
+                    a.ui.compact.button(href="/user/#{username}/offers" class="{{isActiveRoute 'user_offers'}}")
+                        +ismall name='sell' classes='ui inline image'
+                        |offers
+                    a.ui.compact.button(href="/user/#{username}/tags" class="{{isActiveRoute 'user_tags'}}")
+                        +ismall name='tags' classes='ui inline image'
+                        |tags
+                    a.ui.compact.button(href="/user/#{username}/tasks" class="{{isActiveRoute 'user_tasks'}}")
+                        +ismall name='tasks' classes='ui inline image'
+                        |tasks
+                    a.ui.compact.button(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}")
+                        +ismall name='new-message' classes='ui inline image'
+                        |mail
+                    a.ui.compact.button(href="/user/#{username}/karma" class="{{isActiveRoute 'user_karma'}}")
+                        +ismall name='yin-yang' classes='ui inline image'
+                        |karma
+                    a.ui.compact.button(href="/user/#{username}/workhistory" class="{{isActiveRoute 'user_workhistory'}}")
+                        +ismall name='resume' classes='ui inline image'
+                        |work history
+                    a.ui.compact.button(href="/user/#{username}/stats" class="{{isActiveRoute 'user_stats'}}")
+                        +ismall name='line-chart' classes='ui inline image'
+                        |stats
+                    a.ui.compact.button(href="/user/#{username}/votes" class="{{isActiveRoute 'user_votes'}}")
+                        +ismall name='elections' classes='ui inline image'
+                        |votes
+                    a.ui.compact.button(href="/user/#{username}/finance" class="{{isActiveRoute 'user_finance'}}")
+                        +ismall name='money' classes='ui inline image'
+                        |finance
+                    a.ui.compact.button(href="/user/#{username}/bids" class="{{isActiveRoute 'user_bids'}}")
+                        +ismall name='elections' classes='ui inline image'
+                        |bids
+                    a.ui.compact.button(href="/user/#{username}/notifications" class="{{isActiveRoute 'user_notifications'}}")
+                        +ismall name='appointment-reminders' classes='ui inline image'
+                        |notifications
+                    a.ui.compact.button(href="/user/#{username}/dashboard" class="{{isActiveRoute 'user_dashboard'}}")
+                        +ismall name='dashboard' classes='ui inline image'
+                        |dashboard
+                    a.ui.compact.button(href="/user/#{username}/about" class="{{isActiveRoute 'user_about'}}")
+                        +ismall name='info' classes='ui inline image'
+                        |info
+                    a.ui.compact.button(href="/user/#{username}/social" class="{{isActiveRoute 'user_social'}}")
+                        +ismall name='collaboration' classes='ui inline image'
+                        |social
+                    a.ui.compact.button(href="/user/#{username}/gallery" class="{{isActiveRoute 'user_gallery'}}")
+                        +ismall name='gallery' classes='ui inline image'
+                        |gallery
+                    +yield    
+                    
+template(name='student_dashboard')                    
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+                .ui.inline.header.recalc_student_stats
+                    +i name='dashboard'
+                    |#{user_from_username_param.first_name}'s dashboard
+                .ui.inline.grey.header current balance $#{user_from_username_param.credit}
+        .three.column.row
+            .column
+                .ui.segment
+                    .ui.small.header 
+                        +i name='money-bag'
+                        strong $#{ssd.total_credit_amount}
+                        small total weekly income
+                    .ui.small.header
+                        +i name='hashtag'
+                        strong #{ssd.credit_count}
+                        small credits
+
+            .column
+                .ui.segment
+                    .ui.small.header
+                        +i name='shopping-cart-loaded'
+                        strong $#{ssd.total_debit_amount}
+                        small total weekly expenses
+                    .ui.small.header
+                        +i name='hashtag'
+                        strong #{ssd.debit_count}
+                        small debits
+            .column
+                .ui.segment
+                    .ui.small.header
+                        +i name='economic-improvement'
+                        |growth from last week
+        .two.column.row
+            .column
+                .ui.segment
+                    .ui.header 
+                        +i name='deposit'
+                        |weekly paycheck (credits)
+                    //- .ui.bulleted.list
+                    //-     each user_credits
+                    //-         .item 
+                    //-             |#{amount}
+                    //-             if icon
+                    //-                 +i name=icon
+                    //-             strong #{text}
+                    //-             small #{when}
+                    .ui.feed.mediumscroll
+                        each user_credits
+                            .event 
+                                .label
+                                    if is_credit
+                                        +i name='deposit' classes='ui inline mini image'
+                                    if is_debit
+                                        +i name='withdrawal' classes='ui inline mini image'
+                                    else if icon
+                                        +i name=icon
+                                .content
+                                    .summary
+                                        a.user(href="/user/#{target_user.username}")
+                                            |#{target_user.name}
+                                        |#{text}
+                                        .date #{when}
+                                    .meta
+                                        +voting_small
+                                        //- a.like
+                                        //-     i.like.icon 
+                                        //-     |4 likes
+                                        a.remove
+                                            i.undo.icon
+                                        //- if is_dev
+                                        //-     +remove_button
+            .column
+                .ui.segment
+                    .ui.header 
+                        +i name='withdrawal'
+                        |weekly expenses (debits)
+                    .ui.feed.mediumscroll
+                        each user_debits
+                            .event 
+                                .label
+                                    if is_credit
+                                        +i name='deposit' classes='ui inline mini image'
+                                    if is_debit
+                                        +i name='withdrawal' classes='ui inline mini image'
+                                    else if icon
+                                        +i name=icon
+                                .content
+                                    .summary
+                                        a.user(href="/user/#{target_user.username}")
+                                            |#{target_user.name}
+                                        |#{text}
+                                        .date #{when}
+                                    .meta
+                                        +voting_small
+                                        //- a.like
+                                        //-     i.like.icon 
+                                        //-     |4 likes
+                                        a.remove
+                                            i.undo.icon
+                                        //- if is_dev
+                                        //-     +remove_button
                 
                         //- +range_edit                
 template(name='user_log')

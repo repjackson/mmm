@@ -1,0 +1,290 @@
+//- template(name='rentals')
+//-     .ui.stackable.padded.grid
+//-         .row
+//-             .four.wide.column
+//-                 if is_frontdesk
+//-                     a.ui.big.fluid.button(href='/healthclub')
+//-                         i.left.chevron.icon
+//-                         .ui.inline.header back
+//-                 else
+//-                     a.ui.big.fluid.button(href='/')
+//-                         i.left.chevron.icon
+//-                         .ui.inline.header back
+//-                 h1.ui.header 
+//-                     +i name='handshake'
+//-                     |rentals
+//-                 //- .ui.inline.header type
+//-                 div
+//-                 +rental_cloud
+//-             .twelve.wide.column.scrolling
+//-                 .ui.three.cards
+//-                     each rentals
+//-                         +rental_kiosk_card
+//- 
+//- template(name='set_market_type')
+//-     .ui.large.button 
+//-         if icon
+//-             +ismall name=icon
+//-         |#{label}
+//- 
+//- 
+//- template(name='rental_card_template')
+//-     .ui.fluid.segment.grid
+//-         .row
+//-             .sixteen.wide.column
+//-                 //- a.ui.inline.header(href="/kiosk_rental_view/#{_id}") #{title} 
+//-                 a.ui.inline.header(href="/rental/#{_id}/view") #{title} 
+//-                     if variable_price
+//-                         |~
+//-                     if hourly_dollars
+//-                         .ui.basic.label $#{hourly_dollars}/hr
+//-                     if daily_dollars
+//-                         .ui.basic.label $#{daily_dollars}/day
+//-                 if hourly_karma
+//-                     +ismall name='yin-yang'
+//-                     |#{hourly_karma}/hr
+//-                 if daily_karma
+//-                     +ismall name='yin-yang'
+//-                     | #{daily_karma}/day
+//-                 +rental_status
+//-         .row
+//-             .four.wide.column
+//-                 //- a.zoom(href="/kiosk_rental_view/#{_id}")
+//-                 if image
+//-                     a.zoom(href="/rental/#{_id}/view")
+//-                         +image_view key='image' direct=true classes='zoom'
+//-             .twelve.wide.column
+//-                 span(title='views')
+//-                     +ismall name='eye'
+//-                     |#{views}
+//-                 div
+//-                 +ismall name='marker'
+//-                 each location_tags
+//-                     .ui.basic.label #{this}
+//-                 div
+//-                 +ismall name='tags'
+//-                 each tags
+//-                     .ui.basic.label #{this}
+//-                 +single_user_view key='resident' label='resident' direct=true
+//-                 div
+//-                 +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' add_label='bookmark' remove_label='unbookmark'  big=true
+//-                 +voting
+//-                 div
+//-                 if currentUser
+//-                     if can_edit
+//-                         a.ui.button(href="/rental/#{_id}/edit/info")
+//-                             i.pencil.icon
+//-                             |edit
+//-                 //- a.ui.button(href="/kiosk_rental_view/#{_id}")
+//-                 a.ui.button(href="/rental/#{_id}/view")
+//-                     |view
+//-                     i.right.chevron.icon
+//-                 +author_info
+//-                 +reserve_button
+//- 
+//- 
+//- template(name='rental_cloud')
+//-     div
+//-     //- #cloud
+//-         //- .ui.left.icon.input
+//-         //-     i.search.icon
+//-         //-     +inputAutocomplete settings=settings id="search" class="" autocomplete="off" 
+//-         // .ui.hidden.fitted.divider
+//-     //- i.grey.tags.icon
+//-     //- .ui.inline.header tags
+//-     if selected_rental_tags
+//-         #clear_tags.ui.active.icon.tiny.circular.button
+//-             i.remove.icon
+//-         each selected_rental_tags
+//-             .unselect_rental_tag.ui.active.tiny.circular.kiosk_facet_button.button
+//-                 strong #{this}
+//-     each all_rental_tags
+//-         .ui.compact.tiny.circular.basic.button.kiosk_facet_button.select_rental_tag(class=cloud_tag_class) 
+//-             strong #{this.name}
+//- 
+//- 
+//- 
+//- 
+//- 
+//- template(name='rental_view_calendar')
+//-     .ui.header 
+//-         //- i.clock.icon
+//-         +i name='clock'
+//-         |rentals
+//-     unless is_author
+//-         +view_rental
+//-     //- .ui.green.button.rent Rent
+//-     .ui.celled.grid
+//-         .seven.column.row
+//-             each upcoming_days
+//-                 .column
+//-                     +upcoming_day data=this
+//-     .ui.small.header #{current_month} reservations
+//-     .ui.celled.grid
+//-         .seven.column.row
+//-             .header.column sun
+//-             .header.column mon
+//-             .header.column tue
+//-             .header.column wed
+//-             .header.column thu
+//-             .header.column fri
+//-             .header.column sat
+//-         .seven.column.row
+//-             each month_day
+//-                 +month_day_template
+//-     each reservations
+//-         .ui.segment
+//-             .ui.small.inline.header 
+//-                 i.clock.grey.icon
+//-                 |#{hour}:00
+//-             .ui.inline.small.header 
+//-                 |#{date} #{notes}
+//-             +author_info
+//-             if is_author
+//-                 +remove_button
+//- 
+//- template(name='month_day_template')
+//-     .column
+//-         a(href="/rental/#{rental._id}/daily_calendar/#{month}/#{day}/#{year}") #{this}
+//-         .ui.basic.label(title='reservations') #{reservation_count}
+//-         //- if reservation_exists
+//-         //-     //- with reservation_exists
+//-         //-         |#{_id}
+//-         //-     .ui.icon.disabled.button
+//-         //-         i.ban.icon(title='unavailable')
+//-         //- else
+//-         //-     .ui.icon.button.new_reservation
+//-         //-         i.checkmark.icon(title='available')
+//- 
+//- template(name='upcoming_day')
+//-     a.ui.small.grey.header(href="/shop/#{product._id}/daily_calendar/#{month}/#{day}/#{year}") #{this.data.long_form}
+//-     //- if reservation_slot
+//-     //-     //- .ui.header res slot exists
+//-     //-     +reservation_slot_template
+//-     //- else
+//-     //-     if is_product_author
+//-     //-         .ui.button.new_slot
+//-     //-             |new slot
+//- 
+//- template(name='reservation_slot_template')
+//-     if is_grandparent_author
+//-         with slot
+//-             .ui.header $#{price}
+//-             unless reservation
+//-                 +boolean_edit key='prepaid' direct=true
+//-                 +number_edit key='price' direct=true
+//-                 +remove_button
+//-             //- +rental
+//-     else
+//-         .ui.divider
+//-         .ui.header $#{slot.price}
+//-         //- +boolean_edit key='rented' direct=true
+//-         if reservation
+//-             with reservation
+//-                 +reservation_template
+//-         else
+//-             //- with slot
+//-             .ui.green.button.rent_item rent item
+//- 
+//- template(name='reservation_template')        
+//-     .ui.header reservation
+//-     +author_info
+//-     .ui.small.header #{_author_username}
+//-     if is_author
+//-         +text_edit key='notes' direct=true
+//-         +remove_button
+//- 
+//- 
+//- template(name='view_rental')            
+//-     .ui.segment
+//-         .ui.header from {{long_date start_datetime}} to {{long_date end_datetime}}
+//-         +boolean_view key='confirmed' label='confirmed' direct=true
+//-         .ui.header #{rental_hours} hours at $#{../hourly_rate}/hour totaling $#{hourly_rental_price}
+//-         if rental_days
+//-             .ui.header #{rental_days} days at $#{daily_rental_price}/day
+//- 
+//- 
+//- template(name='rental')
+//-     .ui.segment
+//-         //- if is_admin
+//-         //-     +boolean_edit key='completed' label='completed' direct=true
+//- 
+//-         unless confirmed
+//-             +date_edit key='reservation_day' direct=true
+//-             //- +datetime_edit key='start_time'
+//-             //- +datetime_edit key='end_time'
+//-             //- +range_edit
+//-             //- .ui.button.calculate_diff diff
+//-             .ui.icon.button.delete_rental
+//-                 i.remove.icon
+//- 
+//-         +author_info
+//-         //- .ui.header from {{long_date start_datetime}} to {{long_date end_datetime}}
+//-         +boolean_edit key='confirmed' label='confirmed' direct=true
+//-         .ui.header {{long_date reservation_day}}
+//-         +date_view key='reservation_day' direct=true    
+//-         //- .ui.header #{rental_hours} hours at $#{../hourly_rate}/hour totaling $#{hourly_rental_price}
+//-         //- if rental_days
+//-             .ui.header #{rental_days} days at $#{daily_rental_price}/day
+//-         //- .ui.header #{rental_days} days at $#{daily_rental_price}/day
+//- 
+//- 
+//- 
+//- 
+//- 
+//- //- template(name='rental_small')
+//- //-     a.ui.header(href="/m/rental")
+//- //-         +i name='handshake'
+//- //-         &nbsp;
+//- //-         strong.f7 rentals
+//- //-     //- +rental_cloud
+//- //-     .ui.large.link.list.smallcolumn
+//- //-         each rentals 
+//- //-             .item.log_rental_view
+//- //-                 a(href="/kiosk_rental_view/#{_id}")
+//- //-                     if image
+//- //-                         img.ui.mini.inline.image(src="{{c.url image width=300 height=300 gravity='face' crop='fill'}}")
+//- //-                     if picture
+//- //-                         img.ui.mini.inline.image(src="{{c.url picture width=300 height=300 gravity='face' crop='fill'}}")
+//- //-                     |#{title}
+//- //-                     small #{daily_karma}k/day
+//- //-                     //- small $#{daily_rate}/day
+//- //-             //- div
+//- //-             //- .ui.horizontal.list
+//- //-             //-     .item
+//- //-             //-         span(title='transactions')
+//- //-             //-             i.route.icon
+//- //-             //-             |#{transaction_count}
+//- //-             //-     .item
+//- //-             //-         span(title='money earned')
+//- //-             //-             i.money.icon
+//- //-             //-             |#{money_earned}
+//- //- 
+//- 
+//- 
+//- template(name='rental_view_transactions')
+//-     .ui.grey.header 
+//-         +i name='refund-2'
+//-         |transactions
+//-     each transactions
+//-         a.ui.header(href="/transaction/#{_id}/view") #{when} by #{_author_username}
+//- 
+//- 
+//- template(name='rental_view_reservations')
+//-     .ui.grey.header 
+//-         //- i.clock.icon
+//-         +i name='clock'
+//-         |reservations
+//-     .ui.bulleted.link.list
+//-         each reservations
+//-             +reservation_list_item
+//- 
+//- 
+//- 
+//- template(name='reservation_list_item')
+//-     .ui.segment
+//-         a.item(href="/reservation/#{_id}/view") #{when} by #{_author_username}
+//-         .ui.header #{hour_duration} hours
+//-         if submitted 
+//-             .ui.basic.green.label #{submitted}
+//- 

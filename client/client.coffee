@@ -17,6 +17,7 @@ Tracker.autorun ->
     Tracker.afterFlush ->
         $(window).scrollTop 0
 
+Stripe.setPublishableKey Meteor.settings.public.stripe_publishable
 
 
 $.cloudinary.config

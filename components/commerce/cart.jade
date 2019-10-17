@@ -1,0 +1,36 @@
+template(name='cart')
+    .ui.stackable.padded.grid
+        .twelve.wide.column.scrolling
+            each cart_items
+                .ui.segment.cart_item.grid
+                    .four.wide.column
+                        img.ui.rounded.image(src="{{c.url referenced_product.picture width=1000 height=1000 gravity='face' crop='crop'}}")
+                    .twelve.wide.column
+                        with referenced_product
+                            a.ui.header(href="/m/shop/#{_id}/view") #{title}
+                            .ui.header #{karma_price} karma
+                        +remove_button
+        .four.wide.column
+            .ui.header 
+                +i name='shopping-cart'
+                |cart
+            .ui.statistic
+                .value #{total_cart_cost}
+                .label cart cost
+            .ui.statistic
+                .value #{currentUser.karma}
+                .label your karma
+            if can_buy
+                .ui.fluid.inverted.green.button.checkout_cart
+                    |complete checkout
+            else
+                +topup_karma
+
+
+            
+
+
+template(name='topup_karma')
+    a.ui.basic.large.button(href='/add_karma')
+        i.plus.icon
+        |add karma

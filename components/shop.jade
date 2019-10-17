@@ -26,25 +26,25 @@ template(name='shop_card')
                     
 
 
-template(name='shop_edit')
-    with current_doc
-        .ui.stackable.padded.grid
-            .row
-                .six.wide.column 
-                    .ui.header 
-                        i.pencil.icon
-                        | edit '#{title}' shop
-                    a.ui.big.fluid.button(href="/shop/#{_id}/view" title='save')
-                        i.checkmark.large.green.icon
-                        |save
-                    +remove_button
-                    +image_edit key='shop_image_id' icon='image' label='image' direct=true
-                    +array_edit key='tags' label='tags' icon='tags' direct=true
-                .ten.wide.column 
-                    +text_edit key='title' direct=true
-                    +number_edit key='price' icon='money' direct=true
-                    +textarea_edit key='description' label='description' icon='content' direct=true
-                
+//- template(name='shop_edit')
+//-     with current_doc
+//-         .ui.stackable.padded.grid
+//-             .row
+//-                 .six.wide.column 
+//-                     .ui.header 
+//-                         i.pencil.icon
+//-                         | edit '#{title}' shop
+//-                     a.ui.big.fluid.button(href="/shop/#{_id}/view" title='save')
+//-                         i.checkmark.large.green.icon
+//-                         |save
+//-                     +remove_button
+//-                     +image_edit key='shop_image_id' icon='image' label='image' direct=true
+//-                     +array_edit key='tags' label='tags' icon='tags' direct=true
+//-                 .ten.wide.column 
+//-                     +text_edit key='title' direct=true
+//-                     +number_edit key='price' icon='money' direct=true
+//-                     +textarea_edit key='description' label='description' icon='content' direct=true
+//- 
 
 
 template(name='shop_view')

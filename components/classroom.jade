@@ -64,36 +64,36 @@ template(name='classroom_view_layout')
                     a.ui.large.button(href="/classroom/#{_id}/lunch" class="{{isActiveRoute regex='classroom_lunch'}}")
                         +ismall name='food'
                         | lunch
-                    //- a.ui.button(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
-                    //-     +ismall name='rss'
-                    //-     | feed
-                    //- a.ui.button(href="/classroom/#{_id}/stats" class="{{isActiveRoute regex='classroom_stats'}}")
-                    //-     +ismall name='line-chart'
-                    //-     | stats
-                    //- a.ui.button(href="/classroom/#{_id}/credits" class="{{isActiveRoute regex='classroom_credits'}}")
-                    //-     +ismall name='chevron-up'
-                    //-     | credits
-                    //- a.ui.button(href="/classroom/#{_id}/debits" class="{{isActiveRoute regex='classroom_debits'}}")
-                    //-     +ismall name='chevron-down'
-                    //-     | debits
-                    //- a.ui.button(href="/classroom/#{_id}/grades" class="{{isActiveRoute regex='classroom_grades'}}")
-                    //-     +ismall name='leaderboard'
-                    //-     |grades
-                    //- a.ui.button(href="/classroom/#{_id}/jobs" class="{{isActiveRoute regex='classroom_jobs'}}")
-                    //-     +ismall name='business'
-                    //-     |jobs
-                    //- a.ui.button(href="/classroom/#{_id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
-                    //-     +ismall name='shop'
-                    //-     |shop
-                    //- a.ui.button(href="/classroom/#{_id}/services" class="{{isActiveRoute regex='classroom_services'}}")
-                    //-     +ismall name='service'
-                    //-     |services
-                    //- a.ui.button(href="/classroom/#{_id}/stock" class="{{isActiveRoute regex='classroom_stock'}}")
-                    //-     +ismall name='pie-chart'
-                    //-     |stock
-                    //- a.ui.button(href="/classroom/#{_id}/loans" class="{{isActiveRoute regex='classroom_loans'}}")
-                    //-     +ismall name='debt'
-                    //-     |loans
+                    a.ui.button(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
+                        +ismall name='rss'
+                        | feed
+                    a.ui.button(href="/classroom/#{_id}/stats" class="{{isActiveRoute regex='classroom_stats'}}")
+                        +ismall name='line-chart'
+                        | stats
+                    a.ui.button(href="/classroom/#{_id}/credits" class="{{isActiveRoute regex='classroom_credits'}}")
+                        +ismall name='chevron-up'
+                        | credits
+                    a.ui.button(href="/classroom/#{_id}/debits" class="{{isActiveRoute regex='classroom_debits'}}")
+                        +ismall name='chevron-down'
+                        | debits
+                    a.ui.button(href="/classroom/#{_id}/grades" class="{{isActiveRoute regex='classroom_grades'}}")
+                        +ismall name='leaderboard'
+                        |grades
+                    a.ui.button(href="/classroom/#{_id}/jobs" class="{{isActiveRoute regex='classroom_jobs'}}")
+                        +ismall name='business'
+                        |jobs
+                    a.ui.button(href="/classroom/#{_id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
+                        +ismall name='shop'
+                        |shop
+                    a.ui.button(href="/classroom/#{_id}/services" class="{{isActiveRoute regex='classroom_services'}}")
+                        +ismall name='service'
+                        |services
+                    a.ui.button(href="/classroom/#{_id}/stock" class="{{isActiveRoute regex='classroom_stock'}}")
+                        +ismall name='pie-chart'
+                        |stock
+                    a.ui.button(href="/classroom/#{_id}/loans" class="{{isActiveRoute regex='classroom_loans'}}")
+                        +ismall name='debt'
+                        |loans
                     +yield
 
 
