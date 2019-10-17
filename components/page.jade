@@ -1,0 +1,12 @@
+template(name='media')
+    +page slug='media'
+    
+
+template(name='page')
+    .ui.container
+        with page_doc
+            if is_admin
+                a.ui.button(href="/m/page/#{_id}/edit")
+                    i.shield.icon
+                    |edit page
+            +html_view key='content'

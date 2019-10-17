@@ -90,23 +90,23 @@ template(name='footer')
                 i.copyright.outline.icon
                 | mini money managment 2019
         .three.wide.column
-            .ui.link.big.list
-                a.item(href='/blog') blog
-                a.item(href='/about') about
-                a.item(href="/terms_of_service") terms of service
-                a.item(href='/privacy') privacy policy
+            .ui.link.large.list
+                a.item(href='/m/blog') blog
+                a.item(href='/p/about') about
+                a.item(href="/p/terms") terms of service
+                a.item(href='/p/privacy') privacy policy
                 a.item(href='/stats') stats
-                a.item(href='/investors') investors
+                a.item(href='/p/investors') investors
                 a.item(href='/contact') contact
         .three.wide.column
-            .ui.link.big.list
-                a.item(href='/blog') classrooms
-                a.item(href='/about') teachers
-                a.item(href="/terms_of_service") parents
-                a.item(href='/privacy') students
-                a.item(href='/investors') schools
-                a.item(href='/contact') administrators
-                a.item(href='/contact') donors
+            .ui.link.large.list
+                a.item(href='/p/classrooms') classrooms
+                a.item(href='/p/teachers') teachers
+                a.item(href="/p/parents") parents
+                a.item(href='/p/students') students
+                a.item(href='/p/schools') schools
+                a.item(href='/p/administrators') administrators
+                a.item(href='/p/donors') donors
             +add_button label='bug' model='bug' icon='bug'
             if is_dev    
                 with current_user
