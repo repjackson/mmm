@@ -15,6 +15,7 @@ Router.onBeforeAction(force_loggedin, {
   except: ['register'
     'home'
     'page'
+    'delta'
     'team'
     'contact'
     'parents'

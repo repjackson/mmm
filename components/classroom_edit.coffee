@@ -1,20 +1,40 @@
 if Meteor.isClient
     Router.route '/classroom/:doc_id/edit', (->
-        @layout 'layout'
-        @render 'classroom_edit'
+        @layout 'classroom_edit_layout'
+        @render 'classroom_edit_students'
         ), name:'classroom_edit'
+    Router.route '/classroom/:doc_id/edit/students', (->
+        @layout 'classroom_edit_layout'
+        @render 'classroom_edit_students'
+        ), name:'classroom_edit_students'
+    Router.route '/classroom/:doc_id/edit/income', (->
+        @layout 'classroom_edit_layout'
+        @render 'classroom_edit_income'
+        ), name:'classroom_edit_income'
+    Router.route '/classroom/:doc_id/edit/expenses', (->
+        @layout 'classroom_edit_layout'
+        @render 'classroom_edit_expenses'
+        ), name:'classroom_edit_expenses'
+    Router.route '/classroom/:doc_id/edit/goals', (->
+        @layout 'classroom_edit_layout'
+        @render 'classroom_edit_goals'
+        ), name:'classroom_edit_goals'
+    Router.route '/classroom/:doc_id/edit/stocks', (->
+        @layout 'classroom_edit_layout'
+        @render 'classroom_edit_stocks'
+        ), name:'classroom_edit_stocks'
 
 
-    Template.classroom_edit.onRendered ->
+    Template.classroom_edit_layout.onRendered ->
 
 
-    Template.classroom_edit.onCreated ->
+    Template.classroom_edit_layout.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'feature'
         @autorun => Meteor.subscribe 'model_docs', 'credit_type'
         @autorun => Meteor.subscribe 'model_docs', 'debit_type'
         Session.set 'permission', false
-    Template.classroom_edit.onRendered ->
+    Template.classroom_edit_layout.onRendered ->
         Meteor.setTimeout ->
             $('.tabular.menu .item').tab()
         , 1000
@@ -22,7 +42,7 @@ if Meteor.isClient
             $('.accordion').accordion()
         , 750
 
-    Template.classroom_edit.helpers
+    Template.classroom_edit_layout.helpers
         features: ->
             Docs.find
                 model:'feature'
@@ -54,7 +74,7 @@ if Meteor.isClient
         adding_student: ->
             Session.get 'adding_student'
 
-    Template.classroom_edit.events
+    Template.classroom_edit_layout.events
         'click .add_credit_type': ->
             Docs.insert
                 model:'credit_type'

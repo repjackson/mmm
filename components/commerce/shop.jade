@@ -172,30 +172,9 @@ template(name='add_to_tab')
 template(name='shop_card_template')
     .ui.fluid.horizontal.card
         a.pointer(href="/shop/#{_id}/view")
-            img.ui.centered.rounded.image(src="{{c.url image width=300 height=200 crop='fit'}}")
+            img.ui.centered.rounded.image(src="{{c.url shop_image_id width=300 height=200 crop='fit'}}")
         .content
             a.ui.grey.small.header(href="/shop/#{_id}/view") #{title}
-            //- div
-            //- +i name='food' classes='ui mini inline image'
-            //- each ingredients
-            //-     .ui.basic.label #{this}
-            //- div
-            //- +i name='marker' classes='ui mini inline image'
-            //- each location_tags
-            //-     .ui.basic.label #{this}
-            //- .ui.basic.animated.fade.button.add_to_cart(title="#{karma_price} karma, click to add to cart")
-            //-     .visible.content
-            //-         .ui.header #{karma_price}k
-            //-     .hidden.content
-                    i.cart.plus.green.large.icon
-            if rentable
-                .ui.small.inline.header
-                    //- i.clock.grey.small.icon
-                    |$#{daily_rate}/day
-                div
-            //- if hourly_rate
-            //-     .ui.header $#{hourly_rate}/hour
-            //- unless rentable
             .ui.inline.header 
                 //- i.shop.grey.small.icon
                 |$#{dollar_price}
@@ -203,61 +182,8 @@ template(name='shop_card_template')
             //- i.grey.marker.icon
             each location_tags
                 .ui.small.basic.label #{this}
-            //- div
-            //- .ui.small.inline.header(title='completed transactions') 
-                i.grey.checkmark.icon
-            //-     if completed_transaction_amount
-            //-         |#{completed_transaction_amount} 
-            //-     else 
-            //-         |0
-            //- div
-            //- div
-            //- .ui.small.inline.header(title='comments') 
-                i.grey.chat.icon
-            //-     if chat_message_amount
-            //-         |#{chat_message_amount} 
-            //-     else 
-            //-         |0
-            //- div
-            //- .ui.small.inline.header(title='likes') 
-                i.grey.thumbs.up.icon
-            //-     if likes
-            //-         |#{likes} 
-            //-     else 
-            //-         |0
-            //- div
-            //- div
-            //- .ui.small.inline.header(title='dislikes') 
-                i.grey.thumbs.down.icon
-            //-     if dislikes
-            //-         |#{dislikes} 
-            //-     else 
-            //-         |0
-            //- div
-            //- +fav_button
-            //- .ui.basic.animated.fade.button.add_to_cart(title="click to add to cart")
-            //-     .visible.content
-            //-         .ui.header 
-            //-             if dollar_price
-            //-                 |$#{dollar_price}
-            //-             else
-            //-                 |free
-                .hidden.content
-                    //- i.cart.plus.green.large.icon
-            if is_admin
-                +text_edit key='model' direct=true
             a.ui.basic.small.icon.button(href="/shop/#{_id}/view")
-            //-     +i name='chevron right' classes='ui mini image'
-            //- if can_edit
-                a.ui.basic.small.icon.button(href="/shop/#{_id}/edit")
-            //-         +i name='pencil' classes='ui mini image'
-                //- +edit_button
-        //- .four.wide.column
-        //-     with author
-        //-         img.ui.avatar.image(src="{{c.url image_id width=200 height=200 crop='fit'}}")    
-        //-         .ui.inline.header #{first_name} #{last_name}
-        //-         .ui.header #{sales_amount} sales
-        //-         .ui.header #{purchase_amount} purchases
+                +i name='chevron right' classes='ui mini image'
             
             
 template(name='fav_button')

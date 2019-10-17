@@ -31,94 +31,94 @@ template(name='profile_layout')
                             each roles
                                 .ui.basic.label #{this}
                 .twelve.wide.column
-                    a.ui.button(href="/user/#username}/dashboard" class="{{isActiveRoute regex='user_dashboard'}}")
+                    a.ui.button(href="/user/#{username}/dashboard" class="{{isActiveRoute regex='user_dashboard'}}")
                         +ismall name='home'
                         |dashboard
-                    a.ui.button(href="/user/#username}/reports" class="{{isActiveRoute regex='user_reports'}}")
+                    a.ui.button(href="/user/#{username}/reports" class="{{isActiveRoute regex='user_reports'}}")
                         +ismall name='invoice'
                         | reports
-                    a.ui.button(href="/user/#username}/feed" class="{{isActiveRoute regex='user_feed'}}")
+                    a.ui.button(href="/user/#{username}/feed" class="{{isActiveRoute regex='user_feed'}}")
                         +ismall name='rss'
                         | feed
-                    a.ui.button(href="/user/#username}/stats" class="{{isActiveRoute regex='user_stats'}}")
+                    a.ui.button(href="/user/#{username}/stats" class="{{isActiveRoute regex='user_stats'}}")
                         +ismall name='chart'
                         | stats
-                    a.ui.button(href="/user/#username}/grades" class="{{isActiveRoute regex='user_grades'}}")
+                    a.ui.button(href="/user/#{username}/grades" class="{{isActiveRoute regex='user_grades'}}")
                         |grades
                         +ismall name='leaderboard'
-                    a.ui.button(href="/user/#username}/jobs" class="{{isActiveRoute regex='user_jobs'}}")
+                    a.ui.button(href="/user/#{username}/jobs" class="{{isActiveRoute regex='user_jobs'}}")
                         |jobs
                         +ismall name='business'
-                    a.ui.button(href="/user/#username}/shop" class="{{isActiveRoute regex='user_shop'}}")
+                    a.ui.button(href="/user/#{username}/shop" class="{{isActiveRoute regex='user_shop'}}")
                         +ismall name='shop'
                         |shop
-                    a.ui.button(href="/user/#username}/services" class="{{isActiveRoute regex='user_services'}}")
+                    a.ui.button(href="/user/#{username}/services" class="{{isActiveRoute regex='user_services'}}")
                         +ismall name='service'
                         |services
-                    a.ui.button(href="/user/#username}/stock" class="{{isActiveRoute regex='user_stock'}}")
-                        +ismall name='stock'
+                    a.ui.button(href="/user/#{username}/stock" class="{{isActiveRoute regex='user_stock'}}")
+                        +ismall name='pie-chart'
                         |stock
-                    a.ui.button(href="/user/#username}/loans" class="{{isActiveRoute regex='user_loans'}}")
+                    a.ui.button(href="/user/#{username}/loans" class="{{isActiveRoute regex='user_loans'}}")
                         |loans
                         +ismall name='debt'
-                    a.ui.compact.button(href="/user/#{username}/connections" class="{{isActiveRoute 'user_connections'}}")
+                    a.ui.button(href="/user/#{username}/connections" class="{{isActiveRoute 'user_connections'}}")
                         +ismall name='handshake' classes='ui inline image'
                         |connections
-                    a.ui.compact.button(href="/user/#{username}/bookmarks" class="{{isActiveRoute 'user_bookmarks'}}")
+                    a.ui.button(href="/user/#{username}/bookmarks" class="{{isActiveRoute 'user_bookmarks'}}")
                         +ismall name='star' classes='ui inline image'
                         |bookmarks
-                    a.ui.compact.button(href="/user/#{username}/contact" class="{{isActiveRoute 'user_contact'}}")
+                    a.ui.button(href="/user/#{username}/contact" class="{{isActiveRoute 'user_contact'}}")
                         +ismall name='phone' classes='ui inline image'
                         |contact
-                    a.ui.compact.button(href="/user/#{username}/events" class="{{isActiveRoute 'user_events'}}")
+                    a.ui.button(href="/user/#{username}/events" class="{{isActiveRoute 'user_events'}}")
                         +ismall name='calendar' classes='ui inline image'
                         |calendar
-                    a.ui.compact.button(href="/user/#{username}/comparison" class="{{isActiveRoute 'user_comparison'}}")
+                    a.ui.button(href="/user/#{username}/comparison" class="{{isActiveRoute 'user_comparison'}}")
                         +ismall name='scales' classes='ui inline image'
                         |comparison
-                    a.ui.compact.button(href="/user/#{username}/offers" class="{{isActiveRoute 'user_offers'}}")
+                    a.ui.button(href="/user/#{username}/offers" class="{{isActiveRoute 'user_offers'}}")
                         +ismall name='sell' classes='ui inline image'
                         |offers
-                    a.ui.compact.button(href="/user/#{username}/tags" class="{{isActiveRoute 'user_tags'}}")
+                    a.ui.button(href="/user/#{username}/tags" class="{{isActiveRoute 'user_tags'}}")
                         +ismall name='tags' classes='ui inline image'
                         |tags
-                    a.ui.compact.button(href="/user/#{username}/tasks" class="{{isActiveRoute 'user_tasks'}}")
+                    a.ui.button(href="/user/#{username}/tasks" class="{{isActiveRoute 'user_tasks'}}")
                         +ismall name='tasks' classes='ui inline image'
                         |tasks
-                    a.ui.compact.button(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}")
+                    a.ui.button(href="/user/#{username}/messages" class="{{isActiveRoute 'user_messages'}}")
                         +ismall name='new-message' classes='ui inline image'
                         |mail
-                    a.ui.compact.button(href="/user/#{username}/karma" class="{{isActiveRoute 'user_karma'}}")
+                    a.ui.button(href="/user/#{username}/karma" class="{{isActiveRoute 'user_karma'}}")
                         +ismall name='yin-yang' classes='ui inline image'
                         |karma
-                    a.ui.compact.button(href="/user/#{username}/workhistory" class="{{isActiveRoute 'user_workhistory'}}")
+                    a.ui.button(href="/user/#{username}/workhistory" class="{{isActiveRoute 'user_workhistory'}}")
                         +ismall name='resume' classes='ui inline image'
                         |work history
-                    a.ui.compact.button(href="/user/#{username}/stats" class="{{isActiveRoute 'user_stats'}}")
+                    a.ui.button(href="/user/#{username}/stats" class="{{isActiveRoute 'user_stats'}}")
                         +ismall name='line-chart' classes='ui inline image'
                         |stats
-                    a.ui.compact.button(href="/user/#{username}/votes" class="{{isActiveRoute 'user_votes'}}")
+                    a.ui.button(href="/user/#{username}/votes" class="{{isActiveRoute 'user_votes'}}")
                         +ismall name='elections' classes='ui inline image'
                         |votes
-                    a.ui.compact.button(href="/user/#{username}/finance" class="{{isActiveRoute 'user_finance'}}")
+                    a.ui.button(href="/user/#{username}/finance" class="{{isActiveRoute 'user_finance'}}")
                         +ismall name='money' classes='ui inline image'
                         |finance
-                    a.ui.compact.button(href="/user/#{username}/bids" class="{{isActiveRoute 'user_bids'}}")
+                    a.ui.button(href="/user/#{username}/bids" class="{{isActiveRoute 'user_bids'}}")
                         +ismall name='elections' classes='ui inline image'
                         |bids
-                    a.ui.compact.button(href="/user/#{username}/notifications" class="{{isActiveRoute 'user_notifications'}}")
+                    a.ui.button(href="/user/#{username}/notifications" class="{{isActiveRoute 'user_notifications'}}")
                         +ismall name='appointment-reminders' classes='ui inline image'
                         |notifications
-                    a.ui.compact.button(href="/user/#{username}/dashboard" class="{{isActiveRoute 'user_dashboard'}}")
+                    a.ui.button(href="/user/#{username}/dashboard" class="{{isActiveRoute 'user_dashboard'}}")
                         +ismall name='dashboard' classes='ui inline image'
                         |dashboard
-                    a.ui.compact.button(href="/user/#{username}/about" class="{{isActiveRoute 'user_about'}}")
+                    a.ui.button(href="/user/#{username}/about" class="{{isActiveRoute 'user_about'}}")
                         +ismall name='info' classes='ui inline image'
                         |info
-                    a.ui.compact.button(href="/user/#{username}/social" class="{{isActiveRoute 'user_social'}}")
+                    a.ui.button(href="/user/#{username}/social" class="{{isActiveRoute 'user_social'}}")
                         +ismall name='collaboration' classes='ui inline image'
                         |social
-                    a.ui.compact.button(href="/user/#{username}/gallery" class="{{isActiveRoute 'user_gallery'}}")
+                    a.ui.button(href="/user/#{username}/gallery" class="{{isActiveRoute 'user_gallery'}}")
                         +ismall name='gallery' classes='ui inline image'
                         |gallery
                     +yield    
