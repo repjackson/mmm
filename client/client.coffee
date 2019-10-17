@@ -123,25 +123,6 @@ Template.registerHelper 'hsd', () ->
     Docs.findOne
         model:'home_stats'
 
-Template.registerHelper 'project', () ->
-    Docs.findOne
-        _id:@project_id
-        model:'project'
-
-
-
-Template.registerHelper 'grabber', () ->
-    Meteor.users.findOne
-        _id:@grabber_id
-
-
-
-Template.registerHelper 'is_grabber', () ->
-    @grabber_id is Meteor.userId()
-
-
-
-
 # Template.registerHelper 'parent_template', () -> Template.parentData()
     # Session.get 'displaying_profile'
 

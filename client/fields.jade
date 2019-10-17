@@ -54,6 +54,46 @@ template(name='color_edit')
             input.edit_color(type='color' value=field_value placeholder='color' autocomplete="off")
 
 
+template(name='html_edit')
+    .ui.form
+        .field
+            label 
+                if icon
+                    +i name=icon classes='ui middle aligned image'
+                if title
+                    |#{title}
+                else if label
+                    |#{label}
+                else if key
+                    |#{key}
+                else
+                    |#{this}
+    .froala-container
+        +froalaReactive getFEContext
+    //- if is_dev
+    +call_watson mode='html' key=key
+    div
+    //- +tone mode='html'
+    if watson
+        +watson_view
+        
+        
+//- template(name='html_view')
+//-     if field_value
+//-         div
+//-         if icon
+//-             //- +i name=icon classes='ui mini inline image'
+//-             i.icon(class=icon)
+//-         //- if title
+//-         //-     |#{title}
+//-         //- else if key
+//-         //-     |#{key}
+//-         //- else
+//-         //-     |#{this}
+//-     |!{field_value}
+//-     +call_watson mode='html'
+
+
 
 template(name='color_view')
     .ui.form
@@ -314,6 +354,10 @@ template(name='html_view')
             //- else
             //-     |#{this}            
         .f6 {{nl2br field_value}}
+        if view_watson
+            if watson
+                +watson_view
+
 
 template(name='textarea_view')
     if field_value

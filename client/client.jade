@@ -44,8 +44,7 @@ template(name='layout')
             .centered.row
                 .sixteen.wide.column
                     +yield
-        unless is_frontdesk
-            +footer
+        +footer
         //- +shortcut_modal
 
 template(name='mlayout')
@@ -62,14 +61,9 @@ template(name='verification_confirmation')
 template(name='not_found')
     .ui.basic.center.aligned.padded.segment
         .ui.center.aligned.header page not found
-        if is_staff
-            a.ui.button(href="/staff") 
-                +i name='user shield'
-                |staff
-        else 
-            a.ui.button(href="/") 
-                +i name='home' classes='ui inline mini image'
-                |home
+        a.ui.button(href="/") 
+            +i name='home' classes='ui inline mini image'
+            |home
 
 
 
