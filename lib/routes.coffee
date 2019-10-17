@@ -12,9 +12,11 @@ force_loggedin =  ()->
 
 Router.onBeforeAction(force_loggedin, {
   # only: ['admin']
-  # except: ['register', 'forgot_password','reset_password','front','delta','doc_view','verify-email']
   except: ['register'
     'home'
+    'page'
+    'team'
+    'contact'
     'parents'
     'teachers'
     'schools'
@@ -22,9 +24,6 @@ Router.onBeforeAction(force_loggedin, {
     'forgot_password'
     'reset_password'
     'doc_view'
-    'rentals'
-    'rental_view'
-    'reservation_view'
     'verify-email'
     'download_rules_pdf'
   ]

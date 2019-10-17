@@ -19,17 +19,17 @@ template(name='home')
                     //-     | Yes that&apos;s right, you thought it was the stuff of dreams, but even bananas can be bioengineered.
                 .six.wide.right.floated.column
                     img.ui.rounded.image.recalc_stats(src="{{c.url 'mmm_logo_small' width=400 height=400}}")
-                    .ui.large.horizontal.list
-                        .item #{hs.user_count} users
-                        .item #{hs.teacher_count} teachers
-                        .item #{hs.donor_count} donors
-                        .item $#{hs.credit_count} money raised
-                        .item #{hs.debit_count} debits
-                        .item #{hs.credit_count} credits
-                        .item #{hs.classroom_count} classrooms
-                        .item #{hs.product_count} products in marketplace
+                    //- .ui.large.horizontal.list
+                    //-     .item #{hs.user_count} users
+                    //-     .item #{hs.teacher_count} teachers
+                    //-     .item #{hs.donor_count} donors
+                    //-     .item $#{hs.credit_count} money raised
+                    //-     .item #{hs.debit_count} debits
+                    //-     .item #{hs.credit_count} credits
+                    //-     .item #{hs.classroom_count} classrooms
+                    //-     .item #{hs.product_count} products in marketplace
         .ui.divider
-        .ui.grid
+        .ui.stackable.grid
             .four.column.center.aligned.row
                 .column
                     .ui.icon.header
@@ -131,7 +131,7 @@ template(name='home')
                     //- b Nan
                     //- |  Chief Fun Officer Acme Toys
     .ui.vertical.stripe.segment
-        .ui.stackable.grid
+        .ui.stackable.padded.grid
             .eight.wide.column
                 h3.ui.header problem
                 p

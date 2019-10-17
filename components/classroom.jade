@@ -1,15 +1,17 @@
 template(name='classrooms')
     .ui.stackable.padded.grid
         .row
-            .four.wide.column
-                .ui.header 
+            .twelve.wide.column
+                .ui.inline.header 
                     +i name='classroom'
                     |classrooms
-                .ui.button.add_classroom
-                    +i name='plus' classes='ui mini inline image'
-                    |add classroom
-            .twelve.wide.column
-                .ui.stackable.cards
+                .ui.icon.button.add_classroom(title='add classroom')
+                    //- +i name='plus' classes='ui mini inline image'
+                    i.green.large.plus.icon
+                    //- |add classroom
+        .row
+            .sixteen.wide.column
+                .ui.stackable.three.cards
                     each classrooms
                         +classroom_card
 

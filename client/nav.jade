@@ -35,15 +35,15 @@ template(name='nav')
         //- a.item(href='/classroom/i4mdNbN8ykJcr6w9q/dashboard' title='classrooms')
         //-     +ismall name='dashboard'
         unless currentUser
-            a.ui.item(href='/about')
+            a.ui.item(href='/p/about')
                 |about
-            a.ui.item(href='/schools')
+            a.ui.item(href='/p/schools')
                 |schools
-            a.ui.item(href='/donors')
+            a.ui.item(href='/p/donors')
                 |donors
-            a.ui.item(href='/teachers')
+            a.ui.item(href='/p/teachers')
                 |teachers
-            a.ui.item(href='/parents')
+            a.ui.item(href='/p/parents')
                 |parents
         .right.menu
             unless currentUser
@@ -83,44 +83,48 @@ template(name='nav')
 
 template(name='footer')
     .ui.stackable.secondary.padded.grid.segment
-        .three.wide.column
-            img.ui.tiny.inline.image(src="{{c.url 'bcorp' }}")
-            img.ui.small.image(src="{{c.url 'stripe_badge' }}")
-            .ui.header 
-                i.copyright.outline.icon
-                | mini money managment 2019
-        .three.wide.column
-            .ui.link.large.list
-                a.item(href='/m/blog') blog
-                a.item(href='/p/about') about
-                a.item(href="/p/terms") terms of service
-                a.item(href='/p/privacy') privacy policy
-                a.item(href='/stats') stats
-                a.item(href='/p/investors') investors
-                a.item(href='/contact') contact
-        .three.wide.column
-            .ui.link.large.list
-                a.item(href='/p/classrooms') classrooms
-                a.item(href='/p/teachers') teachers
-                a.item(href="/p/parents") parents
-                a.item(href='/p/students') students
-                a.item(href='/p/schools') schools
-                a.item(href='/p/administrators') administrators
-                a.item(href='/p/donors') donors
-            +add_button label='bug' model='bug' icon='bug'
-            if is_dev    
-                with current_user
-                    +role_switcher
-        .seven.wide.column
-            //- unless currentUser
-            //-     a.ui.big.button(href='/login')
-            //-         i.sign.in.icon
-            //-         |login
-            
-            +footer_chat
-            if is_eric
-                with currentUser
-                    +role_switcher
+        .row
+            .three.wide.column
+                img.ui.tiny.inline.image(src="{{c.url 'bcorp' }}")
+                img.ui.small.image(src="{{c.url 'stripe_badge' }}")
+            .three.wide.column
+                .ui.link.large.list
+                    a.item(href='/m/blog') blog
+                    a.item(href='/p/about') about
+                    a.item(href="/p/terms") terms of service
+                    a.item(href='/p/privacy') privacy policy
+                    a.item(href='/stats') stats
+                    a.item(href='/team') our team
+                    a.item(href='/contact') contact
+            .three.wide.column
+                .ui.link.large.list
+                    a.item(href='/p/classrooms') classrooms
+                    a.item(href='/p/investors') investors
+                    a.item(href='/p/teachers') teachers
+                    a.item(href="/p/parents") parents
+                    a.item(href='/p/students') students
+                    a.item(href='/p/schools') schools
+                    a.item(href='/p/administrators') administrators
+                    a.item(href='/p/donors') donors
+                +add_button label='bug' model='bug' icon='bug'
+                if is_dev    
+                    with current_user
+                        +role_switcher
+            .seven.wide.column
+                //- unless currentUser
+                //-     a.ui.big.button(href='/login')
+                //-         i.sign.in.icon
+                //-         |login
+                
+                +footer_chat
+                if is_eric
+                    with currentUser
+                        +role_switcher
+        .centered.row
+            .seven.wide.column
+                .ui.header 
+                    i.copyright.outline.icon
+                    | Mini Money Managment 2019
 
             
                 

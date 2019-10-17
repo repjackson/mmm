@@ -2,7 +2,7 @@ template(name='profile_view')
     with user_from_username_param
         .ui.stackable.padded.grid.global_container
             .row
-                //- img.ui.fluid.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
+                img.ui.fluid.image.checkin_banner(src="{{c.url banner_image width=1000 height=1000 crop='crop'}}")
                 .four.wide.column
                     img.ui.centered.circular.image(src="{{c.url user_from_username_param.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                     .ui.center.aligned.basic.segment
