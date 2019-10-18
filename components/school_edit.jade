@@ -1,0 +1,146 @@
+template(name='school_edit_layout')
+    +nav
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column 
+                    .ui.header 
+                        small editing 
+                        strong '#{title}' 
+                        small school
+                    a.ui.big.fluid.button(href="/school/#{_id}" title='save')
+                        i.checkmark.large.green.icon
+                        |save
+                    +remove_button
+                    +text_edit key='title' direct=true
+                    +text_edit key='company_name' label='company name' direct=true
+                    +image_edit key='image' label='image' direct=true
+                    +textarea_edit key='description' label='description' direct=true
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                    +array_edit key='location_tags' label='location tags' icon='marker' direct=true
+                .twelve.wide.column
+                    .ui.stackable.grid
+                        .row
+                            .sixteen.wide.column
+                                a.ui.button(href="/school/#{_id}/edit/students") 
+                                    +ismall name='groups' 
+                                    |&nbsp;
+                                    |students
+                                a.ui.button(href="/school/#{_id}/edit/income")
+                                    +ismall name='deposit' 
+                                    |&nbsp;
+                                    |income
+                                a.ui.button(href="/school/#{_id}/edit/expenses")
+                                    +ismall name='initiate-money-transfer' 
+                                    |&nbsp;
+                                    |expenses
+                                a.ui.button(href="/school/#{_id}/edit/goals")
+                                    +ismall name='goal' 
+                                    |&nbsp;
+                                    |goals
+                                a.ui.button(href="/school/#{_id}/edit/shop")
+                                    +ismall name='shop' 
+                                    |&nbsp;
+                                    |shop
+                                a.ui.button(href="/school/#{_id}/edit/stock")
+                                    +ismall name='line-chart' 
+                                    |&nbsp;
+                                    |stock
+                                a.ui.button(href="/school/#{_id}/edit/info")
+                                    +ismall name='info' 
+                                    |&nbsp;
+                                    |info
+                    +yield
+                                    
+template(name='school_edit_info')                                    
+    .ui.header 
+        +i name='students'
+        |info
+    +html_raw_edit key='google_map' label='google map code' direct=true    
+        
+template(name='school_edit_students')                                    
+    .ui.bottom.attached.active.tab.segment(data-tab='students')
+        .ui.inline.header 
+            +i name='students'
+            |students
+        if adding_student
+            .ui.header adding student
+            .ui.large.form
+                .field
+                    input#first_name(type='text' placeholder='first name' autocomplete='off')
+                .field
+                    input#last_name(type='text' placeholder='last name' autocomplete='off')
+                //- .field
+                //-     |Username
+                //-     input#username(type='text')
+            .ui.fluid.green.big.button.create_student
+                |create student
+        unless adding_student
+            .ui.icon.button.set_adding_student(title='add student')
+                i.plus.large.green.icon
+            +multi_user_edit key='students' direct=true
+
+template(name='school_edit_income')                                    
+    .ui.bottom.attached.tab.segment(data-tab='income')
+        .ui.two.column.grid
+            .column
+                .ui.header presets
+                .ui.segment
+                    +number_edit key='daily_salary_amount' label='daily salary' icon='receive-cash' direct=true
+                    +boolean_edit key='daily' label='daily' direct=true 
+                    +date_edit key='day_dispersion' label='date to release'
+                    +time_edit key='time_dispersion' label='time to release'
+                +boolean_edit key='weekly' label='weekly' direct=true
+                +number_edit key='bonus_amount' label='bonus amount' icon='gift' direct=true
+                +number_edit key='overtime_amount' label='overtime amount' icon='property-time' direct=true
+                +number_edit key='good_grades_amount' label='good grades amount' icon='student-male' direct=true
+            .column
+                .ui.header custom
+                .ui.button.add_credit_type
+                    i.plus.icon
+                    |add credit type
+                each credit_types
+                    .ui.segment
+                        //- +image_edit key='image_id' label='image' direct=true
+                        //- +icon_edit key='icon' direct=true
+                        +text_edit key='title' direct=true
+                        //- +textarea_edit key='description' direct=true
+                        +number_edit key='amount' direct=true
+                        //- +boolean_edit key='automatic' direct=true
+                        //- if automatic
+                        //-     +boolean_edit key='daily' label='daily' direct=true
+                        //-     +boolean_edit key='weekly' label='weekly' direct=true
+                        +remove_button
+                        
+template(name='school_edit_expenses')                                    
+    .ui.bottom.attached.tab.segment(data-tab='expenses')
+        .ui.two.column.stackable.grid
+            .column
+                .ui.header presets
+                .ui.segment
+                    +number_edit key='desk_rental_amount' label='desk rental amount' icon='table' direct=true
+                    +date_edit key='day_dispersion' label='date to release'
+                    +time_edit key='time_dispersion' label='time to release'
+
+                +number_edit key='janitor_amount' label='janitor daily amount (release 8am everyday)' icon='housekeeper-male' direct=true
+                +number_edit key='janitor_amount' label='janitor extra fee' icon='housekeeper-male' direct=true
+                +number_edit key='lunch_amount' label='lunch amount' icon='food' direct=true
+                +number_edit key='fines_amount' label='fines amount' direct=true
+                //- +number_edit key='rent_supplies_amount' label='rent supplies amount' direct=true
+            .column
+                .ui.header custom
+                .ui.button.add_debit_type
+                    i.plus.icon
+                    |add debit type
+                each debit_types
+                    .ui.segment
+                        //- +image_edit key='image_id' label='image' direct=true
+                        +text_edit key='title' direct=true
+                        +number_edit key='amount' direct=true
+                        //- +boolean_edit key='automatic' direct=true
+                        //- if automatic
+                        //-     +boolean_edit key='daily' label='daily' direct=true
+                        //-     +boolean_edit key='weekly' label='weekly' direct=true
+
+
+    

@@ -14,20 +14,20 @@ if Meteor.isClient
 
 
 
-    Template.teacher_edit.onRendered ->
-        Meteor.setTimeout ->
-            $('.accordion').accordion()
-        , 1000
-
-
-    Template.teacher_edit.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-
-    Template.teacher_edit.events
-        'click .add_shop_item': ->
-            new_shop_id = Docs.insert
-                model:'shop_item'
-            Router.go "/shop/#{new_shop_id}/edit"
+    # Template.teacher_edit.onRendered ->
+    #     Meteor.setTimeout ->
+    #         $('.accordion').accordion()
+    #     , 1000
+    #
+    #
+    # Template.teacher_edit.onCreated ->
+    #     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    #
+    # Template.teacher_edit.events
+    #     'click .add_shop_item': ->
+    #         new_shop_id = Docs.insert
+    #             model:'shop_item'
+    #         Router.go "/shop/#{new_shop_id}/edit"
 
 
 

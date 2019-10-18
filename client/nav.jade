@@ -1,11 +1,14 @@
 template(name='nav')
-    .ui.attached.borderless.inverted.blue.topnav.menu
+    .ui.attached.borderless.topnav.menu
         if is_loading
             .item
                 i.big.loading.notched.circle.icon
         if currentUser
             a.compact.item(href='/grid' class="{{isActivePath '/grid'}}") 
                 img.ui.tiny.compact.image(src="{{c.url 'mmm_logo_small' height=150 }}" title='Home')
+            a.item(href='/schools' title='schools')
+                +ismall name='school'
+                span.mobile.hidden &nbsp; schools
             a.item(href='/classrooms' title='classrooms')
                 +ismall name='class'
                 span.mobile.hidden &nbsp; classrooms
@@ -28,12 +31,18 @@ template(name='nav')
         unless currentUser
             a.ui.item(href='/p/about')
                 |about
-            a.ui.item(href='/p/schools')
-                |schools
-            a.ui.item(href='/p/donors')
-                |donors
-            a.ui.item(href='/p/teachers')
-                |teachers
+            a.item(href='/classrooms' title='classrooms')
+                +ismall name='class'
+                span.mobile.hidden &nbsp; classrooms
+            
+            a.item(href='/schools')
+                +ismall name='school'
+                span.mobile.hidden &nbsp; schools
+            //- a.ui.item(href='/donations')
+            //-     |donations
+            a.ui.item(href='/teachers')
+                +ismall name='teacher'
+                span.mobile.hidden &nbsp; teachers
             a.ui.item(href='/p/parents')
                 |parents
         .right.menu
