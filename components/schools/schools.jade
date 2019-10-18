@@ -19,7 +19,7 @@ template(name='schools')
 template(name='school_card')
     .ui.card
         a(href="/school/#{_id}")
-            img.ui.fluid.image(src="{{c.url image crop='lpad'}}")
+            img.ui.fluid.image(src="{{c.url image height=300 crop='lpad'}}")
             //- img.ui.fluid.image(src="{{c.url school_image_id crop='lpad'}}")
         .content
             a.ui.header(href="/school/#{_id}" title='balance') #{title}
@@ -38,58 +38,36 @@ template(name='school_view_layout')
                         i.chevron.left.icon
                         +i name='school' classes='ui inline mini image'
                         |schools
-                    +image_view key='image' label='image' direct=true
-                    .ui.header
+                    +image key='image' label='image' direct=true
+                    div
+                    .ui.inline.header
                         | #{title}
-                    .ui.header
-                        small principal
-                        | #{principal_name}
-                    if can_edit
-                        a.ui.fluid.button(href="/school/#{_id}/edit")
-                            +i name='pencil' classes='ui inline mini image'
-                            | edit
-                    +html_raw_view key='google_map' direct=true
+                    //- .ui.header
+                    //-     small principal
+                    //-     | #{principal_name}
+                    div
+                    +school_section_cloud
+                    .ui.big.fluid.vertical.menu
+                        each school_sections
+                            a.item(href="/school/#{current_doc._id}/#{slug}" class="{{isActiveRoute regex=route_slug}}")
+                                i.icon
+                                    +ismall name=icon
+                                |#{title}
                 .twelve.wide.column
-                    a.ui.compact.button(href="/school/#{_id}/dashboard" class="{{isActiveRoute regex='school_dashboard'}}")
-                        +ismall name='home'
-                        |feed
-                    a.ui.compact.button(href="/school/#{_id}/reports" class="{{isActiveRoute regex='school_reports'}}")
-                        +ismall name='invoice'
-                        | reports
-                    a.ui.compact.button(href="/school/#{_id}/students" class="{{isActiveRoute regex='school_students'}}")
-                        +ismall name='students'
-                        | dashboard
-                    a.ui.compact.button(href="/school/#{_id}/feed" class="{{isActiveRoute regex='school_feed'}}")
-                        +ismall name='rss'
-                        | feed
-                    a.ui.compact.button(href="/school/#{_id}/stats" class="{{isActiveRoute regex='school_stats'}}")
-                        +ismall name='line-chart'
-                        | stats
-                    a.ui.compact.button(href="/school/#{_id}/credits" class="{{isActiveRoute regex='school_credits'}}")
-                        +ismall name='chevron-up'
-                        | credits
-                    a.ui.compact.button(href="/school/#{_id}/debits" class="{{isActiveRoute regex='school_debits'}}")
-                        +ismall name='chevron-down'
-                        | debits
-                    a.ui.compact.button(href="/school/#{_id}/grades" class="{{isActiveRoute regex='school_grades'}}")
-                        +ismall name='leaderboard'
-                        |grades
-                    a.ui.compact.button(href="/school/#{_id}/jobs" class="{{isActiveRoute regex='school_jobs'}}")
-                        +ismall name='business'
-                        |jobs
-                    a.ui.compact.button(href="/school/#{_id}/shop" class="{{isActiveRoute regex='school_shop'}}")
-                        +ismall name='shop'
-                        |shop
-                    a.ui.compact.button(href="/school/#{_id}/services" class="{{isActiveRoute regex='school_services'}}")
-                        +ismall name='service'
-                        |services
-                    a.ui.compact.button(href="/school/#{_id}/stock" class="{{isActiveRoute regex='school_stock'}}")
-                        +ismall name='pie-chart'
-                        |stock
-                    a.ui.compact.button(href="/school/#{_id}/loans" class="{{isActiveRoute regex='school_loans'}}")
-                        +ismall name='debt'
-                        |loans
                     +yield
+    +footer
+
+template(name='school_section_cloud')
+    if selected_school_section_tags
+        #clear_tags.ui.active.icon.circular.tiny.button
+            i.remove.icon
+        each selected_school_section_tags
+            .unselect_school_section_tag.ui.active.circular.tiny.button
+                strong #{this}
+    each all_school_section_tags
+        .ui.compact.circular.basic.tiny.button.select_school_section_tag(class=cloud_tag_class) 
+            strong #{this.name}
+
 
 
 template(name='school_jobs')        
@@ -134,6 +112,14 @@ template(name='school_dashboard')
                 .eight.wide.column
                     +school_stats
                     
+template(name='school_info')
+    with current_doc
+        +html key='description' direct=true
+        +html key='principals_message' direct=true
+        +array_view key='tags' direct=true
+        +array_view key='location_tags' direct=true
+        
+            
 template(name='school_teachers')
     each school_teachers
         .ui.header #{first_name} #{last_name}
@@ -291,3 +277,4 @@ template(name='school_stats')
         .item $#{csd.average_credit_per_student} credit/student
         .item $#{csd.average_debit_per_student} debit/student
         
+    +html_raw_view key='google_map' direct=true

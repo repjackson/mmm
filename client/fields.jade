@@ -59,7 +59,7 @@ template(name='html_edit')
         .field
             label 
                 if icon
-                    +i name=icon classes='ui middle aligned image'
+                    +ismall name=icon classes='ui middle aligned image'
                 if title
                     |#{title}
                 else if label
@@ -78,23 +78,6 @@ template(name='html_edit')
         +watson_view
         
         
-//- template(name='html_view')
-//-     if field_value
-//-         div
-//-         if icon
-//-             //- +i name=icon classes='ui mini inline image'
-//-             i.icon(class=icon)
-//-         //- if title
-//-         //-     |#{title}
-//-         //- else if key
-//-         //-     |#{key}
-//-         //- else
-//-         //-     |#{this}
-//-     |!{field_value}
-//-     +call_watson mode='html'
-
-
-
 template(name='color_view')
     .ui.form
         .field
@@ -108,7 +91,7 @@ template(name='color_view')
                     |#{key}
                 else
                     |#{this}
-            .ui.large.basic.label(style="background:#{field_value}")
+            .ui.basic.label(style="background:#{field_value}")
             |#{field_value}
 
 template(name='color_icon_edit')
@@ -297,6 +280,16 @@ template(name='pdf_view')
                 |download pdf
     //- +call_visual
 
+template(name='image')
+    if is_editing
+        +image_edit
+    else 
+        +image_view
+    if can_edit
+        +session_edit_button
+
+
+
 template(name='image_edit')
     .ui.form
         if icon
@@ -349,15 +342,19 @@ template(name='html_view')
                 |#{title}
             else if label
                 |#{label}
-            //- else if key
-            //-     |#{key}
-            //- else
-            //-     |#{this}            
         .f6 {{nl2br field_value}}
         if view_watson
             if watson
                 +watson_view
 
+
+template(name='html')
+    if is_editing
+        +html_edit
+    else 
+        +html_view
+    if can_edit
+        +session_edit_button
 
 template(name='textarea_view')
     if field_value
@@ -395,8 +392,8 @@ template(name='textarea_edit')
 
 
 template(name='document_edit')
-    // .ui.large.basic.labeled.fluid.icon.input
-    //     .ui.large.basic.label 
+    // .ui.basic.labeled.fluid.icon.input
+    //     .ui.basic.label 
     //         // if icon
     //         //     i.grey.icon(class=icon)
     //         if title
@@ -599,6 +596,15 @@ template(name='number_edit')
         input.edit_number(type='number' min=min max=max class=classes value=field_value placeholder=placeholder autocomplete="off")
             
             
+template(name='number')
+    if is_editing
+        +number_edit
+    else 
+        +number_view
+    if can_edit
+        +session_edit_button
+
+            
 template(name='number_view')
     if field_value
         div
@@ -619,6 +625,13 @@ template(name='number_view')
                 span #{prefix}
             |#{field_value}
 
+template(name='float')
+    if is_editing
+        +float_edit
+    else 
+        +float_view
+    if can_edit
+        +session_edit_button
 
 template(name='float_edit')
     div
@@ -772,7 +785,7 @@ template(name='array_edit')
         //- +clear_value                
     if field_value
         each field_value
-            .ui.large.basic.label
+            .ui.basic.label
                 i.delete.icon.remove_element
                 |#{this}
                 
@@ -786,7 +799,7 @@ template(name='array_view')
             .ui.inline.small.grey.header(title=title)
                 |#{label}
         each field_value
-            .ui.large.basic.label #{this}
+            .ui.basic.label #{this}
 
 
 template(name='children_edit')
@@ -876,8 +889,8 @@ template(name='child_view')
 
 
 template(name='youtube_edit')
-    .ui.large.basic.labeled.fluid.icon.input
-        .ui.large.basic.label 
+    .ui.basic.labeled.fluid.icon.input
+        .ui.basic.label 
             // if icon
             //     i.grey.icon(class=icon)
             |youtube id
@@ -987,7 +1000,7 @@ template(name='single_doc_view')
             +ismall name=icon
         .ui.inline.header(title=key)
             |#{title}
-        .ui.large.basic.label
+        .ui.basic.label
             if icon
                 //- i.grey.icon(class=icon)
                 +ismall name=icon classes='ui middle aligned image'
@@ -1050,7 +1063,7 @@ template(name='business_edit')
         input#business_name(type='text' placeholder=title autocomplete="off")
         //- input#multi_doc_select_input(type='text' placeholder="Lookup #{ref_model}.." autocomplete="off")
     //- each selections
-    //-     .ui.large.basic.label
+    //-     .ui.basic.label
     //-         |#{title}
     with referenced_business
         .ui.header #{title}
@@ -1081,7 +1094,7 @@ template(name='multi_doc_view')
         .ui.inline.header(title=key)
             |#{title} #{label}
         each sorted_field_values
-            .ui.large.basic.label
+            .ui.basic.label
                 |#{this}
 
 
@@ -1100,7 +1113,7 @@ template(name='single_user_edit')
         .ui.input
             input#single_user_select_input(type='text' placeholder='lookup user..')
             each selections
-                .ui.large.basic.label
+                .ui.basic.label
                     |#{first_name} #{last_name} #{username} 
         if user_results
             .ui.attached.smoothed.segment
@@ -1203,7 +1216,7 @@ template(name='multi_user_edit')
     .ui.input
         input#multi_user_select_input(type='text' placeholder="lookup #{role_filter}..")
     each selections
-        a.ui.large.basic.label(href="/user/#{username}")
+        a.ui.basic.label(href="/user/#{username}")
             |#{first_name} #{last_name} @#{username}
     if user_results
         .ui.top.attached.segment
@@ -1248,7 +1261,7 @@ template(name='multi_doc_input')
         input#multi_doc_select_input(type='text' placeholder=title autocomplete="off")
         //- input#multi_doc_select_input(type='text' placeholder="Lookup #{ref_model}.." autocomplete="off")
     each selections
-        .ui.large.basic.label
+        .ui.basic.label
             |#{guest_name} #{first_name} #{last_name}
     if doc_results
         .ui.attached.secondary.segment
@@ -1294,7 +1307,7 @@ template(name='project_lookup')
             input.project_title_lookup(type='text' placeholder='lookup project' autocomplete="off")
         //- input#multi_doc_select_input(type='text' placeholder="Lookup #{ref_model}.." autocomplete="off")
     each selections
-        .ui.large.basic.label
+        .ui.basic.label
             |#{title}
     if doc_results
         .ui.attached.segment

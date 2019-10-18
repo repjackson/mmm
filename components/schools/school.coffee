@@ -3,7 +3,7 @@ if Meteor.isClient
         @render 'schools'
     Router.route '/school/:doc_id/', (->
         @layout 'school_view_layout'
-        @render 'school_students'
+        @render 'school_dashboard'
         ), name:'school_view'
     Router.route '/school/:doc_id/dashboard', (->
         @layout 'school_view_layout'
@@ -17,10 +17,6 @@ if Meteor.isClient
         @layout 'school_view_layout'
         @render 'school_stats'
         ), name:'school_stats'
-    Router.route '/school/:doc_id/lunch', (->
-        @layout 'mlayout'
-        @render 'school_lunch'
-        ), name:'school_lunch'
     Router.route '/school/:doc_id/debits', (->
         @layout 'school_view_layout'
         @render 'school_debits'
@@ -75,9 +71,13 @@ if Meteor.isClient
         ), name:'school_info'
 
 
+
+if Meteor.isClient
     Template.schools.onRendered ->
+
         # Session.setDefault 'view_mode', 'cards'
     Template.schools.helpers
+
         # viewing_cards: -> Session.equals 'view_mode', 'cards'
         # viewing_segments: -> Session.equals 'view_mode', 'segments'
     Template.schools.events
@@ -222,9 +222,14 @@ if Meteor.isClient
 
 
 
+
+
+
     Template.school_view_layout.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'model_docs', 'feature'
+        # @autorun => Meteor.subscribe 'model_docs', 'feature'
+        # @autorun => Meteor.subscribe 'model_docs', 'school_section'
+
     Template.school_view_layout.onRendered ->
         Meteor.call 'increment_view', Router.current().params.doc_id, ->
         # Meteor.setTimeout ->
@@ -232,6 +237,12 @@ if Meteor.isClient
         # , 1000
 
     Template.school_view_layout.helpers
+        school_sections: ->
+            Docs.find {
+                model:'school_section'
+            }, title:1
+        route_slug: -> "school_#{@slug}"
+
         features: ->
             Docs.find
                 model:'feature'

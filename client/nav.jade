@@ -38,14 +38,22 @@ template(name='nav')
             a.item(href='/schools')
                 +ismall name='school'
                 span.mobile.hidden &nbsp; schools
+            a.item.set_reference(href='/m/reference')
+                +ismall name='university'
+                span.mobile.hidden &nbsp; reference
             //- a.ui.item(href='/donations')
             //-     |donations
-            a.ui.item(href='/teachers')
-                +ismall name='teacher'
-                span.mobile.hidden &nbsp; teachers
-            a.ui.item(href='/p/parents')
-                |parents
+            //- a.ui.item(href='/teachers')
+            //-     +ismall name='teacher'
+            //-     span.mobile.hidden &nbsp; teachers
+            //- a.ui.item(href='/p/parents')
+            //-     |parents
         .right.menu
+            a.icon.item.set_reference(href='/m/reference' title='reference')
+                +ismall name='university'
+            a.icon.item.set_tool(href='/m/tool' title='tool')
+                +ismall name='calculator'
+
             unless currentUser
                 .item
                     a.ui.button(href='/login' title='login') log in
@@ -62,7 +70,7 @@ template(name='nav')
                         i.database.icon
                 unless logging_out
                     a.item(href="/chat")
-                        i.chat.teal.large.icon
+                        i.chat.outline.large.icon
                     //- a.item(href="/notifications")
                     //-     i.bell.grey.large.outline.icon
                     //- a.item(href="/mail")
@@ -88,6 +96,7 @@ template(name='footer')
                 img.ui.tiny.inline.image(src="{{c.url 'bcorp' }}")
                 img.ui.small.image(src="{{c.url 'stripe_badge' }}")
             .three.wide.column
+                a.ui.button(href='/donate') donate
                 .ui.link.large.list
                     a.item(href='/m/blog') blog
                     a.item(href='/p/about') about

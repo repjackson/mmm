@@ -130,3 +130,21 @@ template(name='loan_stats')
     //-         .ui.button.new_slot
     //-             |new slot
         
+
+
+template(name='user_loans')
+    +i name='debt' classes='ui inline image'
+    .ui.inline.header loans
+    .ui.button.apply apply for new loan
+    each user_loans
+        +user_loan
+
+template(name='user_loan')
+    //- .ui.header #{when}
+    .ui.segment
+        +single_user_view key='name' label='name' icon='title' direct=true
+        +text_view key='employer' label='employer' icon='business' direct=true
+        +text_view key='position' label='position' icon='manager' direct=true
+        +number_view key='amount_requested' label='amount requested' icon='money' direct=true
+        +textarea_view key='loan_reason' label='reason' icon='money' direct=true
+        +boolean_view key='had_loan_before' label='ever had a loan before?' direct=true

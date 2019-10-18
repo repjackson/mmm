@@ -64,6 +64,24 @@ if Meteor.isClient
 
 
 
+    Template.user_loans.onCreated ->
+        @autorun => Meteor.subscribe 'user_docs', Router.current().params.username, 'loan'
+    Template.user_loans.helpers
+        user_loans: ->
+            Docs.find
+                model:'loan'
+                _author_username:Router.current().params.username
+    Template.user_loans.events
+        'click .apply': ->
+            console.log @
+            new_loan_id = Docs.insert
+                model:'loan'
+                approved:false
+            Router.go "/loan/#{new_loan_id}/edit"
+
+
+
+
     Template.user_connect_button.onCreated ->
         # @autorun => Meteor.subscribe 'user_confirmed_transactions', Router.current().params.username
     Template.user_connect_button.helpers
@@ -259,3 +277,9 @@ if Meteor.isServer
         Docs.find
             model:'user_tag_review'
             user_id: current_user._id
+
+    Meteor.publish 'user_docs', (username, model)->
+        current_user = Meteor.users.findOne username:username
+        Docs.find
+            model:model
+            _author_id: current_user._id

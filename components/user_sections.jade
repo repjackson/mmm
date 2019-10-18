@@ -30,10 +30,6 @@ template(name='user_shop')
     +i name='shop' classes='ui inline image'
     .ui.inline.header shop
 
-template(name='user_loans')
-    +i name='debt' classes='ui inline image'
-    .ui.inline.header loans
-
 template(name='user_comparison')
     +i name='exchange' classes='ui inline image'
     .ui.inline.header user comparison
@@ -102,19 +98,25 @@ template(name='user_people')
 
                 
 template(name='user_requests')
-    .ui.header requests
+    .ui.header
+        +i name='sell'
+        |requests
+
+template(name='user_services')
+    .ui.header 
+        +i name='wrench'
+        |services
 
 template(name='user_dashboard')
     .ui.header 
         +i name='dashboard'
         |dashboard
-    .ui.header user posts
-    .ui.header user activity
-    .ui.header user karma
-    .ui.header user services
-    .ui.header user sales
-    .ui.header user comments
-    .ui.header user comments
+    a.ui.header(href="/user/#{user_from_username_param.username}/posts") user posts
+    .ui.header(href="/user/#{user_from_username_param.username}/feed") user activity
+    a.ui.header(href="/user/#{user_from_username_param.username}/karma") user karma
+    a.ui.header(href="/user/#{user_from_username_param.username}/services") user services
+    a.ui.header(href="/user/#{user_from_username_param.username}/sales") user sales
+    a.ui.header(href="/user/#{user_from_username_param.username}/comments") user comments
 
 
 template(name='user_votes')

@@ -15,6 +15,10 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_karma'
         ), name:'user_karma'
+    Router.route '/user/:username/services', (->
+        @layout 'profile_layout'
+        @render 'user_services'
+        ), name:'user_services'
     Router.route '/user/:username/payment', (->
         @layout 'profile_layout'
         @render 'user_payment'
@@ -142,8 +146,7 @@ if Meteor.isClient
         Session.setDefault 'view_side', false
 
     Template.profile_layout.helpers
-        route_slug: ->
-            "user_#{@slug}"
+        route_slug: -> "user_#{@slug}"
         user: ->
             Meteor.users.findOne username:Router.current().params.username
         user_sections: ->

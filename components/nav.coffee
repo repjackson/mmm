@@ -44,6 +44,12 @@ if Meteor.isClient
             Meteor.call 'set_facets', @slug, ->
                 Session.set 'loading', false
 
+        'click .set_reference': ->
+            Session.set 'loading', true
+            # Meteor.call 'increment_view', @_id, ->
+            Meteor.call 'set_facets', 'reference', ->
+                Session.set 'loading', false
+
         'click .spinning': ->
             Session.set 'loading', false
 

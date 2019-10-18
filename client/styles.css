@@ -123,12 +123,12 @@ body {
 .add_model_doc {
     border-radius: 20px !important;
 }
-.add_model_doc > .icon:hover {
+/* .add_model_doc > .icon:hover {
     animation-name: spin;
     animation-duration: 5000ms;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
-}
+} */
 
 
 .filter_row {
@@ -468,7 +468,7 @@ input.user_search{
 
 .button:not(.labeled) {
     /* background-color: rgba(200, 200, 200, 0.5) !important; */
-    box-shadow: 0 1px 1px 1px rgba(50, 50, 100, 0.1) !important;
+    /* box-shadow: 0 1px 1px 1px rgba(50, 50, 100, 0.1) !important; */
     margin:2px !important;
     font-weight: bold !important;
     text-size: bold !important;
@@ -478,7 +478,7 @@ input.user_search{
     border-radius: 12px !important;
     border: solid !important;
     border-width: 1px !important;
-    border-color: lightgrey !important;
+    border-color: rgba(0,0,0,.1) !important;
     /* transform: translate(0, 4px); */
 }
 
@@ -538,7 +538,7 @@ input.user_search{
     /* box-shadow: 0 0px 2px 1px rgba(50, 50, 100, 0.2) !important; */
     /* background-color: rgba(43, 33, 0, .9) !important; */
     /* color: white !important; */
-    transform: translate(0, 2px);
+    transform: translate(0, 1px);
 }
 
 
@@ -554,8 +554,8 @@ input.user_search{
 }
 
 .button:active{
-    -webkit-transform: translate(0, 5px) !important; /* depth of button press */
-    transform: translate(0, 5px) !important; /* depth of button press */
+    -webkit-transform: translate(0, 2px) !important; /* depth of button press */
+    transform: translate(0, 2px) !important; /* depth of button press */
 }
 
 
@@ -579,7 +579,7 @@ input.user_search{
 
 
 .button, .selector, .card, body, .item{
-    animation: fadein .5s;
+    animation: fadein .75s;
     /* -webkit-transition: opacity 2s ease-out; */
     /* animation: fadeout 1s; */
 }
@@ -624,10 +624,10 @@ input.user_search{
 }
 
 .ui.header{
-    /* font-family: 'Raleway', sans-serif !important; */
+    font-family: 'Raleway', sans-serif !important;
     /* font-family: 'Roboto', sans-serif !important; */
     /* font-family: 'Ubuntu+Mono', sans-serif !important; */
-    font-family: 'Ubuntu', sans-serif !important;
+    /* font-family: 'Ubuntu', sans-serif !important; */
 }
 h1.ui.header{
     /* font-family: 'Ubuntu', sans-serif !important; */

@@ -1,0 +1,14 @@
+template(name='compound')
+    .ui.padded.grid
+        .eight.wide.column.f9
+            +number key='principal' direct=true
+            +float key='interest_rate' direct=true
+        .eight.wide.column
+            .ui.header compound interest
+            img.ui.rounded.image(src="{{c.url 'compound' width=400 height=400 gravity='face' crop='fill'}}")
+                
+            .ui.divider
+            .ui.header accumulated
+            .ui.header principal
+            .ui.header compounds per
+            .ui.header number of periods

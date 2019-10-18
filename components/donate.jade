@@ -1,0 +1,12 @@
+template(name='donate')
+    .ui.stackable.padded.grid
+        .centered.row
+            .twelve.wide.column
+                .ui.header 
+                    +i name='donate'
+                    .ui.header donate
+                .ui.action.fluid.input
+                    input.deposit_amount(type='number' min='1' placeholder='deposit')
+                    .ui.icon.button.start_donation   
+                        i.right.chevron.icon
+                    

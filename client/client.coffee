@@ -1,5 +1,8 @@
 @selected_tags = new ReactiveArray []
 @selected_user_section_tags = new ReactiveArray []
+@selected_school_section_tags = new ReactiveArray []
+@selected_school_tags = new ReactiveArray []
+@selected_classroom_tags = new ReactiveArray []
 
 Meteor.startup ->
     process.env.TZ='America/Denver'
