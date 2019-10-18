@@ -122,7 +122,7 @@ template(name='user_card')
         //- +user_status user
 
 
-template(name='small_horizontal_member_card')
+template(name='small_horizontal_user_card')
     with user
         .ui.small.horizontal.card
             .image
@@ -402,7 +402,7 @@ template(name='rules_and_regs_check')
         
         
         
-template(name='member_guidelines_check')
+template(name='user_guidelines_check')
     if is_staff
         if guidelines_signed
             a.ui.basic.button(href="/m/sign_guidelines/#{guidelines_signed._id}/view" title='click to view/edit signing document')

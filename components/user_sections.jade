@@ -18,6 +18,30 @@ template(name='user_workhistory')
             +pdf_view key='resume' label='resume' direct=true
     
 
+template(name='user_reports')
+    +i name='resume' classes='ui inline image'
+    .ui.inline.header work reports
+
+template(name='user_jobs')
+    +i name='business' classes='ui inline image'
+    .ui.inline.header user jobs
+
+template(name='user_shop')
+    +i name='shop' classes='ui inline image'
+    .ui.inline.header shop
+
+template(name='user_loans')
+    +i name='debt' classes='ui inline image'
+    .ui.inline.header loans
+
+template(name='user_comparison')
+    +i name='exchange' classes='ui inline image'
+    .ui.inline.header user comparison
+
+template(name='user_stock')
+    +i name='pie-chart' classes='ui inline image'
+    .ui.inline.header stock
+
 template(name='user_payment')
     +text_view key='payment_preferences' label='payment preferences' icon='online-payment-with-a-credit-card' direct=true
     +boolean_view key='accepts_venmo' label='accepts venmo' icon='online-payment-with-a-credit-card' direct=true
@@ -285,14 +309,20 @@ template(name='user_events')
 template(name='user_feed')
     .ui.basic.segment
         .ui.inline.header 
-            +i name='feed'
+            +i name='rss'
             |feed
         //- if current_user
         //-     .ui.fluid.input
         //-         input(type='text' placeholder='Share something...')
     +user_wall
                 
-                
+    .ui.list
+        each user_log_events
+            .item
+                .content
+                    .header #{body}
+                    .description #{when}
+    
                 
 template(name='user_bookmarks')
     .ui.header 

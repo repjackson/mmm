@@ -10,7 +10,7 @@ template(name='students')
 template(name='members') 
     .ui.left.icon.fluid.input
         i.search.icon
-        input.member_search(type='text' placeholder='lookup member' autofocus='autofocus')
+        input.user_search(type='text' placeholder='lookup member' autofocus='autofocus')
     .ui.hidden.divider
     .ui.centered.five.stackable.cards
         each members
@@ -38,7 +38,7 @@ template(name='member')
             .ui.small.inline.header(title='points')
                 |#{points}
                 small pts
-            +member_connect_button
+            +user_connect_button
             
             
             
@@ -189,5 +189,5 @@ template(name='owner')
             each roles
                 .ui.small.basic.label #{this}
             if currentUser
-                +member_connect_button
+                +user_connect_button
                 

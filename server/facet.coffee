@@ -102,7 +102,7 @@ Meteor.methods
 
 
         if delta.sort_key
-            console.log 'found sort key', delta.sort_key
+            # console.log 'found sort key', delta.sort_key
             sort_by = delta.sort_key
         else
             sort_by = 'views'
@@ -141,7 +141,7 @@ Meteor.methods
         # else
         #     result_ids = []
         result_ids = results_cursor.fetch()
-        console.log result_ids
+        # console.log result_ids
 
         Docs.update {_id:delta._id},
             {$set:

@@ -319,7 +319,7 @@ if Meteor.isClient
 
     Template.delta_result.events
         'click .result': ->
-            console.log @
+            # console.log @
             model_slug =  Router.current().params.model_slug
             #
             if Meteor.user()

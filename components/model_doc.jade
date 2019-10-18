@@ -34,13 +34,14 @@ template(name='model_doc_view')
             .ui.stackable.padded.grid
                 .row
                     .four.wide.column
-                        .ui.basic.button.back_to_model
+                        .ui.button.back_to_model
                             i.chevron.left.icon
                             +i name=current_model.icon classes='ui avatar image'
                             |#{current_model.title}
                         if can_edit
-                            a.ui.icon.basic.button(href="/m/#{current_model.slug}/#{_id}/edit" title='Edit')
+                            a.ui.button(href="/m/#{current_model.slug}/#{_id}/edit" title='Edit')
                                 i.pencil.large.icon
+                                |edit    
                         if is_admin
                             .ui.header 
                                 +i name='clock'
@@ -86,7 +87,7 @@ template(name='karma_transaction')
     .ui.header offer karma
     .ui.input
         input.offer_karma_amount(type='number')
-    .ui.basic.button.offer_karma
+    .ui.button.offer_karma
         i.right.chevron.icon
     each offers
         +offer

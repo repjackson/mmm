@@ -1,57 +1,16 @@
 if Meteor.isClient
     Template.service_cloud.onCreated ->
         @autorun -> Meteor.subscribe('service_tags', selected_service_tags.array())
-
     Template.service_cloud.helpers
         all_service_tags: ->
             service_count = Docs.find(model:'service').count()
             if 0 < service_count < 3 then Service_tags.find { count: $lt: service_count } else Service_tags.find({},{limit:5})
-        # cloud_tag_class: ->
-        #     button_class = switch
-        #         when @index <= 5 then 'large'
-        #         when @index <= 12 then ''
-        #         when @index <= 20 then 'small'
-        #     return button_class
         selected_service_tags: -> selected_service_tags.array()
-        # settings: -> {
-        #     position: 'bottom'
-        #     limit: 10
-        #     rules: [
-        #         {
-        #             collection: Service_tags
-        #             field: 'name'
-        #             matchAll: true
-        #             template: Template.tag_result
-        #         }
-        #     ]
-        # }
-
-
     Template.service_cloud.events
         'click .select_service_tag': -> selected_service_tags.push @name
         'click .unselect_service_tag': -> selected_service_tags.remove @valueOf()
         'click #clear_tags': -> selected_service_tags.clear()
 
-        # 'keyup #search': (e,t)->
-        #     e.preventDefault()
-        #     val = $('#search').val().toLowerCase().trim()
-        #     switch e.which
-        #         when 13 #enter
-        #             switch val
-        #                 when 'clear'
-        #                     selected_service_tags.clear()
-        #                     $('#search').val ''
-        #                 else
-        #                     unless val.length is 0
-        #                         selected_service_tags.push val.toString()
-        #                         $('#search').val ''
-        #         when 8
-        #             if val.length is 0
-        #                 selected_service_tags.pop()
-        #
-        # 'autocompleteselect #search': (event, template, doc) ->
-        #     selected_service_tags.push doc.name
-        #     $('#search').val ''
 
 
 if Meteor.isServer

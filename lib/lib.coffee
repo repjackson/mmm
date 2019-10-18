@@ -1,6 +1,7 @@
 @Docs = new Meteor.Collection 'docs'
 @Tags = new Meteor.Collection 'tags'
 @Rental_tags = new Meteor.Collection 'rental_tags'
+@User_section_tags = new Meteor.Collection 'user_section_tags'
 
 
 Docs.before.insert (userId, doc)->

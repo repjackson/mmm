@@ -35,10 +35,18 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_contact'
         ), name:'user_contact'
+    Router.route '/user/:username/reports', (->
+        @layout 'profile_layout'
+        @render 'user_reports'
+        ), name:'user_reports'
     Router.route '/user/:username/stats', (->
         @layout 'profile_layout'
         @render 'user_stats'
         ), name:'user_stats'
+    Router.route '/user/:username/shop', (->
+        @layout 'profile_layout'
+        @render 'user_shop'
+        ), name:'user_shop'
     Router.route '/user/:username/votes', (->
         @layout 'profile_layout'
         @render 'user_votes'
@@ -47,14 +55,30 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_dashboard'
         ), name:'user_dashboard'
+    Router.route '/user/:username/jobs', (->
+        @layout 'profile_layout'
+        @render 'user_jobs'
+        ), name:'user_jobs'
+    Router.route '/user/:username/stock', (->
+        @layout 'profile_layout'
+        @render 'user_stock'
+        ), name:'user_stock'
     Router.route '/user/:username/requests', (->
         @layout 'profile_layout'
         @render 'user_requests'
         ), name:'user_requests'
+    Router.route '/user/:username/feed', (->
+        @layout 'profile_layout'
+        @render 'user_feed'
+        ), name:'user_feed'
     Router.route '/user/:username/tags', (->
         @layout 'profile_layout'
         @render 'user_tags'
         ), name:'user_tags'
+    Router.route '/user/:username/bids', (->
+        @layout 'profile_layout'
+        @render 'user_bids'
+        ), name:'user_bids'
     Router.route '/user/:username/tasks', (->
         @layout 'profile_layout'
         @render 'user_tasks'
@@ -79,6 +103,10 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_documents'
         ), name:'user_documents'
+    Router.route '/user/:username/loans', (->
+        @layout 'profile_layout'
+        @render 'user_loans'
+        ), name:'user_loans'
     Router.route '/user/:username/social', (->
         @layout 'profile_layout'
         @render 'user_social'
@@ -105,23 +133,34 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_events', Router.current().params.username
         @autorun -> Meteor.subscribe 'student_stats', Router.current().params.username
+        # @autorun -> Meteor.subscribe 'model_docs', 'user_section'
 
     Template.profile_layout.onRendered ->
         Meteor.setTimeout ->
             $('.button').popup()
         , 2000
-
+        Session.setDefault 'view_side', false
 
     Template.profile_layout.helpers
+        route_slug: ->
+            "user_#{@slug}"
         user: ->
             Meteor.users.findOne username:Router.current().params.username
+        user_sections: ->
+            Docs.find {
+                model:'user_section'
+            }, sort:title:1
         ssd: ->
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.findOne
                 model:'student_stats'
                 user_id:user._id
-
-
+        view_side: -> Session.get 'view_side'
+        main_column_class: ->
+            if Session.get 'view_side'
+                'fourteen wide column'
+            else
+                'sixteen wide column'
         user_events: ->
             Docs.find
                 model:'classroom_event'
@@ -141,6 +180,8 @@ if Meteor.isClient
 
 
     Template.profile_layout.events
+        'click .toggle_size': ->
+            Session.set 'view_side', !Session.get('view_side')
         'click .recalc_student_stats': ->
             Meteor.call 'recalc_student_stats', Router.current().params.username
         'click .set_delta_model': ->

@@ -11,7 +11,7 @@ template(name='classrooms')
                     //- |add classroom
         .row
             .sixteen.wide.column
-                .ui.stackable.three.cards
+                .ui.stackable.four.cards
                     each classrooms
                         +classroom_card
 
@@ -114,6 +114,9 @@ template(name='classroom_loans')
 
 template(name='classroom_shop')        
     +shop
+
+template(name='classroom_grades')        
+    .ui.header grades
 
 
 template(name='classroom_lunch')        

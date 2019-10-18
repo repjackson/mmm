@@ -79,7 +79,7 @@
 #         submit_button_class: ->
 #             if @start_datetime and @end_datetime then '' else 'disabled'
 #
-#         member_balance_after_reservation: ->
+#         user_balance_after_reservation: ->
 #             rental = Docs.findOne @rental_id
 #             if rental
 #                 current_balance = Meteor.user().credit

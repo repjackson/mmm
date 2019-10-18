@@ -81,12 +81,12 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe 'unread_messages'
 
     Template.nav.helpers
-        member_nav_button_class: ->
+        user_nav_button_class: ->
             if Meteor.user().handling_active
                 'green'
             else
                 ''
-        member_nav_button_title: ->
+        user_nav_button_title: ->
             if Meteor.user().handling_active
                 'clocked in as handler'
             else

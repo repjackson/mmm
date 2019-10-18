@@ -112,9 +112,9 @@ if Meteor.isClient
         user: -> Meteor.users.findOne username:@valueOf()
 
 
-    Template.small_horizontal_member_card.onCreated ->
+    Template.small_horizontal_user_card.onCreated ->
         @autorun => Meteor.subscribe 'user_from_username', @data
-    Template.small_horizontal_member_card.helpers
+    Template.small_horizontal_user_card.helpers
         user: -> Meteor.users.findOne username:@valueOf()
 
 
@@ -415,9 +415,9 @@ if Meteor.isServer
         Docs.find
             type:type
 
-    Meteor.publish 'member_guidelines_username', (username)->
+    Meteor.publish 'user_guidelines_username', (username)->
         Docs.find
-            model:'member_guidelines_signing'
+            model:'user_guidelines_signing'
             # student:username
             # agree:true
 

@@ -99,8 +99,8 @@ if Meteor.isClient
         # 'click #add_user': ->
         #     id = Docs.insert model:'person'
         #     Router.go "/person/edit/#{id}"
-        'keyup .member_search': (e,t)->
-            username_query = $('.member_search').val()
+        'keyup .user_search': (e,t)->
+            username_query = $('.user_search').val()
             if e.which is 8
                 if username_query.length is 0
                     Session.set 'username_query',null

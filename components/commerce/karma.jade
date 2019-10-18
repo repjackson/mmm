@@ -27,7 +27,6 @@ template(name='karma')
     
 template(name='earning_methods_small')
     a.ui.grey.header(href='/m/earning_opportunity')
-        //- i.exchange.icon
         +i name='invoice'
         | earn karma
     .smallscroll
@@ -83,10 +82,10 @@ template(name='view_karma_transaction')
                 .ui.two.column.grid
                     .column
                         .ui.header
-                        +member_card from_username
+                        +user_card from_username
                     .column
                         .ui.header
-                        +member_card to_username
+                        +user_card to_username
                 +textarea_view key='description' label='description' direct=true
                 +array_view key='tags' label='tags' direct=true
                 
@@ -110,10 +109,10 @@ template(name='new_karma_transaction')
                 .ui.two.column.grid
                     .column
                         .ui.header from 
-                        +member_card from_username
+                        +user_card from_username
                     .column
                         .ui.header to
-                        +member_card to_username
+                        +user_card to_username
                 +textarea_edit key='description' label='description' direct=true
                 +array_edit key='tags' label='tags' direct=true
             .four.wide.column
@@ -131,7 +130,7 @@ template(name='new_karma_transaction')
                         |complete
 
 
-template(name='member_karma')
+template(name='user_karma')
     .ui.header 
         +i name='yin-yang'
         |karma

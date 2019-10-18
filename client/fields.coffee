@@ -1195,13 +1195,13 @@ Template.project_lookup.events
                     # Session.set 'displaying_profile', user._id
                     Router.go "/healthclub_session/#{signing_doc.session_id}"
 
-                if signing_doc.model is 'member_guidelines_signing'
+                if signing_doc.model is 'user_guidelines_signing'
                     signing_doc = Docs.findOne Router.current().params.doc_id
                     user = Meteor.users.findOne username:signing_doc.student
                     Meteor.users.update user._id,
-                        $set:member_waiver_signed:true
+                        $set:user_waiver_signed:true
                     # Meteor.call 'send_rules_regs_receipt_email', user._id
-                    Meteor.call 'member_waiver_signed', user
+                    Meteor.call 'user_waiver_signed', user
                     # Session.set 'displaying_profile', user._id
                     Router.go "/healthclub_session/#{signing_doc.session_id}"
             else
