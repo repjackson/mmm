@@ -5,8 +5,14 @@ template(name='admin')
                 h1.ui.header 
                     i.shield.icon
                     |admin
-            +call_method name='create_delta'
-
+                .ui.segment
+                    a.ui.header(href="/tasks")
+                        +i name='tasks'
+                        | tasks
+                //- a.ui.header(href="/tasks")
+                //-     +i name='tasks'
+                //-     | tasks
+                //- +call_method name='create_delta'
 
 
 template(name='call_method')

@@ -5,10 +5,7 @@ if Meteor.isClient
         ), name:'donate'
 
     Template.donate.onCreated ->
-        # @autorun => Meteor.subscribe 'joint_transactions', Router.current().params.username
-        @autorun => Meteor.subscribe 'model_docs', 'deposit'
-        # @autorun => Meteor.subscribe 'model_docs', 'reservation'
-        @autorun => Meteor.subscribe 'model_docs', 'withdrawal'
+        @autorun => Meteor.subscribe 'model_docs', 'donation'
         if Meteor.isDevelopment
             pub_key = Meteor.settings.public.stripe_test_publishable
         else if Meteor.isProduction
@@ -24,6 +21,7 @@ if Meteor.isClient
                 stripe_charge = deposit_amount*100
                 # calculated_amount = deposit_amount*100
                 # console.log calculated_amount
+                message = prompt 'donation message (optional)'
                 charge =
                     amount: deposit_amount*100
                     currency: 'usd'
@@ -33,14 +31,17 @@ if Meteor.isClient
                 Meteor.call 'donate', charge, (error, response) =>
                     if error then alert error.reason, 'danger'
                     else
-                        alert 'payment received', 'success'
+                        # alert 'payment received', 'success'
                         Docs.insert
                             model:'donation'
-                            deposit_amount:deposit_amount/100
-                            stripe_charge:stripe_charge
+                            amount:deposit_amount/100
+                            message:message
     	)
 
-
+    Template.donate.helpers
+        donations: ->
+            Docs.find
+                model:'donation'
     Template.donate.events
         'click .start_donation': ->
             deposit_amount = parseInt $('.deposit_amount').val()*100
