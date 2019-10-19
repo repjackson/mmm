@@ -378,6 +378,47 @@ if Meteor.isClient
                 model:'suggestion'
                 public:true
 
+    Template.user_array_element_toggle.helpers
+        user_array_element_toggle_class: ->
+            # user = Meteor.users.findOne Router.current().params.username
+            if @user["#{@key}"] and @value in @user["#{@key}"] then 'active' else ''
+    Template.user_array_element_toggle.events
+        'click .toggle_element': (e,t)->
+            # user = Meteor.users.findOne Router.current().params.username
+            if @user["#{@key}"]
+                if @value in @user["#{@key}"]
+                    Meteor.users.update @user._id,
+                        $pull: "#{@key}":@value
+                else
+                    Meteor.users.update @user._id,
+                        $addToSet: "#{@key}":@value
+            else
+                Meteor.users.update @user._id,
+                    $addToSet: "#{@key}":@value
+
+
+    Template.user_array_list.helpers
+        users: ->
+            users = []
+            if @user["#{@array}"]
+                for user_id in @user["#{@array}"]
+                    user = Meteor.users.findOne user_id
+                    users.push user
+                users
+
+
+
+    Template.user_array_list.onCreated ->
+        @autorun => Meteor.subscribe 'user_array_list', @data.user, @data.array
+    Template.user_array_list.helpers
+        users: ->
+            users = []
+            if @user["#{@array}"]
+                for user_id in @user["#{@array}"]
+                    user = Meteor.users.findOne user_id
+                    users.push user
+                users
+
 
 
 

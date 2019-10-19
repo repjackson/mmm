@@ -126,7 +126,7 @@ template(name='footer')
                 //-         |login
                 
                 +footer_chat
-                if is_eric
+                if is_admin
                     with currentUser
                         +role_switcher
         .centered.row
@@ -189,9 +189,9 @@ template(name='latest_activity')
 template(name='role_switcher')
     .ui.inline.center.aligned.small.header 
         |#{username} role switcher
-    if is_eric
-        +multi_doc key='roles' label='roles' ref_model='role' direct=true
-        div
+    //- if is_eric
+    //-     +multi_doc key='roles' label='roles' ref_model='role' direct=true
+    //-     div
         //- +user_array_element_toggle key='roles' value='dev' user=currentUser
     //- if current_user
     //-     with current_user
@@ -199,9 +199,10 @@ template(name='role_switcher')
     //-     with currentUser
     //- +multi_doc_edit key='roles' label='roles' ref_model='role' direct=true
     //- if is_admin
-    //-     //- +multi_doc_edit key='current_roles' label='current roles' ref_model='role' direct=true
-    //-     +user_array_element_toggle key='current_roles' value='admin' user=currentUser
-    //-     +user_array_element_toggle key='current_roles' value='member' user=currentUser
-    //-     +user_array_element_toggle key='current_roles' value='staff' user=currentUser
-    //-     //- +user_array_element_toggle key='roles' value='student' user=currentUser
-    //-     //- +user_array_element_toggle key='roles' value='owner' user=currentUser
+        //- +multi_doc_edit key='current_roles' label='current roles' ref_model='role' direct=true
+    //- +user_array_element_toggle key='current_roles' value='admin' user=currentUser
+    //- +user_array_element_toggle key='current_roles' value='member' user=currentUser
+    //- +user_array_element_toggle key='current_roles' value='staff' user=currentUser
+    +user_array_element_toggle key='roles' value='student' user=currentUser
+    +user_array_element_toggle key='roles' value='teacher' user=currentUser
+    +user_array_element_toggle key='roles' value='parent' user=currentUser

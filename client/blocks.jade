@@ -486,3 +486,19 @@ template(name='suggestion_box')
             .ui.green.positive.labeled.icon.circular.button
                 i.checkmark.icon
                 |submit
+
+
+template(name='user_array_list')
+    .ui.list
+        each users
+            .item
+                +user_info
+
+            
+template(name='user_array_element_toggle')
+    .ui.circular.button.toggle_element(class=user_array_element_toggle_class)
+        |#{value}
+
+template(name='user_string_toggle')
+    .ui.circular.button.toggle_element(class=user_string_element_toggle_class)
+        |#{value}
