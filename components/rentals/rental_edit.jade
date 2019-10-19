@@ -145,7 +145,7 @@ template(name='rental_edit_tasks')
 template(name='rental_edit_availability')  
     +array_edit key='availability_tags' label='availability tags' icon='clock' direct=true
     +boolean_edit key='available' label='currently available' direct=true
-    +multi_doc_edit key='available_days' label='available days' ref_model='day_of_week' direct=true
+    +multi_doc key='available_days' label='available days' ref_model='day_of_week' direct=true
     .ui.header
         |delivery
     +boolean_edit key='pickup_delivery' label='pickup' direct=true

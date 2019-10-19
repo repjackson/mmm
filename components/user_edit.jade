@@ -7,8 +7,8 @@ template(name='user_edit')
                         | #{user_from_username_param.first_name} #{user_from_username_param.last_name}
                     //- +i name='pencil'
                     .ui.small.inline.header @#{user_from_username_param.username}
-                    a.ui.big.button(href="/user/#{user_from_username_param.username}/") 
-                        i.checkmark.big.green.icon
+                    a.ui.large.button(href="/user/#{user_from_username_param.username}/") 
+                        i.checkmark.large.green.icon
                         strong save
                     .ui.hidden.divider
                     +image_edit key='profile_image_id' icon='picture' title='profile image' direct=true
@@ -94,7 +94,7 @@ template(name='emails_edit')
     //- .ui.small.grey.header 
     //-     i.envelope.icon
     //-     | email(s)
-    //- #test_email.ui.big.basic.button test email
+    //- #test_email.ui.large.basic.button test email
     .ui.divided.list
         each current_user.emails
             .item 
@@ -103,11 +103,11 @@ template(name='emails_edit')
                 //         .ui.basic.button Verify
                 .content
                     if verified
-                        .ui.big.basic.label(title='verified')
+                        .ui.large.basic.label(title='verified')
                             | #{address}
                             i.checkmark.icon
                     else
-                        .ui.big.basic.label
+                        .ui.large.basic.label
                             //- i.ban.icon
                             | #{address}
                         .send_verification_email.ui.basic.button 
@@ -115,7 +115,7 @@ template(name='emails_edit')
                             i.caret.right.icon
                     .ui.small.icon.basic.button.remove_email
                         i.remove.icon
-    .ui.action.big.fluid.icon.action.input
+    .ui.action.large.fluid.icon.action.input
         input#new_email(type='email' placeholder='add new email address' autocomplete="off")
         #add_email.ui.submit.icon.button 
             i.plus.icon

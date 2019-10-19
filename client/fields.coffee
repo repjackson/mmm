@@ -1,4 +1,4 @@
-Template.color_edit.events
+Template.color.events
     'blur .edit_color': (e,t)->
         val = t.$('.edit_color').val()
         if @direct
@@ -31,7 +31,7 @@ Template.clear_value.events
                     $unset:"#{@key}":1
 
 
-Template.link_edit.events
+Template.link.events
     'blur .edit_url': (e,t)->
         val = t.$('.edit_url').val()
         if @direct
@@ -121,7 +121,7 @@ Template.image_edit.events
 
 
 
-Template.pdf_edit.events
+Template.pdf.events
     "change input[name='upload_pdf']": (e) ->
         files = e.currentTarget.files
         if @direct
@@ -307,11 +307,11 @@ Template.array_edit.events
 #     @editing = new ReactiveVar false
 
 # Template.textarea.helpers
-#     is_editing: -> Template.instance().editing.get()
+#     ising: -> Template.instance().editing.get()
 
 
 Template.textarea_edit.events
-    # 'click .toggle_edit': (e,t)->
+    # 'click .toggle': (e,t)->
     #     t.editing.set !t.editing.get()
 
     'blur .edit_textarea': (e,t)->
@@ -428,10 +428,16 @@ Template.boolean_edit.events
 
 Template.number_edit.events
     'blur .edit_number': (e,t)->
+        console.log Template.parentData()
+        console.log Template.parentData(1)
+        console.log Template.parentData(2)
+        console.log Template.parentData(3)
+        console.log Template.parentData(4)
+        console.log Template.parentData(5)
         if @direct
             parent = Template.parentData()
         else
-            parent = Template.parentData(5)
+            parent = Template.parentData(6)
         val = parseInt t.$('.edit_number').val()
         doc = Docs.findOne parent._id
         user = Meteor.users.findOne parent._id
@@ -446,7 +452,7 @@ Template.number_edit.events
 Template.float_edit.events
     'blur .edit_float': (e,t)->
         if @direct
-            parent = Template.parentData()
+            parent = Template.parentData(2)
         else
             parent = Template.parentData(5)
         val = parseFloat t.$('.edit_float').val()
@@ -688,10 +694,10 @@ Template.single_doc_view.helpers
 
 
 
-Template.single_doc_edit.onCreated ->
+Template.single_doc.onCreated ->
     @autorun => Meteor.subscribe 'model_docs', @data.ref_model
 
-Template.single_doc_edit.helpers
+Template.single_doc.helpers
     choices: ->
         if @ref_model
             Docs.find {
@@ -721,7 +727,7 @@ Template.single_doc_edit.helpers
             else ''
 
 
-Template.single_doc_edit.events
+Template.single_doc.events
     'click .select_choice': ->
         selection = @
         ref_field = Template.currentData()
@@ -766,7 +772,7 @@ Template.multi_doc_view.helpers
             model:@ref_model
         }, sort:number:-1
 
-# Template.multi_doc_edit.onRendered ->
+# Template.multi_doc.onRendered ->
 #     $('.ui.dropdown').dropdown(
 #         clearable:true
 #         action: 'activate'
@@ -775,9 +781,9 @@ Template.multi_doc_view.helpers
 
 
 
-Template.multi_doc_edit.onCreated ->
+Template.multi_doc.onCreated ->
     @autorun => Meteor.subscribe 'model_docs', @data.ref_model
-Template.multi_doc_edit.helpers
+Template.multi_doc.helpers
     choices: ->
         Docs.find model:@ref_model
 
@@ -797,7 +803,7 @@ Template.multi_doc_edit.helpers
             ''
 
 
-Template.multi_doc_edit.events
+Template.multi_doc.events
     'click .select_choice': ->
         selection = @
         ref_field = Template.currentData()
@@ -835,11 +841,11 @@ Template.multi_doc_edit.events
                     $addToSet: "#{ref_field.key}": @slug
 
 
-Template.single_user_edit.onCreated ->
+Template.single_user.onCreated ->
     @user_results = new ReactiveVar
-Template.single_user_edit.helpers
+Template.single_user.helpers
     user_results: ->Template.instance().user_results.get()
-Template.single_user_edit.events
+Template.single_user.events
     'click .clear_results': (e,t)->
         t.user_results.set null
 
@@ -900,13 +906,13 @@ Template.document_view.helpers
             slug:@key
 
 
-Template.document_edit.onCreated ->
+Template.document.onCreated ->
     @autorun => Meteor.subscribe 'document_by_slug', @data.key
-Template.document_edit.onRendered ->
+Template.document.onRendered ->
     Meteor.setTimeout ->
         $('.accordion').accordion()
     , 1000
-Template.document_edit.helpers
+Template.document.helpers
     referenced_document: ->
         Docs.findOne
             model:'document'
@@ -917,9 +923,9 @@ Template.document_edit.helpers
 
 
 
-Template.single_person_edit.onCreated ->
+Template.single_person.onCreated ->
     @person_results = new ReactiveVar
-Template.single_person_edit.helpers
+Template.single_person.helpers
     # selected_person: ->
     #     parent = Template.parentData(5)
     #     # val = t.$('.edit_date').val()
@@ -937,7 +943,7 @@ Template.single_person_edit.helpers
     person_results: ->
         person_results = Template.instance().person_results.get()
         person_results
-Template.single_person_edit.events
+Template.single_person.events
     'click .clear_results': (e,t)->
         t.person_results.set null
     'click .clear_selection': (e,t)->
@@ -983,11 +989,11 @@ Template.single_person_edit.events
 
 
 
-Template.multi_user_edit.onCreated ->
+Template.multi_user.onCreated ->
     @user_results = new ReactiveVar
-Template.multi_user_edit.helpers
+Template.multi_user.helpers
     user_results: -> Template.instance().user_results.get()
-Template.multi_user_edit.events
+Template.multi_user.events
     'click .clear_results': (e,t)->
         t.user_results.set null
     'keyup #multi_user_select_input': (e,t)->
@@ -1153,13 +1159,13 @@ Template.project_lookup.events
             Meteor.call 'guest_pdf'
 
 
-    Template.signature_edit.onRendered ->
+    Template.signature.onRendered ->
         canvas = document.querySelector('canvas')
         @signaturePad = new SignaturePad(canvas,{
             backgroundColor:"rgb(255,255,255)"
             })
         # Returns signature image as data URL (see https://mdn.io/todataurl for the list of possible parameters)
-    Template.signature_edit.events
+    Template.signature.events
         # 'click .save': ->
         #     image_data = Template.instance().signaturePad.toDataURL()
         #     # save image as PNG
@@ -1245,7 +1251,7 @@ Template.project_lookup.events
 
 
 
-Template.range_edit.onRendered ->
+Template.range.onRendered ->
     # rental = Template.currentData()
     $('#rangestart').calendar({
         type: 'datetime'
@@ -1275,7 +1281,7 @@ Template.range_edit.onRendered ->
         }
     })
 
-Template.range_edit.events
+Template.range.events
     'click .get_start': ->
         doc_id = Router.current().params.doc_id
         result = $('.ui.calendar').calendar('get startDate')[1]
@@ -1298,8 +1304,8 @@ Template.range_edit.events
 
 
 
-Template.html_raw_edit.events
-    # 'click .toggle_edit': (e,t)->
+Template.html_raw.events
+    # 'click .toggle': (e,t)->
     #     t.editing.set !t.editing.get()
 
     'blur .edit_textarea': (e,t)->

@@ -31,6 +31,10 @@ if Meteor.isClient
     Template.classroom_edit_layout.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'feature'
+    Template.classroom_edit_expenses.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'credit_type'
+        @autorun => Meteor.subscribe 'model_docs', 'debit_type'
+    Template.classroom_edit_income.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'credit_type'
         @autorun => Meteor.subscribe 'model_docs', 'debit_type'
         Session.set 'permission', false
@@ -47,16 +51,19 @@ if Meteor.isClient
             Docs.find
                 model:'feature'
 
+    Template.classroom_edit_income.helpers
         credit_types: ->
             Docs.find
                 model:'credit_type'
                 classroom_id: Router.current().params.doc_id
 
+    Template.classroom_edit_expenses.helpers
         debit_types: ->
             Docs.find
                 model:'debit_type'
                 classroom_id: Router.current().params.doc_id
 
+    Template.classroom_edit_layout.helpers
         feature_edit_template: ->
             "#{@title}_edit_template"
 
@@ -74,15 +81,17 @@ if Meteor.isClient
         adding_student: ->
             Session.get 'adding_student'
 
-    Template.classroom_edit_layout.events
+    Template.classroom_edit_income.events
         'click .add_credit_type': ->
             Docs.insert
                 model:'credit_type'
                 classroom_id: Router.current().params.doc_id
+    Template.classroom_edit_expenses.events
         'click .add_debit_type': ->
             Docs.insert
                 model:'debit_type'
                 classroom_id: Router.current().params.doc_id
+    Template.classroom_edit_layout.events
         'click .set_adding_student': ->
             Session.set 'adding_student', true
         'click .toggle_feature': ->

@@ -17,19 +17,19 @@ template(name='loan_card')
     .ui.card
         .content
             .ui.header #{when}
-            +single_user_view key='name' label='name' icon='title' direct=true
-            +text_view key='employer' label='employer' icon='business' direct=true
-            +text_view key='position' label='position' icon='manager' direct=true
-            +number_view key='amount_requested' label='amount requested' icon='money' direct=true
-            +textarea_view key='loan_reason' label='why do you need the loan now?' icon='money' direct=true
-            +boolean_view key='had_loan_before' label='ever had a loan before?' direct=true
+            +single_user key='name' label='name' icon='title' direct=true
+            +text key='employer' label='employer' icon='business' direct=true
+            +text key='position' label='position' icon='manager' direct=true
+            +number key='amount_requested' label='amount requested' icon='money' direct=true
+            +textarea key='loan_reason' label='why do you need the loan now?' icon='money' direct=true
+            +boolean key='had_loan_before' label='ever had a loan before?' direct=true
             div
             if had_loan_before
-                +number_view key='previous_loan_amount' label='how much?' direct=true
-                +boolean_view key='late_payments' label='ever had late payments?' direct=true
-                +textarea_view key='previous_loan_reason' label='why did you need the loan?' direct=true
-            +textarea_view key='office_notes' label='for office use only' icon='user-shield' direct=true
-            +number_view key='approved_interest_rate' label='approved interest rate' icon='percentage' direct=true
+                +number key='previous_loan_amount' label='how much?' direct=true
+                +boolean key='late_payments' label='ever had late payments?' direct=true
+                +textarea key='previous_loan_reason' label='why did you need the loan?' direct=true
+            +textarea key='office_notes' label='for office use only' icon='user-shield' direct=true
+            +number key='approved_interest_rate' label='approved interest rate' icon='percentage' direct=true
             a.ui.fluid.button(href="/loan/#{_id}/view")
                 |view details
                 i.right.arrow.icon
@@ -48,20 +48,20 @@ template(name='loan_edit')
                         |save
                     +remove_button
                 .six.wide.column 
-                    +single_user_edit key='name' label='name' icon='title' direct=true
-                    +text_edit key='employer' label='employer' icon='business' direct=true
-                    +text_edit key='position' label='position' icon='manager' direct=true
-                    +number_edit key='amount_requested' label='amount requested' icon='money' direct=true
-                    +textarea_edit key='loan_reason' label='why do you need the loan now?' icon='money' direct=true
+                    +single_user key='name' label='name' icon='title' direct=true
+                    +text key='employer' label='employer' icon='business' direct=true
+                    +text key='position' label='position' icon='manager' direct=true
+                    +number key='amount_requested' label='amount requested' icon='money' direct=true
+                    +textarea key='loan_reason' label='why do you need the loan now?' icon='money' direct=true
                 .six.wide.column 
-                    +boolean_edit key='had_loan_before' label='ever had a loan before?' direct=true
+                    +boolean key='had_loan_before' label='ever had a loan before?' direct=true
                     div
                     if had_loan_before
-                        +number_edit key='previous_loan_amount' label='how much?' direct=true
-                        +boolean_edit key='late_payments' label='ever had late payments?' direct=true
-                        +textarea_edit key='previous_loan_reason' label='why did you need the loan?' direct=true
-                    +textarea_edit key='office_notes' label='for office use only' icon='user-shield' direct=true
-                    +number_edit key='approved_interest_rate' label='approved interest rate' icon='percentage' direct=true
+                        +number key='previous_loan_amount' label='how much?' direct=true
+                        +boolean key='late_payments' label='ever had late payments?' direct=true
+                        +textarea key='previous_loan_reason' label='why did you need the loan?' direct=true
+                    +textarea key='office_notes' label='for office use only' icon='user-shield' direct=true
+                    +number key='approved_interest_rate' label='approved interest rate' icon='percentage' direct=true
 
 
 
@@ -83,19 +83,19 @@ template(name='loan_view')
                         |edit
                 .ten.wide.column
                     .ui.header #{title}
-                    +single_user_view key='name' label='name' icon='title' direct=true
-                    +text_view key='employer' label='employer' icon='business' direct=true
-                    +text_view key='position' label='position' icon='manager' direct=true
-                    +number_view key='amount_requested' label='amount requested' icon='money' direct=true
-                    +textarea_view key='loan_reason' label='why do you need the loan now?' icon='money' direct=true
-                    +boolean_view key='had_loan_before' label='ever had a loan before?' direct=true
+                    +single_user key='name' label='name' icon='title' direct=true
+                    +text key='employer' label='employer' icon='business' direct=true
+                    +text key='position' label='position' icon='manager' direct=true
+                    +number key='amount_requested' label='amount requested' icon='money' direct=true
+                    +textarea key='loan_reason' label='why do you need the loan now?' icon='money' direct=true
+                    +boolean key='had_loan_before' label='ever had a loan before?' direct=true
                     div
                     if had_loan_before
-                        +number_view key='previous_loan_amount' label='how much?' direct=true
-                        +boolean_view key='late_payments' label='ever had late payments?' direct=true
-                        +textarea_view key='previous_loan_reason' label='why did you need the loan?' direct=true
-                    +textarea_view key='office_notes' label='for office use only' icon='user-shield' direct=true
-                    +number_view key='approved_interest_rate' label='approved interest rate' icon='percentage' direct=true
+                        +number key='previous_loan_amount' label='how much?' direct=true
+                        +boolean key='late_payments' label='ever had late payments?' direct=true
+                        +textarea key='previous_loan_reason' label='why did you need the loan?' direct=true
+                    +textarea key='office_notes' label='for office use only' icon='user-shield' direct=true
+                    +number key='approved_interest_rate' label='approved interest rate' icon='percentage' direct=true
                     +comments
                     
 
@@ -142,9 +142,9 @@ template(name='user_loans')
 template(name='user_loan')
     //- .ui.header #{when}
     .ui.segment
-        +single_user_view key='name' label='name' icon='title' direct=true
-        +text_view key='employer' label='employer' icon='business' direct=true
-        +text_view key='position' label='position' icon='manager' direct=true
-        +number_view key='amount_requested' label='amount requested' icon='money' direct=true
-        +textarea_view key='loan_reason' label='reason' icon='money' direct=true
-        +boolean_view key='had_loan_before' label='ever had a loan before?' direct=true
+        +single_user key='name' label='name' icon='title' direct=true
+        +text key='employer' label='employer' icon='business' direct=true
+        +text key='position' label='position' icon='manager' direct=true
+        +number key='amount_requested' label='amount requested' icon='money' direct=true
+        +textarea key='loan_reason' label='reason' icon='money' direct=true
+        +boolean key='had_loan_before' label='ever had a loan before?' direct=true

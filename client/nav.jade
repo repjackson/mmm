@@ -190,7 +190,7 @@ template(name='role_switcher')
     .ui.inline.center.aligned.small.header 
         |#{username} role switcher
     if is_eric
-        +multi_doc_edit key='roles' label='roles' ref_model='role' direct=true
+        +multi_doc key='roles' label='roles' ref_model='role' direct=true
         div
         //- +user_array_element_toggle key='roles' value='dev' user=currentUser
     //- if current_user

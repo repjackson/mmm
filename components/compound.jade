@@ -1,8 +1,17 @@
 template(name='compound')
     .ui.padded.grid
-        .eight.wide.column.f9
+        .eight.wide.column.f7
+            .ui.grid
+                .one.wide.column
+                    .ui.input 
+                        input(type='number')
+            +number key='amount' label='amount accumulated' direct=true
+            +float key='interest_rate' label='interest rate' direct=true
+            +float key='compoundings_per_period' label='compoundings per period' direct=true
+            +number key='number_of_periods' label='number of periods' direct=true
             +number key='principal' direct=true
-            +float key='interest_rate' direct=true
+            div
+            |#{compound_result} result
         .eight.wide.column
             .ui.header compound interest
             img.ui.rounded.image(src="{{c.url 'compound' width=400 height=400 gravity='face' crop='fill'}}")

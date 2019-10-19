@@ -191,7 +191,7 @@ template(name='view_chat')
                     else     
                         +array_view key='tags' label='tags' direct=true
                     //- if can_edit
-                    //-     +multi_doc_edit key='view_roles' label='view roles' ref_model='role' direct=true
+                    //-     +multi_doc key='view_roles' label='view roles' ref_model='role' direct=true
                     //- else     
                     //-     +multi_doc_view key='view_roles' label='view roles' ref_model='role' direct=true
                     //- +subscribe_button
