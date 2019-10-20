@@ -42,16 +42,28 @@ if Meteor.isClient
 
 
     Template.question_view.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'choice'
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
     Template.question_view.onRendered ->
         Meteor.call 'increment_view', Router.current().params.doc_id, ->
+    Template.question_view.helpers
+        choices: ->
+            Docs.find
+                model:'choice'
+                question_id:@_id
+    Template.question_view.events
+        # 'click .new_session': ->
+        #     console.log @
+        #     Docs.insert
+        #         model:'choice'
+        #         question_id:@_id
 
 
 
 
 
     Template.questions.onRendered ->
-        @autorun => Meteor.subscribe 'model_docs', 'question'
+        # @autorun => Meteor.subscribe 'model_docs', 'question'
     Template.questions.helpers
         questions: ->
             Docs.find

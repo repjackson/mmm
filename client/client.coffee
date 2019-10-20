@@ -3,6 +3,8 @@
 @selected_school_section_tags = new ReactiveArray []
 @selected_school_tags = new ReactiveArray []
 @selected_classroom_tags = new ReactiveArray []
+@selected_question_tags = new ReactiveArray []
+@selected_test_tags = new ReactiveArray []
 
 Meteor.startup ->
     process.env.TZ='America/Denver'
@@ -212,6 +214,8 @@ Template.registerHelper 'sortable_fields', () ->
 Template.registerHelper 'current_user', (input) ->
     Meteor.user() and Meteor.user().username is Router.current().params.username
 
+Template.registerHelper 'answer_segment_class', () ->
+    if @correct then 'green' else ''
 
 
 Template.registerHelper 'nl2br', (text)->

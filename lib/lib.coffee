@@ -2,6 +2,8 @@
 @Tags = new Meteor.Collection 'tags'
 @School_tags = new Meteor.Collection 'school_tags'
 @Classroom_tags = new Meteor.Collection 'classroom_tags'
+@Question_tags = new Meteor.Collection 'question_tags'
+@Test_tags = new Meteor.Collection 'test_tags'
 @Rental_tags = new Meteor.Collection 'rental_tags'
 @User_section_tags = new Meteor.Collection 'user_section_tags'
 @School_section_tags = new Meteor.Collection 'school_section_tags'
