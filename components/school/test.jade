@@ -1,0 +1,110 @@
+template(name='tests')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+                .ui.inline.header 
+                    +i name='test-passed'
+                    |tests
+                .ui.icon.button.add_test(title='add test')
+                    i.plus.icon
+                .ui.stackable.five.cards
+                    each tests
+                        +test_card
+
+template(name='test_card')
+    //- .ui.card    
+    a.ui.card(href="/test/#{_id}/view")
+        img.ui.fluid.image(src="{{c.url test_image_id width=400 height=200 crop='fill'}}")
+        .content
+            a.ui.header(href="/test/#{_id}/view") #{title}
+                    
+
+
+template(name='test_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .six.wide.column 
+                    .ui.header 
+                        i.pencil.icon
+                        | edit '#{title}' test
+                    a.ui.big.fluid.button(href="/test/#{_id}/view" title='save')
+                        i.checkmark.large.green.icon
+                        |save
+                    +remove_button
+                    +image_edit key='image_id' icon='image' label='image' direct=true
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                .ten.wide.column 
+                    +text_edit key='title' direct=true
+                    +html_edit key='description' label='description' icon='content' direct=true
+                
+
+
+
+
+
+template(name='test_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .four.wide.column
+                    a.ui.fluid.button(href="/tests")
+                        i.chevron.left.icon
+                        +i name='test' classes='ui inline mini image'
+                        |test
+                    .ui.header test view 
+                    +image_view key='test_image_id' label='image' direct=true
+                    a.ui.fluid.button(href="/test/#{_id}/edit")
+                        i.pencil.icon
+                        |edit
+                .twelve.wide.column
+                    .ui.header #{title}
+                    .ui.header 
+                        +i name='test'
+                        |questions
+                    .ui.button.add_question
+                        i.plus.icon
+                        |question
+                    each questions
+                        .ui.header #{title}
+                    .ui.header 
+                        +i name='test'
+                        |sessions
+                    each sessions
+                        .ui.header #{title}
+                    +comments
+                    
+
+
+template(name='test_stats')
+    //- .ui.accordion
+    //-     .title
+    .ui.header.refresh_test_stats
+        i.line.chart.icon
+        |stats
+    //- i.dropdown.icon
+    //- .content
+    .ui.big.list
+        .item #{views} views
+        .item #{reservation_count} reservations
+        .item #{total_earnings}c/#{total_test_hours}hrs total
+        .item #{average_test_cost}c / #{average_test_duration}hrs avg test
+        //- .item test ranking # reservations
+        //- .item test ranking $ earned
+        //- .item # different renters
+        //- .item avg daily earnings
+        //- .item avg weekly earnings
+        //- .item avg monthly earnings
+        //- .item biggest renter
+        //- .item predicted payback duration 
+        //- .item predicted payback date 
+
+    //-     //- .ui.header res slot exists
+    //-     +reservation_slot_template
+    //- else
+    //-     if is_product_author
+    //-         .ui.button.new_slot
+    //-             |new slot
+        
+template(name='tests_view_template')
+    .ui.header test view template
