@@ -25,12 +25,16 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'question_from_answer_session', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'question_choices_from_answer_session_id', Router.current().params.doc_id
     Template.answer_session_edit.events
+        'click .cancel_answer_session': ->
+            if confirm 'cancel answer?'
+                Docs.remove @_id
+                Router.go "/question/#{@question_id}/view"
         'click .select_choice': ->
             console.log @
             Docs.update Router.current().params.doc_id,
                 $set: choice_selection_id: @_id
     Template.answer_session_edit.helpers
-        choice_seleect_class: ->
+        choice_select_class: ->
             answer_session = Docs.findOne Router.current().params.doc_id
             if answer_session.choice_selection_id is @_id then 'active' else ''
         parent_question: ->
@@ -47,31 +51,32 @@ if Meteor.isClient
 
 
     Template.answer_session_view.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'bounty'
-        @autorun => Meteor.subscribe 'model_docs', 'choice'
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    Template.answer_session_view.onRendered ->
-        Meteor.call 'increment_view', Router.current().params.doc_id, ->
+        @autorun => Meteor.subscribe 'question_from_answer_session', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'question_choices_from_answer_session_id', Router.current().params.doc_id
+    Template.answer_session_view.events
     Template.answer_session_view.helpers
+        choice_select_class: ->
+            answer_session = Docs.findOne Router.current().params.doc_id
+            if answer_session.choice_selection_id is @_id then 'active' else ''
+        parent_question: ->
+            answer_session = Docs.findOne Router.current().params.doc_id
+            Docs.findOne
+                model:'question'
+                _id:answer_session.question_id
         choices: ->
             Docs.find
                 model:'choice'
-        bounties: ->
-            Docs.find
-                model:'bounty'
-                answer_session_id:@_id
-    Template.answer_session_view.events
-        'click .new_answer_session': ->
-            # console.log @
-            Docs.insert
-                model:'answer_session'
-                answer_session_id: Router.current().params.doc_id
-        'click .offer_bounty': ->
-            console.log @
-            new_bounty_id = Docs.insert
-                model:'bounty'
-                answer_session_id:@_id
-            Router.go "/bounty/#{new_bounty_id}/edit"
+        is_correct: ->
+            answer_session = Docs.findOne Router.current().params.doc_id
+            question = Docs.findOne answer_session.question_id
+            correct_choice =
+                Docs.findOne
+                    model:'choice'
+                    question_id: question._id
+                    correct:true
+            answer_session.choice_selection_id is correct_choice._id
+
 
 
 

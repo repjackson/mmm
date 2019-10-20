@@ -44,6 +44,7 @@ if Meteor.isClient
     Template.question_view.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'bounty'
         @autorun => Meteor.subscribe 'model_docs', 'choice'
+        @autorun => Meteor.subscribe 'answer_sessions_from_question_id', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
     Template.question_view.onRendered ->
         Meteor.call 'increment_view', Router.current().params.doc_id, ->
@@ -56,6 +57,29 @@ if Meteor.isClient
             Docs.find
                 model:'bounty'
                 question_id:@_id
+        my_answer: ->
+            Docs.findOne
+                model:'answer_session'
+                question_id: Router.current().params.doc_id
+
+        answer_sessions: ->
+            Docs.find
+                model:'answer_session'
+                question_id: Router.current().params.doc_id
+
+        can_accept: ->
+            console.log @
+            my_answer_session =
+                Docs.findOne
+                    model:'answer_session'
+                    question_id: Router.current().params.doc_id
+            if my_answer_session
+                console.log 'false'
+                false
+            else
+                console.log 'true'
+                true
+
     Template.question_view.events
         'click .new_answer_session': ->
             # console.log @
@@ -70,6 +94,9 @@ if Meteor.isClient
                 question_id:@_id
             Router.go "/bounty/#{new_bounty_id}/edit"
 
+        'click .accept': ->
+            console.log @
+
 
 
 
@@ -80,16 +107,6 @@ if Meteor.isClient
         questions: ->
             Docs.find
                 model:'question'
-
-    Template.questions_view_template.onRendered ->
-        @autorun => Meteor.subscribe 'model_docs', 'question'
-    Template.questions_view_template.helpers
-        questions: ->
-            Docs.find
-                model:'question'
-    Template.questions_view_template.events
-        'click .take_question': ->
-            console.log @
 
 
 
@@ -110,6 +127,10 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+    Meteor.publish 'answer_sessions_from_question_id', (question_id)->
+        Docs.find
+            model:'answer_session'
+            question_id:question_id
     Meteor.publish 'questions', (product_id)->
         Docs.find
             model:'question'

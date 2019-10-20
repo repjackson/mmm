@@ -49,7 +49,7 @@ template(name='bounty_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .six.wide.column 
+                .four.wide.column 
                     .ui.header 
                         i.pencil.icon
                         | edit '#{title}' bounty
@@ -63,9 +63,20 @@ template(name='bounty_edit')
                     +number_edit key='amount_per_answer' label='amount per answer' direct=true
                     //- +image_edit key='image_id' icon='image' label='image' direct=true
                     //- +array_edit key='tags' label='tags' icon='tags' direct=true
-                .ten.wide.column 
+                .six.wide.column 
                     +textarea_edit key='description' label='description' icon='content' direct=true
-                
+                .six.wide.column 
+                    .ui.header requirements
+                    +boolean_edit key='correct_answer' label='correct answer' direct=true
+                    +boolean_edit key='credit_minimum' label='credit minimum' direct=true
+                    if credit_minimum
+                        +number_edit key='credit_minimum_amount' label='credit minimum amount' direct=true
+                    +boolean_edit key='location_tags_requirement' label='location tags requirement' direct=true
+                    if location_tags_requirement
+                        +array_edit key='required_location_tags' label='required location tags' direct=true
+                    +boolean_edit key='profile_tags_requirement' label='location tags requirement' direct=true
+                    if profile_tags_requirement
+                        +array_edit key='required_profile_tags' label='required profile tags' direct=true
 
 
 
@@ -101,8 +112,9 @@ template(name='bounty_view')
                     +question_widget
                     .ui.header 
                         |constraints
-                    .ui.button.add_constraint
-                        i.plus.icon
+                    if can_edit
+                        .ui.button.add_constraint
+                            i.plus.icon
                     each constraints
                         .ui.header #{title}
 

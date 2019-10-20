@@ -44,6 +44,19 @@ template(name='question_segment')
             a.ui.header(href="/question/#{_id}/view") #{title}
             each tags
                 .ui.basic.label #{this}
+            .ui.small.header 
+                +i name='treasure-chest'
+                |5c bounty/question
+            .ui.small.header 
+                +i name='talk'
+                |12 answers
+                    
+            .ui.small.header 
+                i.green.checkmark.icon
+                |4 correct answers
+            .ui.small.header 
+                i.red.ban.icon
+                |8 incorrect answers
                     
 
 
@@ -105,9 +118,10 @@ template(name='question_view')
                     a.ui.fluid.button(href="/question/#{_id}/edit")
                         i.pencil.icon
                         |edit
+                    +comments
                 .six.wide.column
                     .ui.header #{title}
-                    if ive_answered
+                    if my_answer
                         .ui.header 
                             +i name='list'
                             |choices
@@ -118,7 +132,7 @@ template(name='question_view')
                                     |!{content}
                     else
                         .ui.fluid.button.new_answer_session
-                            +i name='reply' classes='ui inline mini image'
+                            +i name='raise-a-hand-to-answer--v2' classes='ui inline mini image'
                             |answer
                         .ui.small.center.aligned.header or
                         .ui.fluid.button
@@ -127,12 +141,15 @@ template(name='question_view')
                     //- .ui.button.new_session
                     //-     i.plus.icon
                     //-     |session
+                    if my_answer
+                        .ui.small.header my answer
+                        with my_answer
+                            .ui.header #{when} by #{_author_username}
                     .ui.header 
                         +i name='talk'
                         |answers
                     each answer_sessions
-                        .ui.header #{title}
-                    +comments
+                        .ui.header #{when} by #{_author_username}
                 .six.wide.column
                     .ui.inline.header
                         +i name='receive-cash'
@@ -147,7 +164,8 @@ template(name='question_view')
                             +number_view key='total_amount' label='total amount' direct=true
                             div
                             +number_view key='amount_per_answer' label='amount per answer' direct=true
-
+                        if can_accept 
+                            .ui.green.button.accept accept
 
 template(name='question_stats')
     //- .ui.accordion

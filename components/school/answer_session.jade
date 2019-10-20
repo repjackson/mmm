@@ -51,13 +51,15 @@ template(name='answer_session_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .four.wide.column 
-                    +remove_button
+                .four.wide.column
+                    .ui.fluid.button.cancel_answer_session
+                        i.ban.icon
+                        |cancel
                 .six.wide.column 
                     with parent_question 
-                        .ui.header #{title}
+                        .ui.header.f7 #{title}
                     each choices
-                        .ui.big.fluid.button.select_choice(class=choice_seleect_class)
+                        .ui.large.fluid.button.select_choice(class=choice_select_class)
                             .ui.header !{content}
                 .six.wide.column
                     if has_selected
@@ -80,52 +82,22 @@ template(name='answer_session_view')
                         |answer_sessions
                     .ui.header answer_session view 
                     +image_view key='answer_session_image_id' label='image' direct=true
-                    a.ui.fluid.button(href="/answer_session/#{_id}/edit")
-                        i.pencil.icon
-                        |edit
-                .six.wide.column
-                    .ui.header #{title}
-                    if ive_answered
-                        .ui.header 
-                            +i name='list'
-                            |choices
-                        each choices
-                            .ui.segment(class=answer_segment_class)
-                                .ui.header 
-                                    |#{number}:
-                                    |!{content}
-                    else
-                        .ui.fluid.button.new_answer_session
-                            +i name='reply' classes='ui inline mini image'
-                            |answer
-                        .ui.small.center.aligned.header or
-                        .ui.fluid.button
-                            +i name='cancel' classes='ui inline mini image'
-                            |decline to answer
-                    //- .ui.button.new_session
-                    //-     i.plus.icon
-                    //-     |session
-                    .ui.header 
-                        +i name='talk'
-                        |answers
-                    each answer_sessions
-                        .ui.header #{title}
+                    if is_dev
+                        a.ui.fluid.button(href="/answer_session/#{_id}/edit")
+                            i.pencil.icon
+                            |edit
+                .six.wide.column 
+                    with parent_question 
+                        .ui.header.f7 #{title}
+                    each choices
+                        .ui.large.disabled.fluid.button.select_choice(class=choice_select_class)
+                            .ui.header !{content}
                     +comments
                 .six.wide.column
-                    .ui.inline.header
-                        +i name='receive-cash'
-                        | bounties
-                    .ui.icon.button.offer_bounty(title='offer bounty')
-                        i.plus.green.icon
-                    each bounties
-                        .ui.segment
-                            a.ui.header(href="/bounty/#{_id}/view")
-                                |#{when}
-                            div
-                            +number_view key='total_amount' label='total amount' direct=true
-                            div
-                            +number_view key='amount_per_answer' label='amount per answer' direct=true
-
+                    if is_correct
+                        .ui.header correct
+                    else 
+                        .ui.header incorrect
 
 template(name='answer_session_stats')
     //- .ui.accordion
