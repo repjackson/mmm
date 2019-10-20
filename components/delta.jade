@@ -18,11 +18,9 @@ template(name='delta')
                                 //- +i name='plus' classes='ui avatar inline image add_model_doc'title='add'
                                 i.plus.big.blue.icon
                         //- +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' label="bookmark"
-                        //- if is_dev
-                        //-     .ui.icon.large.button.edit_model
-                        //-         i.large.cog.icon
-                                //- +i name='settings'
-                                //- | Configure #{plural}
+                        if is_dev
+                            .ui.icon.button.edit_model
+                                i.cog.icon
                         // .ui.divider
                         // // each sessions
                         // //     .ui.icon.button.select_session(class=session_selector_class title='select session')
