@@ -1,21 +1,21 @@
-template(name='questions')
+template(name='answer_sessions')
     .ui.stackable.padded.grid
         .row
             .four.wide.column
                 .ui.inline.header 
-                    +i name='question'
-                    |questions
-                .ui.icon.button.add_question(title='add question')
+                    +i name='answer_session'
+                    |answer_sessions
+                .ui.icon.button.add_answer_session(title='add answer_session')
                     i.plus.icon
-                +question_cloud
+                +answer_session_cloud
             .twelve.wide.column
-                .ui.button questions you've answered
-                .ui.button questions you've haven't answered
-                each questions
-                    +question_segment
+                .ui.button answer_sessions you've answered
+                .ui.button answer_sessions you've haven't answered
+                each answer_sessions
+                    +answer_session_segment
 
 
-template(name='question_cloud')
+template(name='answer_session_cloud')
     div
     //- #cloud
         //- .ui.left.icon.input
@@ -24,85 +24,63 @@ template(name='question_cloud')
         // .ui.hidden.fitted.divider
     //- i.grey.tags.icon
     //- .ui.inline.header tags
-    if selected_question_tags
+    if selected_answer_session_tags
         #clear_tags.ui.active.icon.circular.button
             i.remove.icon
-        each selected_question_tags
-            .unselect_question_tag.ui.active.circular.button
+        each selected_answer_session_tags
+            .unselect_answer_session_tag.ui.active.circular.button
                 strong #{this}
-    each all_question_tags
-        .ui.compact.circular.button.select_question_tag(class=cloud_tag_class) 
+    each all_answer_session_tags
+        .ui.compact.circular.button.select_answer_session_tag(class=cloud_tag_class) 
             strong #{this.name}
 
 
 
-template(name='question_segment')
+template(name='answer_session_segment')
     //- .ui.card    
     .ui.segment
-        img.ui.fluid.image(src="{{c.url question_image_id width=400 height=200 crop='fill'}}")
+        img.ui.fluid.image(src="{{c.url answer_session_image_id width=400 height=200 crop='fill'}}")
         .content
-            a.ui.header(href="/question/#{_id}/view") #{title}
+            a.ui.header(href="/answer_session/#{_id}/view") #{title}
             each tags
                 .ui.basic.label #{this}
                     
 
 
-template(name='question_edit')
+template(name='answer_session_edit')
     with current_doc
         .ui.stackable.padded.grid
             .row
                 .four.wide.column 
-                    .ui.header 
-                        i.pencil.icon
-                        | edit '#{title}' question
-                    a.ui.big.fluid.button(href="/question/#{_id}/view" title='save')
-                        i.checkmark.large.green.icon
-                        |save
                     +remove_button
-                    +image_edit key='image_id' icon='image' label='image' direct=true
-                    +array_edit key='tags' label='tags' icon='tags' direct=true
                 .six.wide.column 
-                    +text_edit key='title' direct=true
-                    +html_edit key='description' label='description' icon='content' direct=true
-                    //- .ui.header question type
-                    //- .ui.button.select_multiple_choice
-                    //-     +ismall name='multiple-choice'
-                    //-     |multiple choice
-                    //- .ui.button.select_essay
-                    //-     +ismall name='content'
-                    //-     |essay
-                    //- .ui.button 
-                    //-     +ismall name='hashtag'
-                    //-     |number answer
+                    with parent_question 
+                        .ui.header #{title}
+                    each choices
+                        .ui.big.fluid.button.select_choice(class=choice_seleect_class)
+                            .ui.header !{content}
                 .six.wide.column
-                    .ui.fluid.button.add_choice
-                        i.plus.green.icon
-                        |choice
-                    div.scrolling
-                        each choices
-                            .ui.segment(class=answer_segment_class)
-                                .ui.small.inline.header choice
-                                +number_edit key='number' direct=true
-                                +html_edit key='content' direct=true
-                                +boolean_edit key='correct' direct=true
-                            
+                    if has_selected
+                        a.ui.big.fluid.button(href="/answer_session/#{_id}/view" title='save')
+                            |submit
+                            i.right.chevron.icon
 
 
 
 
 
-template(name='question_view')
+template(name='answer_session_view')
     with current_doc
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
-                    a.ui.fluid.button(href="/questions")
+                    a.ui.fluid.button(href="/answer_sessions")
                         i.chevron.left.icon
-                        +i name='question' classes='ui inline mini image'
-                        |questions
-                    .ui.header question view 
-                    +image_view key='question_image_id' label='image' direct=true
-                    a.ui.fluid.button(href="/question/#{_id}/edit")
+                        +i name='answer_session' classes='ui inline mini image'
+                        |answer_sessions
+                    .ui.header answer_session view 
+                    +image_view key='answer_session_image_id' label='image' direct=true
+                    a.ui.fluid.button(href="/answer_session/#{_id}/edit")
                         i.pencil.icon
                         |edit
                 .six.wide.column
@@ -149,10 +127,10 @@ template(name='question_view')
                             +number_view key='amount_per_answer' label='amount per answer' direct=true
 
 
-template(name='question_stats')
+template(name='answer_session_stats')
     //- .ui.accordion
     //-     .title
-    .ui.header.refresh_question_stats
+    .ui.header.refresh_answer_session_stats
         i.line.chart.icon
         |stats
     //- i.dropdown.icon
@@ -160,10 +138,10 @@ template(name='question_stats')
     .ui.big.list
         .item #{views} views
         .item #{reservation_count} reservations
-        .item #{total_earnings}c/#{total_question_hours}hrs total
-        .item #{average_question_cost}c / #{average_question_duration}hrs avg question
-        //- .item question ranking # reservations
-        //- .item question ranking $ earned
+        .item #{total_earnings}c/#{total_answer_session_hours}hrs total
+        .item #{average_answer_session_cost}c / #{average_answer_session_duration}hrs avg answer_session
+        //- .item answer_session ranking # reservations
+        //- .item answer_session ranking $ earned
         //- .item # different renters
         //- .item avg daily earnings
         //- .item avg weekly earnings
@@ -179,5 +157,5 @@ template(name='question_stats')
     //-         .ui.button.new_slot
     //-             |new slot
         
-template(name='questions_view_template')
-    .ui.header question view template
+template(name='answer_sessions_view_template')
+    .ui.header answer_session view template

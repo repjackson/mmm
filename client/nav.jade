@@ -6,18 +6,21 @@ template(name='nav')
         if currentUser
             a.compact.item(href='/grid' class="{{isActivePath '/grid'}}") 
                 img.ui.tiny.compact.image(src="{{c.url 'mmm_logo_small' height=150 }}" title='Home')
-            a.item(href='/schools' title='schools')
-                +ismall name='school'
-                span.mobile.hidden &nbsp; schools
-            a.item(href='/classrooms' title='classrooms')
-                +ismall name='class'
-                span.mobile.hidden &nbsp; classrooms
+            //- a.item(href='/schools' title='schools')
+            //-     +ismall name='school'
+            //-     span.mobile.hidden &nbsp; schools
+            //- a.item(href='/classrooms' title='classrooms')
+            //-     +ismall name='class'
+            //-     span.mobile.hidden &nbsp; classrooms
             a.item(href='/tests' title='tests')
                 +ismall name='test-passed'
                 span.mobile.hidden &nbsp; tests
             a.item(href='/questions' title='questions')
                 +ismall name='question'
                 span.mobile.hidden &nbsp; questions
+            a.item(href='/bounties' title='bounties')
+                +ismall name='treasure-chest'
+                span.mobile.hidden &nbsp; bounties
             //- a.item(href='/teachers' title='teachers')
             //-     +ismall name='teacher'
             //-     //- |teachers
@@ -43,15 +46,19 @@ template(name='nav')
             a.item(href='/questions' title='questions')
                 +ismall name='question'
                 span.mobile.hidden &nbsp; questions
-            a.item(href='/classrooms' title='classrooms')
-                +ismall name='class'
-                span.mobile.hidden &nbsp; classrooms
-            a.item(href='/schools')
-                +ismall name='school'
-                span.mobile.hidden &nbsp; schools
-            a.item.set_reference(href='/m/reference')
-                +ismall name='university'
-                span.mobile.hidden &nbsp; reference
+            a.item(href='/bounties' title='bounties')
+                +ismall name='treasure-chest'
+                span.mobile.hidden &nbsp; bounties
+            
+            //- a.item(href='/classrooms' title='classrooms')
+            //-     +ismall name='class'
+            //-     span.mobile.hidden &nbsp; classrooms
+            //- a.item(href='/schools')
+            //-     +ismall name='school'
+            //-     span.mobile.hidden &nbsp; schools
+            //- a.item.set_reference(href='/m/reference')
+            //-     +ismall name='university'
+            //-     span.mobile.hidden &nbsp; reference
         .right.menu
             unless currentUser
                 .item

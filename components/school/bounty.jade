@@ -98,12 +98,19 @@ template(name='bounty_view')
                     div
                     +comments
                 .six.wide.column
-                    .ui.header question
                     +question_widget
+                    .ui.header 
+                        |constraints
+                    .ui.button.add_constraint
+                        i.plus.icon
+                    each constraints
+                        .ui.header #{title}
 
 template(name='question_widget')
-    with parent_question 
-        a.ui.small.header(href="/question/#{_id}/view") #{title}
+    .ui.segment 
+        .ui.header parent question
+        with parent_question 
+            a.ui.small.header(href="/question/#{_id}/view") #{title}
 
 
 template(name='bounty_stats')

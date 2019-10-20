@@ -57,6 +57,12 @@ if Meteor.isClient
                 model:'bounty'
                 question_id:@_id
     Template.question_view.events
+        'click .new_answer_session': ->
+            # console.log @
+            new_answer_session_id = Docs.insert
+                model:'answer_session'
+                question_id: Router.current().params.doc_id
+            Router.go "/answer_session/#{new_answer_session_id}/edit"
         'click .offer_bounty': ->
             console.log @
             new_bounty_id = Docs.insert
