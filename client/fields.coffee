@@ -841,11 +841,11 @@ Template.multi_doc.events
                     $addToSet: "#{ref_field.key}": @slug
 
 
-Template.single_user.onCreated ->
+Template.single_user_edit.onCreated ->
     @user_results = new ReactiveVar
-Template.single_user.helpers
+Template.single_user_edit.helpers
     user_results: ->Template.instance().user_results.get()
-Template.single_user.events
+Template.single_user_edit.events
     'click .clear_results': (e,t)->
         t.user_results.set null
 
