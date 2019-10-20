@@ -12,40 +12,39 @@ if Meteor.isClient
             pub_key = Meteor.settings.public.stripe_live_publishable
         Template.instance().checkout = StripeCheckout.configure(
             key: pub_key
-            image: 'http://res.cloudinary.com/facet/image/upload/c_fill,g_face,h_300,w_300/k2zt563boyiahhjb0run'
+            image: 'https://res.cloudinary.com/facet/image/upload/c_fill,g_face,h_300,w_300/mmmlogo.png'
             locale: 'auto'
             # zipCode: true
             token: (token) ->
                 # product = Docs.findOne Router.current().params.doc_id
-                deposit_amount = parseInt $('.deposit_amount').val()*100
-                stripe_charge = deposit_amount*100
-                # calculated_amount = deposit_amount*100
-                # console.log calculated_amount
+                donate_amount = parseInt $('.donate_amount').val()*100
                 message = prompt 'donation message (optional)'
+                email = prompt 'email for receipt (optional)'
                 charge =
-                    amount: deposit_amount*100
+                    amount: donate_amount
                     currency: 'usd'
                     source: token.id
                     description: token.description
-                    # receipt_email: token.email
+                    receipt_email: email
                 Meteor.call 'donate', charge, (error, response) =>
                     if error then alert error.reason, 'danger'
                     else
                         # alert 'payment received', 'success'
                         Docs.insert
                             model:'donation'
-                            amount:deposit_amount/100
+                            amount:donate_amount/100
                             message:message
+                            receipt_email: email
     	)
 
     Template.donate.helpers
         donations: ->
-            Docs.find
+            Docs.find {
                 model:'donation'
+            }, _timestamp:1
     Template.donate.events
         'click .start_donation': ->
-            deposit_amount = parseInt $('.deposit_amount').val()*100
-            calculated_amount = deposit_amount
+            donation_amount = parseInt $('.donate_amount').val()*100
             Template.instance().checkout.open
                 name: 'mmm donation'
                 # email:Meteor.user().emails[0].address

@@ -2,11 +2,11 @@ template(name='donate')
     .ui.stackable.padded.grid
         .centered.row
             .twelve.wide.column
-                .ui.header 
+                .ui.inline.header 
                     +i name='donate'
                     |donate
-                .ui.action.fluid.input
-                    input.deposit_amount(type='number' min='1' placeholder='deposit')
+                .ui.action.input
+                    input.donate_amount(type='number' min='1' placeholder='amount')
                     .ui.icon.button.start_donation   
                         i.right.chevron.icon
                 each donations

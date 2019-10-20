@@ -34,20 +34,12 @@ template(name='nav')
             a.item(href='/classrooms' title='classrooms')
                 +ismall name='class'
                 span.mobile.hidden &nbsp; classrooms
-            
             a.item(href='/schools')
                 +ismall name='school'
                 span.mobile.hidden &nbsp; schools
             a.item.set_reference(href='/m/reference')
                 +ismall name='university'
                 span.mobile.hidden &nbsp; reference
-            //- a.ui.item(href='/donations')
-            //-     |donations
-            //- a.ui.item(href='/teachers')
-            //-     +ismall name='teacher'
-            //-     span.mobile.hidden &nbsp; teachers
-            //- a.ui.item(href='/p/parents')
-            //-     |parents
         .right.menu
             unless currentUser
                 .item
@@ -55,22 +47,16 @@ template(name='nav')
                 .item
                     a.ui.teal.button sign up
             if currentUser
-                if is_admin
-                    a.item(href='/admin' title='admin')
-                        //- +i name='user-shield'
-                        i.shield.icon
-                        |admin
                 if is_dev
                     a.icon.item.set_models(href="/m/model")
                         i.database.icon
                 unless logging_out
                     a.item(href="/chat")
                         i.chat.outline.large.icon
-                    //- a.item(href="/notifications")
-                    //-     i.bell.grey.large.outline.icon
-                    //- a.item(href="/mail")
-                    //-     //- +i name='envelope'
-                    //-     i.envelope.grey.large.outline.icon
+                    a.item(href="/notifications")
+                        i.bell.grey.large.outline.icon
+                    a.item(href="/messages")
+                        i.envelope.grey.large.outline.icon
                     a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title=user_nav_button_title)
                         if currentUser.profile_image_id
                             img.ui.avatar.inline.image(src="{{c.url currentUser.profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
@@ -89,20 +75,24 @@ template(name='footer')
         .row
             .three.wide.column
                 .ui.link.large.list
-                    a.item(href='/m/blog') reference
-                    a.item(href='/p/about') tools
                     a.icon.item.set_reference(href='/m/reference' title='reference')
                         +ismall name='university'
                         |reference
                     a.icon.item.set_tool(href='/m/tool' title='tool')
                         +ismall name='calculator'
+                        |tools
 
                 img.ui.tiny.inline.image(src="{{c.url 'bcorp' }}")
                 img.ui.small.image(src="{{c.url 'stripe_badge' }}")
+                img.ui.small.image(src="{{c.url 'builtin' }}")
             .three.wide.column
                 a.ui.button(href='/donate')
                     +ismall name='donate'
                     |donate
+                if is_admin
+                    a.ui.button(href='/admin' title='admin')
+                        i.shield.icon
+                        |admin
                 .ui.link.large.list
                     a.item(href='/m/blog') 
                         +ismall name='blog'
@@ -156,11 +146,10 @@ template(name='footer')
                     with current_user
                         +role_switcher
             .seven.wide.column
-                //- unless currentUser
-                //-     a.ui.big.button(href='/login')
-                //-         i.sign.in.icon
-                //-         |login
-                
+                unless currentUser
+                    a.ui.big.button(href='/login')
+                        i.sign.in.icon
+                        |login
                 +footer_chat
                 if is_admin
                     with currentUser
@@ -169,13 +158,13 @@ template(name='footer')
             .seven.wide.column
                 .ui.header 
                     i.copyright.outline.icon
-                    | Mini Money Managment 2019
+                    | Mini Money Management 2019
 
             
                 
 template(name='footer_chat')
-    +ismall name='chat'
-    .ui.inline.grey.header 
+    .ui.grey.header 
+        +i name='chat' classes='ui inline mini image'
         |chat
     .ui.list.scroll
         each chat_messages

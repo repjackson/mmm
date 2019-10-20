@@ -2,7 +2,7 @@ template(name='home')
     +home_slider
     .ui.vertical.stripe.segment
         .ui.middle.aligned.stackable.grid.container
-            h3.ui.center.aligned.header MMM's mission is to empower K-5 students with money management mindset and skills, so that they can make effective financial decisions for themselves, their families, and their communities
+            .ui.center.aligned.header MMM's mission is to empower K-5 students with money management mindset and skills, so that they can make effective financial decisions for themselves, their families, and their communities
             .row
                 .eight.wide.column
                     p
@@ -13,12 +13,12 @@ template(name='home')
                         |minimoney is an integrated, elementary classroom-economy app that is engaging for students and low-effort for teachers while simulating real-world financial challenges
                     //- p
                         //- |minimoney is a classroom economy app that integrates seamlessly into the classroom to empower students with real-world financial literacy
-                    a.ui.huge.fluid.center.aligned.button(href='/register') sign up now
-                    h3.ui.header a classroom culture and incentive tool
+                    a.ui.huge.fluid.center.aligned.button(href='/register') sign up
                     //- p
                     //-     | Yes that&apos;s right, you thought it was the stuff of dreams, but even bananas can be bioengineered.
                 .six.wide.right.floated.column
                     img.ui.rounded.image.recalc_stats(src="{{c.url 'mmm_logo_small' width=400 height=400}}")
+                    .ui.small.center.aligned.header a classroom culture and incentive tool
                     //- .ui.large.horizontal.list
                     //-     .item #{hs.user_count} users
                     //-     .item #{hs.teacher_count} teachers

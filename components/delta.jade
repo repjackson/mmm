@@ -101,23 +101,23 @@ template(name='delta')
                         //-             +set_view_mode title='map' icon='map'
                         //-             +set_view_mode title='graph' icon='graph'
                         .ui.hidden.fitted.divider
-                    //- .scrolling    
-                    each current_delta.result_ids
-                        //- .column
-                        if is_loading
-                            .ui.segment
-                                .ui.placeholder
-                                    .line
-                                    .line
-                                    .line
-                                    .line
-                                    .line
-                                    .line
-                                    .line
-                                    .line
-                                    .line
-                        else 
-                            +delta_result
+                    .scrolling    
+                        each current_delta.result_ids
+                            //- .column
+                            if is_loading
+                                .ui.segment
+                                    .ui.placeholder
+                                        .line
+                                        .line
+                                        .line
+                                        .line
+                                        .line
+                                        .line
+                                        .line
+                                        .line
+                                        .line
+                            else 
+                                +delta_result
                     //- +Template.dynamic template=view_mode_template
             //- .row 
             //-     .sixteen.wide.column
@@ -126,7 +126,8 @@ template(name='delta')
     
                     //- .ui.header calculations
                     //- .ui.button rerun calculations
-                
+        unless current_model
+            .ui.big.button.create_model create model
                 
 template(name='delta_table')
     .ui.table

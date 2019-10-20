@@ -26,7 +26,9 @@ template(name='school_card')
             .ui.green.inline.header $#{csd.school_balance}
             .ui.green.inline.small.header(title='income') ($#{csd.total_credit_amount}
             .ui.red.inline.small.header(title='expenses') / -$#{csd.total_debit_amount})
-
+        a.ui.fluid.tertiary.button(href="/school/#{_id}")
+            |view details
+            i.right.chevron.icon
                     
 template(name='school_view_layout')
     +nav

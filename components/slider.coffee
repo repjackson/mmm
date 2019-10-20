@@ -26,5 +26,6 @@ if Meteor.isClient
         slides: ->
             # console.log Docs.find(model:'slide').fetch()
             # []
-            Docs.find
+            Docs.find {
                 model:'slide'
+            }, sort: number:-1

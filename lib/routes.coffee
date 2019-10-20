@@ -22,6 +22,7 @@ Router.onBeforeAction(force_loggedin, {
     'contact'
     'school_view'
     'parents'
+    'donate'
     'teachers'
     'schools'
     'donors'

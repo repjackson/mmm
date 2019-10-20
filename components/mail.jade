@@ -1,0 +1,13 @@
+template(name='messages')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.header 
+                    +i name='phone'
+                    |messages
+            .twelve.wide.column
+                .ui.list
+                    each my_mail
+                        .item 
+                            |#{when} #{message}
+                            +remove_button

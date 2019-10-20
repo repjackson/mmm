@@ -8,10 +8,6 @@ if Meteor.isClient
         @layout 'layout'
         @render 'team'
         ), name:'team'
-    Router.route '/contact', (->
-        @layout 'layout'
-        @render 'contact'
-        ), name:'contact'
 
     Template.page.onCreated ->
         # console.log @

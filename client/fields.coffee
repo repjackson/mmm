@@ -474,7 +474,7 @@ Template.float_edit.events
 #         pub_key = Meteor.settings.public.stripe_live_publishable
 #     Template.instance().checkout = StripeCheckout.configure(
 #         key: pub_key
-#         image: 'http://res.cloudinary.com/facet/image/upload/c_fill,g_face,h_300,w_300/k2zt563boyiahhjb0run'
+#         image: 'https://res.cloudinary.com/facet/image/upload/v1571084876/mmmlogo.png'
 #         locale: 'auto'
 #         # zipCode: true
 #         token: (token) ->
