@@ -37,6 +37,12 @@ template(name='nav')
         unless currentUser
             a.ui.item(href='/p/about')
                 |about
+            a.item(href='/tests' title='tests')
+                +ismall name='test-passed'
+                span.mobile.hidden &nbsp; tests
+            a.item(href='/questions' title='questions')
+                +ismall name='question'
+                span.mobile.hidden &nbsp; questions
             a.item(href='/classrooms' title='classrooms')
                 +ismall name='class'
                 span.mobile.hidden &nbsp; classrooms

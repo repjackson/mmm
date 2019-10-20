@@ -9,6 +9,8 @@ template(name='questions')
                     i.plus.icon
                 +question_cloud
             .twelve.wide.column
+                .ui.button questions you've answered
+                .ui.button questions you've haven't answered
                 each questions
                     +question_segment
 
@@ -103,7 +105,7 @@ template(name='question_view')
                     a.ui.fluid.button(href="/question/#{_id}/edit")
                         i.pencil.icon
                         |edit
-                .twelve.wide.column
+                .six.wide.column
                     .ui.header #{title}
                     .ui.header 
                         +i name='question'
@@ -122,7 +124,14 @@ template(name='question_view')
                     each sessions
                         .ui.header #{title}
                     +comments
-                    
+                .six.wide.column
+                    .ui.header
+                        +i name='receive-cash'
+                        | bounties
+                    .ui.button.offer_bounty
+                        |offer bounty
+                    each bounties
+                        .ui.header #{when}
 
 
 template(name='question_stats')

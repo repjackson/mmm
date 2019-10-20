@@ -470,25 +470,25 @@ template(name='phone_edit')
 //-         input.edit_number(type='number' min=min max=max class=classes value=field_value placeholder=placeholder autocomplete="off")
 //- 
 //- 
-//- template(name='number_view')
-//-     if field_value
-//-         div
-//-         if icon
-//-             //- i.grey.icon(class=icon)
-//-             +ismall name=icon classes='ui inline mini image'
-//-         .ui.inline.small.header
-//-             if title
-//-                 |#{title}
-//-             else if label
-//-                 |#{label}
-//-             //- else if key
-//-             //-     |#{key}
-//-             //- else
-//-             //-     |#{this}
-//-         .ui.inline.header &nbsp;
-//-             if unit
-//-                 span #{prefix}
-//-             |#{field_value}
+template(name='number_view')
+    if field_value
+        div
+        if icon
+            //- i.grey.icon(class=icon)
+            +ismall name=icon classes='ui inline mini image'
+        .ui.inline.small.header
+            if title
+                |#{title}
+            else if label
+                |#{label}
+            //- else if key
+            //-     |#{key}
+            //- else
+            //-     |#{this}
+        .ui.inline.header &nbsp;
+            if unit
+                span #{prefix}
+            |#{field_value}
 //- 
 //- 
 template(name='float_edit')

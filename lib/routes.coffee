@@ -17,6 +17,8 @@ Router.onBeforeAction(force_loggedin, {
     'page'
     'delta'
     'team'
+    'questions'
+    'tests'
     'classrooms'
     'classroom_view'
     'contact'

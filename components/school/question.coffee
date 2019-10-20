@@ -42,6 +42,7 @@ if Meteor.isClient
 
 
     Template.question_view.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'bounty'
         @autorun => Meteor.subscribe 'model_docs', 'choice'
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
     Template.question_view.onRendered ->
@@ -51,12 +52,17 @@ if Meteor.isClient
             Docs.find
                 model:'choice'
                 question_id:@_id
+        bounties: ->
+            Docs.find
+                model:'bounty'
+                question_id:@_id
     Template.question_view.events
-        # 'click .new_session': ->
-        #     console.log @
-        #     Docs.insert
-        #         model:'choice'
-        #         question_id:@_id
+        'click .offer_bounty': ->
+            console.log @
+            new_bounty_id = Docs.insert
+                model:'bounty'
+                question_id:@_id
+            Router.go "/bounty/#{new_bounty_id}/edit"
 
 
 
