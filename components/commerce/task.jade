@@ -5,9 +5,8 @@ template(name='tasks')
                 .ui.inline.header 
                     +i name='tasks'
                     |tasks
-                .ui.button.add_task
-                    +i name='plus' classes='ui inline mini image'
-                    |add task    
+                .ui.icon.button.add_task(title='add task')
+                    i.plus.icon
                 .ui.stackable.five.cards
                     each tasks
                         +task_card

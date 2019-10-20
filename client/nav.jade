@@ -49,10 +49,12 @@ template(name='nav')
             if currentUser
                 if is_dev
                     a.icon.item.set_models(href="/m/model")
-                        i.database.icon
+                        i.large.grey.database.icon
                 unless logging_out
-                    a.item(href="/chat")
-                        i.chat.outline.large.icon
+                    a.icon.item(href="/tasks")
+                        i.tasks.grey.large.icon
+                    a.icon.item(href="/chat")
+                        i.chat.outline.grey.large.icon
                     a.icon.item(href="/alerts")
                         i.bell.grey.large.outline.icon
                     a.icon.item(href="/mail")

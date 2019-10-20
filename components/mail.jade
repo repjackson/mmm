@@ -16,7 +16,7 @@ template(name='mail')
                     +mail_view_menu_item icon='clone' label='all' slug='all'
                     +mail_view_menu_item icon='trash' label='trash' slug='trash'
             .twelve.wide.column
-                .ui.header #{mail_view_mode}
+                .ui.header #{mail_view_mode_label}
                 each current_view_messages
                     .ui.segment
                         .ui.header #{recipient} 
@@ -27,8 +27,9 @@ template(name='mail')
 
 template(name='mail_view_menu_item')
     a.item.set_view(class=menu_item_class)
-        i.grey.icon(class=icon)
         |#{label}
+        i.grey.icon(class=icon)
+        .ui.small.basic.label #{view_count}
 
 
 template(name='message_edit')

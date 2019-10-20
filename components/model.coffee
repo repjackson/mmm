@@ -75,6 +75,7 @@ if Meteor.isClient
     Template.model_doc_view.events
         'click .back_to_model': ->
             Session.set 'loading', true
-            Meteor.call 'set_facets', @model, ->
+            current_model = Router.current().params.model_slug
+            Meteor.call 'set_facets', current_model, ->
                 Session.set 'loading', false
-            Router.go "/m/#{@model}"
+            Router.go "/m/#{current_model}"

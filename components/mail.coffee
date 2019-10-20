@@ -43,7 +43,8 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'model_docs', 'message'
     Template.mail.helpers
         mail_view_mode: -> Session.get 'mail_view_mode'
-
+        mail_view_mode_label: -> Session.get 'mail_view_mode_label'
+        mail_view_mode_icon: -> Session.get 'mail_view_mode_icon'
         current_view_messages: ->
             mail_view_mode = Session.get 'mail_view_mode'
             if mail_view_mode is 'all'
@@ -53,7 +54,7 @@ if Meteor.isClient
                 Docs.find
                     model:'message'
                     status: mail_view_mode
-                    
+
     Template.mail.events
         'click .add_message': ->
             new_message_id = Docs.insert
@@ -63,10 +64,22 @@ if Meteor.isClient
 
 
     Template.mail_view_menu_item.helpers
+        view_count: ->
+            console.log @
+            match = {}
+            # if @
+            Docs.find(
+                model:'message'
+                archived:false
+                recipient: Meteor.user().username
+            ).count()
+
         menu_item_class: -> if Session.equals('mail_view_mode', @slug) then 'active' else ''
     Template.mail_view_menu_item.events
         'click .set_view': ->
             Session.set 'mail_view_mode', @slug
+            Session.set 'mail_view_mode_label', @label
+            Session.set 'mail_view_mode_icon', @icon
 
 
     Template.mail.onCreated ->

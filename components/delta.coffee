@@ -60,6 +60,14 @@ if Meteor.isClient
 
 
     Template.delta.events
+        'click .create_model': ->
+            new_model_id = Docs.insert
+                model:'model'
+                slug: Router.current().params.model_slug
+            new_model = Docs.findOne new_model_id
+            Router.go "/model/edit/#{new_model._id}"
+
+
         'click .set_sort_key': ->
             # console.log @
             delta = Docs.findOne model:'delta'

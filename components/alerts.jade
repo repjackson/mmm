@@ -1,13 +1,13 @@
-template(name='notifications')
+template(name='alerts')
     .ui.stackable.padded.grid
         .row
             .four.wide.column
                 .ui.header 
                     +i name='phone'
-                    |notifications
+                    |alerts
             .twelve.wide.column
                 .ui.list
-                    each my_notifications
+                    each my_alerts
                         .item 
                             |#{when} #{message}
                             +remove_button
