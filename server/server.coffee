@@ -1,6 +1,12 @@
 Meteor.users.allow
-    update: (userId, doc, fields, modifier) ->
+    update: (user_id, doc, fields, modifier) ->
         true
+        # if user_id and doc._id == user_id
+        #     true
+    remove: (user_id, doc, fields, modifier) ->
+        user = Meteor.users.findOne user_id
+        if user_id and 'teacher' in user.roles
+            true
         # if userId and doc._id == userId
         #     true
 

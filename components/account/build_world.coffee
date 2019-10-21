@@ -20,7 +20,7 @@ if Meteor.isClient
                 janitor_extra_amount:2
                 lunch_base_amount:3
                 lunch_extra_amount:2
-            Router.go "/build_classroom/#{new_classroom_id}"
+            Router.go "/build_classroom/#{new_classroom_id}/info"
 
 
     Template.build_world.helpers
