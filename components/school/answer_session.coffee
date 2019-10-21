@@ -45,9 +45,12 @@ if Meteor.isClient
         choices: ->
             Docs.find
                 model:'choice'
-        has_selected: ->
-            answer_session = Docs.findOne Router.current().params.doc_id
-            answer_session.choice_selection_id
+        has_answered: ->
+            console.log @
+            console.log Template.parentData()
+            # if Template.parentData().
+            # answer_session = Docs.findOne Router.current().params.doc_id
+            # answer_session.choice_selection_id
 
         is_multiple_choice_answer: ->
             answer_session = Docs.findOne Router.current().params.doc_id

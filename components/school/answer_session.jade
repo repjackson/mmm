@@ -66,7 +66,7 @@ template(name='answer_session_edit')
                         +number_edit key='number_answer' direct=true
                             
                 .six.wide.column
-                    if has_selected
+                    if has_answered
                         a.ui.big.fluid.button(href="/answer_session/#{_id}/view" title='save')
                             |submit
                             i.right.chevron.icon

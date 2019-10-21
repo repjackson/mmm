@@ -12,8 +12,8 @@ template(name='classroom_edit_layout')
                         i.checkmark.large.green.icon
                         |save
                     +remove_button
-                    +text key='title' direct=true
-                    +text key='company_name' label='company name' direct=true
+                    +text_edit key='title' direct=true
+                    +text_edit key='company_name' label='company name' direct=true
                     +image key='classroom_image_id' label='image' direct=true
                     +textarea key='description' label='description' direct=true
                     +array key='tags' label='tags' icon='tags' direct=true
@@ -74,14 +74,14 @@ template(name='classroom_edit_income')
         .column
             .ui.header presets
             .ui.segment
-                +number key='daily_salary_amount' label='daily salary' icon='receive-cash' direct=true
-                +boolean key='daily' label='daily' direct=true 
-                +date key='day_dispersion' label='date to release'
-                +time key='time_dispersion' label='time to release'
-            +boolean key='weekly' label='weekly' direct=true
-            +number key='bonus_amount' label='bonus amount' icon='gift' direct=true
-            +number key='overtime_amount' label='overtime amount' icon='property-time' direct=true
-            +number key='good_grades_amount' label='good grades amount' icon='student-male' direct=true
+                +number_edit key='daily_salary_amount' label='daily salary' icon='receive-cash' direct=true
+                +boolean_edit key='daily' label='daily' direct=true 
+                +date_edit key='day_dispersion' label='date to release'
+                +time_edit key='time_dispersion' label='time to release'
+            +boolean_edit key='weekly' label='weekly' direct=true
+            +number_edit key='bonus_amount' label='bonus amount' icon='gift' direct=true
+            +number_edit key='overtime_amount' label='overtime amount' icon='property-time' direct=true
+            +number_edit key='good_grades_amount' label='good grades amount' icon='student-male' direct=true
         .column
             .ui.header custom
             .ui.button.add_credit_type
@@ -91,13 +91,13 @@ template(name='classroom_edit_income')
                 .ui.segment
                     //- +image_edit key='image_id' label='image' direct=true
                     //- +icon_edit key='icon' direct=true
-                    +text key='title' direct=true
+                    +text_edit key='title' direct=true
                     //- +textarea_edit key='description' direct=true
-                    +number key='amount' direct=true
-                    //- +boolean key='automatic' direct=true
+                    +number_edit key='amount' direct=true
+                    //- +boolean_edit key='automatic' direct=true
                     //- if automatic
-                    //-     +boolean key='daily' label='daily' direct=true
-                    //-     +boolean key='weekly' label='weekly' direct=true
+                    //-     +boolean_edit key='daily' label='daily' direct=true
+                    //-     +boolean_edit key='weekly' label='weekly' direct=true
                     +remove_button
                         
 template(name='classroom_edit_expenses')                                    
@@ -105,14 +105,14 @@ template(name='classroom_edit_expenses')
         .column
             .ui.header presets
             .ui.segment
-                +number key='desk_rental_amount' label='desk rental amount' icon='table' direct=true
-                +date key='day_dispersion' label='date to release'
-                +time key='time_dispersion' label='time to release'
-            +number key='janitor_amount' label='janitor daily amount (release 8am everyday)' icon='housekeeper-male' direct=true
-            +number key='janitor_amount' label='janitor extra fee' icon='housekeeper-male' direct=true
-            +number key='lunch_amount' label='lunch amount' icon='food' direct=true
-            +number key='fines_amount' label='fines amount' direct=true
-            //- +number key='rent_supplies_amount' label='rent supplies amount' direct=true
+                +number_edit key='desk_rental_amount' label='desk rental amount' icon='table' direct=true
+                //- +date_edit key='day_dispersion' label='date to release'
+                //- +time_edit key='time_dispersion' label='time to release'
+            +number_edit key='janitor_amount' label='janitor daily amount (release 8am everyday)' icon='housekeeper-male' direct=true
+            +number_edit key='janitor_amount' label='janitor extra fee' icon='housekeeper-male' direct=true
+            +number_edit key='lunch_amount' label='lunch amount' icon='food' direct=true
+            +number_edit key='fines_amount' label='fines amount' direct=true
+            //- +number_edit key='rent_supplies_amount' label='rent supplies amount' direct=true
         .column
             .ui.header custom
             .ui.button.add_debit_type
@@ -121,12 +121,12 @@ template(name='classroom_edit_expenses')
             each debit_types
                 .ui.segment
                     //- +image_edit key='image_id' label='image' direct=true
-                    +text key='title' direct=true
-                    +number key='amount' direct=true
-                    //- +boolean key='automatic' direct=true
+                    +text_edit key='title' direct=true
+                    +number_edit key='amount' direct=true
+                    //- +boolean_edit key='automatic' direct=true
                     //- if automatic
-                    //-     +boolean key='daily' label='daily' direct=true
-                    //-     +boolean key='weekly' label='weekly' direct=true
+                    //-     +boolean_edit key='daily' label='daily' direct=true
+                    //-     +boolean_edit key='weekly' label='weekly' direct=true
 
 
 template(name='class_stock_edit')

@@ -30,7 +30,7 @@ template(name='login')
                     if username
                         .ui.center.aligned.basic.segment
                             .ui.header no '#{username}' user
-                            a.ui.button(href='/register')
+                            a.ui.button(href='/choose_user_type')
                                 //- i.user.plus.icon
                                 +i name='enter-2' classes='ui mini inline image'                    
                                 | register
@@ -39,7 +39,7 @@ template(name='login')
                         +i name='forgot-password' classes='ui mini inline image'                    
                         //- i.refresh.icon
                         |forgot password
-                    a.ui.large.button(href='/register') 
+                    a.ui.button(href='/choose_user_type') 
                         +i name='add-user-male' classes='ui mini inline image'                    
                         //- i.user.plus.icon
                         |register

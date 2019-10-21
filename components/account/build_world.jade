@@ -1,0 +1,52 @@
+template(name='build_world')
+    .ui.padded.stackable.grid
+        .centered.row
+            .ten.wide.column
+                .ui.center.aligned.basic.segment
+                    img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
+                    .ui.header
+                        +i name='earth-planet'
+                        | build world
+                .ui.fluid.big.button.build_classroom
+                    +i name='classroom' classes='ui inline image'
+                    |classroom
+                .ui.fluid.big.button.build_after_school
+                    +i name='clock' classes='ui inline image'
+                    |after school
+                .ui.fluid.big.button.build_home
+                    +i name='home' classes='ui inline image'
+                    |home
+
+
+template(name='build_classroom')
+    with current_doc
+        .ui.padded.stackable.grid
+            .centered.row
+                .ten.wide.column
+                    .ui.center.aligned.basic.segment
+                        .ui.header 
+                            +i name='classroom'
+                            |build classroom
+            .centered.row
+                .seven.wide.column
+                    .ui.header 
+                        +i name='request-money'
+                        |income
+                    div
+                    +number_edit key='desk_rental_amount' label='desk rental amount' icon='table' direct=true
+                    div
+                    +number_edit key='janitor_base_amount' label='janitor daily amount (release 8am everyday)' icon='housekeeper-male' direct=true
+                    div
+                    +number_edit key='janitor_extra_amount' label='janitor extra fee' icon='housekeeper-male' direct=true
+                    div
+                    +number_edit key='lunch_base_amount' label='lunch amount' icon='food' direct=true
+                    div
+                    +number_edit key='fines_amount' label='fines amount' direct=true
+                .seven.wide.column
+                    .ui.header 
+                        +i name='initiate-money-transfer'
+                        |expenses
+                    +number_edit key='janitor_extra_amount' label='janitor extra fee' icon='housekeeper-male' direct=true
+                    +number_edit key='lunch_base_amount' label='lunch amount' icon='food' direct=true
+                    +number_edit key='fines_amount' label='fines amount' direct=true
+                        

@@ -49,6 +49,10 @@ template(name='layout')
     +footer
         //- +shortcut_modal
 
+template(name='no_footer_layout')
+    //- +nav
+    +yield
+
 template(name='mlayout')
     .global_container(class=invert_class)
         +yield

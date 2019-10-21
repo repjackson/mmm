@@ -1,4 +1,9 @@
 if Meteor.isClient
+    Router.route '/login', (->
+        @layout 'no_footer_layout'
+        @render 'login'
+        ), name:'login'
+
     Template.login.onCreated ->
         Session.set 'username', null
 

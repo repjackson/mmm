@@ -62,9 +62,9 @@ template(name='nav')
         .right.menu
             unless currentUser
                 .item
-                    a.ui.button(href='/login' title='login') log in
+                    a.ui.button(href='/login') log in
                 .item
-                    a.ui.teal.button sign up
+                    a.ui.teal.button(href='/choose_user_type') sign up
             if currentUser
                 if is_dev
                     a.icon.item.set_models(href="/m/model")
@@ -96,18 +96,18 @@ template(name='footer')
         .row
             .three.wide.column
                 .ui.link.large.list
-                    a.icon.item.set_reference(href='/m/reference' title='reference')
+                    a.icon.item.set_reference(href='/m/reference')
                         +ismall name='university'
                         |reference
-                    a.icon.item.set_tool(href='/m/tool' title='tool')
+                    a.icon.item.set_tool(href='/m/tool')
                         +ismall name='calculator'
                         |tools
 
                 img.ui.tiny.inline.image(src="{{c.url 'bcorp' }}")
                 img.ui.small.image(src="{{c.url 'stripe_badge' }}")
-                img.ui.small.image(src="{{c.url 'builtin' }}")
+                //- img.ui.small.image(src="{{c.url 'builtin' }}")
             .three.wide.column
-                a.ui.button(href='/donate')
+                a.ui.fluid.button(href='/donate')
                     +ismall name='donate'
                     |donate
                 if is_admin

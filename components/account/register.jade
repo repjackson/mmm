@@ -30,16 +30,71 @@ template(name='register')
                             |register '#{username}'
                     else
                         .ui.small.header username "#{username}" found
-                        a.ui.basic.circular.button(href='/login') 
+                        a.ui.basic.fluid.button(href='/login') 
                             +i name='enter-2' classes='ui mini inline image'                    
                             |login
                         
                         
                 .ui.center.aligned.basic.segment    
-                    //- .ui.small.header By clicking Register, you agree to our 
-                    //-     a(href='https://henry-health.com/privacy-policy/' target="_window") Privacy Policy
-                    .ui.small.header or
-                        a.ui.circular.basic.sign.in.button(href='/login') 
+                    .ui.small.header by clicking register, you agree to our 
+                        a(href='/p/privacy' target="_window") privacy policy
+                    unless username
+                        .ui.small.header or
+                            a.ui.circular.basic.sign.in.button(href='/login') 
+                                +i name='enter-2' classes='ui mini inline image'                    
+                                |login
+                    
+                    
+                    
+template(name='choose_user_type')
+    .ui.padded.stackable.grid
+        .centered.row
+            .ten.wide.column
+                .ui.center.aligned.basic.segment
+                    img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
+                    //- +i name='add-user-male' classes='ui mini inline image'
+                    //- .ui.inline.header registration
+                    .ui.header I am a...
+                a.ui.fluid.big.button(href='/new_teacher')
+                    +i name='teacher' classes='ui inline image'
+                    |teacher
+                a.ui.fluid.big.disabled.button(href='/new_student')
+                    +i name='students' classes='ui inline image'
+                    |student
+                a.ui.fluid.big.disabled.button(href='/new_business')
+                    +i name='business' classes='ui inline image'
+                    |business
+
+
+
+template(name='new_teacher')
+    .ui.padded.stackable.grid
+        .centered.row
+            .eight.wide.column
+                .ui.center.aligned.basic.segment
+                    a.ui.center.aligned.button(href="/")
+                        i.left.chevron.icon
+                        |home
+                    .ui.center.aligned.header 
+                        +i name='teacher' classes='ui inline image'
+                        |new teacher registration
+                .ui.small.inline.header 
+                    //- +i name='user-male'
+                    |username
+                .ui.fluid.input(class=login_class)
+                    input.username(type='text')
+                .ui.small.inline.header 
+                    //- +i name='password'
+                    | password
+                .ui.fluid.input(class=login_class)
+                    input.password(type='password')
+                if username
+                    if registering
+                        .ui.fluid.large.circular.button.enter(class=enter_class)
+                            +i name='enter-2' classes='ui mini inline image'                    
+                            |register '#{username}'
+                    else
+                        .ui.small.header username "#{username}" found
+                        a.ui.basic.fluid.button(href='/login') 
                             +i name='enter-2' classes='ui mini inline image'                    
                             |login
-                    

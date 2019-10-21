@@ -12,7 +12,9 @@ force_loggedin =  ()->
 
 Router.onBeforeAction(force_loggedin, {
   # only: ['admin']
-  except: ['register'
+  except: [
+    'register'
+    'login'
     'home'
     'page'
     'delta'
@@ -20,6 +22,10 @@ Router.onBeforeAction(force_loggedin, {
     'questions'
     'tests'
     'classrooms'
+    'choose_user_type'
+    'new_teacher'
+    'new_student'
+    'new_business'
     'classroom_view'
     'contact'
     'school_view'
@@ -39,13 +45,8 @@ Router.onBeforeAction(force_loggedin, {
 Router.route "/add_guest/:new_guest_id", -> @render 'add_guest'
 
 Router.route '/inbox', -> @render 'inbox'
-Router.route '/register', -> @render 'register'
 Router.route '/stats', -> @render 'stats'
 Router.route '/dashboard', -> @render 'dashboard'
-Router.route '/shift_checklist', -> @render 'shift_checklist'
-
-Router.route '/building/:building_code', -> @render 'building'
-
 
 Router.route('enroll', {
     path: '/enroll-account/:token'
@@ -87,15 +88,13 @@ Router.route '/add_student', (->
     @layout 'layout'
     @render 'add_student'
     ), name:'add_student'
+
 Router.route '/forgot_password', -> @render 'forgot_password'
 
-Router.route '/staff', -> @render 'staff'
-Router.route '/frontdesk', -> @render 'frontdesk'
 Router.route '/settings', -> @render 'settings'
 Router.route '/sign_rules/:doc_id/:username', -> @render 'rules_signing'
 Router.route '/sign_guidelines/:doc_id/:username', -> @render 'guidelines_signing'
 Router.route '/sign_waiver/:receipt_id', -> @render 'sign_waiver'
-# Router.route "/meal/:meal_id", -> @render 'meal_doc'
 
 Router.route '/reset_password/:token', (->
     @render 'reset_password'
@@ -106,8 +105,6 @@ Router.route '/download_rules_pdf/:username', (->
     ), name: 'download_rules_pdf'
 
 
-Router.route '/login', -> @render 'login'
-
 # Router.route '/', -> @redirect '/m/model'
 # Router.route '/', -> @redirect "/user/#{Meteor.user().username}"
 # Router.route '/', -> @render 'home'
@@ -115,15 +112,3 @@ Router.route '/', (->
     @layout 'layout'
     @render 'home'
     ), name:'home'
-
-
-Router.route '/healthclub', (->
-    @layout 'mlayout'
-    @render 'kiosk_container'
-    ), name:'healthclub'
-
-
-Router.route '/healthclub_session/:doc_id', (->
-    @layout 'mlayout'
-    @render 'healthclub_session'
-    ), name:'healthclub_session'

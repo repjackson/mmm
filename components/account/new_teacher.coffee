@@ -1,17 +1,13 @@
 if Meteor.isClient
-    Router.route '/choose_user_type', (->
+    Router.route '/new_teacher', (->
         @layout 'no_footer_layout'
-        @render 'choose_user_type'
-        ), name:'choose_user_type'
-    # Router.route '/register', (->
-    #     @layout 'no_footer_layout'
-    #     @render 'register'
-    #     ), name:'register'
+        @render 'new_teacher'
+        ), name:'new_teacher'
 
-    Template.register.onCreated ->
+    Template.new_teacher.onCreated ->
         Session.set 'username', null
 
-    Template.register.events
+    Template.new_teacher.events
         'keyup .username': ->
             username = $('.username').val()
             Session.set 'username', username
@@ -33,7 +29,7 @@ if Meteor.isClient
                 }
             Meteor.call 'create_user', options, (err,res)->
                 Meteor.users.update res,
-                    $set: roles: ['member']
+                    $set: roles: ['teacher']
                 Meteor.loginWithPassword username, password, (err,res)=>
                     if err
                         alert err.reason
@@ -42,7 +38,8 @@ if Meteor.isClient
                         #     Session.set 'enter_mode', 'register'
                         #     Session.set 'username', "#{username}"
                     else
-                        Router.go "/user/#{username}/edit"
+                        Router.go "/build_world"
+                        # Router.go "/teacher/#{username}/edit"
             # else
             #     Meteor.loginWithPassword username, password, (err,res)=>
             #         if err
@@ -54,44 +51,7 @@ if Meteor.isClient
             #             Router.go '/'
 
 
-    Template.register.helpers
+    Template.new_teacher.helpers
         username: -> Session.get 'username'
         registering: -> Session.equals 'enter_mode', 'register'
         enter_class: -> if Meteor.loggingIn() then 'loading disabled' else ''
-
-
-if Meteor.isServer
-    Meteor.methods
-        create_user: (options)->
-            Accounts.createUser options
-
-        can_submit: ->
-            username = Session.get 'username'
-            email = Session.get 'email'
-            password = Session.get 'password'
-            password2 = Session.get 'password2'
-            if username and email
-                if password.length > 0 and password is password2
-                    true
-                else
-                    false
-
-
-        find_username: (username)->
-            res = Accounts.findUserByUsername(username)
-            if res
-                # console.log res
-                unless res.disabled
-                    return res
-
-        new_demo_user: ->
-            current_user_count = Meteor.users.find().count()
-
-            options = {
-                username:"user#{current_user_count}"
-                password:"user#{current_user_count}"
-                }
-
-            create = Accounts.createUser options
-            new_user = Meteor.users.findOne create
-            return new_user
