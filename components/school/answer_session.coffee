@@ -49,6 +49,18 @@ if Meteor.isClient
             answer_session = Docs.findOne Router.current().params.doc_id
             answer_session.choice_selection_id
 
+        is_multiple_choice_answer: ->
+            answer_session = Docs.findOne Router.current().params.doc_id
+            question = Docs.findOne answer_session.question_id
+            question.question_type is 'multiple_choice'
+        is_essay_answer: ->
+            answer_session = Docs.findOne Router.current().params.doc_id
+            question = Docs.findOne answer_session.question_id
+            question.question_type is 'select_essay'
+        is_number_answer: ->
+            answer_session = Docs.findOne Router.current().params.doc_id
+            question = Docs.findOne answer_session.question_id
+            question.question_type is 'select_number'
 
     Template.answer_session_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
@@ -56,9 +68,6 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'question_choices_from_answer_session_id', Router.current().params.doc_id
     Template.answer_session_view.events
     Template.answer_session_view.helpers
-        choice_select_class: ->
-            answer_session = Docs.findOne Router.current().params.doc_id
-            if answer_session.choice_selection_id is @_id then 'active' else ''
         parent_question: ->
             answer_session = Docs.findOne Router.current().params.doc_id
             Docs.findOne
@@ -90,18 +99,11 @@ if Meteor.isClient
                 model:'answer_session'
 
 
-
     Template.answer_sessions.events
         'click .add_answer_session': ->
             new_answer_session_id = Docs.insert
                 model:'answer_session'
             Router.go "/answer_session/#{new_answer_session_id}/edit"
-
-
-
-    Template.answer_session_stats.events
-        'click .refresh_answer_session_stats': ->
-            Meteor.call 'refresh_answer_session_stats', @_id
 
 
 

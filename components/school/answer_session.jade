@@ -58,9 +58,13 @@ template(name='answer_session_edit')
                 .six.wide.column 
                     with parent_question 
                         .ui.header.f7 #{title}
-                    each choices
-                        .ui.large.fluid.button.select_choice(class=choice_select_class)
-                            .ui.header !{content}
+                    if is_multiple_choice_answer
+                        each choices
+                            .ui.large.fluid.button.select_choice(class=choice_select_class)
+                                .ui.header !{content}
+                    else if is_number_answer
+                        +number_edit key='number_answer' direct=true
+                            
                 .six.wide.column
                     if has_selected
                         a.ui.big.fluid.button(href="/answer_session/#{_id}/view" title='save')
@@ -89,45 +93,15 @@ template(name='answer_session_view')
                 .six.wide.column 
                     with parent_question 
                         .ui.header.f7 #{title}
-                    each choices
-                        .ui.large.disabled.fluid.button.select_choice(class=choice_select_class)
-                            .ui.header !{content}
+                    if is_multiple_choice_answer
+                        each choices
+                            .ui.large.disabled.fluid.button.select_choice(class=choice_select_class)
+                                .ui.header !{content}
+                    else if is_number_answer
+                        +number_edit key='number_answer' direct=true
                     +comments
                 .six.wide.column
                     if is_correct
                         .ui.header correct
                     else 
                         .ui.header incorrect
-
-template(name='answer_session_stats')
-    //- .ui.accordion
-    //-     .title
-    .ui.header.refresh_answer_session_stats
-        i.line.chart.icon
-        |stats
-    //- i.dropdown.icon
-    //- .content
-    .ui.big.list
-        .item #{views} views
-        .item #{reservation_count} reservations
-        .item #{total_earnings}c/#{total_answer_session_hours}hrs total
-        .item #{average_answer_session_cost}c / #{average_answer_session_duration}hrs avg answer_session
-        //- .item answer_session ranking # reservations
-        //- .item answer_session ranking $ earned
-        //- .item # different renters
-        //- .item avg daily earnings
-        //- .item avg weekly earnings
-        //- .item avg monthly earnings
-        //- .item biggest renter
-        //- .item predicted payback duration 
-        //- .item predicted payback date 
-
-    //-     //- .ui.header res slot exists
-    //-     +reservation_slot_template
-    //- else
-    //-     if is_product_author
-    //-         .ui.button.new_slot
-    //-             |new slot
-        
-template(name='answer_sessions_view_template')
-    .ui.header answer_session view template

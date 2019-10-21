@@ -33,7 +33,23 @@ if Meteor.isClient
             Docs.find
                 model:'choice'
                 question_id:@_id
+        multiple_choice_class: -> if @question_type is 'multiple_choice' then 'active' else ''
+        select_essay_class: -> if @question_type is 'select_essay' then 'active' else ''
+        select_number_class: -> if @question_type is 'select_number' then 'active' else ''
+        is_multiple_choice_answer: -> @question_type is 'multiple_choice'
+        is_essay_answer: -> @question_type is 'select_essay'
+        is_number_answer: -> @question_type is 'select_number'
     Template.question_edit.events
+        'click .select_multiple_choice': ->
+            Docs.update Router.current().params.doc_id,
+                $set: question_type:'multiple_choice'
+        'click .select_essay': ->
+            Docs.update Router.current().params.doc_id,
+                $set: question_type:'select_essay'
+        'click .select_number': ->
+            Docs.update Router.current().params.doc_id,
+                $set: question_type:'select_number'
+
         'click .add_choice': ->
             console.log @
             Docs.insert
@@ -61,7 +77,6 @@ if Meteor.isClient
             Docs.findOne
                 model:'answer_session'
                 question_id: Router.current().params.doc_id
-
         answer_sessions: ->
             Docs.find
                 model:'answer_session'
@@ -79,6 +94,9 @@ if Meteor.isClient
             else
                 console.log 'true'
                 true
+        is_multiple_choice_answer: -> @question_type is 'multiple_choice'
+        is_essay_answer: -> @question_type is 'select_essay'
+        is_number_answer: -> @question_type is 'select_number'
 
     Template.question_view.events
         'click .new_answer_session': ->

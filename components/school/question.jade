@@ -3,7 +3,7 @@ template(name='questions')
         .row
             .four.wide.column
                 .ui.inline.header 
-                    +i name='question'
+                    +i name='faq'
                     |questions
                 .ui.icon.button.add_question(title='add question')
                     i.plus.icon
@@ -72,35 +72,43 @@ template(name='question_edit')
                         i.checkmark.large.green.icon
                         |save
                     +remove_button
-                    +image_edit key='image_id' icon='image' label='image' direct=true
+                    +boolean_edit key='has_image' label='image' direct=true
+                    if has_image
+                        +image_edit key='image_id' icon='image' label='image' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
                 .six.wide.column 
-                    +text_edit key='title' direct=true
-                    +html_edit key='description' label='description' icon='content' direct=true
-                    //- .ui.header question type
-                    //- .ui.button.select_multiple_choice
-                    //-     +ismall name='multiple-choice'
-                    //-     |multiple choice
-                    //- .ui.button.select_essay
-                    //-     +ismall name='content'
-                    //-     |essay
-                    //- .ui.button 
-                    //-     +ismall name='hashtag'
-                    //-     |number answer
+                    +text_edit key='title' label='question' direct=true
+                    +boolean_edit key='has_description' label='description' direct=true
+                    if has_description
+                        +textarea_edit key='description' label='description' icon='content' direct=true
+                    //- +html_edit key='description' label='description' icon='content' direct=true
+                    .ui.header question type
+                    .ui.button.select_multiple_choice(class=multiple_choice_class)
+                        +ismall name='multiple-choice'
+                        |multiple choice
+                    .ui.button.select_essay(class=select_essay_class)
+                        +ismall name='content'
+                        |essay
+                    .ui.button.select_number(class=select_number_class)
+                        +ismall name='hashtag'
+                        |number answer
                 .six.wide.column
-                    .ui.fluid.button.add_choice
-                        i.plus.green.icon
-                        |choice
-                    div.scrolling
-                        each choices
-                            .ui.segment(class=answer_segment_class)
-                                .ui.small.inline.header choice
-                                +number_edit key='number' direct=true
-                                +html_edit key='content' direct=true
-                                +boolean_edit key='correct' direct=true
-                            
-
-
+                    if is_multiple_choice_answer
+                        .ui.fluid.button.add_choice
+                                i.plus.green.icon
+                                |choice
+                        div.scrolling
+                            each choices
+                                .ui.segment(class=answer_segment_class)
+                                    .ui.small.inline.header choice
+                                    +number_edit key='number' direct=true
+                                    +textarea_edit key='content' direct=true
+                                    //- +html_edit key='content' direct=true
+                                    +boolean_edit key='correct' direct=true
+                    else if is_number_answer
+                        +number_edit key='number_answer' label='number answer' direct=true    
+                    else if is_essay_answer
+                        +array_edit key='required_answer_tags' label='required answer tags' direct=true    
 
 
 
