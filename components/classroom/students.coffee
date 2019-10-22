@@ -7,18 +7,15 @@ if Meteor.isClient
     Template.student_selector.onCreated ->
         @student_results = new ReactiveVar
         @autorun => Meteor.subscribe 'student_ids', Router.current().params.doc_id
-
     Template.student_selector.helpers
         student_results: -> Template.instance().student_results.get()
         selected_students: ->
             classroom = Docs.findOne Router.current().params.doc_id
             Meteor.users.find
                 _id:$in:classroom.student_ids
-
     Template.student_selector.events
         'click .clear_results': (e,t)->
             t.student_results.set null
-
         'keyup #last_name': (e,t)->
             first_name = $('#first_name').val().trim()
             last_name = $('#last_name').val().trim()
@@ -31,8 +28,6 @@ if Meteor.isClient
                             $addToSet:student_ids:res
                         $('#first_name').val('')
                         $('#last_name').val('')
-
-
         'keyup #student_input': (e,t)->
             search_value = $(e.currentTarget).closest('#student_input').val().trim()
             if e.which is 8

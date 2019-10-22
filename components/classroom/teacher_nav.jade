@@ -10,13 +10,15 @@ template(name='teacher_nav')
         if is_loading
             .item
                 i.big.loading.notched.circle.icon
+        a.item(href='/grid' class="{{isActivePath '/grid'}}")
+            +ismall name='grid'
         a.item(href='/teacher_dashboard' class="{{isActivePath '/teacher_dashboard'}}")
             +ismall name='dashboard'
             
         //- a.item(href='/schools' title='schools')
         //-     +ismall name='school'
         //-     span.mobile.hidden &nbsp; schools
-        a.item(href='/classrooms' title='classrooms')
+        a.item(href='/my_classrooms' title='classrooms')
             +ismall name='class'
             span.mobile.hidden &nbsp; classrooms
         //- a.item(href='/tests' title='tests')

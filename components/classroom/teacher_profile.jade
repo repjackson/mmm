@@ -1,5 +1,5 @@
-template(name='profile_layout')
-    +nav
+template(name='teacher_profile_layout')
+    +teacher_nav
     with user_from_username_param
         .ui.stackable.grid
             .row
@@ -23,25 +23,20 @@ template(name='profile_layout')
                                     .ui.center.aligned.header
                                         | #{user.first_name} #{user.last_name}
                                     //- .ui.small.header @#{user.username}        
-                            +user_section_cloud
-                            .ui.big.fluid.vertical.menu
-                                each user_sections
-                                    a.item(href="/user/#{user.username}/#{slug}" class="{{isActiveRoute regex=route_slug}}")
-                                        i.icon
-                                            +ismall name=icon
-                                        |#{title}
-                
+                            //- .ui.large.fluid.vertical.menu
+                            //-     a.item(href="/user/#{user.username}/#{slug}" class="{{isActiveRoute regex=route_slug}}")
+                            //-         i.
+                            //-         |#{title}
                             if is_current_user
                                 a.ui.fluid.button.logout(href="#" title='logout')
                                     i.sign.out.alternate.icon
-                                    //- +ismall name='exit' 
                                     |log out
                                 //- a.ui.large.button.logout_other_clients(href="#" title='logout other clients')
                                 //-     //- i.globe.icon
                                 //-     +ismall name='globe' 
                                 //-     |log out other clients
                             a.ui.fluid.button(href="/user/#{user_from_username_param.username}/edit")
-                                +ismall name='settings' classes='ui inline mini image'
+                                i.cog.icon
                                 |edit
                             if is_admin
                                 .ui.basic.segment
@@ -60,25 +55,13 @@ template(name='profile_layout')
                             +yield    
     +footer
                 
-template(name='user_section_cloud')
-    if selected_user_section_tags
-        #clear_tags.ui.active.icon.circular.tiny.button
-            i.remove.icon
-        each selected_user_section_tags
-            .unselect_user_section_tag.ui.active.circular.tiny.button
-                strong #{this}
-    each all_user_section_tags
-        .ui.compact.circular.basic.tiny.button.select_user_section_tag(class=cloud_tag_class) 
-            strong #{this.name}
-                
-                    
-template(name='student_dashboard')                    
+template(name='teacher_profile_dashboard')                    
     .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
-                .ui.inline.header.recalc_student_stats
+                .ui.inline.header.recalc_teacher_stats
                     +i name='dashboard'
-                    |#{user_from_username_param.first_name}'s dashboard
+                    |#{user_from_username_param.first_name}'s teacher dashboard
                 .ui.inline.grey.header current balance $#{user_from_username_param.credit}
         .three.column.row
             .column

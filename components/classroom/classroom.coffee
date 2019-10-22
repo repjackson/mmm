@@ -1,6 +1,10 @@
 if Meteor.isClient
     Router.route '/classrooms', ->
         @render 'classrooms'
+    Router.route '/my_classrooms', ->
+        @layout 'teacher_layout'
+        @render 'my_classrooms'
+
     Router.route '/classroom/:doc_id/', (->
         @layout 'classroom_view_layout'
         @render 'classroom_students'
@@ -113,7 +117,9 @@ if Meteor.isClient
 
     Template.classroom_students.helpers
         classroom_students: ->
-            Meteor.users.find()
+            classroom = Docs.findOne Router.current().params.doc_id
+            Meteor.users.find
+                _id: $in: classroom.student_ids
         individual_credit_types: ->
             Docs.find
                 model:'credit_type'
@@ -238,7 +244,9 @@ if Meteor.isClient
 
     Template.classroom_lunch.helpers
         classroom_students: ->
-            Meteor.users.find()
+            classroom = Docs.findOne Router.current().params.doc_id
+            Meteor.users.find
+                _id: $in: classroom.student_ids
 
         lunch_chosen: ->
             today = moment().format("MM-DD-YYYY")
@@ -273,8 +281,6 @@ if Meteor.isClient
                 user_id: student._id
                 classroom_id: Router.current().params.doc_id
 
-
-
     Template.class_debit_button.events
         'click .debit_student': ->
             student = Template.parentData()
@@ -307,7 +313,6 @@ if Meteor.isClient
             Docs.find
                 model:'stock_certificate'
                 classroom_id: Router.current().params.doc_id
-
     Template.class_stock_edit.events
         'click .go_public': ->
             if confirm 'go public?'
@@ -329,7 +334,9 @@ if Meteor.isClient
         , 700
     Template.classroom_reports.helpers
         classroom_students: ->
-            Meteor.users.find()
+            classroom = Docs.findOne Router.current().params.doc_id
+            Meteor.users.find
+                _id: $in: classroom.student_ids
     Template.classroom_reports.events
         'change .date_select': ->
             console.log $('.date_select').val()
@@ -397,8 +404,6 @@ if Meteor.isClient
 
     Template.classroom_stats.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'classroom_stats'
-
-
     Template.classroom_stats.helpers
         csd: ->
             Docs.findOne
@@ -415,7 +420,7 @@ if Meteor.isServer
     Meteor.publish 'classroom_students', (classroom_id)->
         classroom = Docs.findOne classroom_id
         Meteor.users.find
-            username: $in: classroom.students
+            _id: $in: classroom.student_ids
 
     Meteor.publish 'classrooms', (product_id)->
         Docs.find

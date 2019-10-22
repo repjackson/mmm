@@ -1,3 +1,21 @@
+template(name='my_classrooms')
+    .ui.stackable.padded.grid
+        .row
+            .twelve.wide.column
+                .ui.inline.header 
+                    +i name='classroom'
+                    |your classrooms
+                if is_teacher
+                    .ui.icon.button.add_classroom(title='add classroom')
+                        //- +i name='plus' classes='ui mini inline image'
+                        i.green.large.plus.icon
+                        //- |add classroom
+        .row
+            .sixteen.wide.column
+                .ui.stackable.four.cards
+                    each classrooms
+                        +classroom_card
+
 template(name='classrooms')
     .ui.stackable.padded.grid
         .row
@@ -53,15 +71,15 @@ template(name='classroom_view_layout')
                         .ui.button desk rental
                 
                 .twelve.wide.column
+                    a.ui.large.button(href="/classroom/#{_id}/students" class="{{isActiveRoute regex='classroom_students'}}")
+                        +ismall name='students'
+                        | dashboard
                     a.ui.large.button(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
                         +ismall name='home'
                         |feed
                     a.ui.large.button(href="/classroom/#{_id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
                         +ismall name='invoice'
                         | reports
-                    a.ui.large.button(href="/classroom/#{_id}/students" class="{{isActiveRoute regex='classroom_students'}}")
-                        +ismall name='students'
-                        | dashboard
                     a.ui.large.button(href="/classroom/#{_id}/lunch" class="{{isActiveRoute regex='classroom_lunch'}}")
                         +ismall name='food'
                         | lunch

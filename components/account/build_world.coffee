@@ -11,6 +11,7 @@ if Meteor.isClient
         'click .build_classroom': (e,t)->
             new_classroom_id = Docs.insert
                 model:'classroom'
+                teacher_id: Meteor.userId()
                 salary_amount:100
                 bonus_amount:1
                 overtime_amount:3

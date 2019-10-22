@@ -1,4 +1,4 @@
-Template.color.events
+Template.color_edit.events
     'blur .edit_color': (e,t)->
         val = t.$('.edit_color').val()
         if @direct
@@ -31,7 +31,7 @@ Template.clear_value.events
                     $unset:"#{@key}":1
 
 
-Template.link.events
+Template.link_edit.events
     'blur .edit_url': (e,t)->
         val = t.$('.edit_url').val()
         if @direct
@@ -121,7 +121,7 @@ Template.image_edit.events
 
 
 
-Template.pdf.events
+Template.pdf_edit.events
     "change input[name='upload_pdf']": (e) ->
         files = e.currentTarget.files
         if @direct
@@ -694,10 +694,10 @@ Template.single_doc_view.helpers
 
 
 
-Template.single_doc.onCreated ->
+Template.single_doc_edit.onCreated ->
     @autorun => Meteor.subscribe 'model_docs', @data.ref_model
 
-Template.single_doc.helpers
+Template.single_doc_edit.helpers
     choices: ->
         if @ref_model
             Docs.find {
@@ -727,7 +727,7 @@ Template.single_doc.helpers
             else ''
 
 
-Template.single_doc.events
+Template.single_doc_edit.events
     'click .select_choice': ->
         selection = @
         ref_field = Template.currentData()
@@ -781,12 +781,11 @@ Template.multi_doc_view.helpers
 
 
 
-Template.multi_doc.onCreated ->
+Template.multi_doc_edit.onCreated ->
     @autorun => Meteor.subscribe 'model_docs', @data.ref_model
-Template.multi_doc.helpers
+Template.multi_doc_edit.helpers
     choices: ->
         Docs.find model:@ref_model
-
     choice_class: ->
         selection = @
         current = Template.currentData()
@@ -802,8 +801,7 @@ Template.multi_doc.helpers
         else
             ''
 
-
-Template.multi_doc.events
+Template.multi_doc_edit.events
     'click .select_choice': ->
         selection = @
         ref_field = Template.currentData()
@@ -818,8 +816,6 @@ Template.multi_doc.events
         parent5 = Template.parentData(5)
         parent6 = Template.parentData(6)
         parent7 = Template.parentData(7)
-
-        #
 
         if parent["#{ref_field.key}"] and @slug in parent["#{ref_field.key}"]
             doc = Docs.findOne parent._id
@@ -1159,13 +1155,13 @@ Template.project_lookup.events
             Meteor.call 'guest_pdf'
 
 
-    Template.signature.onRendered ->
+    Template.signature_edit.onRendered ->
         canvas = document.querySelector('canvas')
         @signaturePad = new SignaturePad(canvas,{
             backgroundColor:"rgb(255,255,255)"
             })
         # Returns signature image as data URL (see https://mdn.io/todataurl for the list of possible parameters)
-    Template.signature.events
+    Template.signature_edit.events
         # 'click .save': ->
         #     image_data = Template.instance().signaturePad.toDataURL()
         #     # save image as PNG

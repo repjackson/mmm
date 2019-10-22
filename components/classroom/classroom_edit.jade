@@ -17,6 +17,8 @@ template(name='classroom_edit_layout')
                     +image_edit key='classroom_image_id' label='image' direct=true
                     +textarea_edit key='description' label='description' direct=true
                     +array_edit key='tags' label='tags' icon='tags' direct=true
+                    if is_admin
+                        +teacher_selector
                 .twelve.wide.column
                     .ui.stackable.grid
                         .row

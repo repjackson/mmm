@@ -49,6 +49,42 @@ if Meteor.isClient
 
 
 
+    Template.teacher_selector.onCreated ->
+        @teacher_results = new ReactiveVar
+    Template.teacher_selector.helpers
+        teacher_results: -> Template.instance().teacher_results.get()
+    Template.teacher_selector.events
+        'click .clear_results': (e,t)->
+            t.teacher_results.set null
+
+        'keyup #teacher_lookup': (e,t)->
+            search_value = $(e.currentTarget).closest('#teacher_lookup').val().trim()
+            if search_value.length > 1
+                Meteor.call 'lookup_teacher', search_value, (err,res)=>
+                    if err then console.error err
+                    else
+                        t.teacher_results.set res
+
+        'click .select_teacher': (e,t) ->
+            classroom = Docs.findOne Router.current().params.doc_id
+            Docs.update classroom._id,
+                $set:teacher_id:@_id
+            t.teacher_results.set null
+            $('#teacher_lookup').val ''
+
+        'click .clear_teacher': ->
+            classroom = Docs.findOne Router.current().params.doc_id
+            Docs.update classroom._id,
+                $unset:teacher_id:1
+
+
+    Template.teacher_card.onCreated ->
+        @autorun => Meteor.subscribe 'user_by_id', @data
+    Template.teacher_card.helpers
+        teacher: -> Meteor.users.findOne Template.currentData()
+
+
+
 
 if Meteor.isServer
     Meteor.publish 'teacher_reservations_by_id', (teacher_id)->
@@ -64,6 +100,13 @@ if Meteor.isServer
 
 
     Meteor.methods
+        lookup_teacher: (username_query)->
+            console.log 'searching for ', username_query
+            Meteor.users.find({
+                username: {$regex:"#{username_query}", $options: 'i'}
+                # roles:$in:['teachers']
+                },{limit:10}).fetch()
+
         refresh_teacher_stats: (teacher_id)->
             teacher = Docs.findOne teacher_id
             # console.log teacher
