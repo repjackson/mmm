@@ -21,15 +21,15 @@ template(name='classroom_edit_layout')
                     .ui.stackable.grid
                         .row
                             .sixteen.wide.column
-                                a.ui.button(href="/classroom/#{_id}/edit/students") 
+                                a.ui.large.button(href="/classroom/#{_id}/edit/students" class="{{isActiveRoute regex='classroom_edit_students'}}") 
                                     +ismall name='groups' 
                                     |&nbsp;
                                     |students
-                                a.ui.button(href="/classroom/#{_id}/edit/income")
+                                a.ui.large.button(href="/classroom/#{_id}/edit/income" class="{{isActiveRoute regex='classroom_edit_income'}}")
                                     +ismall name='deposit' 
                                     |&nbsp;
                                     |income
-                                a.ui.button(href="/classroom/#{_id}/edit/expenses")
+                                a.ui.large.button(href="/classroom/#{_id}/edit/expenses" class="{{isActiveRoute regex='classroom_edit_expenses'}}")
                                     +ismall name='initiate-money-transfer' 
                                     |&nbsp;
                                     |expenses
@@ -48,40 +48,35 @@ template(name='classroom_edit_layout')
                     +yield
                                     
 template(name='classroom_edit_students')                                    
-    .ui.bottom.attached.active.tab.segment(data-tab='students')
-        .ui.inline.header 
-            +i name='students'
-            |students
-        if adding_student
-            .ui.header adding student
-            .ui.large.form
-                .field
-                    input#first_name(type='text' placeholder='first name' autocomplete='off')
-                .field
-                    input#last_name(type='text' placeholder='last name' autocomplete='off')
-                //- .field
-                //-     |Username
-                //-     input#username(type='text')
-            .ui.fluid.green.big.button.create_student
-                |create student
-        unless adding_student
-            .ui.icon.button.set_adding_student(title='add student')
-                i.plus.large.green.icon
-            +student_selector
+    .ui.inline.header 
+        +i name='students'
+        |students
+    //- if adding_student
+    //-     .ui.header adding student
+    //-     .ui.large.form
+    //-         .field
+    //-             input#first_name(type='text' placeholder='first name' autocomplete='off')
+    //-         .field
+    //-             input#last_name(type='text' placeholder='last name' autocomplete='off')
+    //-         //- .field
+    //-         //-     |Username
+    //-         //-     input#username(type='text')
+    //-     .ui.fluid.green.big.button.create_student
+    //-         |create student
+    //- unless adding_student
+    //-     .ui.icon.button.set_adding_student(title='add student')
+    //-         i.plus.large.green.icon
+    +student_selector
 
 template(name='classroom_edit_income')                                    
     .ui.two.column.grid
         .column
             .ui.header presets
-            .ui.segment
-                +number_edit key='daily_salary_amount' label='daily salary' icon='receive-cash' direct=true
-                +boolean_edit key='daily' label='daily' direct=true 
-                //- +date_edit key='day_dispersion' label='date to release'
-                //- +time_edit key='time_dispersion' label='time to release'
-            +boolean_edit key='weekly' label='weekly' direct=true
-            +number_edit key='bonus_amount' label='bonus amount' icon='gift' direct=true
-            +number_edit key='overtime_amount' label='overtime amount' icon='property-time' direct=true
-            +number_edit key='good_grades_amount' label='good grades amount' icon='student-male' direct=true
+            +number_edit key='salary_amount' label='salary amount' icon='money' direct=true
+            .spacer
+            +number_edit key='bonus_amount' label='bonus amount' icon='trust' direct=true
+            .spacer
+            +number_edit key='overtime_amount' label='overtime amount' icon='clock' direct=true
         .column
             .ui.header custom
             .ui.button.add_credit_type
@@ -104,15 +99,17 @@ template(name='classroom_edit_expenses')
     .ui.two.column.stackable.grid
         .column
             .ui.header presets
-            .ui.segment
-                +number_edit key='desk_rental_amount' label='desk rental amount' icon='table' direct=true
-                //- +date_edit key='day_dispersion' label='date to release'
-                //- +time_edit key='time_dispersion' label='time to release'
-            +number_edit key='janitor_amount' label='janitor daily amount (release 8am everyday)' icon='housekeeper-male' direct=true
-            +number_edit key='janitor_amount' label='janitor extra fee' icon='housekeeper-male' direct=true
-            +number_edit key='lunch_amount' label='lunch amount' icon='food' direct=true
-            +number_edit key='fines_amount' label='fines amount' direct=true
-            //- +number_edit key='rent_supplies_amount' label='rent supplies amount' direct=true
+            +number_edit key='desk_rental_amount' label='desk rental amount' icon='table' direct=true
+            .spacer
+            +number_edit key='fines_amount' label='fines amount' icon='foul' direct=true
+            .spacer
+            +number_edit key='janitor_base_amount' label='janitor base fee' icon='housekeeper-male' direct=true
+            .spacer
+            +number_edit key='janitor_extra_amount' label='janitor extra fee' icon='housekeeper-male' direct=true
+            .spacer
+            +number_edit key='lunch_base_amount' label='lunch base amount' icon='food' direct=true
+            .spacer
+            +number_edit key='lunch_extra_amount' label='lunch extra amount' icon='food' direct=true
         .column
             .ui.header custom
             .ui.button.add_debit_type

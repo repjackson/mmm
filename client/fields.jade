@@ -1585,25 +1585,43 @@ template(name='student_selector')
             i.grey.icon(class=icon)
             //- +i name=icon
         |#{label}
-    .ui.input
-        input#student_input(type='text' placeholder="lookup student..")
+    .ui.small.segment
+        .ui.small.header 
+            |add student
+        .ui.form 
+            .two.fields
+                .field 
+                    label first name
+                    input#first_name(type='text' placeholder='first name')
+                .field 
+                    label last name
+                    input#last_name(type='text' placeholder='last name')
+    .ui.small.header lookup existing student
+    .ui.large.fluid.input
+        input#student_input(type='text' placeholder="lookup existing student..")
     each selections
         a.ui.basic.label(href="/student/#{username}")
             |#{first_name} #{last_name} @#{username}
     if student_results
-        .ui.top.attached.segment
-            .ui.middle.aligned.selection.animated.list
-                each student_results
-                    .select_student.item
-                        .ui.header
-                            img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
-                            strong #{first_name} #{last_name}
-                            |@#{username}
+        .ui.small.header search results
+        .ui.middle.aligned.selection.animated.large.list
+            each student_results
+                .select_student.item
+                    .item
+                        img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
+                        strong #{first_name} #{last_name}
+                        |@#{username}
     +clear_value                
-    .ui.list
-        each selected_students
-            .ui.header
-                img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
-                strong #{first_name} #{last_name}
-                |@#{username}
+    .ui.big.list
+        each current_doc.student_ids
+            +student_item
+            
+template(name='student_item')            
+    .item
+        with student
+            img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
+            .content
+                .header #{first_name} #{last_name}
+                |$#{credit}
+                //- |@#{username} $#{credit}
                 i.grey.link.remove.icon.remove_student

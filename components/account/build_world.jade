@@ -150,20 +150,10 @@ template(name='build_classroom_students')
                     .ui.center.aligned.header 
                         +i name='students'
                         |students
-                    .ui.small.header 
-                        |add student
-                    .ui.form 
-                        .two.fields
-                            .field 
-                                label first name
-                                input#first_name(type='text' placeholder='first name')
-                            .field 
-                                label last name
-                                input#last_name(type='text' placeholder='last name')
-                    .ui.header students
-                    .ui.large.list
-                        each classroom_students
-                            .item #{first_name} #{last_name}
-                                i.remove.grey.link.icon.remove_student
+                    //- .ui.header students
+                    //- .ui.large.list
+                    //-     each classroom_students
+                    //-         .item #{first_name} #{last_name}
+                    //-             i.remove.grey.link.icon.remove_student
                     .ui.header student selector
                     +student_selector

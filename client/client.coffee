@@ -360,6 +360,10 @@ Template.registerHelper 'current_doc', ->
     # console.log user
     if doc then doc else if user then user
 
+Template.registerHelper 'page_doc', ->
+    doc = Docs.findOne Router.current().params.doc_id
+    if doc then doc
+
 
 Template.registerHelper 'user_from_username_param', () ->
     found = Meteor.users.findOne username:Router.current().params.username
