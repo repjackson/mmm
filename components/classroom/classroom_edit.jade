@@ -1,5 +1,5 @@
 template(name='classroom_edit_layout')
-    +nav
+    +teacher_nav
     with current_doc
         .ui.stackable.padded.grid
             .row
@@ -33,18 +33,18 @@ template(name='classroom_edit_layout')
                                     +ismall name='initiate-money-transfer' 
                                     |&nbsp;
                                     |expenses
-                                a.ui.button(href="/classroom/#{_id}/edit/goals")
-                                    +ismall name='goal' 
-                                    |&nbsp;
-                                    |goals
-                                a.ui.button(href="/classroom/#{_id}/edit/shop")
-                                    +ismall name='shop' 
-                                    |&nbsp;
-                                    |shop
-                                a.ui.button(href="/classroom/#{_id}/edit/stock")
-                                    +ismall name='line-chart' 
-                                    |&nbsp;
-                                    |stock
+                                //- a.ui.button(href="/classroom/#{_id}/edit/goals")
+                                //-     +ismall name='goal' 
+                                //-     |&nbsp;
+                                //-     |goals
+                                //- a.ui.button(href="/classroom/#{_id}/edit/shop")
+                                //-     +ismall name='shop' 
+                                //-     |&nbsp;
+                                //-     |shop
+                                //- a.ui.button(href="/classroom/#{_id}/edit/stock")
+                                //-     +ismall name='line-chart' 
+                                //-     |&nbsp;
+                                //-     |stock
                     +yield
                                     
 template(name='classroom_edit_students')                                    
@@ -67,7 +67,7 @@ template(name='classroom_edit_students')
         unless adding_student
             .ui.icon.button.set_adding_student(title='add student')
                 i.plus.large.green.icon
-            +multi_user key='students' direct=true
+            +student_selector
 
 template(name='classroom_edit_income')                                    
     .ui.two.column.grid
@@ -76,8 +76,8 @@ template(name='classroom_edit_income')
             .ui.segment
                 +number_edit key='daily_salary_amount' label='daily salary' icon='receive-cash' direct=true
                 +boolean_edit key='daily' label='daily' direct=true 
-                +date_edit key='day_dispersion' label='date to release'
-                +time_edit key='time_dispersion' label='time to release'
+                //- +date_edit key='day_dispersion' label='date to release'
+                //- +time_edit key='time_dispersion' label='time to release'
             +boolean_edit key='weekly' label='weekly' direct=true
             +number_edit key='bonus_amount' label='bonus amount' icon='gift' direct=true
             +number_edit key='overtime_amount' label='overtime amount' icon='property-time' direct=true

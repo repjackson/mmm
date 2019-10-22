@@ -22,12 +22,12 @@ template(name='build_classroom_info')
     with current_doc
         .ui.padded.stackable.grid
             .centered.row
-                .ten.wide.column
+                .sixteen.wide.column
                     .ui.center.aligned.basic.segment
                         .ui.header 
                             +i name='classroom'
                             |build '#{title}' classroom
-                    .ui.three.steps
+                    .ui.four.steps
                         .active.step
                             i.info.icon
                             .content
@@ -40,6 +40,11 @@ template(name='build_classroom_info')
                             i.users.grey.icon
                             .content
                                 .title students
+                        a.step(href="/classroom/#{_id}/dashboard")
+                            i.dashboard.icon
+                            .content
+                                .title dashboard
+                
                     
             .centered.row
                 .seven.wide.center.aligned.column
@@ -61,12 +66,12 @@ template(name='build_classroom_finance')
     with current_doc
         .ui.padded.stackable.grid
             .centered.row
-                .ten.wide.column
+                .sixteen.wide.column
                     .ui.center.aligned.basic.segment
                         .ui.header 
                             +i name='classroom'
                             |build '#{title}' classroom
-                    .ui.three.steps
+                    .ui.four.steps
                         a.step(href="/build_classroom/#{_id}/info")
                             i.green.info.icon
                             .content
@@ -79,6 +84,11 @@ template(name='build_classroom_finance')
                             i.users.grey.icon
                             .content
                                 .title students
+                        a.step(href="/classroom/#{_id}/dashboard")
+                            i.dashboard.icon
+                            .content
+                                .title dashboard
+                    
                     
             .centered.row
                 .seven.wide.center.aligned.column
@@ -112,12 +122,12 @@ template(name='build_classroom_students')
     with current_doc
         .ui.padded.stackable.grid
             .centered.row
-                .ten.wide.column
+                .sixteen.wide.column
                     .ui.center.aligned.basic.segment
                         .ui.header 
                             +i name='classroom'
                             |build '#{title}' classroom
-                    .ui.three.steps
+                    .ui.four.steps
                         a.step(href="/build_classroom/#{_id}/info")
                             i.green.info.icon
                             .content
@@ -130,6 +140,10 @@ template(name='build_classroom_students')
                             i.users.icon
                             .content
                                 .title students
+                        a.step(href="/classroom/#{_id}/dashboard")
+                            i.dashboard.icon
+                            .content
+                                .title dashboard
                     
             .centered.row
                 .seven.wide.center.aligned.column
@@ -151,3 +165,5 @@ template(name='build_classroom_students')
                         each classroom_students
                             .item #{first_name} #{last_name}
                                 i.remove.grey.link.icon.remove_student
+                    .ui.header student selector
+                    +student_selector

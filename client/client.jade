@@ -40,13 +40,19 @@ head
     
 template(name='layout')
     //- img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
-    +nav
+    if is_teacher
+        +teacher_nav
+    else 
+        +nav
     //- .context
     //-     .ui.stackable.grid.global_container(class=invert_class)
     //-         .centered.row
     //-             .sixteen.wide.column
     +yield
-    +footer
+    if is_teacher
+        +teacher_footer
+    else 
+        +footer
         //- +shortcut_modal
 
 template(name='no_footer_layout')

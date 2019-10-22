@@ -989,11 +989,11 @@ Template.single_person.events
 
 
 
-Template.multi_user.onCreated ->
+Template.multi_user_edit.onCreated ->
     @user_results = new ReactiveVar
-Template.multi_user.helpers
+Template.multi_user_edit.helpers
     user_results: -> Template.instance().user_results.get()
-Template.multi_user.events
+Template.multi_user_edit.events
     'click .clear_results': (e,t)->
         t.user_results.set null
     'keyup #multi_user_select_input': (e,t)->
@@ -1323,3 +1323,45 @@ Template.html_raw.events
         else if user
             Meteor.users.update parent._id,
                 $set:"#{@key}":textarea_val
+
+
+
+
+
+Template.student_selector.onCreated ->
+    @student_results = new ReactiveVar
+    @autorun => Meteor.subscribe 'student_ids', Router.current().params.doc_id
+
+Template.student_selector.helpers
+    student_results: -> Template.instance().student_results.get()
+    selected_students: ->
+        classroom = Docs.findOne Router.current().params.doc_id
+        Meteor.users.find
+            _id:$in:classroom.student_ids
+
+Template.student_selector.events
+    'click .clear_results': (e,t)->
+        t.student_results.set null
+    'keyup #student_input': (e,t)->
+        search_value = $(e.currentTarget).closest('#student_input').val().trim()
+        if e.which is 8
+            t.student_results.set null
+        else if search_value and search_value.length > 1
+            Meteor.call 'lookup_student', search_value, (err,res)=>
+                if err then console.error err
+                else
+                    t.student_results.set res
+    'click .select_student': (e,t) ->
+        page_doc = Docs.findOne Router.current().params.doc_id
+        Docs.update Router.current().params.doc_id,
+            $addToSet:student_ids:@_id
+        t.student_results.set null
+        $('#student_input').val ''
+        # Docs.update page_doc._id,
+        #     $set: assignment_timestamp:Date.now()
+
+    'click .remove_student': ->
+        if confirm "remove #{@username}?"
+            classroom = Docs.findOne Router.current().params.doc_id
+            Docs.update classroom._id,
+                $pull:student_ids:@_id

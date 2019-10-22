@@ -29,7 +29,7 @@ template(name='classroom_card')
 
                     
 template(name='classroom_view_layout')
-    +nav
+    +teacher_nav
     with current_doc
         .ui.stackable.padded.grid
             .row
@@ -65,14 +65,14 @@ template(name='classroom_view_layout')
                     a.ui.large.button(href="/classroom/#{_id}/lunch" class="{{isActiveRoute regex='classroom_lunch'}}")
                         +ismall name='food'
                         | lunch
-                    a.ui.button(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
-                        +ismall name='rss'
-                        | feed
-                    a.ui.button(href="/classroom/#{_id}/stats" class="{{isActiveRoute regex='classroom_stats'}}")
-                        +ismall name='line-chart'
-                        | stats
+                    //- a.ui.button(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
+                    //-     +ismall name='rss'
+                    //-     | feed
+                    //- a.ui.button(href="/classroom/#{_id}/stats" class="{{isActiveRoute regex='classroom_stats'}}")
+                    //-     +ismall name='line-chart'
+                    //-     | stats
                     +yield
-    +footer
+    //- +teacher_footer
 
 template(name='classroom_stock')
     .ui.two.column.stackable.grid

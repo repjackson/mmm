@@ -175,7 +175,10 @@ template(name='i')
     if currentUser.icon_theme
         img(src="https://img.icons8.com/#{currentUser.icon_theme}/48/000000/#{name}.png" class=classes title=title)
     else
-        img(src="https://img.icons8.com/office/48/000000/#{name}.png" class=classes title=title)
+        if is_teacher
+            img(src="https://img.icons8.com/ios/48/000000/#{name}.png" class=classes title=title)
+        else
+            img(src="https://img.icons8.com/office/48/000000/#{name}.png" class=classes title=title)
     //- i.icon(class=name)
     //- img(src="https://img.icons8.com/cotton/48/000000/#{name}.png" class=classes title=title)
     //- img.icon8(src="https://img.icons8.com/ios/50/000000/#{name}.png" class=classes title=title)
@@ -194,7 +197,11 @@ template(name='iios')
 
 template(name='ismall')
     //- i.icon(class=name)
-    img.ui.middle.aligned.image(src="https://img.icons8.com/office/24/000000/#{name}.png" class=classes title=title)
+    if is_teacher
+        img(src="https://img.icons8.com/ios/24/000000/#{name}.png" class='ui inline image' title=title)
+        //- img(src="https://img.icons8.com/ios/24/000000/#{name}.png" class=classes title=title)
+    else 
+        img.ui.middle.aligned.image(src="https://img.icons8.com/office/24/000000/#{name}.png" class=classes title=title)
     //- img(src="https://img.icons8.com/office/24/000000/#{name}.png" class=classes title=title)
     //- img.ui.middle.aligned.image(src="https://img.icons8.com/plasticine/24/000000/#{name}.png" class=classes title=title)
     //- img(src="https://img.icons8.com/plasticine/24/000000/#{name}.png" class=classes title=title)
@@ -1288,7 +1295,7 @@ template(name='single_person')
             //                     @#{username}
 
 
-template(name='multi_user')
+template(name='multi_user_edit')
     div
     .ui.inline.header
         if icon
@@ -1568,3 +1575,35 @@ template(name='slug_view')
                     |#{this}
         .ui.inline.header
             strong #{field_value}
+
+
+
+template(name='student_selector')
+    div
+    .ui.inline.header
+        if icon
+            i.grey.icon(class=icon)
+            //- +i name=icon
+        |#{label}
+    .ui.input
+        input#student_input(type='text' placeholder="lookup student..")
+    each selections
+        a.ui.basic.label(href="/student/#{username}")
+            |#{first_name} #{last_name} @#{username}
+    if student_results
+        .ui.top.attached.segment
+            .ui.middle.aligned.selection.animated.list
+                each student_results
+                    .select_student.item
+                        .ui.header
+                            img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
+                            strong #{first_name} #{last_name}
+                            |@#{username}
+    +clear_value                
+    .ui.list
+        each selected_students
+            .ui.header
+                img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
+                strong #{first_name} #{last_name}
+                |@#{username}
+                i.grey.link.remove.icon.remove_student
