@@ -1,8 +1,9 @@
-template(name='user_edit')
+template(name='user_edit_layout')
+    +nav
     with user_from_username_param          
         .ui.stackable.padded.grid
-            .three.column.row
-                .column
+            .row
+                .four.wide.column
                     .ui.center.aligned.large.inline.grey.header
                         | #{user_from_username_param.first_name} #{user_from_username_param.last_name}
                     //- +i name='pencil'
@@ -10,41 +11,47 @@ template(name='user_edit')
                     a.ui.fluid.button(href="/user/#{user_from_username_param.username}/") 
                         i.checkmark.large.green.icon
                         strong save
-                    .ui.hidden.divider
-                    +image_edit key='profile_image_id' icon='picture' title='profile image' direct=true
-                    if is_current_user
-                        +password_edit
-                        //- +phone_editor
-                        +username_edit
-                    if is_admin
-                        with user_from_username_param
-                            .ui.orange.basic.button.remove_user 
-                                i.remove.icon
-                                |delete user
-                .column
-                    .ui.form
-                        +text_edit key='first_name' label='first name' icon='header' direct=true
-                        +text_edit key='last_name' label='last name' icon='header' direct=true
-                        div
-                        .ui.basic.segment
-                            .ui.header 
-                                i.envelope.outline.icon
-                                |emails
-                            +emails_edit
-                        +number_edit key='credit' label='credit' icon='money' direct=true
-                        div
-                        +phone_edit key='phone' label='phone' icon='phone' direct=true
-                        +array_edit key='tags' label='tags' direct=true
-                        +text_edit key='icon_theme' label='icon theme' direct=true
-                    
+                    .ui.vertical.fluid.big.borderless.menu
+                        a.item(href="/user/#{user_from_username_param.username}/edit/info" class="{{isActiveRoute regex='user_edit_students'}}") 
+                            |info
+                            i.info.icon
+                        a.item(href="/user/#{user_from_username_param.username}/edit/friends" class="{{isActiveRoute regex='user_edit_students'}}") 
+                            |friends
+                            i.users.icon
+                        a.item(href="/user/#{user_from_username_param.username}/edit/styles" class="{{isActiveRoute regex='user_edit_students'}}") 
+                            |styles
+                            i.brush.icon
+                        a.item(href="/user/#{user_from_username_param.username}/edit/notifications" class="{{isActiveRoute regex='user_edit_students'}}") 
+                            |notifications
+                            i.bell.icon
+                        a.item(href="/user/#{user_from_username_param.username}/edit/payment" class="{{isActiveRoute regex='user_edit_students'}}") 
+                            |payment
+                            i.money.icon
+                        a.item(href="/user/#{user_from_username_param.username}/edit/account" class="{{isActiveRoute regex='user_edit_students'}}") 
+                            |account
+                            i.cog.icon
+                        a.item(href="/user/#{user_from_username_param.username}/edit/tags" class="{{isActiveRoute regex='user_edit_students'}}") 
+                            |tags
+                            i.tags.icon
+                .twelve.wide.column
+                    +yield
 
-template(name='username_edit')
-    .ui.small.header 
-        i.i.cursor.icon
-        |change username [#{user_from_username_param.username}]
-    .ui.icon.fluid.input
-        input.new_username(type='text' placeholder='new username...')
-        i.play.link.icon.change_username
+template(name='user_edit_info')
+    .ui.form
+        +text_edit key='first_name' label='first name' direct=true
+        +text_edit key='last_name' label='last name' direct=true
+    .ui.two.column.grid
+        .column
+            .ui.header 
+                i.envelope.outline.icon
+                |emails
+            +emails_edit
+        .column
+            +number_edit key='credit' label='credit' icon='money' direct=true
+            div
+            +phone_edit key='phone' label='phone' icon='phone' direct=true
+            +array_edit key='tags' label='tags' direct=true
+    +image_edit key='profile_image_id' icon='picture' title='profile image' direct=true
 
 
      
@@ -120,3 +127,62 @@ template(name='emails_edit')
         #add_email.ui.submit.icon.button 
             i.plus.icon
             |email
+
+
+
+template(name='user_edit_friends')
+    .ui.header
+        i.users.icon
+        | friends
+    
+template(name='user_edit_notifications')
+    .ui.header
+        i.bell.icon
+        | notifications
+    
+template(name='user_edit_styles')
+    .ui.header
+        i.brush.icon
+        | styles
+    +text_edit key='icon_theme' label='icon theme' direct=true
+    +boolean_edit key='invert_mode' direct=true
+
+template(name='user_edit_payment')
+    .ui.header
+        i.money.icon
+        | payment
+    
+template(name='user_edit_account')
+    .ui.header 
+        i.cog.icons
+        |account
+    .ui.two.column.grid
+        .column
+            +password_edit
+            if is_admin
+                with user_from_username_param
+                    .ui.orange.basic.button.remove_user 
+                        i.remove.icon
+                        |delete user
+        .column
+            +username_edit
+        //- +phone_editor
+
+
+    
+
+template(name='username_edit')
+    .ui.small.header 
+        i.i.cursor.icon
+        |change username [#{user_from_username_param.username}]
+    .ui.icon.fluid.input
+        input.new_username(type='text' placeholder='new username...')
+        i.play.link.icon.change_username
+
+
+
+    
+template(name='user_edit_credits')
+    .ui.header credits
+    
+    

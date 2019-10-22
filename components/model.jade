@@ -129,8 +129,8 @@ template(name='field_edit')
         +textarea_edit key='description' label='description' direct=true
         +text_edit key='field_type' direct=true label='field type'              
         +single_doc_edit key='field_type' ref_model='field_type' label='field type' direct=true                 
-        +multi_doc key='view_roles' ref_model='role' label='view roles' direct=true icon='eye'          
-        +multi_doc key='edit_roles' ref_model='role' label='edit roles' direct=true icon='pencil'        
+        +multi_doc_edit key='view_roles' ref_model='role' label='view roles' direct=true icon='eye'          
+        +multi_doc_edit key='edit_roles' ref_model='role' label='edit roles' direct=true icon='pencil'        
         //- +text_edit key='ref_model' label='Reference Model' direct=true
         div
         +boolean_edit key='faceted' label='faceted' icon='diamond' direct=true

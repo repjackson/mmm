@@ -3,6 +3,10 @@ if Meteor.isClient
         @layout 'classroom_edit_layout'
         @render 'classroom_edit_students'
         ), name:'classroom_edit'
+    Router.route '/classroom/:doc_id/edit/info', (->
+        @layout 'classroom_edit_layout'
+        @render 'classroom_edit_info'
+        ), name:'classroom_edit_info'
     Router.route '/classroom/:doc_id/edit/students', (->
         @layout 'classroom_edit_layout'
         @render 'classroom_edit_students'

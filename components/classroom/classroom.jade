@@ -44,6 +44,9 @@ template(name='classroom_card')
             .ui.green.inline.header $#{csd.classroom_balance}
             .ui.green.inline.small.header(title='income') ($#{csd.total_credit_amount}
             .ui.red.inline.small.header(title='expenses') / -$#{csd.total_debit_amount})
+            a.ui.header(href="/classroom/#{_id}")
+                |view 
+                i.right.chevron.icon
 
                     
 template(name='classroom_view_layout')
@@ -59,11 +62,24 @@ template(name='classroom_view_layout')
                     +image_view key='classroom_image_id' label='image' direct=true
                     .ui.header
                         | #{title}
+                    .ui.big.fluid.vertical.menu
+                        a.item(href="/classroom/#{_id}/students" class="{{isActiveRoute regex='classroom_students'}}")
+                            i.dashboard.icon
+                            | dashboard
+                        a.item(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
+                            i.list.icon
+                            |feed
+                        a.item(href="/classroom/#{_id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
+                            i.line.chart.icon
+                            | reports
+                        a.item(href="/classroom/#{_id}/lunch" class="{{isActiveRoute regex='classroom_lunch'}}")
+                            i.food.icon
+                            | lunch
                     .ui.header
                         small teacher
                         | #{teacher_name}
                     a.ui.fluid.button(href="/classroom/#{_id}/edit")
-                        +i name='pencil' classes='ui inline mini image'
+                        i.pencil.icon
                         | edit
                     .ui.segment
                         .ui.header weekly actions
@@ -71,18 +87,6 @@ template(name='classroom_view_layout')
                         .ui.button desk rental
                 
                 .twelve.wide.column
-                    a.ui.large.button(href="/classroom/#{_id}/students" class="{{isActiveRoute regex='classroom_students'}}")
-                        +ismall name='students'
-                        | dashboard
-                    a.ui.large.button(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
-                        +ismall name='home'
-                        |feed
-                    a.ui.large.button(href="/classroom/#{_id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
-                        +ismall name='invoice'
-                        | reports
-                    a.ui.large.button(href="/classroom/#{_id}/lunch" class="{{isActiveRoute regex='classroom_lunch'}}")
-                        +ismall name='food'
-                        | lunch
                     //- a.ui.button(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
                     //-     +ismall name='rss'
                     //-     | feed
@@ -191,6 +195,8 @@ template(name='classroom_students')
                     .ui.two.column.stackable.grid
                         .column
                             .ui.vertical.buttons
+                                .ui.button bonus
+                                .ui.button overtime
                                 each individual_credit_types
                                     +class_credit_button
                         .column
@@ -223,13 +229,13 @@ template(name='classroom_students')
             //- 
                                         
 template(name='class_credit_button')
-    .ui.basic.button.credit_student 
+    .ui.button.credit_student 
         i.green.plus.icon
         |#{amount}
         |#{title}
     
 template(name='class_debit_button')
-    .ui.basic.button.debit_student 
+    .ui.button.debit_student 
         i.red.minus.icon
         |#{amount}
         |#{title}

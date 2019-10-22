@@ -1,10 +1,37 @@
 if Meteor.isClient
-    Router.route '/user/:username/edit', -> @render 'user_edit'
+    Router.route '/user/:username/edit/', (->
+        @layout 'user_edit_layout'
+        @render 'user_edit_info'
+        ), name:'user_edit_home'
+    Router.route '/user/:username/edit/info', (->
+        @layout 'user_edit_layout'
+        @render 'user_edit_info'
+        ), name:'user_edit_info'
+    Router.route '/user/:username/edit/friends', (->
+        @layout 'user_edit_layout'
+        @render 'user_edit_friends'
+        ), name:'user_edit_friends'
+    Router.route '/user/:username/edit/payment', (->
+        @layout 'user_edit_layout'
+        @render 'user_edit_payment'
+        ), name:'user_edit_payment'
+    Router.route '/user/:username/edit/account', (->
+        @layout 'user_edit_layout'
+        @render 'user_edit_account'
+        ), name:'user_edit_account'
+    Router.route '/user/:username/edit/styles', (->
+        @layout 'user_edit_layout'
+        @render 'user_edit_styles'
+        ), name:'user_edit_styles'
+    Router.route '/user/:username/edit/notifications', (->
+        @layout 'user_edit_layout'
+        @render 'user_edit_notifications'
+        ), name:'user_edit_notifications'
 
-    Template.user_edit.onCreated ->
+    Template.user_edit_layout.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
 
-    Template.user_edit.onRendered ->
+    Template.user_edit_layout.onRendered ->
         Meteor.setTimeout ->
             $('.button').popup()
         , 2000
@@ -52,7 +79,7 @@ if Meteor.isClient
                                 toastr.success 'Your verification code does not match.'
 
 
-    Template.user_edit.events
+    Template.user_edit_layout.events
         'click .remove_user': ->
             if confirm "confirm delete #{@username}?  cannot be undone."
                 Meteor.users.remove @_id
@@ -79,7 +106,7 @@ if Meteor.isClient
             new_username = t.$('.new_username').val()
             current_user = Meteor.users.findOne username:Router.current().params.username
             if new_username
-                if confirm "Change username from #{current_user.username} to #{new_username}?"
+                if confirm "change username from #{current_user.username} to #{new_username}?"
                     Meteor.call 'change_username', current_user._id, new_username, (err,res)->
                         if err
                             alert err
@@ -131,18 +158,18 @@ if Meteor.isClient
             if valid_email
                 Meteor.call 'add_email', current_user._id, new_email, (error, result) ->
                     if error
-                        alert "Error adding email: #{error.reason}"
+                        alert "error adding email: #{error.reason}"
                     else
                         # alert result
                         $('#new_email').val('')
                     return
 
         'click .remove_email': ->
-            if confirm 'Remove email?'
+            if confirm 'remove email?'
                 current_user = Meteor.users.findOne username:Router.current().params.username
                 Meteor.call 'remove_email', current_user._id, @address, (error,result)->
                     if error
-                        alert "Error removing email: #{error.reason}"
+                        alert "error removing email: #{error.reason}"
 
 
         'click .send_verification_email': (e,t)->

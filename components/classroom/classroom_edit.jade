@@ -6,48 +6,49 @@ template(name='classroom_edit_layout')
                 .four.wide.column 
                     .ui.header 
                         small editing 
+                        div
                         strong '#{title}' 
+                        div
                         small classroom
                     a.ui.big.fluid.button(href="/classroom/#{_id}" title='save')
-                        i.checkmark.large.green.icon
+                        i.checkmark.icon
                         |save
-                    +remove_button
-                    +text_edit key='title' direct=true
-                    +text_edit key='company_name' label='company name' direct=true
-                    +image_edit key='classroom_image_id' label='image' direct=true
-                    +textarea_edit key='description' label='description' direct=true
-                    +array_edit key='tags' label='tags' icon='tags' direct=true
-                    if is_admin
-                        +teacher_selector
+                    //- if is_admin
+                    .ui.vertical.big.fluid.secondary.pointing.menu
+                        a.item(href="/classroom/#{_id}/edit/info" class="{{isActiveRoute regex='classroom_edit_info'}}") 
+                            |info
+                            i.info.icon
+                        a.item(href="/classroom/#{_id}/edit/students" class="{{isActiveRoute regex='classroom_edit_students'}}") 
+                            |students
+                            i.users.icon
+                        a.item(href="/classroom/#{_id}/edit/income" class="{{isActiveRoute regex='classroom_edit_income'}}")
+                            |income
+                            i.down.chevron.icon
+                        a.item(href="/classroom/#{_id}/edit/expenses" class="{{isActiveRoute regex='classroom_edit_expenses'}}")
+                            |expenses
+                            i.chevron.up.icon
+                        a.item(href="/classroom/#{_id}/edit/goals" class="{{isActiveRoute regex='classroom_edit_goals'}}")
+                            |goals
+                            i.target.icon
+                        a.item(href="/classroom/#{_id}/edit/shop" class="{{isActiveRoute regex='classroom_edit_shop'}}")
+                            |shop
+                            i.shop.icon
+                        a.item(href="/classroom/#{_id}/edit/stock" class="{{isActiveRoute regex='classroom_edit_stock'}}")
+                            |stock
+                            i.line.chart.icon 
                 .twelve.wide.column
-                    .ui.stackable.grid
-                        .row
-                            .sixteen.wide.column
-                                a.ui.large.button(href="/classroom/#{_id}/edit/students" class="{{isActiveRoute regex='classroom_edit_students'}}") 
-                                    +ismall name='groups' 
-                                    |&nbsp;
-                                    |students
-                                a.ui.large.button(href="/classroom/#{_id}/edit/income" class="{{isActiveRoute regex='classroom_edit_income'}}")
-                                    +ismall name='deposit' 
-                                    |&nbsp;
-                                    |income
-                                a.ui.large.button(href="/classroom/#{_id}/edit/expenses" class="{{isActiveRoute regex='classroom_edit_expenses'}}")
-                                    +ismall name='initiate-money-transfer' 
-                                    |&nbsp;
-                                    |expenses
-                                //- a.ui.button(href="/classroom/#{_id}/edit/goals")
-                                //-     +ismall name='goal' 
-                                //-     |&nbsp;
-                                //-     |goals
-                                //- a.ui.button(href="/classroom/#{_id}/edit/shop")
-                                //-     +ismall name='shop' 
-                                //-     |&nbsp;
-                                //-     |shop
-                                //- a.ui.button(href="/classroom/#{_id}/edit/stock")
-                                //-     +ismall name='line-chart' 
-                                //-     |&nbsp;
-                                //-     |stock
                     +yield
+                                    
+template(name='classroom_edit_info')
+    +text_edit key='title' direct=true
+    +text_edit key='company_name' label='company name' direct=true
+    +image_edit key='classroom_image_id' label='image' direct=true
+    +textarea_edit key='description' label='description' direct=true
+    +array_edit key='tags' label='tags' icon='tags' direct=true
+    if is_admin
+        +teacher_selector
+
+    +remove_button
                                     
 template(name='classroom_edit_students')                                    
     .ui.inline.header 
