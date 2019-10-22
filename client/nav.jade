@@ -12,15 +12,15 @@ template(name='nav')
             //- a.item(href='/classrooms' title='classrooms')
             //-     +ismall name='class'
             //-     span.mobile.hidden &nbsp; classrooms
-            a.item(href='/tests' title='tests')
-                +ismall name='test-passed'
-                span.mobile.hidden &nbsp; tests
-            a.item(href='/questions' title='questions')
-                +ismall name='faq'
-                span.mobile.hidden &nbsp; questions
-            a.item(href='/bounties' title='bounties')
-                +ismall name='treasure-chest'
-                span.mobile.hidden &nbsp; bounties
+            //- a.item(href='/tests' title='tests')
+            //-     +ismall name='test-passed'
+            //-     span.mobile.hidden &nbsp; tests
+            //- a.item(href='/questions' title='questions')
+            //-     +ismall name='faq'
+            //-     span.mobile.hidden &nbsp; questions
+            //- a.item(href='/bounties' title='bounties')
+            //-     +ismall name='treasure-chest'
+            //-     span.mobile.hidden &nbsp; bounties
             //- a.item(href='/teachers' title='teachers')
             //-     +ismall name='teacher'
             //-     //- |teachers
@@ -37,18 +37,18 @@ template(name='nav')
         //-     schools
         //- a.item(href='/classroom/i4mdNbN8ykJcr6w9q/dashboard' title='classrooms')
         //-     +ismall name='dashboard'
-        unless currentUser
-            a.ui.item(href='/p/about')
-                |about
-            a.item(href='/tests' title='tests')
-                +ismall name='test-passed'
-                span.mobile.hidden &nbsp; tests
-            a.item(href='/questions' title='questions')
-                +ismall name='question'
-                span.mobile.hidden &nbsp; questions
-            a.item(href='/bounties' title='bounties')
-                +ismall name='treasure-chest'
-                span.mobile.hidden &nbsp; bounties
+        //- unless currentUser
+        //-     a.ui.item(href='/p/about')
+        //-         |about
+        //-     a.item(href='/tests' title='tests')
+        //-         +ismall name='test-passed'
+        //-         span.mobile.hidden &nbsp; tests
+        //-     a.item(href='/questions' title='questions')
+        //-         +ismall name='question'
+        //-         span.mobile.hidden &nbsp; questions
+        //-     a.item(href='/bounties' title='bounties')
+        //-         +ismall name='treasure-chest'
+        //-         span.mobile.hidden &nbsp; bounties
             
             //- a.item(href='/classrooms' title='classrooms')
             //-     +ismall name='class'

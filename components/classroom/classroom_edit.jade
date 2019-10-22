@@ -27,19 +27,25 @@ template(name='classroom_edit_layout')
                         a.item(href="/classroom/#{_id}/edit/expenses" class="{{isActiveRoute regex='classroom_edit_expenses'}}")
                             |expenses
                             i.chevron.up.icon
-                        a.item(href="/classroom/#{_id}/edit/goals" class="{{isActiveRoute regex='classroom_edit_goals'}}")
+                        a.disabled.item(href="/classroom/#{_id}/edit/goals" class="{{isActiveRoute regex='classroom_edit_goals'}}")
                             |goals
                             i.target.icon
-                        a.item(href="/classroom/#{_id}/edit/shop" class="{{isActiveRoute regex='classroom_edit_shop'}}")
+                        a.disabled.item(href="/classroom/#{_id}/edit/loans" class="{{isActiveRoute regex='classroom_edit_loans'}}")
+                            |loans
+                            i.money.icon
+                        a.disabled.item(href="/classroom/#{_id}/edit/shop" class="{{isActiveRoute regex='classroom_edit_shop'}}")
                             |shop
                             i.shop.icon
-                        a.item(href="/classroom/#{_id}/edit/stock" class="{{isActiveRoute regex='classroom_edit_stock'}}")
+                        a.disabled.item(href="/classroom/#{_id}/edit/stock" class="{{isActiveRoute regex='classroom_edit_stock'}}")
                             |stock
                             i.line.chart.icon 
                 .twelve.wide.column
                     +yield
                                     
 template(name='classroom_edit_info')
+    .ui.header 
+        i.info.icon
+        |info
     +text_edit key='title' direct=true
     +text_edit key='company_name' label='company name' direct=true
     +image_edit key='classroom_image_id' label='image' direct=true
@@ -51,8 +57,8 @@ template(name='classroom_edit_info')
     +remove_button
                                     
 template(name='classroom_edit_students')                                    
-    .ui.inline.header 
-        +i name='students'
+    .ui.large.header 
+        i.users.icon
         |students
     //- if adding_student
     //-     .ui.header adding student

@@ -1,7 +1,11 @@
 template(name='login')
     .ui.padded.stackable.grid
         .centered.row
-            .eight.wide.column
+            .eight.wide.center.aligned.column
+                a.ui.button(href="/")
+                    i.chevron.left.icon
+                    i.home.icon
+                    |home
                 .ui.center.aligned.basic.segment
                     img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
                     .ui.inline.large.header login

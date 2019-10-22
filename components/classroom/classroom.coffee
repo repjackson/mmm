@@ -83,23 +83,23 @@ if Meteor.isClient
 
 
 
-    Template.classroom_dashboard.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'model_docs', 'credit_type'
-    Template.classroom_dashboard.onRendered ->
-        Meteor.setTimeout ->
-            $('#date_calendar')
-                .calendar({
-                    type: 'date'
-                })
-        , 700
-    Template.classroom_dashboard.helpers
-        individual_credit_types: ->
-            Docs.find
-                model:'credit_type'
-                # weekly:$ne:true
-                classroom_id: Router.current().params.doc_id
+    # Template.classroom_dashboard.onCreated ->
+    #     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    #     @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
+    #     @autorun => Meteor.subscribe 'model_docs', 'credit_type'
+    # Template.classroom_dashboard.onRendered ->
+    #     Meteor.setTimeout ->
+    #         $('#date_calendar')
+    #             .calendar({
+    #                 type: 'date'
+    #             })
+    #     , 700
+    # Template.classroom_dashboard.helpers
+    #     individual_credit_types: ->
+    #         Docs.find
+    #             model:'credit_type'
+    #             # weekly:$ne:true
+    #             classroom_id: Router.current().params.doc_id
 
     Template.classroom_students.onCreated ->
         @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
@@ -140,11 +140,11 @@ if Meteor.isClient
             # alert 'hi'
             # console.log @
             classroom = Docs.findOne Router.current().params.doc_id
-            $(e.currentTarget).closest('.title').transition('bounce', 1000)
+            $(e.currentTarget).closest('.title').transition('bounce', 500)
             # console.log @
             if Meteor.user()
                 $('body').toast({
-                    message: 'bonus given'
+                    message: "#{classroom.bonus_amount}c bonus given to #{@first_name} #{@last_name}"
                     class:'success'
                     showProgress: 'bottom'
                 })
@@ -170,10 +170,10 @@ if Meteor.isClient
         'click .add_fine': (e,t)->
             classroom = Docs.findOne Router.current().params.doc_id
 
-            $(e.currentTarget).closest('.title').transition('shake', 1000)
+            $(e.currentTarget).closest('.title').transition('shake', 500)
             if Meteor.user()
                 $('body').toast({
-                    message: 'fine given'
+                    message: "#{classroom.fines_amount}c fine given to #{@first_name} #{@last_name}"
                     class:'error'
                     showProgress: 'bottom'
                 })
@@ -203,6 +203,7 @@ if Meteor.isClient
 
 
     Template.classroom_lunch.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'classroom_event'
     Template.classroom_students.onRendered ->
@@ -350,6 +351,8 @@ if Meteor.isClient
     Template.classroom_view_layout.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'feature'
+        @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
+
     Template.classroom_view_layout.onRendered ->
         Meteor.call 'increment_view', Router.current().params.doc_id, ->
         # Meteor.setTimeout ->
@@ -442,7 +445,7 @@ if Meteor.isServer
                     classroom_id: classroom_id
                 classroom_stats_doc = Docs.findOne new_stats_doc_id
 
-            student_count = classroom.students.length
+            student_count = classroom.student_ids.length
 
             debits = Docs.find({
                 model:'classroom_event'

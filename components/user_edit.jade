@@ -8,29 +8,29 @@ template(name='user_edit_layout')
                         | #{user_from_username_param.first_name} #{user_from_username_param.last_name}
                     //- +i name='pencil'
                     .ui.small.inline.header @#{user_from_username_param.username}
-                    a.ui.fluid.button(href="/user/#{user_from_username_param.username}/") 
+                    a.ui.fluid.basic.button(href="/user/#{user_from_username_param.username}/") 
                         i.checkmark.large.green.icon
                         strong save
-                    .ui.vertical.fluid.big.borderless.menu
-                        a.item(href="/user/#{user_from_username_param.username}/edit/info" class="{{isActiveRoute regex='user_edit_students'}}") 
+                    .ui.vertical.fluid.big.secondary.pointing.menu
+                        a.item(href="/user/#{user_from_username_param.username}/edit/info" class="{{isActiveRoute regex='user_edit_info'}}") 
                             |info
                             i.info.icon
-                        a.item(href="/user/#{user_from_username_param.username}/edit/friends" class="{{isActiveRoute regex='user_edit_students'}}") 
+                        a.item(href="/user/#{user_from_username_param.username}/edit/friends" class="{{isActiveRoute regex='user_edit_friends'}}") 
                             |friends
                             i.users.icon
-                        a.item(href="/user/#{user_from_username_param.username}/edit/styles" class="{{isActiveRoute regex='user_edit_students'}}") 
+                        a.item(href="/user/#{user_from_username_param.username}/edit/styles" class="{{isActiveRoute regex='user_edit_styles'}}") 
                             |styles
                             i.brush.icon
-                        a.item(href="/user/#{user_from_username_param.username}/edit/notifications" class="{{isActiveRoute regex='user_edit_students'}}") 
+                        a.item(href="/user/#{user_from_username_param.username}/edit/notifications" class="{{isActiveRoute regex='user_edit_notifications'}}") 
                             |notifications
                             i.bell.icon
-                        a.item(href="/user/#{user_from_username_param.username}/edit/payment" class="{{isActiveRoute regex='user_edit_students'}}") 
+                        a.item(href="/user/#{user_from_username_param.username}/edit/payment" class="{{isActiveRoute regex='user_edit_payment'}}") 
                             |payment
                             i.money.icon
-                        a.item(href="/user/#{user_from_username_param.username}/edit/account" class="{{isActiveRoute regex='user_edit_students'}}") 
+                        a.item(href="/user/#{user_from_username_param.username}/edit/account" class="{{isActiveRoute regex='user_edit_account'}}") 
                             |account
                             i.cog.icon
-                        a.item(href="/user/#{user_from_username_param.username}/edit/tags" class="{{isActiveRoute regex='user_edit_students'}}") 
+                        a.item(href="/user/#{user_from_username_param.username}/edit/tags" class="{{isActiveRoute regex='user_edit_tags'}}") 
                             |tags
                             i.tags.icon
                 .twelve.wide.column

@@ -23,6 +23,10 @@ if Meteor.isClient
         @layout 'classroom_edit_layout'
         @render 'classroom_edit_goals'
         ), name:'classroom_edit_goals'
+    Router.route '/classroom/:doc_id/edit/shop', (->
+        @layout 'classroom_edit_layout'
+        @render 'classroom_edit_shop'
+        ), name:'classroom_edit_shop'
     Router.route '/classroom/:doc_id/edit/stocks', (->
         @layout 'classroom_edit_layout'
         @render 'classroom_edit_stocks'

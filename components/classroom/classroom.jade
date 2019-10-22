@@ -3,7 +3,7 @@ template(name='my_classrooms')
         .row
             .twelve.wide.column
                 .ui.inline.header 
-                    +i name='classroom'
+                    i.school.icon
                     |your classrooms
                 if is_teacher
                     .ui.icon.button.add_classroom(title='add classroom')
@@ -55,37 +55,48 @@ template(name='classroom_view_layout')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
-                    a.ui.fluid.small.button(href="/classrooms")
-                        i.chevron.left.icon
-                        +i name='classroom' classes='ui inline mini image'
+                    a.ui.fluid.button(href="/my_classrooms")
+                        i.chevron.left.grey.icon
+                        i.school.icon
+                        //- +i name='classroom' classes='ui inline mini image'
                         |classrooms
                     +image_view key='classroom_image_id' label='image' direct=true
                     .ui.header
                         | #{title}
-                    .ui.big.fluid.vertical.menu
+                    .ui.big.fluid.vertical.secondary.pointing.menu
                         a.item(href="/classroom/#{_id}/students" class="{{isActiveRoute regex='classroom_students'}}")
-                            i.dashboard.icon
+                            i.dashboard.grey.icon
                             | dashboard
-                        a.item(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
-                            i.list.icon
+                        a.item(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
+                            i.list.grey.icon
                             |feed
                         a.item(href="/classroom/#{_id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
-                            i.line.chart.icon
+                            i.line.chart.grey.icon
                             | reports
+                        a.item(href="/classroom/#{_id}/stats" class="{{isActiveRoute regex='classroom_stats'}}")
+                            i.pie.chart.grey.icon
+                            | stats
                         a.item(href="/classroom/#{_id}/lunch" class="{{isActiveRoute regex='classroom_lunch'}}")
-                            i.food.icon
+                            i.food.grey.icon
                             | lunch
+                        a.item(href="/classroom/#{_id}/loans" class="{{isActiveRoute regex='classroom_loans'}}")
+                            i.money.grey.icon
+                            | loans
+                        a.disabled.item(href="/classroom/#{_id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
+                            i.shop.grey.icon
+                            | shop
+                        a.disabled.item(href="/classroom/#{_id}/services" class="{{isActiveRoute regex='classroom_services'}}")
+                            i.service.grey.icon
+                            | services
+                        a.disabled.item(href="/classroom/#{_id}/stock" class="{{isActiveRoute regex='classroom_services'}}")
+                            i.pie.chart.icon
+                            | stock
                     .ui.header
                         small teacher
                         | #{teacher_name}
                     a.ui.fluid.button(href="/classroom/#{_id}/edit")
                         i.pencil.icon
                         | edit
-                    .ui.segment
-                        .ui.header weekly actions
-                        .ui.button income
-                        .ui.button desk rental
-                
                 .twelve.wide.column
                     //- a.ui.button(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
                     //-     +ismall name='rss'
@@ -97,6 +108,9 @@ template(name='classroom_view_layout')
     //- +teacher_footer
 
 template(name='classroom_stock')
+    .ui.header
+        i.line.chart.icon
+        | classroom stock
     .ui.two.column.stackable.grid
         .row
             .column
@@ -105,24 +119,35 @@ template(name='classroom_stock')
                 .ui.header stock price
                 .ui.button buy stock
 
-template(name='classroom_jobs')        
+template(name='classroom_jobs')
+    .ui.header 
+        i.business.icon
+        |classroom jobs
     +jobs
 
 template(name='classroom_loans')
+    .ui.header 
+        i.money.icon
+        |classroom loans
     +loans
 
 template(name='classroom_shop')        
+    .ui.header 
+        i.money.icon
+        |classroom shop
     +shop
 
 template(name='classroom_grades')        
-    .ui.header grades
+    .ui.header 
+        |grades
 
 
 template(name='classroom_lunch')        
     .ui.padded.stackable.grid
         .sixteen.wide.column
             .ui.center.aligned.large.header 
-                +i name='food'
+                //- +i name='food'
+                i.food.icon
                 |lunch!
             .ui.four.stackable.cards
                 each classroom_students
@@ -146,49 +171,46 @@ template(name='classroom_lunch')
 
 
 template(name='classroom_credits')
+    .ui.header 
+        i.money.icon
+        |classroom loans
     +loans
 
-template(name='classroom_debits')        
+template(name='classroom_debits')   
+    .ui.header 
+        i.money.icon
+        |classroom loans
+     
     +shop
 
 
 
     
 
-template(name='classroom_dashboard')
-    with current_doc
-        .ui.stackable.padded.grid
-            //- .row
-            //-     .sixteen.wide.column
-            //-         #date_calendar.ui.calendar
-            //-             .ui.input.left.icon
-            //-                 i.calendar.icon
-            //-                 input.date_select(type='text' placeholder='date')
-            //-         .ui.button 
-            //-             +i name='calendar' classes='ui mini inline image'
-            //-             |disperse weekly salary
-            .row
-                .eight.wide.column
-                    +classroom_feed
-                .eight.wide.column
-                    +classroom_stats
-                    
 template(name='classroom_students')
-    .ui.styled.accordion
+    .ui.large.header 
+        i.dashboard.icon
+        |classroom dashboard
+    .ui.small.header bulk actions
+    .ui.button charge daily rent
+    .ui.button charge daily janitor fee
+    .ui.button charge daily janitor extra fee
+    .ui.button disperse weekly paycheck
+    .ui.large.accordion
         each classroom_students
             .title
                 img.ui.avatar.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
-                .ui.inline.small.header
+                .ui.inline.header
+                    i.dropdown.icon
                     |#{first_name} #{last_name} 
-                    .ui.small.inline.header #{credit}c
-                .ui.icon.button.add_bonus
-                    i.green.plus.circle.large.icon
-                .ui.icon.button.add_fine
-                    i.red.minus.circle.large.icon
+                .ui.small.inline.header #{credit}c
+                i.green.plus.circle.big.link.icon.add_bonus
+                i.red.minus.circle.big.link.icon.add_fine
+                //- .ui.icon.circular.button.
             //- .ui.item
             //- .image
             .content
-                a.ui.green.large.right.floated.button(href="/user/#{username}")
+                a.ui.basic.green.large.right.floated.button(href="/user/#{username}")
                     |view profile
                     i.right.chevron.icon
                 .description
@@ -252,9 +274,9 @@ template(name='classroom_reports')
                 //-         |classroom
                 //- .twelve.wide.column
                 .ui.large.header 
-                    +i name='invoice' classes='ui inline mini image'
+                    i.line.chart.icon
                     |student reports
-                table.ui.celled.table
+                table.ui.celled.very.basic.table
                     thead
                         tr
                             th student
@@ -267,9 +289,9 @@ template(name='classroom_reports')
                         each classroom_students
                             tr
                                 td 
-                                    a(href="/user/#{username}") 
+                                    a.ui.header(href="/user/#{username}") 
                                         img.ui.rounded.avatar.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
-                                        |#{username}
+                                        |#{first_name} #{last_name}
                                 td 
                                     .ui.green.header +1
                                     .ui.red.header -3
@@ -293,7 +315,7 @@ template(name='classroom_feed')
     .ui.header 
         +i name='rss'
         |feed
-    .ui.feed.mediumscroll
+    .ui.feed.scrolling
         each classroom_events
             .event 
                 .label

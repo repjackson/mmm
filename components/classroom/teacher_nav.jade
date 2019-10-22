@@ -46,13 +46,13 @@ template(name='teacher_nav')
         .right.menu
             if currentUser
                 a.icon.item(href="/tasks" class="{{isActivePath '/tasks'}}")
-                    i.tasks.large.icon
+                    i.tasks.icon
                 a.icon.item(href="/chat" class="{{isActivePath '/chat'}}")
-                    i.chat.outline.large.icon
+                    i.chat.outline.icon
                 a.icon.item(href="/alerts" class="{{isActivePath '/alerts'}}")
-                    i.bell.large.outline.icon
+                    i.bell.outline.icon
                 a.icon.item(href="/mail" class="{{isActivePath '/mail'}}")
-                    i.envelope.large.outline.icon
+                    i.envelope.outline.icon
             
                 if is_dev
                     a.icon.item.set_models(href="/m/model")
@@ -73,27 +73,27 @@ template(name='teacher_nav')
 
 
 template(name='teacher_footer')
-    .ui.stackable.secondary.padded.grid.segment
+    .ui.stackable.padded.grid.segment
         .row
             .three.wide.column
-                .ui.link.large.list
-                    a.icon.item.set_reference(href='/m/reference')
-                        +ismall name='university'
+                .ui.link.big.list
+                    a.item.set_reference(href='/m/reference')
+                        i.book.icon
                         |reference
-                    a.icon.item.set_tool(href='/m/tool')
-                        +ismall name='calculator'
+                    a.item.set_tool(href='/m/tool')
+                        i.calculator.icon
                         |tools
 
-            .three.wide.column
-                .ui.link.large.list
+            .four.wide.column
+                .ui.link.big.list
                     a.item(href='/m/blog') 
-                        +ismall name='blog'
+                        i.blog.icon
                         |blog
                     a.item(href='/p/about')
-                        +ismall name='info'
+                        i.info.icon
                         |about
                     a.item(href='/contact')
-                        +ismall name='phone'
+                        i.phone.icon
                         | teacher support
                 +add_button label='bug' model='bug' icon='bug'
                 if is_dev    
