@@ -90,9 +90,6 @@ if Meteor.isClient
             Session.get 'adding_student'
 
     Template.classroom_edit_income.helpers
-        is_automatic: -> @dispersion_type is 'automatic'
-        is_manual: -> @dispersion_type is 'manual'
-        is_manual_daily: -> @manual_period is 'daily'
 
     Template.classroom_edit_income.events
         'click .add_credit_type': ->

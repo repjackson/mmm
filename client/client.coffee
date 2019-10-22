@@ -61,14 +61,19 @@ Template.registerHelper 'rental', () ->
 Template.registerHelper 'gs', () ->
     Docs.findOne
         model:'global_settings'
-Template.registerHelper 'invert_class', () -> if Session.equals('dark_mode',true) then 'invert' else ''
-Template.registerHelper 'display_mode', () -> Session.get('display_mode',true)
-Template.registerHelper 'is_loading', () -> Session.get 'loading'
-Template.registerHelper 'dev', () -> Meteor.isDevelopment
-Template.registerHelper 'is_author', ()-> @_author_id is Meteor.userId()
-Template.registerHelper 'is_handler', ()-> @handler_username is Meteor.user().username
-Template.registerHelper 'is_teacher', ()-> @teacher_username is Meteor.user().username
-Template.registerHelper 'is_grandparent_author', () ->
+
+Template.registerHelper 'is_automatic', -> @dispersion_type is 'automatic'
+Template.registerHelper 'is_manual', -> @dispersion_type is 'manual'
+Template.registerHelper 'is_manual_daily', -> @manual_period is 'daily'
+
+Template.registerHelper 'invert_class', -> if Session.equals('dark_mode',true) then 'invert' else ''
+Template.registerHelper 'display_mode', -> Session.get('display_mode',true)
+Template.registerHelper 'is_loading', -> Session.get 'loading'
+Template.registerHelper 'dev', -> Meteor.isDevelopment
+Template.registerHelper 'is_author', -> @_author_id is Meteor.userId()
+Template.registerHelper 'is_handler', -> @handler_username is Meteor.user().username
+Template.registerHelper 'is_teacher', -> @teacher_username is Meteor.user().username
+Template.registerHelper 'is_grandparent_author', ->
     grandparent = Template.parentData(2)
     grandparent._author_id is Meteor.userId()
 Template.registerHelper 'to_percent', (number) -> (number*100).toFixed()
@@ -78,7 +83,7 @@ Template.registerHelper 'short_date', (input) -> moment(input).format("dddd, MMM
 Template.registerHelper 'med_date', (input) -> moment(input).format("MMM D 'YY")
 Template.registerHelper 'medium_date', (input) -> moment(input).format("MMMM Do YYYY")
 # Template.registerHelper 'medium_date', (input) -> moment(input).format("dddd, MMMM Do YYYY")
-Template.registerHelper 'today', () -> moment(Date.now()).format("dddd, MMMM Do a")
+Template.registerHelper 'today', -> moment(Date.now()).format("dddd, MMMM Do a")
 Template.registerHelper 'fixed', (input) ->
     if input
         input.toFixed(2)

@@ -116,6 +116,56 @@ if Meteor.isClient
         , 1000
 
     Template.classroom_students.helpers
+        bulk_action_class: ->
+            console.log @
+        weekly_automatic_debits: ->
+            Docs.find
+                model:'debit_type'
+                classroom_id: Router.current().params.doc_id
+                dispersion_type:'automatic'
+                automatic_period:'weekly'
+        weekly_automatic_credits: ->
+            Docs.find
+                model:'credit_type'
+                classroom_id: Router.current().params.doc_id
+                dispersion_type:'automatic'
+                automatic_period:'weekly'
+        daily_automatic_debits: ->
+            Docs.find
+                model:'debit_type'
+                classroom_id: Router.current().params.doc_id
+                dispersion_type:'automatic'
+                automatic_period:'daily'
+        daily_automatic_credits: ->
+            Docs.find
+                model:'credit_type'
+                classroom_id: Router.current().params.doc_id
+                dispersion_type:'automatic'
+                automatic_period:'daily'
+        weekly_manual_debits: ->
+            Docs.find
+                model:'debit_type'
+                classroom_id: Router.current().params.doc_id
+                dispersion_type:'manual'
+                manual_period:'weekly'
+        weekly_manual_credits: ->
+            Docs.find
+                model:'credit_type'
+                classroom_id: Router.current().params.doc_id
+                dispersion_type:'manual'
+                manual_period:'weekly'
+        daily_manual_debits: ->
+            Docs.find
+                model:'debit_type'
+                classroom_id: Router.current().params.doc_id
+                dispersion_type:'manual'
+                manual_period:'daily'
+        daily_manual_credits: ->
+            Docs.find
+                model:'credit_type'
+                classroom_id: Router.current().params.doc_id
+                dispersion_type:'manual'
+                manual_period:'daily'
         classroom_students: ->
             classroom = Docs.findOne Router.current().params.doc_id
             Meteor.users.find
@@ -136,6 +186,23 @@ if Meteor.isClient
                 user_id: @_id
 
     Template.classroom_students.events
+        'click .trigger': ->
+            event_object = {}
+            if @model is 'debit_type'
+                event_object.event_type = 'debit'
+            else if @model is 'credit_type'
+                event_object.event_type = 'credit'
+            # console.log @
+            Docs.insert
+                model:'classroom_event'
+                event_type:'debit'
+                amount: -3
+                debit_type: 'lunch'
+                date:moment().format("MM-DD-YYYY")
+                text:"was debited 3 for a home lunch"
+                user_id: @_id
+                classroom_id: Router.current().params.doc_id
+
         'click .add_bonus': (e,t)->
             # alert 'hi'
             # console.log @

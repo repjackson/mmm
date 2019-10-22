@@ -606,7 +606,7 @@ template(name='number_view')
 
 
 template(name='number_edit')
-    .ui.inline.small.header(title=tip)
+    .ui.inline.small.header.capitalize(title=tooltip)
         if icon
             +i name=icon classes='ui middle aligned image'
         if title

@@ -54,7 +54,7 @@ template(name='classroom_view_layout')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .four.wide.column
+                .three.wide.column
                     a.ui.fluid.button(href="/my_classrooms")
                         i.chevron.left.grey.icon
                         i.school.icon
@@ -63,7 +63,7 @@ template(name='classroom_view_layout')
                     +image_view key='classroom_image_id' label='image' direct=true
                     .ui.header
                         | #{title}
-                    .ui.big.fluid.vertical.secondary.pointing.menu
+                    .ui.big.fluid.vertical.secondary.menu
                         a.item(href="/classroom/#{_id}/students" class="{{isActiveRoute regex='classroom_students'}}")
                             i.dashboard.grey.icon
                             | dashboard
@@ -97,7 +97,7 @@ template(name='classroom_view_layout')
                     a.ui.fluid.button(href="/classroom/#{_id}/edit")
                         i.pencil.icon
                         | edit
-                .twelve.wide.column
+                .thirteen.wide.column
                     //- a.ui.button(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
                     //-     +ismall name='rss'
                     //-     | feed
@@ -148,7 +148,7 @@ template(name='classroom_lunch')
             .ui.center.aligned.large.header 
                 //- +i name='food'
                 i.food.icon
-                |lunch!
+                |lunch
             .ui.four.stackable.cards
                 each classroom_students
                     unless lunch_chosen
@@ -156,12 +156,17 @@ template(name='classroom_lunch')
                             img.ui.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
                             .content
                                 .ui.header #{name}
-                                .ui.fluid.button.choose_home
-                                    +i name='home' classes='ui inline mini image'
-                                    |home (-3c)
-                                .ui.fluid.button.choose_cafeteria
-                                    +i name='food' classes='ui inline mini image'
-                                    |cafeteria (-5)
+                                .ui.huge.labeled.icon.fluid.basic.button.choose_home
+                                    i.home.icon
+                                    //- +i name='home' classes='ui inline mini image'
+                                    |home 
+                                    span.ui.red.text -3c
+                                .spacer
+                                .ui.huge.labeled.icon.fluid.basic.button.choose_cafeteria
+                                    i.food.icon
+                                    //- +i name='food' classes='ui inline mini image'
+                                    |cafeteria
+                                    span.ui.red.text -5c
             .ui.center.aligned.large.button.back_to_classroom
                 i.chevron.left.icon
                 |classroom
@@ -192,15 +197,64 @@ template(name='classroom_students')
         i.dashboard.icon
         |classroom dashboard
     with current_doc
-        .ui.small.header bulk actions
-        .ui.button.charge_rent charge daily rent 
-            span.ui.red.text -#{desk_rental_amount}
-        .ui.button.charge_janitor_base charge daily janitor fee 
-            span.ui.red.text -#{janitor_base_amount}
-        .ui.button.charge_janitor_extra charge daily janitor extra fee 
-            span.ui.red.text -#{janitor_extra_amount}
-        .ui.button.pay_salary disperse weekly paycheck
-            span.ui.green.text +#{salary_amount}
+        .ui.two.column.grid
+            .column
+                .ui.small.header 
+                    i.calendar.grey.inline.icon
+                    i.retweet.grey.inline.icon
+                    |weekly automatic actions
+                each weekly_automatic_credits
+                    .ui.button.trigger(class=bulk_action_class) #{title}
+                        span.ui.green.text +#{amount}
+                each weekly_automatic_debits
+                    .ui.button.trigger(class=bulk_action_class) #{title}
+                        span.ui.green.text +#{amount}
+            .column
+                .ui.small.header 
+                    i.clock.grey.inline.icon
+                    i.retweet.grey.inline.icon
+                    |daily automatic actions
+                each daily_automatic_credits
+                    .ui.button.trigger(class=bulk_action_class) #{title}
+                        span.ui.green.text +#{amount}
+                each daily_automatic_debits
+                    .ui.button.trigger(class=bulk_action_class) #{title}
+                        span.ui.green.text +#{amount}
+            
+        .ui.two.column.grid
+            .column
+                .ui.small.header 
+                    i.calendar.grey.inline.icon
+                    i.hand.point.up.outline.grey.inline.icon
+                    |weekly manual actions
+                //- .ui.button.pay_salary disperse weekly paycheck
+                //-     span.ui.green.text +#{salary_amount}
+                each weekly_manual_credits
+                    .ui.button.trigger(class=bulk_action_class) #{title}
+                        span.ui.green.text +#{amount}
+                each weekly_manual_debits
+                    .ui.button.trigger(class=bulk_action_class) #{title}
+                        span.ui.red.text -#{amount}
+            .column
+                .ui.small.header
+                    i.clock.grey.inline.icon
+                    i.hand.point.up.outline.grey.inline.icon
+                    | daily manual actions
+                each daily_manual_credits
+                    .ui.button.trigger(class=bulk_action_class) #{title}
+                        span.ui.green.text +#{amount}
+                each daily_manual_debits
+                    .ui.button.trigger(class=bulk_action_class) #{title}
+                        span.ui.red.text -#{amount}
+                //- 
+                //- each daily_actions
+                //-     .ui.button #{title}
+                //- .ui.button.charge_rent charge daily rent 
+                //-     span.ui.red.text -#{desk_rental_amount}
+                //- .ui.button.charge_janitor_base charge daily janitor fee 
+                //-     span.ui.red.text -#{janitor_base_amount}
+                //- .ui.button.charge_janitor_extra charge daily janitor extra fee 
+                //-     span.ui.red.text -#{janitor_extra_amount}
     .ui.large.accordion
         each classroom_students
             .title
@@ -221,15 +275,13 @@ template(name='classroom_students')
                 .description
                     .ui.two.column.stackable.grid
                         .column
-                            .ui.vertical.buttons
-                                .ui.button bonus
-                                .ui.button overtime
-                                each individual_credit_types
-                                    +class_credit_button
+                            .ui.button bonus
+                            .ui.button overtime
+                            each individual_credit_types
+                                +class_credit_button
                         .column
-                            .ui.vertical.buttons
-                                each classroom_debit_types
-                                    +class_debit_button
+                            each classroom_debit_types
+                                +class_debit_button
                 //- .extra.content.smallscroll
                 //-     .ui.list
                 //-         each student_events

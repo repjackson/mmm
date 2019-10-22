@@ -10,11 +10,11 @@ template(name='classroom_edit_layout')
                         strong '#{title}' 
                         div
                         small classroom
-                    a.ui.big.fluid.button(href="/classroom/#{_id}" title='save')
+                    a.ui.big.fluid.button(href="/classroom/#{_id}/students" title='save')
                         i.checkmark.icon
                         |Save
                     //- if is_admin
-                    .ui.vertical.big.fluid.secondary.pointing.menu
+                    .ui.vertical.big.fluid.secondary.menu
                         a.item(href="/classroom/#{_id}/edit/info" class="{{isActiveRoute regex='classroom_edit_info'}}") 
                             |info
                             i.info.icon
@@ -77,7 +77,10 @@ template(name='classroom_edit_students')
     //-         i.plus.large.green.icon
     +student_selector
 
-template(name='classroom_edit_income')                                    
+template(name='classroom_edit_income')
+    .ui.large.header 
+        i.chevron.up.icon
+        |income
     .ui.two.column.grid
         .column
             .ui.header presets
@@ -86,7 +89,6 @@ template(name='classroom_edit_income')
             if salary_automatic
                 +boolean_edit key='salary_automatic_daily' label='daily'
                 +boolean_edit key='salary_automatic_weekly' label='weekly'
-                
             .spacer
             +number_edit key='bonus_amount' label='bonus amount' icon='trust' direct=true
             .spacer
@@ -135,9 +137,12 @@ template(name='classroom_edit_income')
                     div
                     +remove_button
                         
-template(name='classroom_edit_expenses')                                    
-    .ui.two.column.stackable.grid
-        .column
+template(name='classroom_edit_expenses')       
+    .ui.large.header 
+        i.chevron.up.icon
+        |expenses
+    .ui.stackable.grid
+        .four.wide.column
             .ui.header presets
             +number_edit key='desk_rental_amount' label='desk rental amount' icon='table' direct=true
             .spacer
@@ -150,20 +155,48 @@ template(name='classroom_edit_expenses')
             +number_edit key='lunch_base_amount' label='lunch base amount' icon='food' direct=true
             .spacer
             +number_edit key='lunch_extra_amount' label='lunch extra amount' icon='food' direct=true
-        .column
+        .twelve.wide.column
             .ui.header custom
             .ui.button.add_debit_type
                 i.plus.icon
                 |add debit type
-            each debit_types
-                .ui.segment
-                    //- +image_edit key='image_id' label='image' direct=true
-                    +text_edit key='title' direct=true
-                    +number_edit key='amount' direct=true
-                    //- +boolean_edit key='automatic' direct=true
-                    //- if automatic
-                    //-     +boolean_edit key='daily' label='daily' direct=true
-                    //-     +boolean_edit key='weekly' label='weekly' direct=true
+            .ui.two.stackable.cards
+                each debit_types
+                    .ui.card
+                        .content
+                            //- +image_edit key='image_id' label='image' direct=true
+                            +text_edit key='title' direct=true
+                            +number_edit key='amount' direct=true
+                            div
+                            .ui.small.grey.inline.header dispersion type
+                            //- +boolean_edit key='automatic' direct=true
+                            +key_value_edit key='dispersion_type' value='automatic' label='automatic'
+                            +key_value_edit key='dispersion_type' value='manual' label='manual'
+                            div
+                            if is_automatic
+                                .ui.small.grey.inline.header automatic period
+                                +key_value_edit key='automatic_period' value='daily' label='daily'
+                                +key_value_edit key='automatic_period' value='weekly' label='weekly'
+                                div
+                            div
+                            if is_manual
+                                div
+                                .ui.small.grey.inline.header manual period
+                                +key_value_edit key='manual_period' value='daily' label='daily'
+                                +key_value_edit key='manual_period' value='weekly' label='weekly'
+                                if is_manual_daily
+                                    div
+                                    .ui.small.grey.inline.header manual limit type
+                                    +key_value_edit key='manual_limit_type' value='single' label='single'
+                                    +key_value_edit key='manual_limit_type' value='multi' label='multi'
+                                //- div
+                                //- if limit
+                                //-     +number_edit key='limit_amount' label='limit amount'
+                            div
+                            .ui.small.grey.inline.header scope
+                            +key_value_edit key='scope' value='student' label='student'
+                            +key_value_edit key='scope' value='class' label='class'
+                            div
 
 
 template(name='class_stock_edit')
