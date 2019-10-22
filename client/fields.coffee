@@ -64,6 +64,14 @@ Template.icon_edit.events
             Meteor.users.update parent._id,
                 $set:"#{@key}":val
 
+Template.image_edit.onRendered ->
+    Meteor.setTimeout ->
+        $('.info').popup(
+            preserve:true;
+            hoverable:false;
+        )
+    , 1000
+
 
 Template.image_edit.events
     "change input[name='upload_image']": (e) ->
@@ -331,6 +339,13 @@ Template.textarea_edit.events
                 $set:"#{@key}":textarea_val
 
 
+Template.text_edit.onRendered ->
+    Meteor.setTimeout ->
+        $('.info').popup(
+            preserve:true;
+            hoverable:false;
+        )
+    , 1000
 
 Template.text_edit.events
     'blur .edit_text': (e,t)->

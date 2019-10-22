@@ -12,7 +12,7 @@ template(name='classroom_edit_layout')
                         small classroom
                     a.ui.big.fluid.button(href="/classroom/#{_id}" title='save')
                         i.checkmark.icon
-                        |save
+                        |Save
                     //- if is_admin
                     .ui.vertical.big.fluid.secondary.pointing.menu
                         a.item(href="/classroom/#{_id}/edit/info" class="{{isActiveRoute regex='classroom_edit_info'}}") 
@@ -82,6 +82,11 @@ template(name='classroom_edit_income')
         .column
             .ui.header presets
             +number_edit key='salary_amount' label='salary amount' icon='money' direct=true
+            +boolean_edit key='salary_automatic' label='automatic'
+            if salary_automatic
+                +boolean_edit key='salary_automatic_daily' label='daily'
+                +boolean_edit key='salary_automatic_weekly' label='weekly'
+                
             .spacer
             +number_edit key='bonus_amount' label='bonus amount' icon='trust' direct=true
             .spacer
@@ -98,10 +103,36 @@ template(name='classroom_edit_income')
                     +text_edit key='title' direct=true
                     //- +textarea_edit key='description' direct=true
                     +number_edit key='amount' direct=true
+                    div
+                    .ui.small.grey.inline.header dispersion type
                     //- +boolean_edit key='automatic' direct=true
-                    //- if automatic
-                    //-     +boolean_edit key='daily' label='daily' direct=true
-                    //-     +boolean_edit key='weekly' label='weekly' direct=true
+                    +key_value_edit key='dispersion_type' value='automatic' label='automatic'
+                    +key_value_edit key='dispersion_type' value='manual' label='manual'
+                    div
+                    if is_automatic
+                        .ui.small.grey.inline.header automatic period
+                        +key_value_edit key='automatic_period' value='daily' label='daily'
+                        +key_value_edit key='automatic_period' value='weekly' label='weekly'
+                        div
+                    div
+                    if is_manual
+                        div
+                        .ui.small.grey.inline.header manual period
+                        +key_value_edit key='manual_period' value='daily' label='daily'
+                        +key_value_edit key='manual_period' value='weekly' label='weekly'
+                        if is_manual_daily
+                            div
+                            .ui.small.grey.inline.header manual limit type
+                            +key_value_edit key='manual_limit_type' value='single' label='single'
+                            +key_value_edit key='manual_limit_type' value='multi' label='multi'
+                        //- div
+                        //- if limit
+                        //-     +number_edit key='limit_amount' label='limit amount'
+                    div
+                    .ui.small.grey.inline.header scope
+                    +key_value_edit key='scope' value='student' label='student'
+                    +key_value_edit key='scope' value='class' label='class'
+                    div
                     +remove_button
                         
 template(name='classroom_edit_expenses')                                    

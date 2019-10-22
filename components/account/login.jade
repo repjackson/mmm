@@ -1,25 +1,25 @@
 template(name='login')
     .ui.padded.stackable.grid
         .centered.row
-            .eight.wide.center.aligned.column
+            .eight.wide.column
                 a.ui.button(href="/")
                     i.chevron.left.icon
                     i.home.icon
-                    |home
+                    |Home
                 .ui.center.aligned.basic.segment
                     img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
-                    .ui.inline.large.header login
+                    .ui.inline.large.header Login
                 div
                 if message
                     h4.ui.center.aligned.header #{message}
                 .ui.inline.small.header 
                     +i name='user-male'
-                    |username
+                    |Username
                 .ui.fluid.large.input(class=login_class)
                     input.username(type='text')
                 .ui.inline.small.header 
                     +i name='password'
-                    | password
+                    | Password
                 .ui.fluid.large.input(class=login_class)
                     input.password(type='password')
                 //- if username
@@ -27,7 +27,7 @@ template(name='login')
                     .ui.fluid.big.button.enter(title="login #{username}" class=enter_class)
                         //- i.sign.in.alternate.icon
                         +i name='internal' classes='ui mini inline image'
-                        |login
+                        |Login
                         strong #{username}
                         //- i.right.chevron.icon
                 else
@@ -37,14 +37,14 @@ template(name='login')
                             a.ui.button(href='/choose_user_type')
                                 //- i.user.plus.icon
                                 +i name='enter-2' classes='ui mini inline image'                    
-                                | register
+                                | Register
                 .ui.center.aligned.basic.segment    
                     a.ui.button(href='/forgot_password')
                         +i name='forgot-password' classes='ui mini inline image'                    
                         //- i.refresh.icon
-                        |forgot password
+                        |Forgot Password
                     a.ui.button(href='/choose_user_type') 
                         +i name='add-user-male' classes='ui mini inline image'                    
                         //- i.user.plus.icon
-                        |register
+                        |Register
                     //- .ui.center.aligned.inline.header see the front desk to register an account

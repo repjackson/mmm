@@ -268,7 +268,7 @@ if Meteor.isClient
                     showProgress: 'bottom'
                 })
                 Meteor.users.update student._id,
-                    $inc:credit:-classroom.salary_amount
+                    $inc:credit:classroom.salary_amount
                 Docs.insert
                     model:'classroom_event'
                     event_type:'credit'

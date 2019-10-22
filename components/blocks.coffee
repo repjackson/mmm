@@ -422,6 +422,18 @@ if Meteor.isClient
 
 
 
+    Template.key_value_edit.events
+        'click .set_key_value': ->
+            parent = Template.parentData()
+            Docs.update parent._id,
+                $set: "#{@key}": @value
+
+    Template.key_value_edit.helpers
+        set_key_value_class: ->
+            parent = Template.parentData()
+            # console.log parent
+            if parent["#{@key}"] is @value then 'green' else ''
+
 
 
 

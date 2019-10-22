@@ -40,23 +40,28 @@ template(name='build_classroom_info')
                             i.users.grey.icon
                             .content
                                 .title students
-                        a.step(href="/classroom/#{_id}/dashboard")
+                        a.step(href="/classroom/#{_id}/students")
                             i.dashboard.icon
                             .content
                                 .title dashboard
                 
                     
             .centered.row
-                .seven.wide.center.aligned.column
+                .seven.wide.column
                     .ui.center.aligned.header 
                         +i name='info'
                         |info
                     .spacer
-                    +text_edit key='title' direct=true
+                    +text_edit key='teacher_name' label='Teacher Name' placeholder='enter your name' tooltip='examples: john smith' direct=true
                     .spacer
-                    +text_edit key='company_name' label='company name' direct=true
+                    +text_edit key='company_name' label='company name'  tooltip='examples: Acme Students, Inc' placeholder='enter your classroom name' direct=true
                     .spacer
-                    +image_edit key='classroom_image_id' label='image' direct=true
+                    +image_edit key='classroom_image_id' tooltip='this is the image that shows up in the classroom profile' label='image' direct=true
+                    .spacer
+                    a.ui.fluid.large.basic.button(href="/build_classroom/#{_id}/finance")
+                        i.green.checkmark.icon
+                        |Save
+                        //- i.right.chevron.icon
                     //- .spacer
                     //- +textarea_edit key='description' label='description' direct=true
                     //- .spacer
@@ -84,7 +89,7 @@ template(name='build_classroom_finance')
                             i.users.grey.icon
                             .content
                                 .title students
-                        a.step(href="/classroom/#{_id}/dashboard")
+                        a.step(href="/classroom/#{_id}/students")
                             i.dashboard.icon
                             .content
                                 .title dashboard
@@ -117,6 +122,11 @@ template(name='build_classroom_finance')
                     +number_edit key='lunch_base_amount' label='lunch base amount' icon='food' direct=true
                     .spacer
                     +number_edit key='lunch_extra_amount' label='lunch extra amount' icon='food' direct=true
+                    .spacer
+                    a.ui.fluid.large.basic.button(href="/build_classroom/#{_id}/students")
+                        i.green.checkmark.icon
+                        |Save
+            
                         
 template(name='build_classroom_students')
     with current_doc
@@ -140,7 +150,7 @@ template(name='build_classroom_students')
                             i.users.icon
                             .content
                                 .title students
-                        a.step(href="/classroom/#{_id}/dashboard")
+                        a.step(href="/classroom/#{_id}/students")
                             i.dashboard.icon
                             .content
                                 .title dashboard

@@ -4,7 +4,7 @@ template(name='my_classrooms')
             .twelve.wide.column
                 .ui.inline.header 
                     i.school.icon
-                    |your classrooms
+                    |Your Classrooms
                 if is_teacher
                     .ui.icon.button.add_classroom(title='add classroom')
                         //- +i name='plus' classes='ui mini inline image'
@@ -22,7 +22,7 @@ template(name='classrooms')
             .twelve.wide.column
                 .ui.inline.header 
                     +i name='classroom'
-                    |classrooms
+                    |Classrooms
                 if currentUser
                     .ui.icon.button.add_classroom(title='add classroom')
                         //- +i name='plus' classes='ui mini inline image'
@@ -86,11 +86,11 @@ template(name='classroom_view_layout')
                             i.shop.grey.icon
                             | shop
                         a.disabled.item(href="/classroom/#{_id}/services" class="{{isActiveRoute regex='classroom_services'}}")
-                            i.service.grey.icon
+                            i.wrench.grey.icon
                             | services
-                        a.disabled.item(href="/classroom/#{_id}/stock" class="{{isActiveRoute regex='classroom_services'}}")
-                            i.pie.chart.icon
-                            | stock
+                        //- a.disabled.item(href="/classroom/#{_id}/stock" class="{{isActiveRoute regex='classroom_services'}}")
+                        //-     i.pie.chart.icon
+                        //-     | stock
                     .ui.header
                         small teacher
                         | #{teacher_name}
