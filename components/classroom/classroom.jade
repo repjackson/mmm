@@ -191,11 +191,16 @@ template(name='classroom_students')
     .ui.large.header 
         i.dashboard.icon
         |classroom dashboard
-    .ui.small.header bulk actions
-    .ui.button charge daily rent
-    .ui.button charge daily janitor fee
-    .ui.button charge daily janitor extra fee
-    .ui.button disperse weekly paycheck
+    with current_doc
+        .ui.small.header bulk actions
+        .ui.button.charge_rent charge daily rent 
+            span.ui.red.text -#{desk_rental_amount}
+        .ui.button.charge_janitor_base charge daily janitor fee 
+            span.ui.red.text -#{janitor_base_amount}
+        .ui.button.charge_janitor_extra charge daily janitor extra fee 
+            span.ui.red.text -#{janitor_extra_amount}
+        .ui.button.pay_salary disperse weekly paycheck
+            span.ui.green.text +#{salary_amount}
     .ui.large.accordion
         each classroom_students
             .title
