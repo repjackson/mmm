@@ -1,10 +1,32 @@
 if Meteor.isClient
-    Router.route '/donate/', (->
+    Router.route '/sponsorship/', (->
         @layout 'layout'
-        @render 'donate'
-        ), name:'donate'
+        @render 'sponsorship'
+        ), name:'sponsorship'
+    Router.route '/ads/', (->
+        @layout 'layout'
+        @render 'ads'
+        ), name:'ads'
 
-    Template.donate.onCreated ->
+    Template.ads.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'ads'
+
+    Template.ads.helpers
+        ads: ->
+            Docs.find
+                model:'ad'
+    Template.ads.events
+        'click .submit_message': ->
+            message = $('.message').val()
+            console.log message
+            Docs.insert
+                model:'ads'
+                message:message
+
+
+
+
+    Template.ads.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'donation'
         if Meteor.isDevelopment
             pub_key = Meteor.settings.public.stripe_test_publishable
@@ -37,12 +59,12 @@ if Meteor.isClient
                             receipt_email: email
     	)
 
-    Template.donate.helpers
+    Template.ads.helpers
         donations: ->
             Docs.find {
                 model:'donation'
             }, _timestamp:1
-    Template.donate.events
+    Template.ads.events
         'click .start_donation': ->
             donation_amount = parseInt $('.donate_amount').val()*100
             Template.instance().checkout.open

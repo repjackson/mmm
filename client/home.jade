@@ -5,6 +5,44 @@ template(name='home')
             .ui.center.aligned.header MMM's mission is to empower K-5 students with money management mindset and skills, so that they can make effective financial decisions for themselves, their families, and their communities
             .row
                 .eight.wide.column
+                    .ui.inline.header 
+                        |stats
+                    if is_admin
+                        .ui.icon.button.recalc_stats
+                            i.refresh.icon
+                    div
+                    .ui.large.list
+                        .item 
+                            //- i.users.icon
+                            +ismall name='groups'
+                            |#{hs.user_count} users
+                        .item 
+                            //- i.user.shield.icon
+                            +ismall name='teacher'
+                            |#{hs.teacher_count} teachers
+                        .item 
+                            +ismall name='classroom'
+                            |#{hs.classroom_count} classrooms
+                        //- .item 
+                        //-     |#{hs.donor_count} donors
+                        //- .item $#{hs.credit_count} money raised
+                        .item 
+                            +ismall name='donate'
+                            |#{hs.debit_count} debits
+                        .item 
+                            +ismall name='donate'
+                            |#{hs.credit_count} credits
+                        //- .item #{hs.product_count} products in marketplace
+
+                .six.wide.right.floated.column
+                    .ui.small.header sponsored by
+                    with home_sponsor
+                        img.ui.rounded.image(src="{{c.url image width=400 height=400}}")
+                    .ui.hidden.divider
+                    a.ui.small.compact.button(href="/sponsorship")
+                        |become a sponsor
+            .row
+                .eight.wide.column
                     p
                         |we believe that students, regardless of background, deserve preparation for real-world financial challenges
                     //- p
@@ -19,15 +57,6 @@ template(name='home')
                 .six.wide.right.floated.column
                     img.ui.rounded.image.recalc_stats(src="{{c.url 'mmm_logo_small' width=400 height=400}}")
                     .ui.small.center.aligned.header a classroom culture and incentive tool
-                    //- .ui.large.horizontal.list
-                    //-     .item #{hs.user_count} users
-                    //-     .item #{hs.teacher_count} teachers
-                    //-     .item #{hs.donor_count} donors
-                    //-     .item $#{hs.credit_count} money raised
-                    //-     .item #{hs.debit_count} debits
-                    //-     .item #{hs.credit_count} credits
-                    //-     .item #{hs.classroom_count} classrooms
-                    //-     .item #{hs.product_count} products in marketplace
         .ui.divider
         .ui.stackable.grid
             .four.column.center.aligned.row

@@ -1,6 +1,7 @@
 if Meteor.isClient
     Template.home.onCreated ->
         @autorun -> Meteor.subscribe 'model_docs', 'home_stats'
+        @autorun -> Meteor.subscribe 'model_docs', 'sponsor'
     Template.home.onRendered ->
         Meteor.setTimeout ->
             $('.ui.sidebar')
@@ -11,6 +12,9 @@ if Meteor.isClient
         hs: ->
             Docs.findOne
                 model:'home_stats'
+        home_sponsor: ->
+            Docs.findOne
+                model:'sponsor'
     Template.home.events
         'click .recalc_stats': ->
             Meteor.call 'calc_home_stats', ->

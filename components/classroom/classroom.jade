@@ -369,9 +369,14 @@ template(name='classroom_reports')
 
 
 template(name='classroom_feed')
-    .ui.header 
+    .ui.inline.header 
         +i name='rss'
         |feed
+    if is_admin 
+        .ui.button.remove_all_events
+            i.shield.icon
+            |remove all events
+    div
     .ui.feed.scrolling
         each classroom_events
             .event 

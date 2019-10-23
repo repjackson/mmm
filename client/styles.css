@@ -483,8 +483,8 @@ input.user_search{
     font-weight: bold !important;
     /* font-size: 110% !important; */
 
-    background-color: rgba(240,240,240,1) !important;
-    border: dotted !important;
+    background-color: rgba(250,250,250,1) !important;
+    border: solid !important;
     border-width: 1px !important;
     border-color: rgba(0,0,0,.1) !important;
     /* transform: translate(0, 4px); */

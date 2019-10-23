@@ -109,9 +109,8 @@ if Meteor.isClient
     Template.classroom_students.onRendered ->
         Meteor.setTimeout ->
             $('.accordion').accordion(
-                selector: {
+                selector:
                     trigger: '.title .header'
-                }
             )
         , 1000
 
@@ -536,6 +535,17 @@ if Meteor.isClient
             }, sort: _timestamp:-1
 
     Template.classroom_feed.events
+        'click .remove_all_events': ->
+            if confirm 'remove all events?'
+                events = Docs.find({
+                    model:'classroom_event'
+                    classroom_id:Router.current().params.doc_id
+                }).fetch()
+                for event in events
+                    Docs.remove event._id
+
+
+
         'click .remove': (e,t)->
             if confirm  "undo #{@event_type}?"
                 $(e.currentTarget).closest('.event').transition('fly right', 1000)
