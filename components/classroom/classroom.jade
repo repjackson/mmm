@@ -60,41 +60,51 @@ template(name='classroom_view_layout')
                         i.school.icon
                         //- +i name='classroom' classes='ui inline mini image'
                         |classrooms
-                    +image_view key='classroom_image_id' label='image' direct=true
-                    .ui.header
+                    .ui.center.aligned.header
                         | #{title}
-                    .ui.big.fluid.vertical.secondary.menu
+                    +image_view key='classroom_image_id' label='image' direct=true
+                    .ui.big.fluid.vertical.pointing.menu
                         a.item(href="/classroom/#{_id}/students" class="{{isActiveRoute regex='classroom_students'}}")
                             i.dashboard.grey.icon
-                            | dashboard
-                        a.item(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
-                            i.list.grey.icon
-                            |feed
-                        a.item(href="/classroom/#{_id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
-                            i.line.chart.grey.icon
-                            | reports
-                        a.item(href="/classroom/#{_id}/stats" class="{{isActiveRoute regex='classroom_stats'}}")
-                            i.pie.chart.grey.icon
-                            | stats
+                            if is_admin
+                                img(src="https://img.icons8.com/color/48/000000/the-flash-sign--v2.png")        
+                            | Dashboard
                         a.item(href="/classroom/#{_id}/lunch" class="{{isActiveRoute regex='classroom_lunch'}}")
                             i.food.grey.icon
-                            | lunch
-                        a.item(href="/classroom/#{_id}/loans" class="{{isActiveRoute regex='classroom_loans'}}")
-                            i.money.grey.icon
-                            | loans
-                        a.disabled.item(href="/classroom/#{_id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
-                            i.shop.grey.icon
-                            | shop
-                        a.disabled.item(href="/classroom/#{_id}/services" class="{{isActiveRoute regex='classroom_services'}}")
-                            i.wrench.grey.icon
-                            | services
+                            if is_admin
+                                img(src="https://img.icons8.com/color/48/000000/the-flash-sign--v2.png")        
+                            | Lunch
+                        a.item(href="/classroom/#{_id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
+                            i.line.chart.grey.icon
+                            if is_admin
+                                img(src="https://img.icons8.com/color/48/000000/batman-old.png")        
+                            | Reports
+                        a.item(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
+                            i.list.grey.icon
+                            if is_admin
+                                img(src="https://img.icons8.com/color/48/000000/batman-old.png")        
+                            | Feed
+                        //- a.item(href="/classroom/#{_id}/stats" class="{{isActiveRoute regex='classroom_stats'}}")
+                        //-     i.pie.chart.grey.icon
+                        //-     | stats
+                        //- a.item(href="/classroom/#{_id}/loans" class="{{isActiveRoute regex='classroom_loans'}}")
+                        //-     i.money.grey.icon
+                        //-     | loans
+                        //- a.disabled.item(href="/classroom/#{_id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
+                        //-     i.shop.grey.icon
+                        //-     | shop
+                        //- a.disabled.item(href="/classroom/#{_id}/services" class="{{isActiveRoute regex='classroom_services'}}")
+                        //-     i.wrench.grey.icon
+                        //-     | services
                         //- a.disabled.item(href="/classroom/#{_id}/stock" class="{{isActiveRoute regex='classroom_services'}}")
                         //-     i.pie.chart.icon
                         //-     | stock
                     .ui.header
+                        if is_admin
+                            img(src="https://img.icons8.com/color/48/000000/the-flash-sign--v2.png")        
                         small teacher
                         | #{teacher_name}
-                    a.ui.fluid.button(href="/classroom/#{_id}/edit")
+                    a.ui.fluid.large.button(href="/classroom/#{_id}/edit")
                         i.pencil.icon
                         | edit
                 .thirteen.wide.column
@@ -107,17 +117,6 @@ template(name='classroom_view_layout')
                     +yield
     //- +teacher_footer
 
-template(name='classroom_stock')
-    .ui.header
-        i.line.chart.icon
-        | classroom stock
-    .ui.two.column.stackable.grid
-        .row
-            .column
-                .ui.header total shares
-                .ui.header share price
-                .ui.header stock price
-                .ui.button buy stock
 
 template(name='classroom_jobs')
     .ui.header 
@@ -137,18 +136,21 @@ template(name='classroom_shop')
         |classroom shop
     +shop
 
-template(name='classroom_grades')        
-    .ui.header 
-        |grades
-
 
 template(name='classroom_lunch')        
     .ui.padded.stackable.grid
-        .sixteen.wide.column
-            .ui.center.aligned.large.header 
-                //- +i name='food'
-                i.food.icon
-                |lunch
+        .row
+            .four.wide.column
+                .ui.center.aligned.large.button.back_to_classroom
+                    i.chevron.left.icon
+                    |#{current_doc.title}
+                    //- |classroom
+            .eight.wide.column
+                .ui.center.aligned.large.header 
+                    //- +i name='food'
+                    i.food.icon
+                    |lunch
+            .four.wide.column
             .ui.four.stackable.cards
                 each classroom_students
                     unless lunch_chosen
@@ -167,9 +169,6 @@ template(name='classroom_lunch')
                                     //- +i name='food' classes='ui inline mini image'
                                     |cafeteria
                                     span.ui.red.text -5c
-            .ui.center.aligned.large.button.back_to_classroom
-                i.chevron.left.icon
-                |classroom
 
 
 
@@ -197,65 +196,71 @@ template(name='classroom_students')
         i.dashboard.icon
         |classroom dashboard
     with current_doc
-        .ui.two.column.grid
-            .column
-                .ui.small.header 
-                    i.calendar.grey.inline.icon
-                    i.retweet.grey.inline.icon
-                    |weekly automatic actions
-                each weekly_automatic_credits
-                    .ui.button.trigger(class=bulk_action_class) #{title}
-                        span.ui.green.text +#{amount}
-                each weekly_automatic_debits
-                    .ui.button.trigger(class=bulk_action_class) #{title}
-                        span.ui.green.text +#{amount}
-            .column
-                .ui.small.header 
-                    i.clock.grey.inline.icon
-                    i.retweet.grey.inline.icon
-                    |daily automatic actions
-                each daily_automatic_credits
-                    .ui.button.trigger(class=bulk_action_class) #{title}
-                        span.ui.green.text +#{amount}
-                each daily_automatic_debits
-                    .ui.button.trigger(class=bulk_action_class) #{title}
-                        span.ui.green.text +#{amount}
+        .ui.styled.fluid.accordion 
+            .title 
+                .ui.header
+                    | classroom actions
+                    i.dropdown.icon
+            .content
+                .ui.two.column.grid
+                    .column
+                        .ui.small.header 
+                            i.calendar.grey.inline.icon
+                            i.retweet.grey.inline.icon
+                            |weekly automatic actions
+                        each weekly_automatic_credits
+                            .ui.button.trigger(class=bulk_action_class) #{title}
+                                span.ui.green.text +#{amount}
+                        each weekly_automatic_debits
+                            .ui.button.trigger(class=bulk_action_class) #{title}
+                                span.ui.green.text +#{amount}
+                    .column
+                        .ui.small.header 
+                            i.clock.grey.inline.icon
+                            i.retweet.grey.inline.icon
+                            |daily automatic actions
+                        each daily_automatic_credits
+                            .ui.button.trigger(class=bulk_action_class) #{title}
+                                span.ui.green.text +#{amount}
+                        each daily_automatic_debits
+                            .ui.button.trigger(class=bulk_action_class) #{title}
+                                span.ui.green.text +#{amount}
             
-        .ui.two.column.grid
-            .column
-                .ui.small.header 
-                    i.calendar.grey.inline.icon
-                    i.hand.point.up.outline.grey.inline.icon
-                    |weekly manual actions
-                //- .ui.button.pay_salary disperse weekly paycheck
-                //-     span.ui.green.text +#{salary_amount}
-                each weekly_manual_credits
-                    .ui.button.trigger(class=bulk_action_class) #{title}
-                        span.ui.green.text +#{amount}
-                each weekly_manual_debits
-                    .ui.button.trigger(class=bulk_action_class) #{title}
-                        span.ui.red.text -#{amount}
-            .column
-                .ui.small.header
-                    i.clock.grey.inline.icon
-                    i.hand.point.up.outline.grey.inline.icon
-                    | daily manual actions
-                each daily_manual_credits
-                    .ui.button.trigger(class=bulk_action_class) #{title}
-                        span.ui.green.text +#{amount}
-                each daily_manual_debits
-                    .ui.button.trigger(class=bulk_action_class) #{title}
-                        span.ui.red.text -#{amount}
-                //- 
-                //- each daily_actions
-                //-     .ui.button #{title}
-                //- .ui.button.charge_rent charge daily rent 
-                //-     span.ui.red.text -#{desk_rental_amount}
-                //- .ui.button.charge_janitor_base charge daily janitor fee 
-                //-     span.ui.red.text -#{janitor_base_amount}
-                //- .ui.button.charge_janitor_extra charge daily janitor extra fee 
-                //-     span.ui.red.text -#{janitor_extra_amount}
-    .ui.large.accordion
+                .ui.two.column.grid
+                    .column
+                        .ui.small.header 
+                            i.calendar.grey.inline.icon
+                            i.hand.point.up.outline.grey.inline.icon
+                            |weekly manual actions
+                        //- .ui.button.pay_salary disperse weekly paycheck
+                        //-     span.ui.green.text +#{salary_amount}
+                        each weekly_manual_credits
+                            .ui.button.trigger(class=bulk_action_class) #{title}
+                                span.ui.green.text +#{amount}
+                        each weekly_manual_debits
+                            .ui.button.trigger(class=bulk_action_class) #{title}
+                                span.ui.red.text -#{amount}
+                    .column
+                        .ui.small.header
+                            i.clock.grey.inline.icon
+                            i.hand.point.up.outline.grey.inline.icon
+                            | daily manual actions
+                        each daily_manual_credits
+                            .ui.button.trigger(class=bulk_action_class) #{title}
+                                span.ui.green.text +#{amount}
+                        each daily_manual_debits
+                            .ui.button.trigger(class=bulk_action_class) #{title}
+                                span.ui.red.text -#{amount}
+                        //- 
+                        //- each daily_actions
+                        //-     .ui.button #{title}
+                        //- .ui.button.charge_rent charge daily rent 
+                        //-     span.ui.red.text -#{desk_rental_amount}
+                        //- .ui.button.charge_janitor_base charge daily janitor fee 
+                        //-     span.ui.red.text -#{janitor_base_amount}
+                        //- .ui.button.charge_janitor_extra charge daily janitor extra fee 
+                        //-     span.ui.red.text -#{janitor_extra_amount}
+    .ui.accordion
         each classroom_students
             .title
                 img.ui.avatar.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
@@ -323,6 +328,7 @@ template(name='class_debit_button')
     
 template(name='classroom_reports')
     with current_doc
+        +classroom_stats
         .ui.stackable.padded.grid
             .row
                 //- .four.wide.column
@@ -407,23 +413,27 @@ template(name='classroom_feed')
 
 
 template(name='classroom_stats')
-    .ui.header.refresh_classroom_stats
-        +i name='line-chart'
-        |stats
-        div
-        .ui.green.inline.header $#{csd.classroom_balance}
-        | balance
-        div
-        .ui.green.inline.header $#{csd.total_credit_amount}
-        | income
-        div
-        .ui.red.inline.header -$#{csd.total_debit_amount}
-        | expenses
-    .ui.big.list
-        .item #{views} views
-        .item #{csd.student_count} students
-        .item #{csd.credit_count} total credits
-        .item #{csd.debit_count} total debits
-        .item $#{csd.average_credit_per_student} credit/student
-        .item $#{csd.average_debit_per_student} debit/student
+    .ui.two.column.grid
+        .column
+            .ui.header.refresh_classroom_stats
+                //- +ismall name='line-chart'
+                i.line.chart.icon
+                |stats
+            div
+            .ui.green.inline.header $#{csd.classroom_balance}
+            | balance
+            div
+            .ui.green.inline.header $#{csd.total_credit_amount}
+            | income
+            div
+            .ui.red.inline.header -$#{csd.total_debit_amount}
+            | expenses
+        .column
+            .ui.big.list
+                .item #{views} views
+                .item #{csd.student_count} students
+                .item #{csd.credit_count} total credits
+                .item #{csd.debit_count} total debits
+                .item $#{csd.average_credit_per_student} credit/student
+                .item $#{csd.average_debit_per_student} debit/student
         

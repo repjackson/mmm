@@ -115,8 +115,8 @@ if Meteor.isClient
         , 1000
 
     Template.classroom_students.helpers
-        bulk_action_class: ->
-            console.log @
+        # bulk_action_class: ->
+        #     console.log @
         weekly_automatic_debits: ->
             Docs.find
                 model:'debit_type'

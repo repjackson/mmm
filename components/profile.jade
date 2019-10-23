@@ -1,5 +1,8 @@
 template(name='profile_layout')
-    +nav
+    if is_teacher
+        +teacher_nav
+    else 
+        +nav
     with user_from_username_param
         .ui.stackable.grid
             .row
@@ -23,26 +26,34 @@ template(name='profile_layout')
                                     .ui.center.aligned.header
                                         | #{user.first_name} #{user.last_name}
                                     //- .ui.small.header @#{user.username}        
-                            +user_section_cloud
-                            .ui.big.fluid.vertical.menu
-                                each user_sections
-                                    a.item(href="/user/#{user.username}/#{slug}" class="{{isActiveRoute regex=route_slug}}")
-                                        i.icon
-                                            +ismall name=icon
-                                        |#{title}
-                
+                            //- +user_section_cloud
+                            //- .ui.big.fluid.vertical.menu
+                            //-     each user_sections
+                            //-         a.item(href="/user/#{user.username}/#{slug}" class="{{isActiveRoute regex=route_slug}}")
+                            //-             i.icon
+                            //-                 +ismall name=icon
+                            //-             |#{title}
                             if is_current_user
                                 a.ui.fluid.button.logout(href="#" title='logout')
                                     i.sign.out.alternate.icon
                                     //- +ismall name='exit' 
                                     |log out
+                                a.ui.fluid.button(href="/user/#{user_from_username_param.username}/edit")
+                                    +ismall name='settings' classes='ui inline mini image'
+                                    |edit
                                 //- a.ui.large.button.logout_other_clients(href="#" title='logout other clients')
                                 //-     //- i.globe.icon
                                 //-     +ismall name='globe' 
                                 //-     |log out other clients
-                            a.ui.fluid.button(href="/user/#{user_from_username_param.username}/edit")
-                                +ismall name='settings' classes='ui inline mini image'
-                                |edit
+                            .ui.header classrooms
+                            .ui.large.fluid.vertical.menu
+                                a.item.select_all
+                                    |all 
+                                each student_classrooms
+                                    a.ui.item
+                                        |#{title}
+                                        a.ui.icon.button(href="/classroom/#{_id}" title='goto classroom')
+                                            i.external.icon
                             if is_admin
                                 .ui.basic.segment
                                     .ui.header 
@@ -58,7 +69,10 @@ template(name='profile_layout')
                             //-         |#{title}
 
                             +yield    
-    +footer
+    if is_teacher
+        +teacher_footer
+    else 
+        +footer
                 
 template(name='user_section_cloud')
     if selected_user_section_tags
@@ -84,21 +98,21 @@ template(name='student_dashboard')
             .column
                 .ui.segment
                     .ui.small.header 
-                        +i name='money-bag'
+                        +ismall name='money-bag'
                         strong $#{ssd.total_credit_amount}
                         small total weekly income
                     .ui.small.header
-                        +i name='hashtag'
+                        +ismall name='hashtag'
                         strong #{ssd.credit_count}
                         small credits
             .column
                 .ui.segment
                     .ui.small.header
-                        +i name='shopping-cart-loaded'
+                        +ismall name='shopping-cart-loaded'
                         strong $#{ssd.total_debit_amount}
                         small total weekly expenses
                     .ui.small.header
-                        +i name='hashtag'
+                        +ismall name='hashtag'
                         strong #{ssd.debit_count}
                         small debits
             .column

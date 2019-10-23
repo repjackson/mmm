@@ -3,43 +3,43 @@ template(name='classroom_edit_layout')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .three.wide.column 
+                .four.wide.column 
                     .ui.header 
                         small editing 
                         div
                         strong '#{title}' 
                         div
                         small classroom
-                    a.ui.big.fluid.button(href="/classroom/#{_id}/students" title='save')
+                    a.ui.huge.icon.fluid.button(href="/classroom/#{_id}/students" title='save')
                         i.checkmark.green.icon
-                        |Save
+                        //- |Save
                     //- if is_admin
-                    .ui.vertical.big.fluid.secondary.menu
+                    .ui.vertical.huge.fluid.pointing.menu
                         a.item(href="/classroom/#{_id}/edit/info" class="{{isActiveRoute regex='classroom_edit_info'}}") 
-                            |info
+                            |Info
                             i.info.icon
                         a.item(href="/classroom/#{_id}/edit/students" class="{{isActiveRoute regex='classroom_edit_students'}}") 
-                            |students
+                            |Students
                             i.users.icon
                         a.item(href="/classroom/#{_id}/edit/income" class="{{isActiveRoute regex='classroom_edit_income'}}")
-                            |income
+                            |Income
                             i.down.chevron.icon
                         a.item(href="/classroom/#{_id}/edit/expenses" class="{{isActiveRoute regex='classroom_edit_expenses'}}")
-                            |expenses
+                            |Expenses
                             i.chevron.up.icon
-                        a.disabled.item(href="/classroom/#{_id}/edit/goals" class="{{isActiveRoute regex='classroom_edit_goals'}}")
-                            |goals
-                            i.target.icon
-                        a.disabled.item(href="/classroom/#{_id}/edit/loans" class="{{isActiveRoute regex='classroom_edit_loans'}}")
-                            |loans
-                            i.money.icon
-                        a.disabled.item(href="/classroom/#{_id}/edit/shop" class="{{isActiveRoute regex='classroom_edit_shop'}}")
-                            |shop
-                            i.shop.icon
-                        a.disabled.item(href="/classroom/#{_id}/edit/stock" class="{{isActiveRoute regex='classroom_edit_stock'}}")
-                            |stock
-                            i.line.chart.icon 
-                .thirteen.wide.column
+                        //- a.disabled.item(href="/classroom/#{_id}/edit/goals" class="{{isActiveRoute regex='classroom_edit_goals'}}")
+                        //-     |goals
+                        //-     i.target.icon
+                        //- a.disabled.item(href="/classroom/#{_id}/edit/loans" class="{{isActiveRoute regex='classroom_edit_loans'}}")
+                        //-     |loans
+                        //-     i.money.icon
+                        //- a.disabled.item(href="/classroom/#{_id}/edit/shop" class="{{isActiveRoute regex='classroom_edit_shop'}}")
+                        //-     |shop
+                        //-     i.shop.icon
+                        //- a.disabled.item(href="/classroom/#{_id}/edit/stock" class="{{isActiveRoute regex='classroom_edit_stock'}}")
+                        //-     |stock
+                        //-     i.line.chart.icon 
+                .twelve.wide.column
                     +yield
                                     
 template(name='classroom_edit_info')
@@ -70,7 +70,7 @@ template(name='classroom_edit_students')
     //-         //- .field
     //-         //-     |Username
     //-         //-     input#username(type='text')
-    //-     .ui.fluid.green.big.button.create_student
+    //-     .ui.fluid.green.huge.button.create_student
     //-         |create student
     //- unless adding_student
     //-     .ui.icon.button.set_adding_student(title='add student')
@@ -99,7 +99,7 @@ template(name='classroom_edit_income')
                 i.plus.icon
                 | credit type
             div
-            .ui.two.cards
+            .ui.one.cards
                 each credit_types
                     .ui.card
                         .content
@@ -145,27 +145,33 @@ template(name='classroom_edit_expenses')
         i.chevron.up.icon
         |expenses
     .ui.stackable.grid
-        .four.wide.column
-            .ui.header presets
-            +number_edit key='desk_rental_amount' label='desk rental amount' icon='table' direct=true
-            .spacer
-            +number_edit key='fines_amount' label='fines amount' icon='foul' direct=true
-            .spacer
-            +number_edit key='janitor_base_amount' label='janitor base fee' icon='housekeeper-male' direct=true
-            .spacer
-            +number_edit key='janitor_extra_amount' label='janitor extra fee' icon='housekeeper-male' direct=true
-            .spacer
-            +number_edit key='lunch_base_amount' label='lunch base amount' icon='food' direct=true
-            .spacer
-            +number_edit key='lunch_extra_amount' label='lunch extra amount' icon='food' direct=true
-        .twelve.wide.column
-            .ui.header custom
-            .ui.button.add_debit_type
-                i.plus.icon
-                |add debit type
-            .ui.two.stackable.cards
-                each debit_types
-                    .ui.card
+        .row
+            .six.wide.column
+                .ui.fluid.icon.button.add_debit_type
+                    i.plus.icon
+                .ui.fluid.huge.vertical.pointing.menu
+                    each debit_types
+                        a.item.select_expense(class=expense_class) 
+                            |#{title}
+                            if is_automatic
+                                i.lightning.yellow.icon
+                            else 
+                                i.hand.icon
+                //- .ui.header presets
+                //- +number_edit key='desk_rental_amount' label='desk rental amount' icon='table' direct=true
+                //- .spacer
+                //- +number_edit key='fines_amount' label='fines amount' icon='foul' direct=true
+                //- .spacer
+                //- +number_edit key='janitor_base_amount' label='janitor base fee' icon='housekeeper-male' direct=true
+                //- .spacer
+                //- +number_edit key='janitor_extra_amount' label='janitor extra fee' icon='housekeeper-male' direct=true
+                //- .spacer
+                //- +number_edit key='lunch_base_amount' label='lunch cafeteria amount' icon='food' direct=true
+                //- .spacer
+                //- +number_edit key='lunch_extra_amount' label='lunch home amount' icon='food' direct=true
+            .ten.wide.column
+                with selected_expense
+                    .ui.segment
                         .content
                             //- +image_edit key='image_id' label='image' direct=true
                             +text_edit key='title' direct=true
@@ -228,8 +234,6 @@ template(name='class_stock_edit')
 //-     each classroom_shop_items
 //-         .ui.header #{title}
     
-    
-template(name='penalties_edit_template')
     
     
 template(name='goals_edit_template')

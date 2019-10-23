@@ -10,8 +10,8 @@ template(name='teacher_nav')
         if is_loading
             .item
                 i.big.loading.notched.circle.icon
-        a.item(href='/grid' class="{{isActivePath '/grid'}}")
-            i.th.icon
+        //- a.item(href='/grid' class="{{isActivePath '/grid'}}")
+        //-     i.th.large.icon
         //- a.item(href='/teacher_dashboard' class="{{isActivePath '/teacher_dashboard'}}")
         //-     //- +ismall name='dashboard'
         //-     i.dashboard.icon
@@ -20,7 +20,7 @@ template(name='teacher_nav')
         //-     +ismall name='school'
         //-     span.mobile.hidden &nbsp; schools
         a.item(href='/my_classrooms' title='classrooms' class="{{isActivePath '/my_classrooms'}}")
-            i.school.icon
+            i.school.large.icon
             span.mobile.hidden &nbsp; classrooms
         //- a.item(href='/tests' title='tests')
         //-     +ismall name='test-passed'

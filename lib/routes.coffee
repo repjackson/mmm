@@ -18,6 +18,7 @@ Router.onBeforeAction(force_loggedin, {
     'home'
     'page'
     'delta'
+    'sponsorship'
     'team'
     'questions'
     'tests'

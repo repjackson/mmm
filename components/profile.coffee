@@ -134,10 +134,11 @@ if Meteor.isClient
 
 
     Template.profile_layout.onCreated ->
+        @autorun -> Meteor.subscribe 'model_docs', 'classroom'
+    Template.profile_layout.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_events', Router.current().params.username
         @autorun -> Meteor.subscribe 'student_stats', Router.current().params.username
-        # @autorun -> Meteor.subscribe 'model_docs', 'user_section'
 
     Template.profile_layout.onRendered ->
         Meteor.setTimeout ->
@@ -153,6 +154,12 @@ if Meteor.isClient
             Docs.find {
                 model:'user_section'
             }, sort:title:1
+        student_classrooms: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find
+                model:'classroom'
+                student_ids: $in: [user._id]
+            
         ssd: ->
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.findOne
@@ -164,17 +171,32 @@ if Meteor.isClient
                 'fourteen wide column'
             else
                 'sixteen wide column'
+    Template.student_dashboard.helpers
+        ssd: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.findOne
+                model:'student_stats'
+                user_id:user._id
+
+        student_classrooms: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find
+                model:'classroom'
+                student_ids: $in: [user._id]
         user_events: ->
-            Docs.find
+            Docs.find {
                 model:'classroom_event'
+            }, sort: _timestamp: -1
         user_credits: ->
-            Docs.find
+            Docs.find {
                 model:'classroom_event'
                 event_type:'credit'
+            }, sort: _timestamp: -1
         user_debits: ->
-            Docs.find
+            Docs.find {
                 model:'classroom_event'
                 event_type:'debit'
+            }, sort: _timestamp: -1
         user_models: ->
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.find
