@@ -7,7 +7,7 @@ template(name='classroom_edit_layout')
                     .ui.header 
                         small editing 
                         div
-                        strong '#{title}' 
+                        strong #{company_name}
                         div
                         small classroom
                     a.ui.huge.icon.fluid.button(href="/classroom/#{_id}/students" title='save')
@@ -43,9 +43,9 @@ template(name='classroom_edit_layout')
                     +yield
                                     
 template(name='classroom_edit_info')
-    .ui.header 
-        i.info.icon
-        |info
+    //- .ui.header 
+    //-     i.info.icon
+    //-     |info
     .ui.two.column.grid
         .column
             +text_edit key='teacher_name' label='Teacher Name' placeholder='enter your name' tooltip='examples: john smith' direct=true
@@ -60,9 +60,9 @@ template(name='classroom_edit_info')
     +remove_button
                                     
 template(name='classroom_edit_students')                                    
-    .ui.large.header 
-        i.users.icon
-        |students
+    //- .ui.large.header 
+    //-     i.users.icon
+    //-     |students
     //- if adding_student
     //-     .ui.header adding student
     //-     .ui.large.form
@@ -81,11 +81,11 @@ template(name='classroom_edit_students')
     +student_selector
 
 template(name='classroom_edit_credits')
-    .ui.large.header 
-        i.plus.icon
-        |credits
+    //- .ui.large.header 
+    //-     i.plus.icon
+    //-     |credits
     .ui.stackable.grid
-        .six.wide.column
+        .eight.wide.column
             .ui.fluid.icon.button.add_credit_type
                 i.plus.icon
             .ui.fluid.huge.vertical.pointing.menu
@@ -95,8 +95,10 @@ template(name='classroom_edit_credits')
                         small +$#{amount}
                         if is_automatic
                             i.lightning.yellow.icon
-                        //- else 
-                        //-     i.hand.icon
+                        if is_individual
+                            i.user.outline.icon(title='student scope')
+                        if is_group 
+                            i.users.icon(title='classroom scope')
             //- +number_edit key='salary_amount' label='salary amount' icon='money' direct=true
             //- +boolean_edit key='salary_automatic' label='automatic'
             //- if salary_automatic
@@ -106,18 +108,18 @@ template(name='classroom_edit_credits')
             //- +number_edit key='bonus_amount' label='bonus amount' icon='trust' direct=true
             //- .spacer
             //- +number_edit key='overtime_amount' label='overtime amount' icon='clock' direct=true
-        .ten.wide.column
+        .eight.wide.column
             div
             with selected_credit
                 +transaction
                         
 template(name='classroom_edit_debits')       
-    .ui.large.header 
-        i.chevron.up.icon
-        |debits
+    //- .ui.large.header 
+    //-     i.chevron.up.icon
+    //-     |debits
     .ui.stackable.grid
         .row
-            .six.wide.column
+            .eight.wide.column
                 .ui.fluid.icon.button.add_debit_type
                     i.plus.icon
                 .ui.fluid.huge.vertical.pointing.menu
@@ -129,6 +131,10 @@ template(name='classroom_edit_debits')
                                 i.lightning.yellow.icon
                             else 
                                 i.hand.icon
+                            if is_individual
+                                i.user.outline.icon(title='student scope')
+                            if is_group 
+                                i.users.icon(title='classroom scope')
                 //- .ui.header presets
                 //- +number_edit key='desk_rental_amount' label='desk rental amount' icon='table' direct=true
                 //- .spacer
@@ -141,7 +147,7 @@ template(name='classroom_edit_debits')
                 //- +number_edit key='lunch_base_amount' label='lunch cafeteria amount' icon='food' direct=true
                 //- .spacer
                 //- +number_edit key='lunch_extra_amount' label='lunch home amount' icon='food' direct=true
-            .ten.wide.column
+            .eight.wide.column
                 with selected_debit
                     +transaction
 
@@ -178,8 +184,8 @@ template(name='transaction')
                 //-     +number_edit key='limit_amount' label='limit amount'
             div
             .ui.small.grey.inline.header scope
-            +key_value_edit key='scope' value='student' label='student'
-            +key_value_edit key='scope' value='class' label='class'
+            +key_value_edit key='scope' value='individual' label='student'
+            +key_value_edit key='scope' value='group' label='classroom'
             div
             .ui.divider
             .ui.fluid.button.save_transaction

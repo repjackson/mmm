@@ -74,9 +74,9 @@ if Meteor.isClient
 
     Template.classroom_students.onCreated ->
         @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'model_docs', 'credit_type'
-        @autorun => Meteor.subscribe 'model_docs', 'debit_type'
-        @autorun => Meteor.subscribe 'model_docs', 'classroom_event'
+        @autorun => Meteor.subscribe 'classroom_docs', 'credit_type', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'classroom_docs', 'debit_type', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'classroom_docs', 'classroom_event', Router.current().params.doc_id
     Template.classroom_students.onRendered ->
         Meteor.setTimeout ->
             $('.accordion').accordion(
@@ -136,6 +136,20 @@ if Meteor.isClient
                 classroom_id: Router.current().params.doc_id
                 dispersion_type:'manual'
                 manual_period:'daily'
+        daily_manual_classroom_debits: ->
+            Docs.find
+                model:'debit_type'
+                classroom_id: Router.current().params.doc_id
+                dispersion_type:'manual'
+                scope:'group'
+                manual_period:'daily'
+        daily_manual_classroom_credits: ->
+            Docs.find
+                model:'credit_type'
+                classroom_id: Router.current().params.doc_id
+                scope:'group'
+                dispersion_type:'manual'
+                manual_period:'daily'
         classroom_students: ->
             classroom = Docs.findOne Router.current().params.doc_id
             Meteor.users.find
@@ -143,12 +157,13 @@ if Meteor.isClient
         individual_credit_types: ->
             Docs.find
                 model:'credit_type'
-                # weekly:$ne:true
+                dispersion_type: 'manual'
+                scope: 'individual'
                 classroom_id: Router.current().params.doc_id
         classroom_debit_types: ->
             Docs.find
                 model:'debit_type'
-                # weekly:$ne:true
+                scope: 'group'
                 classroom_id: Router.current().params.doc_id
         student_events: ->
             Docs.find
@@ -325,7 +340,7 @@ if Meteor.isClient
     Template.classroom_lunch.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'model_docs', 'classroom_event'
+        @autorun => Meteor.subscribe 'classroom_docs', 'classroom_event', Router.current().params.doc_id
     Template.classroom_students.onRendered ->
         # Meteor.setTimeout ->
         #     $('.accordion').accordion()
@@ -387,10 +402,10 @@ if Meteor.isClient
 
 
 
-    Template.class_credit_button.events
+    Template.individual_credit_button.events
         'click .credit_student': ->
             student = Template.parentData()
-            console.log @
+            # console.log @
             Meteor.users.update student._id,
                 $inc:credit:@amount
             Docs.insert
@@ -401,11 +416,16 @@ if Meteor.isClient
                 text:"was credited #{@amount} for #{@title}"
                 user_id: student._id
                 classroom_id: Router.current().params.doc_id
+            $('body').toast({
+                message: "#{student.first_name} #{student.last_name} was credited #{@amount} for #{@title}"
+                class:'success'
+                showProgress: 'bottom'
+            })
 
-    Template.class_debit_button.events
+    Template.individual_debit_button.events
         'click .debit_student': ->
             student = Template.parentData()
-            console.log @
+            # console.log @
             Meteor.users.update student._id,
                 $inc:credit:-@amount
             Docs.insert
@@ -416,6 +436,11 @@ if Meteor.isClient
                 text:"was debited #{@amount} for #{@title}"
                 user_id: student._id
                 classroom_id: Router.current().params.doc_id
+            $('body').toast({
+                message: "#{student.first_name} #{student.last_name} was debited #{@amount} for #{@title}"
+                class:'success'
+                showProgress: 'bottom'
+            })
 
 
 
@@ -423,13 +448,13 @@ if Meteor.isClient
     Template.classroom_reports.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
-    Template.classroom_reports.onRendered ->
-        Meteor.setTimeout ->
-            $('#date_calendar')
-                .calendar({
-                    type: 'date'
-                })
-        , 700
+    # Template.classroom_reports.onRendered ->
+    #     Meteor.setTimeout ->
+    #         $('#date_calendar')
+    #             .calendar({
+    #                 type: 'date'
+    #             })
+    #     , 700
     Template.classroom_reports.helpers
         classroom_students: ->
             classroom = Docs.findOne Router.current().params.doc_id
@@ -447,7 +472,7 @@ if Meteor.isClient
 
     Template.classroom_view_layout.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'model_docs', 'feature'
+        # @autorun => Meteor.subscribe 'model_docs', 'feature'
         @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
 
     Template.classroom_view_layout.onRendered ->
@@ -457,24 +482,24 @@ if Meteor.isClient
         # , 1000
 
     Template.classroom_view_layout.helpers
-        features: ->
-            Docs.find
-                model:'feature'
-        feature_view_template: ->
-            "#{@title}_view_template"
-
-        selected_features: ->
-            classroom = Docs.findOne Router.current().params.doc_id
-            Docs.find(
-                _id: $in: classroom.feature_ids
-                model:'feature'
-            ).fetch()
+        # features: ->
+        #     Docs.find
+        #         model:'feature'
+        # feature_view_template: ->
+        #     "#{@title}_view_template"
+        #
+        # selected_features: ->
+        #     classroom = Docs.findOne Router.current().params.doc_id
+        #     Docs.find(
+        #         _id: $in: classroom.feature_ids
+        #         model:'feature'
+        #     ).fetch()
 
 
 
 
     Template.classroom_feed.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'classroom_event'
+        @autorun => Meteor.subscribe 'classroom_docs', 'classroom_event', Router.current().params.doc_id
     Template.classroom_feed.helpers
         classroom_events: ->
             Docs.find {
@@ -533,10 +558,10 @@ if Meteor.isServer
         Meteor.users.find
             _id: $in: classroom.student_ids
 
-    Meteor.publish 'classrooms', (product_id)->
+    Meteor.publish 'classroom_docs', (model, classroom_id)->
         Docs.find
-            model:'classroom'
-            product_id:product_id
+            model:model
+            classroom_id:classroom_id
 
 
     Meteor.methods

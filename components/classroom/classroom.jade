@@ -84,36 +84,15 @@ template(name='classroom_view_layout')
                             if is_admin
                                 img(src="https://img.icons8.com/color/48/000000/batman-old.png")        
                             | feed
-                        //- a.item(href="/classroom/#{_id}/stats" class="{{isActiveRoute regex='classroom_stats'}}")
-                        //-     i.pie.chart.grey.icon
-                        //-     | stats
-                        //- a.item(href="/classroom/#{_id}/loans" class="{{isActiveRoute regex='classroom_loans'}}")
-                        //-     i.money.grey.icon
-                        //-     | loans
-                        //- a.disabled.item(href="/classroom/#{_id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
-                        //-     i.shop.grey.icon
-                        //-     | shop
-                        //- a.disabled.item(href="/classroom/#{_id}/services" class="{{isActiveRoute regex='classroom_services'}}")
-                        //-     i.wrench.grey.icon
-                        //-     | services
-                        //- a.disabled.item(href="/classroom/#{_id}/stock" class="{{isActiveRoute regex='classroom_services'}}")
-                        //-     i.pie.chart.icon
-                        //-     | stock
                     .ui.header
                         if is_admin
                             img(src="https://img.icons8.com/color/48/000000/the-flash-sign--v2.png")        
                         small teacher
                         | #{teacher_name}
-                    a.ui.fluid.large.button(href="/classroom/#{_id}/edit")
+                    a.ui.fluid.large.button(href="/classroom/#{_id}/edit/info")
                         i.pencil.icon
                         | edit
                 .twelve.wide.column
-                    //- a.ui.button(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
-                    //-     +ismall name='rss'
-                    //-     | feed
-                    //- a.ui.button(href="/classroom/#{_id}/stats" class="{{isActiveRoute regex='classroom_stats'}}")
-                    //-     +ismall name='line-chart'
-                    //-     | stats
                     +yield
     //- +teacher_footer
 
@@ -149,13 +128,11 @@ template(name='classroom_lunch')
                                 .ui.header #{name}
                                 .ui.huge.labeled.icon.fluid.basic.button.choose_home
                                     i.home.icon
-                                    //- +i name='home' classes='ui inline mini image'
                                     |home 
                                     span.ui.red.text -3c
                                 .spacer
                                 .ui.huge.labeled.icon.fluid.basic.button.choose_cafeteria
                                     i.food.icon
-                                    //- +i name='food' classes='ui inline mini image'
                                     |cafeteria
                                     span.ui.red.text -5c
 
@@ -177,11 +154,11 @@ template(name='classroom_students')
         |classroom dashboard
     with current_doc
         .ui.styled.fluid.accordion 
-            .title 
+            .active.title 
                 .ui.header
                     | classroom actions
                     i.dropdown.icon
-            .content
+            .active.content
                 .ui.two.column.grid
                     .column
                         .ui.small.header 
@@ -189,10 +166,10 @@ template(name='classroom_students')
                             i.retweet.grey.inline.icon
                             |weekly automatic actions
                         each weekly_automatic_credits
-                            .ui.button.trigger(class=bulk_action_class) #{title}
+                            .ui.disabled.button(class=bulk_action_class) #{title}
                                 span.ui.green.text +#{amount}
                         each weekly_automatic_debits
-                            .ui.button.trigger(class=bulk_action_class) #{title}
+                            .ui.disabled.button(class=bulk_action_class) #{title}
                                 span.ui.green.text +#{amount}
                     .column
                         .ui.small.header 
@@ -200,18 +177,17 @@ template(name='classroom_students')
                             i.retweet.grey.inline.icon
                             |daily automatic actions
                         each daily_automatic_credits
-                            .ui.button.trigger(class=bulk_action_class) #{title}
+                            .ui.disabled.button.trigger(class=bulk_action_class) #{title}
                                 span.ui.green.text +#{amount}
                         each daily_automatic_debits
-                            .ui.button.trigger(class=bulk_action_class) #{title}
+                            .ui.disabled.button.trigger(class=bulk_action_class) #{title}
                                 span.ui.green.text +#{amount}
-            
                 .ui.two.column.grid
                     .column
                         .ui.small.header 
                             i.calendar.grey.inline.icon
                             i.hand.point.up.outline.grey.inline.icon
-                            |weekly manual actions
+                            |weekly manual classroom actions
                         //- .ui.button.pay_salary disperse weekly paycheck
                         //-     span.ui.green.text +#{salary_amount}
                         each weekly_manual_credits
@@ -224,11 +200,11 @@ template(name='classroom_students')
                         .ui.small.header
                             i.clock.grey.inline.icon
                             i.hand.point.up.outline.grey.inline.icon
-                            | daily manual actions
-                        each daily_manual_credits
+                            | daily manual classroom actions
+                        each daily_manual_classroom_credits
                             .ui.button.trigger(class=bulk_action_class) #{title}
                                 span.ui.green.text +#{amount}
-                        each daily_manual_debits
+                        each daily_manual_classroom_debits
                             .ui.button.trigger(class=bulk_action_class) #{title}
                                 span.ui.red.text -#{amount}
                         //- 
@@ -260,13 +236,13 @@ template(name='classroom_students')
                 .description
                     .ui.two.column.stackable.grid
                         .column
-                            .ui.button bonus
-                            .ui.button overtime
+                            //- .ui.button bonus
+                            //- .ui.button overtime
                             each individual_credit_types
-                                +class_credit_button
+                                +individual_credit_button
                         .column
-                            each classroom_debit_types
-                                +class_debit_button
+                            each individual_debit_types
+                                +individual_debit_button
                 //- .extra.content.smallscroll
                 //-     .ui.list
                 //-         each student_events
@@ -292,13 +268,13 @@ template(name='classroom_students')
             //-                     +remove_button
             //- 
                                         
-template(name='class_credit_button')
+template(name='individual_credit_button')
     .ui.button.credit_student 
         i.green.plus.icon
         |#{amount}
         |#{title}
     
-template(name='class_debit_button')
+template(name='individual_debit_button')
     .ui.button.debit_student 
         i.red.minus.icon
         |#{amount}

@@ -1,10 +1,5 @@
 @selected_tags = new ReactiveArray []
-@selected_user_section_tags = new ReactiveArray []
-@selected_school_section_tags = new ReactiveArray []
-@selected_school_tags = new ReactiveArray []
 @selected_classroom_tags = new ReactiveArray []
-@selected_question_tags = new ReactiveArray []
-@selected_test_tags = new ReactiveArray []
 
 Meteor.startup ->
     process.env.TZ='America/Denver'
@@ -65,6 +60,20 @@ Template.registerHelper 'gs', () ->
 Template.registerHelper 'is_automatic', -> @dispersion_type is 'automatic'
 Template.registerHelper 'is_manual', -> @dispersion_type is 'manual'
 Template.registerHelper 'is_manual_daily', -> @manual_period is 'daily'
+Template.registerHelper 'is_individual', ->
+    @scope is 'individual'
+    # console.log @
+Template.registerHelper 'is_group', ->
+    @scope is 'group'
+    # console.log @
+# Template.registerHelper 'is_student', -> @scope is 'student'
+# Template.registerHelper 'is_classroom', -> @scope is 'classroom'
+
+
+
+
+
+
 
 Template.registerHelper 'invert_class', -> if Session.equals('dark_mode',true) then 'invert' else ''
 Template.registerHelper 'display_mode', -> Session.get('display_mode',true)

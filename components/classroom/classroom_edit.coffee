@@ -28,10 +28,10 @@ if Meteor.isClient
 
     Template.classroom_edit_debits.onCreated ->
         # @autorun => Meteor.subscribe 'model_docs', 'credit_type'
-        @autorun => Meteor.subscribe 'model_docs', 'debit_type'
+        @autorun => Meteor.subscribe 'classroom_docs', 'debit_type', Router.current().params.doc_id
 
     Template.classroom_edit_credits.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'credit_type'
+        @autorun => Meteor.subscribe 'classroom_docs', 'credit_type', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'model_docs', 'debit_type'
         # Session.set 'permission', false
 
