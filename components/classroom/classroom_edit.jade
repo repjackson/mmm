@@ -27,25 +27,16 @@ template(name='classroom_edit_layout')
                         a.item(href="/classroom/#{_id}/edit/debits" class="{{isActiveRoute regex='classroom_edit_debits'}}")
                             |debits
                             i.minus.icon
-                        //- a.disabled.item(href="/classroom/#{_id}/edit/goals" class="{{isActiveRoute regex='classroom_edit_goals'}}")
-                        //-     |goals
-                        //-     i.target.icon
-                        //- a.disabled.item(href="/classroom/#{_id}/edit/loans" class="{{isActiveRoute regex='classroom_edit_loans'}}")
-                        //-     |loans
-                        //-     i.money.icon
-                        //- a.disabled.item(href="/classroom/#{_id}/edit/shop" class="{{isActiveRoute regex='classroom_edit_shop'}}")
-                        //-     |shop
-                        //-     i.shop.icon
-                        //- a.disabled.item(href="/classroom/#{_id}/edit/stock" class="{{isActiveRoute regex='classroom_edit_stock'}}")
-                        //-     |stock
-                        //-     i.line.chart.icon 
+                        a.item(href="/classroom/#{_id}/edit/templates" class="{{isActiveRoute regex='classroom_edit_templates'}}")
+                            |templates
+                            i.clone.icon
                 .twelve.wide.column
                     +yield
                                     
 template(name='classroom_edit_info')
-    //- .ui.header 
-    //-     i.info.icon
-    //-     |info
+    .ui.header 
+        i.info.icon
+        |info
     .ui.two.column.grid
         .column
             +text_edit key='teacher_name' label='Teacher Name' placeholder='enter your name' tooltip='examples: john smith' direct=true
@@ -57,7 +48,8 @@ template(name='classroom_edit_info')
             +array_edit key='tags' label='tags' icon='tags' direct=true
             if is_admin
                 +teacher_selector
-    +remove_button
+    if is_admin
+        +remove_button
                                     
 template(name='classroom_edit_students')                                    
     //- .ui.large.header 
@@ -81,9 +73,9 @@ template(name='classroom_edit_students')
     +student_selector
 
 template(name='classroom_edit_credits')
-    //- .ui.large.header 
-    //-     i.plus.icon
-    //-     |credits
+    .ui.large.header 
+        i.plus.icon
+        |credits
     .ui.stackable.grid
         .eight.wide.column
             .ui.fluid.icon.button.add_credit_type
@@ -99,6 +91,8 @@ template(name='classroom_edit_credits')
                             i.user.outline.icon(title='student scope')
                         if is_group 
                             i.users.icon(title='classroom scope')
+                        if is_admin
+                            i.circular.remove.icon.remove_credit
             //- +number_edit key='salary_amount' label='salary amount' icon='money' direct=true
             //- +boolean_edit key='salary_automatic' label='automatic'
             //- if salary_automatic
@@ -114,9 +108,9 @@ template(name='classroom_edit_credits')
                 +transaction
                         
 template(name='classroom_edit_debits')       
-    //- .ui.large.header 
-    //-     i.chevron.up.icon
-    //-     |debits
+    .ui.large.header 
+        i.chevron.up.icon
+        |debits
     .ui.stackable.grid
         .row
             .eight.wide.column
@@ -187,7 +181,9 @@ template(name='transaction')
             +key_value_edit key='scope' value='individual' label='student'
             +key_value_edit key='scope' value='group' label='classroom'
             div
+            +remove_button
             .ui.divider
+        
             .ui.fluid.button.save_transaction
                 i.green.checkmark.icon
                 |save
@@ -221,3 +217,72 @@ template(name='transaction')
             .ui.fluid.button.edit_transaction
                 i.pencil.icon
                 |edit
+
+
+
+
+template(name='classroom_edit_templates')       
+    .ui.large.header 
+        i.clone.icon
+        |templates
+    .ui.stackable.grid
+        .row
+            .eight.wide.column
+                .ui.header my templates
+                .ui.button.generate_from_current generate template from current structure
+                .ui.fluid.huge.vertical.pointing.menu
+                    each my_transaction_templates
+                        a.item.select_template(class=template_class) 
+                            |#{title}
+                .ui.header template marketplace
+                .ui.fluid.huge.vertical.pointing.menu
+                    each transaction_templates
+                        a.item.select_template(class=template_class) 
+                            |#{title}
+            .eight.wide.column
+                with selected_template
+                    +template
+
+
+template(name='template')
+    .ui.segment
+        if editing_template
+            .ui.header editing template
+            //- +image_edit key='image_id' label='image' direct=true
+            +text_edit key='title' direct=true
+            div
+            +key_value_edit key='dispersion_type' value='automatic' label='automatic'
+            +key_value_edit key='dispersion_type' value='manual' label='manual'
+            div
+            +remove_button
+            .ui.divider
+            .ui.fluid.button.save_template
+                i.green.checkmark.icon
+                |save
+        else 
+            .ui.header viewing template
+            .ui.header 
+                small title
+                | #{title}
+            .ui.header 
+                small author
+                | #{_author_username}
+            div
+            .ui.small.grey.inline.header credits
+            .ui.bulleted.list
+                each classroom_credits 
+                    .item #{title} +#{amount}
+            .ui.small.grey.inline.header debits
+            .ui.bulleted.list
+                each classroom_debits 
+                    .item #{title} -#{amount}
+            div
+            .ui.divider
+            if is_author
+                .ui.fluid.button.edit_template
+                    i.pencil.icon
+                    |edit
+            .ui.fluid.button.clone_template
+                i.clone.icon
+                |clone
+            

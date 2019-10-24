@@ -218,7 +218,7 @@ template(name='classroom_students')
                         //-     span.ui.red.text -#{janitor_extra_amount}
     .ui.accordion
         each classroom_students
-            .title
+            .active.title
                 img.ui.avatar.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
                 .ui.inline.header
                     i.dropdown.icon
@@ -229,7 +229,7 @@ template(name='classroom_students')
                 //- .ui.icon.circular.button.
             //- .ui.item
             //- .image
-            .content
+            .active.content
                 a.ui.basic.green.large.right.floated.button(href="/user/#{username}")
                     |view profile
                     i.right.chevron.icon
@@ -270,15 +270,15 @@ template(name='classroom_students')
                                         
 template(name='individual_credit_button')
     .ui.button.credit_student 
-        i.green.plus.icon
-        |#{amount}
         |#{title}
+        span.ui.green.text
+            |+#{amount}
     
 template(name='individual_debit_button')
     .ui.button.debit_student 
-        i.red.minus.icon
-        |#{amount}
         |#{title}
+        span.ui.red.text
+            |-#{amount}
 
 
     

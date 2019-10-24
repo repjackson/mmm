@@ -160,6 +160,12 @@ if Meteor.isClient
                 dispersion_type: 'manual'
                 scope: 'individual'
                 classroom_id: Router.current().params.doc_id
+        individual_debit_types: ->
+            Docs.find
+                model:'debit_type'
+                dispersion_type: 'manual'
+                scope: 'individual'
+                classroom_id: Router.current().params.doc_id
         classroom_debit_types: ->
             Docs.find
                 model:'debit_type'
@@ -238,23 +244,6 @@ if Meteor.isClient
                 showProgress: 'bottom'
             })
 
-        'click .trigger': ->
-            event_object = {}
-            if @model is 'debit_type'
-                event_object.event_type = 'debit'
-            else if @model is 'credit_type'
-                event_object.event_type = 'credit'
-            # console.log @
-            Docs.insert
-                model:'classroom_event'
-                event_type:'debit'
-                amount: -3
-                debit_type: 'lunch'
-                date:moment().format("MM-DD-YYYY")
-                text:"was debited 3 for a home lunch"
-                user_id: @_id
-                classroom_id: Router.current().params.doc_id
-
         'click .add_bonus': (e,t)->
             # alert 'hi'
             # console.log @
@@ -284,8 +273,6 @@ if Meteor.isClient
                     showProgress: 'bottom'
                 })
 
-
-
         'click .add_fine': (e,t)->
             classroom = Docs.findOne Router.current().params.doc_id
 
@@ -312,91 +299,6 @@ if Meteor.isClient
                     class:'error'
                     showProgress: 'bottom'
                 })
-
-
-        'click .charge_rent': (e,t)->
-            classroom = Docs.findOne Router.current().params.doc_id
-            $('.title').transition('shake', 500)
-            for student_id in classroom.student_ids
-                student = Meteor.users.findOne student_id
-                $('body').toast({
-                    message: "#{classroom.desk_rental_amount}c rent charged for #{student.first_name} #{student.last_name}"
-                    class:'error'
-                    showProgress: 'bottom'
-                })
-                Meteor.users.update student._id,
-                    $inc:credit:-classroom.desk_rental_amount
-                Docs.insert
-                    model:'classroom_event'
-                    event_type:'debit'
-                    amount: classroom.desk_rental_amount
-                    text:"was charged #{classroom.desk_rental_amount} for desk rental"
-                    user_id: student._id
-                    classroom_id: Router.current().params.doc_id
-
-        'click .charge_janitor_base': (e,t)->
-            classroom = Docs.findOne Router.current().params.doc_id
-            $('.title').transition('shake', 500)
-            for student_id in classroom.student_ids
-                student = Meteor.users.findOne student_id
-                $('body').toast({
-                    message: "#{classroom.janitor_base_amount}c janitor fee was charged for #{student.first_name} #{student.last_name}"
-                    class:'error'
-                    showProgress: 'bottom'
-                })
-                Meteor.users.update student._id,
-                    $inc:credit:-classroom.janitor_base_amount
-                Docs.insert
-                    model:'classroom_event'
-                    event_type:'debit'
-                    amount: classroom.janitor_base_amount
-                    text:"was charged #{classroom.janitor_base_amount} for janitor base fee"
-                    user_id: student._id
-                    classroom_id: Router.current().params.doc_id
-
-
-        'click .charge_janitor_extra': (e,t)->
-            classroom = Docs.findOne Router.current().params.doc_id
-            $('.title').transition('shake', 500)
-            for student_id in classroom.student_ids
-                student = Meteor.users.findOne student_id
-                $('body').toast({
-                    message: "#{classroom.janitor_extra_amount}c janitor extra fee was charged for #{student.first_name} #{student.last_name}"
-                    class:'error'
-                    showProgress: 'bottom'
-                })
-                Meteor.users.update student._id,
-                    $inc:credit:-classroom.janitor_extra_amount
-                Docs.insert
-                    model:'classroom_event'
-                    event_type:'debit'
-                    amount: classroom.janitor_extra_amount
-                    text:"was charged #{classroom.janitor_extra_amount} for janitor extra fee"
-                    user_id: student._id
-                    classroom_id: Router.current().params.doc_id
-
-
-        'click .pay_salary': (e,t)->
-            classroom = Docs.findOne Router.current().params.doc_id
-            $('.title').transition('bounce', 500)
-            for student_id in classroom.student_ids
-                student = Meteor.users.findOne student_id
-                $('body').toast({
-                    message: "#{classroom.salary_amount}c weekly salary was given to #{student.first_name} #{student.last_name}"
-                    class:'success'
-                    showProgress: 'bottom'
-                })
-                Meteor.users.update student._id,
-                    $inc:credit:classroom.salary_amount
-                Docs.insert
-                    model:'classroom_event'
-                    event_type:'credit'
-                    amount: classroom.salary_amount
-                    text:"was paid #{classroom.salary_amount} for weekly salary"
-                    user_id: student._id
-                    classroom_id: Router.current().params.doc_id
-
-
 
         'change .date_select': ->
             console.log $('.date_select').val()
@@ -505,7 +407,7 @@ if Meteor.isClient
                 classroom_id: Router.current().params.doc_id
             $('body').toast({
                 message: "#{student.first_name} #{student.last_name} was debited #{@amount} for #{@title}"
-                class:'success'
+                class:'error'
                 showProgress: 'bottom'
             })
 
