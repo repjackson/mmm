@@ -171,6 +171,73 @@ if Meteor.isClient
                 user_id: @_id
 
     Template.classroom_students.events
+        'click .debit_group': ->
+            classroom = Docs.findOne Router.current().params.doc_id
+            $('.title').transition('shake', 500)
+            for student_id in classroom.student_ids
+                student = Meteor.users.findOne student_id
+                Meteor.users.update student._id,
+                    $inc:credit:-@amount
+                Docs.insert
+                    model:'classroom_event'
+                    event_type:'debit'
+                    amount: @amount
+                    event_type_id: @_id
+                    text:"was debited #{@amount} for #{@title}"
+                    user_id: student._id
+                    classroom_id: Router.current().params.doc_id
+                $('body').toast({
+                    message: "#{student.first_name} #{student.last_name} was debited #{@amount} for #{@title}"
+                    class:'error'
+                    showProgress: 'bottom'
+                })
+            # Docs.update Router.current().params.doc_id,
+            #     $inc:credit:-@amount
+            Docs.insert
+                model:'classroom_event'
+                event_type:'debit'
+                amount: @amount
+                event_type_id: @_id
+                text:"Class was debited #{@amount} for #{@title}"
+                classroom_id: Router.current().params.doc_id
+            $('body').toast({
+                message: "Class was debited #{@amount} for #{@title}"
+                class:'error'
+                showProgress: 'bottom'
+            })
+
+        'click .credit_group': ->
+            group = Docs.findOne Router.current().params.doc_id
+            $('.title').transition('bounce', 500)
+            for student_id in group.student_ids
+                student = Meteor.users.findOne student_id
+                $('body').toast({
+                    message: "#{student.first_name} #{student.last_name} was credited #{@amount} for #{@title}"
+                    class:'success'
+                    showProgress: 'bottom'
+                })
+                Meteor.users.update student._id,
+                    $inc:credit:@amount
+                Docs.insert
+                    model:'classroom_event'
+                    event_type:'credit'
+                    amount: @amount
+                    text:"was credited #{@amount} for #{@title}"
+                    user_id: student._id
+                    classroom_id: Router.current().params.doc_id
+            Docs.insert
+                model:'classroom_event'
+                event_type:'credit'
+                amount: @amount
+                event_type_id: @_id
+                text:"Class was credited #{@amount} for #{@title}"
+                classroom_id: Router.current().params.doc_id
+            $('body').toast({
+                message: "Class was credited #{@amount} for #{@title}"
+                class:'success'
+                showProgress: 'bottom'
+            })
+
         'click .trigger': ->
             event_object = {}
             if @model is 'debit_type'

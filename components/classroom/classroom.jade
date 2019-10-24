@@ -202,10 +202,10 @@ template(name='classroom_students')
                             i.hand.point.up.outline.grey.inline.icon
                             | daily manual classroom actions
                         each daily_manual_classroom_credits
-                            .ui.button.trigger(class=bulk_action_class) #{title}
+                            .ui.button.credit_group(class=bulk_action_class) #{title}
                                 span.ui.green.text +#{amount}
                         each daily_manual_classroom_debits
-                            .ui.button.trigger(class=bulk_action_class) #{title}
+                            .ui.button.debit_group(class=bulk_action_class) #{title}
                                 span.ui.red.text -#{amount}
                         //- 
                         //- each daily_actions
