@@ -40,10 +40,6 @@ if Meteor.isClient
             $('.accordion').accordion()
         , 750
 
-    Template.classroom_edit_layout.helpers
-        # features: ->
-        #     Docs.find
-        #         model:'feature'
 
     Template.classroom_edit_credits.helpers
         credit_types: ->
@@ -54,21 +50,21 @@ if Meteor.isClient
     Template.classroom_edit_debits.events
         'click .select_debit': -> Session.set 'selected_debit_id', @_id
         'click .add_debit_type': ->
-            Docs.insert
+            new_debit_id = Docs.insert
                 model:'debit_type'
                 classroom_id: Router.current().params.doc_id
+            Session.set 'selected_debit_id', new_debit_id
     Template.classroom_edit_debits.helpers
         debit_class: ->
             if Session.equals('selected_debit_id',@_id) then 'active' else ''
         selected_debit: ->
             Docs.findOne Session.get('selected_debit_id')
         debit_types: ->
-            new_debit_id = Docs.find
+            Docs.find
                 model:'debit_type'
                 classroom_id: Router.current().params.doc_id
-            Session.set 'selected_debit_id', new_debit_id
 
-    Template.classroom_edit_layout.helpers
+
 
     Template.classroom_edit_credits.helpers
         credit_class: ->
@@ -84,6 +80,16 @@ if Meteor.isClient
                 classroom_id: Router.current().params.doc_id
             Session.set 'selected_credit_id', new_credit_id
 
-    Template.classroom_edit_layout.events
-        'click .set_adding_student': ->
-            Session.set 'adding_student', true
+
+
+
+    Template.transaction.onCreated ->
+        @editing_transaction = new ReactiveVar false
+
+    Template.transaction.helpers
+        editing_transaction: -> Template.instance().editing_transaction.get()
+    Template.transaction.events
+        'click .save_transaction': (e,t)->
+            t.editing_transaction.set false
+        'click .edit_transaction': (e,t)->
+            t.editing_transaction.set true

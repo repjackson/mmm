@@ -85,7 +85,7 @@ template(name='classroom_edit_credits')
         i.plus.icon
         |credits
     .ui.stackable.grid
-        .four.wide.column
+        .six.wide.column
             .ui.fluid.icon.button.add_credit_type
                 i.plus.icon
             .ui.fluid.huge.vertical.pointing.menu
@@ -106,7 +106,7 @@ template(name='classroom_edit_credits')
             //- +number_edit key='bonus_amount' label='bonus amount' icon='trust' direct=true
             //- .spacer
             //- +number_edit key='overtime_amount' label='overtime amount' icon='clock' direct=true
-        .twelve.wide.column
+        .ten.wide.column
             div
             with selected_credit
                 +transaction
@@ -147,7 +147,7 @@ template(name='classroom_edit_debits')
 
 template(name='transaction')
     .ui.segment
-        .content
+        if editing_transaction
             //- +image_edit key='image_id' label='image' direct=true
             +text_edit key='title' direct=true
             +number_edit key='amount' direct=true
@@ -181,3 +181,37 @@ template(name='transaction')
             +key_value_edit key='scope' value='student' label='student'
             +key_value_edit key='scope' value='class' label='class'
             div
+            .ui.divider
+            .ui.fluid.button.save_transaction
+                i.green.checkmark.icon
+                |save
+        else 
+            .ui.header 
+                small title
+                | #{title}
+            .ui.header 
+                small amount
+                | $#{amount}
+            div
+            .ui.small.grey.inline.header dispersion type
+            .ui.inline.header #{dispersion_type}
+            div
+            if is_automatic
+                .ui.small.grey.inline.header automatic period
+                .ui.inline.header #{automatic_period}
+                div
+            if is_manual
+                div
+                .ui.small.grey.inline.header manual period
+                .ui.inline.header #{manual_period}
+                if is_manual_daily
+                    div
+                    .ui.small.grey.inline.header manual limit type
+                    .ui.inline.header #{manual_limit_type}
+            div
+            .ui.small.grey.inline.header scope
+            .ui.inline.header #{scope}
+            .ui.divider
+            .ui.fluid.button.edit_transaction
+                i.pencil.icon
+                |edit
