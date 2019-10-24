@@ -45,35 +45,6 @@ if Meteor.isClient
         @layout 'classroom_view_layout'
         @render 'classroom_loans'
         ), name:'classroom_loans'
-    Router.route '/classroom/:doc_id/leaderboard', (->
-        @layout 'classroom_view_layout'
-        @render 'classroom_leaderboard'
-        ), name:'classroom_leaderboard'
-    Router.route '/classroom/:doc_id/grades', (->
-        @layout 'classroom_view_layout'
-        @render 'classroom_grades'
-        ), name:'classroom_grades'
-    Router.route '/classroom/:doc_id/stock', (->
-        @layout 'classroom_view_layout'
-        @render 'classroom_stock'
-        ), name:'classroom_stock'
-    Router.route '/classroom/:doc_id/sponsor', (->
-        @layout 'classroom_view_layout'
-        @render 'classroom_sponsor'
-        ), name:'classroom_sponsor'
-    Router.route '/classroom/:doc_id/shop', (->
-        @layout 'classroom_view_layout'
-        @render 'classroom_shop'
-        ), name:'classroom_shop'
-    Router.route '/classroom/:doc_id/jobs', (->
-        @layout 'classroom_view_layout'
-        @render 'classroom_jobs'
-        ), name:'classroom_jobs'
-    Router.route '/classroom/:doc_id/services', (->
-        @layout 'classroom_view_layout'
-        @render 'classroom_services'
-        ), name:'classroom_services'
-
 
 
     Template.classroom_card.onCreated ->
@@ -445,29 +416,6 @@ if Meteor.isClient
                 text:"was debited #{@amount} for #{@title}"
                 user_id: student._id
                 classroom_id: Router.current().params.doc_id
-
-
-
-
-    Template.class_stock_edit.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'available_share'
-    Template.class_stock_edit.helpers
-        available_shares: ->
-            Docs.find
-                model:'available_share'
-        stock_certificate: ->
-            Docs.find
-                model:'stock_certificate'
-                classroom_id: Router.current().params.doc_id
-        available_shares: ->
-            Docs.find
-                model:'stock_certificate'
-                classroom_id: Router.current().params.doc_id
-    Template.class_stock_edit.events
-        'click .go_public': ->
-            if confirm 'go public?'
-                Docs.update @_id,
-                    $set:public:true
 
 
 
