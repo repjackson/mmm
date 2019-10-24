@@ -41,7 +41,8 @@ template(name='home')
                 .eight.wide.right.floated.column
                     .ui.small.header sponsored by
                     with home_sponsor
-                        img.ui.rounded.image(src="{{c.url image width=400 height=400}}")
+                        a(href="https://www.transamerica.com/individual/" target="_window" title='visit homepage')
+                            img.ui.rounded.image(src="{{c.url image width=400 height=400}}")
                     .ui.hidden.divider
                     a.ui.small.compact.button(href="/sponsorship")
                         |become a sponsor

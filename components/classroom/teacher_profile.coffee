@@ -11,46 +11,6 @@ if Meteor.isClient
         @layout 'teacher_profile_layout'
         @render 'teacher_connections'
         ), name:'teacher_connections'
-    Router.route '/teacher/:username/karma', (->
-        @layout 'teacher_profile_layout'
-        @render 'teacher_karma'
-        ), name:'teacher_karma'
-    Router.route '/teacher/:username/services', (->
-        @layout 'teacher_profile_layout'
-        @render 'teacher_services'
-        ), name:'teacher_services'
-    Router.route '/teacher/:username/payment', (->
-        @layout 'teacher_profile_layout'
-        @render 'teacher_payment'
-        ), name:'teacher_payment'
-    Router.route '/teacher/:username/finance', (->
-        @layout 'teacher_profile_layout'
-        @render 'teacher_finance'
-        ), name:'teacher_finance'
-    Router.route '/teacher/:username/offers', (->
-        @layout 'teacher_profile_layout'
-        @render 'teacher_offers'
-        ), name:'teacher_offers'
-    Router.route '/teacher/:username/contact', (->
-        @layout 'teacher_profile_layout'
-        @render 'teacher_contact'
-        ), name:'teacher_contact'
-    Router.route '/teacher/:username/reports', (->
-        @layout 'teacher_profile_layout'
-        @render 'teacher_reports'
-        ), name:'teacher_reports'
-    Router.route '/teacher/:username/stats', (->
-        @layout 'teacher_profile_layout'
-        @render 'teacher_stats'
-        ), name:'teacher_stats'
-    Router.route '/teacher/:username/shop', (->
-        @layout 'teacher_profile_layout'
-        @render 'teacher_shop'
-        ), name:'teacher_shop'
-    Router.route '/teacher/:username/votes', (->
-        @layout 'teacher_profile_layout'
-        @render 'teacher_votes'
-        ), name:'teacher_votes'
     Router.route '/teacher/:username/dashboard', (->
         @layout 'teacher_profile_layout'
         @render 'teacher_profile_dashboard'

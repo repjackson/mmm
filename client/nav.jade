@@ -45,18 +45,18 @@ template(name='footer')
     .ui.stackable.secondary.padded.grid.segment
         .row
             .three.wide.column
-                .ui.link.large.list
-                    a.icon.item.set_reference(href='/m/reference')
-                        +ismall name='university'
-                        |reference
-                    a.icon.item.set_tool(href='/m/tool')
-                        +ismall name='calculator'
-                        |tools
+                //- .ui.link.large.list
+                //-     a.icon.item.set_reference(href='/m/reference')
+                //-         +ismall name='university'
+                //-         |reference
+                //-     a.icon.item.set_tool(href='/m/tool')
+                //-         +ismall name='calculator'
+                //-         |tools
 
                 img.ui.tiny.inline.image(src="{{c.url 'bcorp' }}")
-                img.ui.small.image(src="{{c.url 'stripe_badge' }}")
+                //- img.ui.small.image(src="{{c.url 'stripe_badge' }}")
                 //- img.ui.small.image(src="{{c.url 'builtin' }}")
-            .three.wide.column
+            .four.wide.column
                 a.ui.fluid.button(href='/donate')
                     +ismall name='donate'
                     |donate
@@ -65,9 +65,9 @@ template(name='footer')
                         i.shield.icon
                         |admin
                 .ui.link.large.list
-                    a.item.capitalize(href='/m/blog') 
-                        //- +ismall name='blog'
-                        |blog
+                    //- a.item.capitalize(href='/m/blog') 
+                    //-     //- +ismall name='blog'
+                    //-     |blog
                     a.item.capitalize(href='/p/about')
                         //- +ismall name='info'
                         |about
@@ -77,45 +77,43 @@ template(name='footer')
                     a.item.capitalize(href='/p/privacy') 
                         //- +ismall name='lock'
                         |privacy policy
-                    a.item.capitalize(href='/stats') 
-                        //- +ismall name='line-chart'
-                        |stats
+                    //- a.item.capitalize(href='/stats') 
+                    //-     //- +ismall name='line-chart'
+                    //-     |stats
                     a.item.capitalize(href='/team')
                         //- +ismall name='groups'
                         | our team
                     a.item.capitalize(href='/contact')
                         //- +ismall name='phone'
                         | contact
-            .three.wide.column
-                .ui.link.large.list
-                    a.item.capitalize(href='/p/classrooms') 
-                        //- +ismall name='classroom'
-                        |classrooms
-                    a.item.capitalize(href='/p/investors') 
-                        //- +ismall name='money'
-                        |investors
-                    a.item.capitalize(href='/p/teachers') 
-                        //- +ismall name='teacher'
-                        |teachers
-                    a.item.capitalize(href="/p/parents") 
-                        //- +ismall name='children'
-                        |parents
-                    a.item.capitalize(href='/p/students') 
-                        //- +ismall name='students'
-                        |students
-                    a.item.capitalize(href='/p/schools') 
-                        //- +ismall name='school'
-                        |schools
-                    a.item.capitalize(href='/p/administrators') 
-                        //- +ismall name='user-shield'
-                        |administrators
-                    a.item.capitalize(href='/p/donors') 
-                        //- +ismall name='donate'
-                        |donors
-                //- +add_button label='bug' model='bug' icon='bug'
-                if is_dev    
-                    with current_user
-                        +role_switcher
+                        
+            //- .three.wide.column
+            //-     .ui.link.large.list
+            //-         a.item.capitalize(href='/p/classrooms') 
+            //-             //- +ismall name='classroom'
+            //-             |classrooms
+            //-         a.item.capitalize(href='/p/investors') 
+            //-             //- +ismall name='money'
+            //-             |investors
+            //-         a.item.capitalize(href='/p/teachers') 
+            //-             //- +ismall name='teacher'
+            //-             |teachers
+            //-         a.item.capitalize(href="/p/parents") 
+            //-             //- +ismall name='children'
+            //-             |parents
+            //-         a.item.capitalize(href='/p/students') 
+            //-             //- +ismall name='students'
+            //-             |students
+            //-         a.item.capitalize(href='/p/schools') 
+            //-             //- +ismall name='school'
+            //-             |schools
+            //-         a.item.capitalize(href='/p/administrators') 
+            //-             //- +ismall name='user-shield'
+            //-             |administrators
+            //-         a.item.capitalize(href='/p/donors') 
+            //-             //- +ismall name='donate'
+            //-             |donors
+            //-     //- +add_button label='bug' model='bug' icon='bug'
             .seven.wide.column
                 unless currentUser
                     a.ui.big.button(href='/login')
@@ -125,9 +123,7 @@ template(name='footer')
                 if is_admin
                     with currentUser
                         +role_switcher
-        .centered.row
-            .seven.wide.column
-                .ui.header 
+                .ui.grey.header 
                     i.copyright.outline.icon
                     | Mini Money Management 2019
 

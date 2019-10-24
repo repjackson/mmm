@@ -76,26 +76,26 @@ template(name='teacher_footer')
     .ui.stackable.padded.grid.segment
         .row
             .three.wide.column
-                .ui.link.big.list
-                    a.item.set_reference(href='/m/reference')
-                        i.book.icon
-                        |reference
-                    a.item.set_tool(href='/m/tool')
-                        i.calculator.icon
-                        |tools
+                //- .ui.link.big.list
+                //-     a.item.set_reference(href='/m/reference')
+                //-         i.book.icon
+                //-         |reference
+                //-     a.item.set_tool(href='/m/tool')
+                //-         i.calculator.icon
+                //-         |tools
 
             .four.wide.column
                 .ui.link.big.list
-                    a.item(href='/m/blog') 
-                        i.blog.icon
-                        |blog
-                    a.item(href='/p/about')
-                        i.info.icon
-                        |about
+                    //- a.item(href='/m/blog') 
+                    //-     i.blog.icon
+                    //-     |blog
+                    //- a.item(href='/p/about')
+                    //-     i.info.icon
+                    //-     |about
                     a.item(href='/contact')
                         i.phone.icon
                         | teacher support
-                +add_button label='bug' model='bug' icon='bug'
+                //- +add_button label='bug' model='bug' icon='bug'
                 if is_dev    
                     with current_user
                         +role_switcher
