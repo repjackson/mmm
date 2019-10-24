@@ -4,7 +4,7 @@ template(name='my_classrooms')
             .twelve.wide.column
                 .ui.inline.header 
                     i.school.icon
-                    |Your Classrooms
+                    |your classrooms
                 if is_teacher
                     .ui.icon.button.add_classroom(title='add classroom')
                         //- +i name='plus' classes='ui mini inline image'
@@ -22,7 +22,7 @@ template(name='classrooms')
             .twelve.wide.column
                 .ui.inline.header 
                     +i name='classroom'
-                    |Classrooms
+                    |classrooms
                 if currentUser
                     .ui.icon.button.add_classroom(title='add classroom')
                         //- +i name='plus' classes='ui mini inline image'
@@ -54,13 +54,13 @@ template(name='classroom_view_layout')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .three.wide.column
-                    a.ui.fluid.button(href="/my_classrooms")
-                        i.chevron.left.grey.icon
-                        i.school.icon
-                        //- +i name='classroom' classes='ui inline mini image'
-                        |classrooms
-                    .ui.center.aligned.header
+                .four.wide.column
+                    //- a.ui.fluid.button(href="/my_classrooms")
+                    //-     i.chevron.left.grey.icon
+                    //-     i.school.icon
+                    //-     //- +i name='classroom' classes='ui inline mini image'
+                    //-     |classrooms
+                    .ui.center.aligned.huge.header
                         | #{title}
                     +image_view key='classroom_image_id' label='image' direct=true
                     .ui.big.fluid.vertical.pointing.menu
@@ -68,22 +68,22 @@ template(name='classroom_view_layout')
                             i.dashboard.grey.icon
                             if is_admin
                                 img(src="https://img.icons8.com/color/48/000000/the-flash-sign--v2.png")        
-                            | Dashboard
+                            | dashboard
                         a.item(href="/classroom/#{_id}/lunch" class="{{isActiveRoute regex='classroom_lunch'}}")
                             i.food.grey.icon
                             if is_admin
                                 img(src="https://img.icons8.com/color/48/000000/the-flash-sign--v2.png")        
-                            | Lunch
+                            | lunch
                         a.item(href="/classroom/#{_id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
                             i.line.chart.grey.icon
                             if is_admin
                                 img(src="https://img.icons8.com/color/48/000000/batman-old.png")        
-                            | Reports
+                            | reports
                         a.item(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
                             i.list.grey.icon
                             if is_admin
                                 img(src="https://img.icons8.com/color/48/000000/batman-old.png")        
-                            | Feed
+                            | feed
                         //- a.item(href="/classroom/#{_id}/stats" class="{{isActiveRoute regex='classroom_stats'}}")
                         //-     i.pie.chart.grey.icon
                         //-     | stats
@@ -107,7 +107,7 @@ template(name='classroom_view_layout')
                     a.ui.fluid.large.button(href="/classroom/#{_id}/edit")
                         i.pencil.icon
                         | edit
-                .thirteen.wide.column
+                .twelve.wide.column
                     //- a.ui.button(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
                     //-     +ismall name='rss'
                     //-     | feed
@@ -118,23 +118,12 @@ template(name='classroom_view_layout')
     //- +teacher_footer
 
 
-template(name='classroom_jobs')
-    .ui.header 
-        i.business.icon
-        |classroom jobs
-    +jobs
 
 template(name='classroom_loans')
     .ui.header 
         i.money.icon
         |classroom loans
     +loans
-
-template(name='classroom_shop')        
-    .ui.header 
-        i.money.icon
-        |classroom shop
-    +shop
 
 
 template(name='classroom_lunch')        
@@ -180,20 +169,11 @@ template(name='classroom_credits')
         |classroom loans
     +loans
 
-template(name='classroom_debits')   
-    .ui.header 
-        i.money.icon
-        |classroom loans
-     
-    +shop
-
-
-
     
 
 template(name='classroom_students')
-    .ui.large.header 
-        i.dashboard.icon
+    .ui.header 
+        i.dashboard.grey.icon
         |classroom dashboard
     with current_doc
         .ui.styled.fluid.accordion 

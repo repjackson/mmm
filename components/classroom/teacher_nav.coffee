@@ -3,11 +3,13 @@ if Meteor.isClient
         'click .shortcut_modal': ->
             $('.ui.shortcut.modal').modal('show')
     Template.teacher_nav.onRendered ->
-        Meteor.setTimeout ->
-            $('.dropdown').dropdown(
-                on:'click'
-            )
-        , 1000
+        @autorun => Meteor.subscribe 'my_classrooms'
+
+        # Meteor.setTimeout ->
+        #     $('.dropdown').dropdown(
+        #         on:'click'
+        #     )
+        # , 1000
 
         Meteor.setTimeout ->
             $('.item').popup(
@@ -33,16 +35,6 @@ if Meteor.isClient
                 Session.set 'logging_out', false
                 Router.go '/'
 
-        'click .set_models': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', 'model', ->
-                Session.set 'loading', false
-
-        'click .set_model': ->
-            Session.set 'loading', true
-            # Meteor.call 'increment_view', @_id, ->
-            Meteor.call 'set_facets', @slug, ->
-                Session.set 'loading', false
 
         'click .set_reference': ->
             Session.set 'loading', true
@@ -87,39 +79,9 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe 'unread_messages'
 
     Template.teacher_nav.helpers
-        user_nav_button_class: ->
-            if Meteor.user().handling_active
-                'green'
-            else
-                ''
-        user_nav_button_title: ->
-            if Meteor.user().handling_active
-                'clocked in as handler'
-            else
-                'click to view profile'
         notifications: ->
             Docs.find
                 model:'notification'
-        role_models: ->
-            if Meteor.user()
-                if Meteor.user() and Meteor.user().roles
-                    if 'dev' in Meteor.user().roles
-                        Docs.find {
-                            model:'model'
-                        }, sort:title:1
-                    else
-                        Docs.find {
-                            model:'model'
-                            view_roles:$in:Meteor.user().roles
-                        }, sort:title:1
-            else
-                Docs.find {
-                    model:'model'
-                    view_roles: $in:['public']
-                }, sort:title:1
-
-        models: ->
-            Docs.find
                 model:'model'
 
         unread_count: ->
@@ -143,6 +105,10 @@ if Meteor.isClient
             }).count()
             if unread_count then 'red' else ''
 
+        my_classrooms: ->
+            Docs.find {
+                model:'classroom'
+            }, sort: _timestamp: -1
 
         bookmarked_models: ->
             if Meteor.userId()

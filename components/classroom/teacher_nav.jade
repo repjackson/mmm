@@ -15,13 +15,13 @@ template(name='teacher_nav')
         //- a.item(href='/teacher_dashboard' class="{{isActivePath '/teacher_dashboard'}}")
         //-     //- +ismall name='dashboard'
         //-     i.dashboard.icon
-            
         //- a.item(href='/schools' title='schools')
         //-     +ismall name='school'
         //-     span.mobile.hidden &nbsp; schools
-        a.item(href='/my_classrooms' title='classrooms' class="{{isActivePath '/my_classrooms'}}")
-            i.school.large.icon
-            span.mobile.hidden &nbsp; classrooms
+        each my_classrooms
+            a.item(href="/classroom/#{_id}")
+                img.ui.avatar.image(src="{{c.url classroom_image_id width=200 height=200 crop='fit'}}")
+                span.mobile.hidden &nbsp; #{title}
         //- a.item(href='/tests' title='tests')
         //-     +ismall name='test-passed'
         //-     span.mobile.hidden &nbsp; tests
@@ -47,12 +47,12 @@ template(name='teacher_nav')
             if currentUser
                 //- a.icon.item(href="/tasks" class="{{isActivePath '/tasks'}}")
                 //-     i.tasks.icon
-                a.icon.item(href="/chat" class="{{isActivePath '/chat'}}")
-                    i.chat.outline.large.icon
-                a.icon.item(href="/alerts" class="{{isActivePath '/alerts'}}")
-                    i.bell.outline.large.icon
-                a.icon.item(href="/mail" class="{{isActivePath '/mail'}}")
-                    i.envelope.outline.large.icon
+                //- a.icon.item(href="/chat" class="{{isActivePath '/chat'}}")
+                //-     i.chat.outline.large.icon
+                //- a.icon.item(href="/alerts" class="{{isActivePath '/alerts'}}")
+                //-     i.bell.outline.large.icon
+                //- a.icon.item(href="/mail" class="{{isActivePath '/mail'}}")
+                //-     i.envelope.outline.large.icon
             
                 if is_dev
                     a.icon.item.set_models(href="/m/model")
