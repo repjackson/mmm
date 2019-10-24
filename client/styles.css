@@ -632,7 +632,7 @@ input.user_search{
 }
 
 .ui.header{
-    text-transform: capitalize !important;
+    /* text-transform: capitalize !important; */
     /* font-family: 'Raleway', sans-serif !important; */
     /* font-family: 'Montserrat', sans-serif !important; */
     /* font-family: 'Roboto', sans-serif !important; */

@@ -1,5 +1,8 @@
 template(name='user_edit_layout')
-    +nav
+    if is_teacher
+        +teacher_nav
+    else 
+        +nav
     with user_from_username_param          
         .ui.stackable.padded.grid
             .row
@@ -15,28 +18,29 @@ template(name='user_edit_layout')
                         a.item(href="/user/#{user_from_username_param.username}/edit/info" class="{{isActiveRoute regex='user_edit_info'}}") 
                             |info
                             i.info.icon
-                        a.item(href="/user/#{user_from_username_param.username}/edit/friends" class="{{isActiveRoute regex='user_edit_friends'}}") 
-                            |friends
-                            i.users.icon
-                        a.item(href="/user/#{user_from_username_param.username}/edit/styles" class="{{isActiveRoute regex='user_edit_styles'}}") 
-                            |styles
-                            i.brush.icon
-                        a.item(href="/user/#{user_from_username_param.username}/edit/notifications" class="{{isActiveRoute regex='user_edit_notifications'}}") 
-                            |notifications
-                            i.bell.icon
-                        a.item(href="/user/#{user_from_username_param.username}/edit/payment" class="{{isActiveRoute regex='user_edit_payment'}}") 
-                            |payment
-                            i.money.icon
+                        //- a.item(href="/user/#{user_from_username_param.username}/edit/friends" class="{{isActiveRoute regex='user_edit_friends'}}") 
+                        //-     |friends
+                        //-     i.users.icon
+                        //- a.item(href="/user/#{user_from_username_param.username}/edit/styles" class="{{isActiveRoute regex='user_edit_styles'}}") 
+                        //-     |styles
+                        //-     i.brush.icon
+                        //- a.item(href="/user/#{user_from_username_param.username}/edit/notifications" class="{{isActiveRoute regex='user_edit_notifications'}}") 
+                        //-     |notifications
+                        //-     i.bell.icon
+                        //- a.item(href="/user/#{user_from_username_param.username}/edit/payment" class="{{isActiveRoute regex='user_edit_payment'}}") 
+                        //-     |payment
+                        //-     i.money.icon
                         a.item(href="/user/#{user_from_username_param.username}/edit/account" class="{{isActiveRoute regex='user_edit_account'}}") 
                             |account
                             i.cog.icon
-                        a.item(href="/user/#{user_from_username_param.username}/edit/tags" class="{{isActiveRoute regex='user_edit_tags'}}") 
-                            |tags
-                            i.tags.icon
+                        //- a.item(href="/user/#{user_from_username_param.username}/edit/tags" class="{{isActiveRoute regex='user_edit_tags'}}") 
+                        //-     |tags
+                        //-     i.tags.icon
                 .twelve.wide.column
                     +yield
 
 template(name='user_edit_info')
+    +image_edit key='profile_image_id' icon='picture' title='profile image' direct=true
     .ui.form
         +text_edit key='first_name' label='first name' direct=true
         +text_edit key='last_name' label='last name' direct=true
@@ -47,11 +51,11 @@ template(name='user_edit_info')
                 |emails
             +emails_edit
         .column
-            +number_edit key='credit' label='credit' icon='money' direct=true
+            if is_admin
+                +number_edit key='credit' label='credit' icon='money' direct=true
             div
             +phone_edit key='phone' label='phone' icon='phone' direct=true
             +array_edit key='tags' label='tags' direct=true
-    +image_edit key='profile_image_id' icon='picture' title='profile image' direct=true
 
 
      

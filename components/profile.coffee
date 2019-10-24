@@ -123,18 +123,10 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_products'
         ), name:'user_products'
-    Router.route '/user/:username/comparison', (->
-        @layout 'profile_layout'
-        @render 'user_comparison'
-        ), name:'user_comparison'
-    Router.route '/user/:username/notifications', (->
-        @layout 'profile_layout'
-        @render 'user_notifications'
-        ), name:'user_notifications'
 
 
     Template.profile_layout.onCreated ->
-        @autorun -> Meteor.subscribe 'model_docs', 'classroom'
+        # @autorun -> Meteor.subscribe 'model_docs', 'classroom'
     Template.profile_layout.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_events', Router.current().params.username
@@ -159,7 +151,7 @@ if Meteor.isClient
             Docs.find
                 model:'classroom'
                 student_ids: $in: [user._id]
-            
+
         ssd: ->
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.findOne

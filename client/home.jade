@@ -1,5 +1,9 @@
 template(name='home')
-    +home_slider
+    img.ui.large.centered.image(src="{{c.url 'mmm_logo_small' width=400 height=400}}")
+    .ui.center.aligned.large.header Mini Money Management
+    .ui.center.aligned.small.header Teaching Responsibility  |  Influencing Young Minds  |  Teaching Financial Literacy to the Youth of the World
+
+    //- +home_slider
     .ui.vertical.stripe.segment
         .ui.middle.aligned.stackable.grid.container
             .ui.center.aligned.header MMM's mission is to empower K-5 students with money management mindset and skills, so that they can make effective financial decisions for themselves, their families, and their communities
@@ -14,27 +18,27 @@ template(name='home')
                     .ui.large.list
                         .item 
                             //- i.users.icon
-                            +ismall name='groups'
+                            //- +ismall name='groups'
                             |#{hs.user_count} users
                         .item 
                             //- i.user.shield.icon
-                            +ismall name='teacher'
+                            //- +ismall name='teacher'
                             |#{hs.teacher_count} teachers
                         .item 
-                            +ismall name='classroom'
+                            //- +ismall name='classroom'
                             |#{hs.classroom_count} classrooms
                         //- .item 
                         //-     |#{hs.donor_count} donors
                         //- .item $#{hs.credit_count} money raised
                         .item 
-                            +ismall name='donate'
+                            //- +ismall name='donate'
                             |#{hs.debit_count} debits
                         .item 
-                            +ismall name='donate'
+                            //- +ismall name='donate'
                             |#{hs.credit_count} credits
                         //- .item #{hs.product_count} products in marketplace
 
-                .six.wide.right.floated.column
+                .eight.wide.right.floated.column
                     .ui.small.header sponsored by
                     with home_sponsor
                         img.ui.rounded.image(src="{{c.url image width=400 height=400}}")
@@ -47,16 +51,15 @@ template(name='home')
                         |we believe that students, regardless of background, deserve preparation for real-world financial challenges
                     //- p
                     //-     |MMM’s mission is to empower K-5 teachers and students with money management mindset and skills, so that they can make effective financial decisions for themselves, their families and their communities. 
-                    p
-                        |minimoney is an integrated, elementary classroom-economy app that is engaging for students and low-effort for teachers while simulating real-world financial challenges
                     //- p
                         //- |minimoney is a classroom economy app that integrates seamlessly into the classroom to empower students with real-world financial literacy
                     a.ui.huge.fluid.center.aligned.button(href='/choose_user_type') sign up
                     //- p
                     //-     | Yes that&apos;s right, you thought it was the stuff of dreams, but even bananas can be bioengineered.
-                .six.wide.right.floated.column
-                    img.ui.rounded.image.recalc_stats(src="{{c.url 'mmm_logo_small' width=400 height=400}}")
-                    .ui.small.center.aligned.header a classroom culture and incentive tool
+                .eight.wide.right.floated.column
+                    p
+                        |minimoney is an integrated, elementary classroom-economy app that is engaging for students and low-effort for teachers while simulating real-world financial challenges
+                    //- .ui.small.center.aligned.header a classroom culture and incentive tool
         .ui.divider
         .ui.stackable.grid
             .four.column.center.aligned.row
@@ -85,11 +88,6 @@ template(name='home')
                         i.icon 
                             +i name='invoice'
                         |automated bills
-                .column
-                    .ui.icon.header
-                        i.icon 
-                            +i name='check-book'
-                        |digital checkbooks and wire order
                 .column
                     .ui.icon.header
                         i.icon 

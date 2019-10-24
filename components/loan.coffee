@@ -43,16 +43,6 @@ if Meteor.isClient
             Docs.find
                 model:'loan'
 
-    Template.loans_view_template.onRendered ->
-        @autorun => Meteor.subscribe 'model_docs', 'loan'
-    Template.loans_view_template.helpers
-        loans: ->
-            Docs.find
-                model:'loan'
-    Template.loans_view_template.events
-        'click .take_loan': ->
-            console.log @
-
 
 
 

@@ -21,7 +21,7 @@ template(name='teacher_nav')
         each my_classrooms
             a.item(href="/classroom/#{_id}")
                 img.ui.avatar.image(src="{{c.url classroom_image_id width=200 height=200 crop='fit'}}")
-                span.mobile.hidden &nbsp; #{title}
+                span.mobile.hidden &nbsp; #{company_name}
         //- a.item(href='/tests' title='tests')
         //-     +ismall name='test-passed'
         //-     span.mobile.hidden &nbsp; tests

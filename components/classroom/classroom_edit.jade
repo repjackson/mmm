@@ -46,13 +46,16 @@ template(name='classroom_edit_info')
     .ui.header 
         i.info.icon
         |info
-    +text_edit key='title' direct=true
-    +text_edit key='company_name' label='company name' direct=true
-    +image_edit key='classroom_image_id' label='image' direct=true
-    +textarea_edit key='description' label='description' direct=true
-    +array_edit key='tags' label='tags' icon='tags' direct=true
-    if is_admin
-        +teacher_selector
+    .ui.two.column.grid
+        .column
+            +text_edit key='title' direct=true
+            +text_edit key='company_name' label='company name' direct=true
+            +image_edit key='classroom_image_id' label='image' direct=true
+        .column
+            +textarea_edit key='description' label='description' direct=true
+            +array_edit key='tags' label='tags' icon='tags' direct=true
+            if is_admin
+                +teacher_selector
 
     +remove_button
                                     

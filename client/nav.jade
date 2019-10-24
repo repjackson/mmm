@@ -3,51 +3,8 @@ template(name='nav')
         if is_loading
             .item
                 i.big.loading.notched.circle.icon
-        //- if currentUser
-        //-     a.compact.item(href='/grid' class="{{isActivePath '/grid'}}") 
-        //-         img.ui.tiny.compact.image(src="{{c.url 'mmm_logo_small' height=150 }}" title='Home')
-            //- a.item(href='/schools' title='schools')
-            //-     +ismall name='school'
-            //-     span.mobile.hidden &nbsp; schools
-            //- a.item(href='/classrooms' title='classrooms')
-            //-     +ismall name='class'
-            //-     span.mobile.hidden &nbsp; classrooms
-            //- a.item(href='/tests' title='tests')
-            //-     +ismall name='test-passed'
-            //-     span.mobile.hidden &nbsp; tests
-            //- a.item(href='/questions' title='questions')
-            //-     +ismall name='faq'
-            //-     span.mobile.hidden &nbsp; questions
-            //- a.item(href='/bounties' title='bounties')
-            //-     +ismall name='treasure-chest'
-            //-     span.mobile.hidden &nbsp; bounties
-            //- a.item(href='/teachers' title='teachers')
-            //-     +ismall name='teacher'
-            //-     //- |teachers
-            //- a.item(href='/students' title='students') 
-            //-     +ismall name='students'
-            //-     span.mobile.hidden &nbsp; students
-        
         a.compact.item(href='/' class="{{isActivePath '/'}}") 
             img.ui.tiny.compact.image(src="{{c.url 'mmm_logo_small' height=200 }}" title='Home')
-                
-            //- |Home
-        //- a.item(href='/schools' title='schools') 
-        //-     +ismall name='school'
-        //-     schools
-        //- a.item(href='/classroom/i4mdNbN8ykJcr6w9q/dashboard' title='classrooms')
-        //-     +ismall name='dashboard'
-        //- unless currentUser
-            
-            //- a.item(href='/classrooms' title='classrooms')
-            //-     +ismall name='class'
-            //-     span.mobile.hidden &nbsp; classrooms
-            //- a.item(href='/schools')
-            //-     +ismall name='school'
-            //-     span.mobile.hidden &nbsp; schools
-            //- a.item.set_reference(href='/m/reference')
-            //-     +ismall name='university'
-            //-     span.mobile.hidden &nbsp; reference
         a.ui.item(href='/p/about')
             |Our Work
         //- a.item(href='/p/partners')
@@ -71,14 +28,6 @@ template(name='nav')
                     a.icon.item.set_models(href="/m/model")
                         i.large.grey.database.icon
                 unless logging_out
-                    a.icon.item(href="/tasks")
-                        i.tasks.grey.large.icon
-                    a.icon.item(href="/chat")
-                        i.chat.outline.grey.large.icon
-                    a.icon.item(href="/alerts")
-                        i.bell.grey.large.outline.icon
-                    a.icon.item(href="/mail")
-                        i.envelope.grey.large.outline.icon
                     a.item(href="/user/#{currentUser.username}" class=user_nav_button_class title=user_nav_button_title)
                         if currentUser.profile_image_id
                             img.ui.avatar.inline.image(src="{{c.url currentUser.profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
@@ -117,53 +66,53 @@ template(name='footer')
                         |admin
                 .ui.link.large.list
                     a.item.capitalize(href='/m/blog') 
-                        +ismall name='blog'
+                        //- +ismall name='blog'
                         |blog
                     a.item.capitalize(href='/p/about')
-                        +ismall name='info'
+                        //- +ismall name='info'
                         |about
                     a.item.capitalize(href="/p/terms") 
-                        +ismall name='invoice'
+                        //- +ismall name='invoice'
                         |terms of service
                     a.item.capitalize(href='/p/privacy') 
-                        +ismall name='lock'
+                        //- +ismall name='lock'
                         |privacy policy
                     a.item.capitalize(href='/stats') 
-                        +ismall name='line-chart'
+                        //- +ismall name='line-chart'
                         |stats
                     a.item.capitalize(href='/team')
-                        +ismall name='groups'
+                        //- +ismall name='groups'
                         | our team
                     a.item.capitalize(href='/contact')
-                        +ismall name='phone'
+                        //- +ismall name='phone'
                         | contact
             .three.wide.column
                 .ui.link.large.list
                     a.item.capitalize(href='/p/classrooms') 
-                        +ismall name='classroom'
+                        //- +ismall name='classroom'
                         |classrooms
                     a.item.capitalize(href='/p/investors') 
-                        +ismall name='money'
+                        //- +ismall name='money'
                         |investors
                     a.item.capitalize(href='/p/teachers') 
-                        +ismall name='teacher'
+                        //- +ismall name='teacher'
                         |teachers
                     a.item.capitalize(href="/p/parents") 
-                        +ismall name='children'
+                        //- +ismall name='children'
                         |parents
                     a.item.capitalize(href='/p/students') 
-                        +ismall name='students'
+                        //- +ismall name='students'
                         |students
                     a.item.capitalize(href='/p/schools') 
-                        +ismall name='school'
+                        //- +ismall name='school'
                         |schools
                     a.item.capitalize(href='/p/administrators') 
-                        +ismall name='user-shield'
+                        //- +ismall name='user-shield'
                         |administrators
                     a.item.capitalize(href='/p/donors') 
-                        +ismall name='donate'
+                        //- +ismall name='donate'
                         |donors
-                +add_button label='bug' model='bug' icon='bug'
+                //- +add_button label='bug' model='bug' icon='bug'
                 if is_dev    
                     with current_user
                         +role_switcher

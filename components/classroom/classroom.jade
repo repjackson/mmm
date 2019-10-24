@@ -61,7 +61,7 @@ template(name='classroom_view_layout')
                     //-     //- +i name='classroom' classes='ui inline mini image'
                     //-     |classrooms
                     .ui.center.aligned.huge.header
-                        | #{title}
+                        | #{company_name}
                     +image_view key='classroom_image_id' label='image' direct=true
                     .ui.big.fluid.vertical.pointing.menu
                         a.item(href="/classroom/#{_id}/students" class="{{isActiveRoute regex='classroom_students'}}")
@@ -316,17 +316,17 @@ template(name='classroom_reports')
                 //-         i.chevron.left.icon
                 //-         |classroom
                 //- .twelve.wide.column
-                .ui.large.header 
-                    i.line.chart.icon
-                    |student reports
+                //- .ui.large.header 
+                //-     i.line.chart.icon
+                //-     |student reports
                 table.ui.celled.very.basic.table
                     thead
                         tr
                             th student
-                            th week 1
-                            th week 2
-                            th week 3
-                            th week 4
+                            //- th week 1
+                            //- th week 2
+                            //- th week 3
+                            //- th week 4
                             th credit
                     tbody
                         each classroom_students
@@ -335,18 +335,18 @@ template(name='classroom_reports')
                                     a.ui.header(href="/user/#{username}") 
                                         img.ui.rounded.avatar.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
                                         |#{first_name} #{last_name}
-                                td 
-                                    .ui.green.header +1
-                                    .ui.red.header -3
-                                td 
-                                    .ui.green.header +1
-                                    .ui.red.header -3
-                                td 
-                                    .ui.green.header +1
-                                    .ui.red.header -3
-                                td 
-                                    .ui.green.header +1
-                                    .ui.red.header -3
+                                //- td 
+                                //-     .ui.green.header +1
+                                //-     .ui.red.header -3
+                                //- td 
+                                //-     .ui.green.header +1
+                                //-     .ui.red.header -3
+                                //- td 
+                                //-     .ui.green.header +1
+                                //-     .ui.red.header -3
+                                //- td 
+                                //-     .ui.green.header +1
+                                //-     .ui.red.header -3
                                 td.credit_view
                                     .ui.header.credit_view 
                                         .ui.large.header.credit_view $#{credit}

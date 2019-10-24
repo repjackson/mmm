@@ -24,10 +24,14 @@ template(name='build_classroom_info')
             .centered.row
                 .sixteen.wide.column
                     .ui.center.aligned.basic.segment
-                        .ui.header 
-                            +i name='classroom'
-                            |build '#{title}' classroom
-                    .ui.four.steps
+                        .ui.small.inline.header
+                            //- +i name='classroom'
+                            |building
+                        .ui.inline.header #{teacher_name}'s #{company_name}
+                        .ui.small.inline.header
+                            //- +i name='classroom'
+                            |classroom
+                    .ui.four.small.steps
                         .active.step
                             i.info.icon
                             .content
@@ -48,9 +52,9 @@ template(name='build_classroom_info')
                     
             .centered.row
                 .seven.wide.column
-                    .ui.center.aligned.header 
-                        +i name='info'
-                        |info
+                    //- .ui.center.aligned.header 
+                    //-     +i name='info'
+                    //-     |info
                     .spacer
                     +text_edit key='teacher_name' label='Teacher Name' placeholder='enter your name' tooltip='examples: john smith' direct=true
                     .spacer
@@ -73,10 +77,14 @@ template(name='build_classroom_finance')
             .centered.row
                 .sixteen.wide.column
                     .ui.center.aligned.basic.segment
-                        .ui.header 
-                            +i name='classroom'
-                            |build '#{title}' classroom
-                    .ui.four.steps
+                        .ui.small.inline.header
+                            //- +i name='classroom'
+                            |building
+                        .ui.inline.header #{teacher_name}'s #{company_name}
+                        .ui.small.inline.header
+                            //- +i name='classroom'
+                            |classroom
+                    .ui.four.small.steps
                         a.step(href="/build_classroom/#{_id}/info")
                             i.green.info.icon
                             .content
@@ -134,10 +142,14 @@ template(name='build_classroom_students')
             .centered.row
                 .sixteen.wide.column
                     .ui.center.aligned.basic.segment
-                        .ui.header 
-                            +i name='classroom'
-                            |build '#{title}' classroom
-                    .ui.four.steps
+                        .ui.small.inline.header
+                            //- +i name='classroom'
+                            |building
+                        .ui.inline.header #{teacher_name}'s #{company_name}
+                        .ui.small.inline.header
+                            //- +i name='classroom'
+                            |classroom
+                    .ui.four.small.steps
                         a.step(href="/build_classroom/#{_id}/info")
                             i.green.info.icon
                             .content
@@ -157,9 +169,9 @@ template(name='build_classroom_students')
                     
             .centered.row
                 .seven.wide.center.aligned.column
-                    .ui.center.aligned.header 
-                        +i name='students'
-                        |students
+                    //- .ui.center.aligned.header 
+                    //-     +i name='students'
+                    //-     |students
                     //- .ui.header students
                     //- .ui.large.list
                     //-     each classroom_students
@@ -167,3 +179,7 @@ template(name='build_classroom_students')
                     //-             i.remove.grey.link.icon.remove_student
                     .ui.header student selector
                     +student_selector
+                    .spacer
+                    a.ui.fluid.large.basic.button(href="/classroom/#{_id}/students")
+                        i.green.checkmark.icon
+                        |Save

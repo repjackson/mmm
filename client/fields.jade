@@ -1430,8 +1430,9 @@ template(name='textarea_edit')
                 //- else
                 //-     |#{this}
             textarea.edit_textarea(rows='5') #{field_value}
-    +call_watson mode='text' key=key
-    div
+    if is_admin
+        +call_watson mode='text' key=key
+        //- div
     //- +tone mode='html'
     if watson
         +watson_view
