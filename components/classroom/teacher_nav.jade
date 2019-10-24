@@ -10,11 +10,11 @@ template(name='teacher_nav')
         if is_loading
             .item
                 i.big.loading.notched.circle.icon
+        
         //- a.item(href='/grid' class="{{isActivePath '/grid'}}")
         //-     i.th.large.icon
-        //- a.item(href='/teacher_dashboard' class="{{isActivePath '/teacher_dashboard'}}")
-        //-     //- +ismall name='dashboard'
-        //-     i.dashboard.icon
+        a.item(href='/my_classrooms' class="{{isActivePath '/my_classrooms'}}")
+            i.clone.icon
         //- a.item(href='/schools' title='schools')
         //-     +ismall name='school'
         //-     span.mobile.hidden &nbsp; schools

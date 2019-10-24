@@ -78,21 +78,18 @@ template(name='classroom_edit_credits')
         |credits
     .ui.stackable.grid
         .eight.wide.column
-            .ui.fluid.icon.button.add_credit_type
+            .ui.small.header from template
+            .ui.fluid.huge.vertical.pointing.menu
+                each template_credit_types
+                    +credit_menu_item
+            div
+            .ui.small.inline.header custom
+            .ui.icon.button.add_credit_type
                 i.plus.icon
             .ui.fluid.huge.vertical.pointing.menu
-                each credit_types
-                    a.item.select_credit(class=credit_class) 
-                        |#{title}
-                        small +$#{amount}
-                        if is_automatic
-                            i.lightning.yellow.icon
-                        if is_individual
-                            i.user.outline.icon(title='student scope')
-                        if is_group 
-                            i.users.icon(title='classroom scope')
-                        if is_admin
-                            i.circular.remove.icon.remove_credit
+                each custom_credit_types
+                    +credit_menu_item
+            
             //- +number_edit key='salary_amount' label='salary amount' icon='money' direct=true
             //- +boolean_edit key='salary_automatic' label='automatic'
             //- if salary_automatic
@@ -107,6 +104,21 @@ template(name='classroom_edit_credits')
             with selected_credit
                 +transaction
                         
+                        
+template(name='credit_menu_item')                        
+    a.item.select_credit(class=credit_class) 
+        |#{title}
+        small +$#{amount}
+        if is_automatic
+            i.lightning.yellow.icon
+        if is_individual
+            i.user.outline.icon(title='student scope')
+        if is_group 
+            i.users.icon(title='classroom scope')
+        if is_admin
+            i.circular.remove.icon.remove_credit
+
+                        
 template(name='classroom_edit_debits')       
     .ui.large.header 
         i.chevron.up.icon
@@ -114,21 +126,17 @@ template(name='classroom_edit_debits')
     .ui.stackable.grid
         .row
             .eight.wide.column
-                .ui.fluid.icon.button.add_debit_type
+                .ui.small.header from template
+                .ui.fluid.huge.vertical.pointing.menu
+                    each template_debit_types
+                        +debit_menu_item
+                div
+                .ui.small.inline.header custom
+                .ui.icon.button.add_debit_type
                     i.plus.icon
                 .ui.fluid.huge.vertical.pointing.menu
-                    each debit_types
-                        a.item.select_debit(class=debit_class) 
-                            |#{title}
-                            small $#{amount}
-                            if is_automatic
-                                i.lightning.yellow.icon
-                            else 
-                                i.hand.icon
-                            if is_individual
-                                i.user.outline.icon(title='student scope')
-                            if is_group 
-                                i.users.icon(title='classroom scope')
+                    each custom_debit_types
+                        +debit_menu_item
                 //- .ui.header presets
                 //- +number_edit key='desk_rental_amount' label='desk rental amount' icon='table' direct=true
                 //- .spacer
@@ -144,6 +152,21 @@ template(name='classroom_edit_debits')
             .eight.wide.column
                 with selected_debit
                     +transaction
+
+template(name='debit_menu_item')
+    a.item.select_debit(class=debit_class) 
+        |#{title}
+        small $#{amount}
+        if is_automatic
+            i.lightning.yellow.icon
+        else 
+            i.hand.icon
+        if is_individual
+            i.user.outline.icon(title='student scope')
+        if is_group 
+            i.users.icon(title='classroom scope')
+
+
 
 template(name='transaction')
     .ui.segment

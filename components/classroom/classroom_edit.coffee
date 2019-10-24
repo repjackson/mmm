@@ -45,11 +45,6 @@ if Meteor.isClient
         , 750
 
 
-    Template.classroom_edit_credits.helpers
-        credit_types: ->
-            Docs.find
-                model:'credit_type'
-                classroom_id: Router.current().params.doc_id
 
 
 
@@ -61,21 +56,43 @@ if Meteor.isClient
                 model:'debit_type'
                 classroom_id: Router.current().params.doc_id
             Session.set 'selected_debit_id', new_debit_id
-    Template.classroom_edit_debits.helpers
+    Template.debit_menu_item.helpers
         debit_class: ->
             if Session.equals('selected_debit_id',@_id) then 'active' else ''
+    Template.classroom_edit_debits.helpers
         selected_debit: ->
             Docs.findOne Session.get('selected_debit_id')
-        debit_types: ->
+        template_debit_types: ->
             Docs.find
                 model:'debit_type'
                 classroom_id: Router.current().params.doc_id
+                template_id:$exists:true
+        custom_debit_types: ->
+            Docs.find
+                model:'debit_type'
+                classroom_id: Router.current().params.doc_id
+                template_id:$exists:false
 
 
 
-    Template.classroom_edit_credits.helpers
+
+
+    Template.credit_menu_item.helpers
         credit_class: ->
             if Session.equals('selected_credit_id',@_id) then 'active' else ''
+
+    Template.classroom_edit_credits.helpers
+        template_credit_types: ->
+            Docs.find
+                model:'credit_type'
+                classroom_id: Router.current().params.doc_id
+                template_id:$exists:true
+        custom_credit_types: ->
+            Docs.find
+                model:'credit_type'
+                classroom_id: Router.current().params.doc_id
+                template_id:$exists:false
+
         selected_credit: ->
             Docs.findOne Session.get('selected_credit_id')
     Template.classroom_edit_credits.events
@@ -146,15 +163,19 @@ if Meteor.isClient
         console.log @data
         @autorun => Meteor.subscribe 'classroom_docs', 'credit_type', @data.classroom_id
         @autorun => Meteor.subscribe 'classroom_docs', 'debit_type', @data.classroom_id
+        @autorun => Meteor.subscribe 'model_docs', 'debit_type'
+        @autorun => Meteor.subscribe 'model_docs', 'credit_type'
 
     Template.template.helpers
         editing_template: -> Template.instance().editing_template.get()
         classroom_debits: ->
             Docs.find
                 model:'debit_type'
+                classroom_id: @classroom_id
         classroom_credits: ->
             Docs.find
                 model:'credit_type'
+                classroom_id: @classroom_id
     Template.template.events
         'click .clone_template': ->
             # console.log @
@@ -168,6 +189,7 @@ if Meteor.isClient
                 new_credit_object = {}
                 new_credit_object.model = 'credit_type'
                 new_credit_object.classroom_id = Router.current().params.doc_id
+                new_credit_object.template_id = @_id
 
                 if credit.title
                     new_credit_object.title = credit.title
@@ -197,6 +219,36 @@ if Meteor.isClient
                     model:'debit_type'
                     classroom_id: @classroom_id
                 ).fetch()
+            for debit in group_debits
+                # console.log 'cloning debit', debit
+                new_debit_object = {}
+                new_debit_object.model = 'debit_type'
+                new_debit_object.classroom_id = Router.current().params.doc_id
+                new_debit_object.template_id = @_id
+
+                if debit.title
+                    new_debit_object.title = debit.title
+                if debit.amount
+                    new_debit_object.amount = debit.amount
+                if debit.description
+                    new_debit_object.description = debit.description
+                if debit.dispersion_type
+                    new_debit_object.dispersion_type = debit.dispersion_type
+                if debit.icon
+                    new_debit_object.icon = debit.icon
+                if debit.manual_limit_type
+                    new_debit_object.manual_limit_type = debit.manual_limit_type
+                if debit.manual_period
+                    new_debit_object.manual_period = debit.manual_period
+                if debit.scope
+                    new_debit_object.scope = debit.scope
+                Docs.insert new_debit_object
+                $('body').toast({
+                    message: "debit #{debit.title} was cloned"
+                    class:'success'
+                    showProgress: 'bottom'
+                })
+
             console.log group_debits
         'click .save_template': (e,t)->
             t.editing_template.set false
