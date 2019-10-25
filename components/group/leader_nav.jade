@@ -13,15 +13,19 @@ template(name='leader_nav')
         
         //- a.item(href='/grid' class="{{isActivePath '/grid'}}")
         //-     i.th.large.icon
-        a.item(href='/my_groups' class="{{isActivePath '/my_groups'}}")
+        a.item(href='/m/group' class="{{isActivePath '/m/group'}}")
             i.clone.icon
+            |groups
+        a.item(href='/groups' class="{{isActivePath '/groups'}}")
+            i.clone.icon
+            |groups
         //- a.item(href='/companys' title='companys')
         //-     +ismall name='company'
         //-     span.mobile.hidden &nbsp; companys
-        each my_groups
-            a.item(href="/group/#{_id}")
-                img.ui.avatar.image(src="{{c.url group_image_id width=200 height=200 crop='fit'}}")
-                span.mobile.hidden &nbsp; #{title}
+        //- each my_groups
+        //-     a.item(href="/group/#{_id}")
+        //-         img.ui.avatar.image(src="{{c.url group_image_id width=200 height=200 crop='fit'}}")
+        //-         span.mobile.hidden &nbsp; #{title}
         //- a.item(href='/tests' title='tests')
         //-     +ismall name='test-passed'
         //-     span.mobile.hidden &nbsp; tests
@@ -44,6 +48,10 @@ template(name='leader_nav')
         //-     i.book.icon
         //-     span.mobile.hidden &nbsp; reference
         .right.menu
+            unless currentUser
+                a.item(href='/login') log In
+                a.item(href='/choose_user_type') register
+        
             if currentUser
                 //- a.icon.item(href="/tasks" class="{{isActivePath '/tasks'}}")
                 //-     i.tasks.icon
@@ -53,7 +61,6 @@ template(name='leader_nav')
                 //-     i.bell.outline.large.icon
                 //- a.icon.item(href="/mail" class="{{isActivePath '/mail'}}")
                 //-     i.envelope.outline.large.icon
-            
                 if is_dev
                     a.icon.item.set_models(href="/m/model")
                         i.large.grey.database.icon

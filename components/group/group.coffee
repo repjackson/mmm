@@ -7,12 +7,8 @@ if Meteor.isClient
 
     Router.route '/group/:doc_id/', (->
         @layout 'group_view_layout'
-        @render 'group_view_info'
-        ), name:'group_view'
-    Router.route '/group/:doc_id/dashboard', (->
-        @layout 'group_view_layout'
         @render 'group_dashboard'
-        ), name:'group_dashboard'
+        ), name:'group_view'
     Router.route '/group/:doc_id/reports', (->
         @layout 'group_view_layout'
         @render 'group_reports'
@@ -30,10 +26,6 @@ if Meteor.isClient
         @render 'group_view_feature'
         ), name:'group_view_feature'
 
-
-    Template.group_card.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'group_stats'
-    Template.groups.helpers
 
 
     Template.group_view_layout.onCreated ->
@@ -75,7 +67,7 @@ if Meteor.isClient
 
         feature_view_template: ->
             console.log @
-            "group_edit_#{@slug}"
+            "group_#{@slug}"
 
 
 

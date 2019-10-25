@@ -7,6 +7,10 @@ if Meteor.isClient
         @layout 'group_edit_layout'
         @render 'group_edit_info'
         ), name:'group_edit_info'
+    Router.route '/group/:doc_id/edit/settings', (->
+        @layout 'group_edit_layout'
+        @render 'group_edit_settings'
+        ), name:'group_edit_settings'
     Router.route '/group/:doc_id/edit/members', (->
         @layout 'group_edit_layout'
         @render 'group_edit_members'
@@ -60,8 +64,27 @@ if Meteor.isClient
         # Session.set 'permission', false
 
 
+    Template.group_edit_settings.onCreated ->
+        @autorun => Meteor.subscribe 'all_group_docs', Router.current().params.doc_id
 
 
+    Template.group_edit_settings.events
+        'click .remove_group': ->
+            console.log @
+            group_docs =
+                Docs.find(
+                    group_id: @_id
+                )
+            console.log group_docs
+            if confirm "confirm delete group? this will delete #{group_docs.count()} group documents"
+                for group_doc in group_docs.fetch()
+                    Docs.remove group_doc._id
+                    $('body').toast({
+                        message: "#{group_doc.model} deleted"
+                        class:'info'
+                    })
+                Docs.remove @_id
+                Router.go '/my_groups'
 
 
 
@@ -96,7 +119,6 @@ if Meteor.isClient
     Template.credit_menu_item.helpers
         credit_class: ->
             if Session.equals('selected_credit_id',@_id) then 'active' else ''
-
     Template.group_edit_credits.helpers
         template_credit_types: ->
             Docs.find
@@ -128,6 +150,13 @@ if Meteor.isClient
     Template.transaction.helpers
         editing_transaction: -> Template.instance().editing_transaction.get()
     Template.transaction.events
+        'click .remove_transaction': (e,t)->
+            if confirm "remove #{@title}?"
+                $(e.currentTarget).closest('.segment').transition('fade right', 1000)
+                Meteor.setTimeout =>
+                    Docs.remove @_id
+                , 1000
+
         'click .save_transaction': (e,t)->
             t.editing_transaction.set false
         'click .edit_transaction': (e,t)->
@@ -293,10 +322,12 @@ if Meteor.isClient
         group_debits: ->
             Docs.find
                 model:'debit_type'
+                template_id: $exists: false
                 group_id: @group_id
         group_credits: ->
             Docs.find
                 model:'credit_type'
+                template_id: $exists: false
                 group_id: @group_id
     Template.template.events
         'click .clone_template': ->
@@ -305,6 +336,7 @@ if Meteor.isClient
                 Docs.find(
                     model:'credit_type'
                     group_id: @group_id
+                    template_id: $exists: false
                 ).fetch()
             for credit in group_credits
                 # console.log 'cloning credit', credit
@@ -340,6 +372,7 @@ if Meteor.isClient
                 Docs.find(
                     model:'debit_type'
                     group_id: @group_id
+                    template_id: $exists: false
                 ).fetch()
             for debit in group_debits
                 # console.log 'cloning debit', debit
@@ -370,7 +403,6 @@ if Meteor.isClient
                     class:'success'
                     # showProgress: 'bottom'
                 })
-
             console.log group_debits
         'click .save_template': (e,t)->
             t.editing_template.set false

@@ -11,10 +11,11 @@ template(name='my_groups')
                         i.green.large.plus.icon
                         //- |add group
         .row
-            .sixteen.wide.column
-                .ui.stackable.five.cards
-                    each groups
-                        +group_card
+            .four.wide.column
+                .ui.header group cloud
+            .twelve.wide.column
+                each groups
+                    +group_card_template
 
 
 
@@ -32,18 +33,18 @@ template(name='groups')
                         //- |add group
         .row
             .sixteen.wide.column
-                .ui.stackable.four.cards
-                    each groups
-                        +group_card
+                each groups
+                    +group_card_template
 
 
-template(name='group_card')
-    .ui.card
-        a(href="/group/#{_id}")
-            img.ui.fluid.image(src="{{c.url group_image_id crop='lpad'}}")
-            //- img.ui.fluid.image(src="{{c.url group_image_id crop='lpad'}}")
-        .content
-            a.ui.header(href="/group/#{_id}" title='balance') #{title}
+template(name='group_card_template')
+    .ui.segment.stackable.grid
+        .four.wide.column
+            a(href="/group/#{_id}")
+                img.ui.tiny.image(src="{{c.url group_image_id crop='lpad'}}")
+        .twelve.wide.column
+            a.ui.header(href="/group/#{_id}" title='balance') #{title} #{company_name}
+            .content
             .ui.green.inline.header $#{gsd.group_balance}
             .ui.green.inline.small.header(title='income') ($#{gsd.total_credit_amount}
             .ui.red.inline.small.header(title='expenses') / -$#{gsd.total_debit_amount})

@@ -339,6 +339,8 @@ if Meteor.isClient
             #         $inc: views: 1
             if @model is 'model'
                 Router.go "/m/#{@slug}"
+            else if @model is 'group'
+                Router.go "/group/#{@_id}"
             else
                 Router.go "/m/#{model_slug}/#{@_id}/view"
 

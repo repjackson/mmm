@@ -293,7 +293,7 @@ template(name='image_edit')
     .ui.form
         if icon
             +ismall name=icon classes='ui middle aligned image'
-        .ui.inline.header
+        .ui.inline.small.grey.header
             if title
                 |#{title}
             else if label
@@ -430,7 +430,7 @@ template(name='text_edit')
     if icon
         //- i.grey.icon(class=icon)
         +ismall name=icon classes='ui middle aligned image'
-    .ui.inline.header
+    .ui.inline.small.grey.header
         if title
             |#{title}
         else if label
@@ -446,46 +446,6 @@ template(name='text_edit')
     .ui.fluid.icon.input
         input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
         
-
-template(name='slug')
-    if icon
-        //- i.grey.icon(class=icon)
-        +ismall name=icon classes='ui middle aligned image'
-    .ui.inline.header.pointer.slugify_title
-        if title
-            |#{title}
-        else if label
-            |#{label}
-        else if key
-            |#{key}
-    //- +clear_value
-    .ui.fluid.icon.input
-        input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
-
-//- template(name='slug_view')
-//-     if field_value
-//-         unless header
-//-             div
-//-             //- if icon
-//-             //-     +i name=icon                
-//-             .ui.inline.small.grey.header
-//-                 if title
-//-                     |#{title}
-//-                 else if label
-//-                     |#{label}
-//-                 else if key
-//-                     |#{key}
-//-                 else
-//-                     |#{this}
-//-         .ui.inline.header 
-//-             strong #{field_value}
-
-
-
-
-
-
-
 
 template(name='clear_value')
     if field_value
@@ -799,7 +759,7 @@ template(name='array_edit')
     if icon
         //- i.grey.icon(class=icon)
         +ismall name=icon classes='ui middle aligned image'
-    .ui.inline.header
+    .ui.inline.small.grey.header
         if title
             |#{title}
         else if label
@@ -958,14 +918,15 @@ template(name='signature_view')
 
 template(name='boolean_edit')
     //- div
-    .pointer.ui.button.toggle_boolean(class="#{boolean_toggle_class} #{classes}" title=tooltip)
+    .ui.button.toggle_boolean(class="#{boolean_toggle_class} #{classes}" title=tooltip)
         if field_value
             i.green.checkmark.icon
         else
             i.circle.outline.icon
         //- .ui.compact.button.toggle_boolean(class=boolean_toggle_class)
         if icon
-            +ismall name=icon classes='ui middle aligned image'
+            i.icon(class=icon)
+            //- +ismall name=icon classes='ui middle aligned image'
         .inline.f4
             //- if field_value
             //-     i.checkmark.icon
@@ -1110,7 +1071,7 @@ template(name='single_user_edit')
     div
     if icon
         +ismall name=icon
-    .ui.inline.header 
+    .ui.inline.small.grey.header 
         |#{label} #{title}
     if field_value
         .pull_user.ui.icon.button(title='remove user')
@@ -1459,7 +1420,7 @@ template(name='slug_edit')
     if icon
         //- i.grey.icon(class=icon)
         +ismall name=icon classes='ui middle aligned image'
-    .ui.inline.header.pointer.slugify_title
+    .ui.inline.small.grey.header.slugify_title
         if title
             |#{title}
         else if label

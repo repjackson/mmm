@@ -76,9 +76,14 @@ Meteor.publish 'document_by_slug', (slug)->
         model: 'document'
         slug:slug
 
-Meteor.publish 'child_docs', (id)->
+Meteor.publish 'child_docs', (doc_id)->
     Docs.find
-        parent_id:id
+        parent_id:doc_id
+
+Meteor.publish 'all_group_docs', (doc_id)->
+    console.log 'running group docs', doc_id
+    Docs.find
+        group_id:doc_id
 
 
 Meteor.publish 'facet_doc', (tags)->

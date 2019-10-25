@@ -6,28 +6,28 @@ template(name='login')
                     a.ui.button(href="/")
                         i.chevron.left.icon
                         i.home.icon
-                        |Home
-                    img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
-                    .ui.inline.large.header Login
+                        |home
+                    //- img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
+                    .ui.inline.large.header login
                 div
                 if message
                     h4.ui.center.aligned.header #{message}
                 .ui.inline.small.header 
-                    +i name='user-male'
-                    |Username
+                    //- +i name='user-male'
+                    |username
                 .ui.fluid.large.input(class=login_class)
                     input.username(type='text')
                 .ui.inline.small.header 
-                    +i name='password'
-                    | Password
+                    //- +i name='password'
+                    | password
                 .ui.fluid.large.input(class=login_class)
                     input.password(type='password')
                 //- if username
                 if logging_in
                     .ui.fluid.big.button.enter(title="login #{username}" class=enter_class)
                         //- i.sign.in.alternate.icon
-                        +i name='internal' classes='ui mini inline image'
-                        |Login
+                        //- +i name='internal' classes='ui mini inline image'
+                        |login
                         strong #{username}
                         //- i.right.chevron.icon
                 else
@@ -37,14 +37,14 @@ template(name='login')
                             a.ui.button(href='/choose_user_type')
                                 //- i.user.plus.icon
                                 +i name='enter-2' classes='ui mini inline image'                    
-                                | Register
+                                | register
                 .ui.center.aligned.basic.segment    
                     a.ui.button(href='/forgot_password')
-                        +i name='forgot-password' classes='ui mini inline image'                    
+                        //- +i name='forgot-password' classes='ui mini inline image'                    
                         //- i.refresh.icon
-                        |Forgot Password
+                        |forgot password
                     a.ui.button(href='/choose_user_type') 
-                        +i name='add-user-male' classes='ui mini inline image'                    
+                        //- +i name='add-user-male' classes='ui mini inline image'                    
                         //- i.user.plus.icon
-                        |Register
+                        |register
                     //- .ui.center.aligned.inline.header see the front desk to register an account

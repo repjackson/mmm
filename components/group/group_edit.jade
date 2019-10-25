@@ -10,35 +10,43 @@ template(name='group_edit_layout')
                         strong #{title}
                         div
                         small group
-                    a.ui.huge.icon.fluid.button(href="/group/#{_id}/members" title='save')
+                    a.ui.icon.fluid.button(href="/group/#{_id}" title='save')
                         i.checkmark.green.icon
                         //- |Save
                     //- if is_admin
-                    .ui.vertical.large.fluid.pointing.menu
+                    .ui.vertical.fluid.pointing.menu
                         a.item(href="/group/#{_id}/edit/info" class="{{isActiveRoute regex='group_edit_info'}}") 
                             |info
                             i.info.icon
+                        a.item(href="/group/#{_id}/edit/settings" class="{{isActiveRoute regex='group_edit_settings'}}") 
+                            |settings
+                            i.cog.icon
                         a.item(href="/group/#{_id}/edit/features" class="{{isActiveRoute regex='group_edit_features'}}")
                             |features
-                            i.th.icon
-                        a.item(href="/group/#{_id}/edit/templates" class="{{isActiveRoute regex='group_edit_templates'}}")
-                            |templates
-                            i.clone.icon
-                    
+                            i.th.icon                    
                     .ui.vertical.large.fluid.pointing.menu
                         each enabled_features
                             a.item(href="/group/#{current_doc._id}/edit/f/#{slug}")
                                 |#{title}
                                 i.icon(class=icon)
-                            //- a.item(href="/group/#{_id}/edit/debits" class="{{isActiveRoute regex='group_edit_debits'}}")
-                            //-     |debits
-                            //-     i.minus.icon
-                            //- a.item(href="/group/#{_id}/edit/files" class="{{isActiveRoute regex='group_edit_files'}}")
-                            //-     |files
-                            //-     i.file.icon
                 .twelve.wide.column
                     +yield
                                     
+template(name='group_edit_settings')
+    .ui.header 
+        i.cog.icon
+        |settings
+    .ui.two.column.grid
+        .column
+            +boolean_edit key='published' label='published' icon='eye' direct=true
+            +boolean_edit key='private' label='private' icon='invisible' direct=true
+            if private
+                +multi_user_edit key='visible_user_ids' label='visible to users' icon='users' direct=true
+            .ui.orange.button.remove_group
+                i.remove.icon
+                |remove group
+                
+
 template(name='group_edit_info')
     .ui.header 
         i.info.icon
@@ -52,32 +60,44 @@ template(name='group_edit_info')
         .column
             +textarea_edit key='description' label='description' direct=true
             +array_edit key='tags' label='tags' icon='tags' direct=true
+            div
+            +boolean_edit key='phone_exists' label='phone' icon='phone' direct=true
+            if phone_exists 
+                +phone_edit key='phone_number' label='phone number' direct=true
+            div
+            +boolean_edit key='address_exists' label='address' icon='address' direct=true
+            if address_exists 
+                +text_edit key='address' label='address' direct=true
+                +array_edit key='location_tags' label='location tags' direct=true
+            div
+            +boolean_edit key='hours_exist' label='hours' icon='clock' direct=true
+            if hours_exist 
+                +text_edit key='hours' label='hours' direct=true
+                +array_edit key='availability_tags' label='availability tags' direct=true
             if is_admin
                 +leader_selector
-    if is_admin
-        +remove_button
                                     
 template(name='group_edit_members')                                    
-    //- .ui.large.header 
-    //-     i.users.icon
-    //-     |members
     +member_selector
 
 template(name='group_edit_credits')
-    .ui.large.header 
-        i.plus.icon
-        |credits
+    //- .ui.large.header 
+    //-     i.plus.icon
+    //-     |credits
+    a.ui.button(href="/group/#{_id}/edit/templates" class="{{isActiveRoute regex='group_edit_templates'}}")
+        i.download.icon
+        |templates
     .ui.stackable.grid
         .eight.wide.column
             .ui.small.header from template
-            .ui.fluid.huge.vertical.pointing.menu
+            .ui.fluid.vertical.pointing.menu
                 each template_credit_types
                     +credit_menu_item
             div
             .ui.small.inline.header custom
             .ui.icon.button.add_credit_type
                 i.plus.icon
-            .ui.fluid.huge.vertical.pointing.menu
+            .ui.fluid.vertical.pointing.menu
                 each custom_credit_types
                     +credit_menu_item
         .eight.wide.column
@@ -101,9 +121,13 @@ template(name='credit_menu_item')
 
                         
 template(name='group_edit_debits')       
-    .ui.large.header 
-        i.chevron.up.icon
-        |debits
+    //- .ui.large.header 
+    //-     i.chevron.up.icon
+    //-     |debits
+    a.ui.button(href="/group/#{current_doc._id}/edit/templates" class="{{isActiveRoute regex='group_edit_templates'}}")
+        i.download.icon
+        |templates
+        
     .ui.stackable.grid
         .row
             .eight.wide.column
@@ -177,7 +201,9 @@ template(name='transaction')
             +key_value_edit key='scope' value='individual' label='member'
             +key_value_edit key='scope' value='group' label='group'
             div
-            +remove_button
+            .ui.button.remove_transaction 
+                i.remove.icon
+                |remove
             .ui.divider
         
             .ui.fluid.button.save_transaction
@@ -226,12 +252,12 @@ template(name='group_edit_templates')
             .eight.wide.column
                 .ui.header my templates
                 .ui.button.generate_from_current generate template from current structure
-                .ui.fluid.huge.vertical.pointing.menu
+                .ui.fluid.vertical.pointing.menu
                     each my_transaction_templates
                         a.item.select_template(class=template_class) 
                             |#{title}
                 .ui.header template marketplace
-                .ui.fluid.huge.vertical.pointing.menu
+                .ui.fluid.vertical.pointing.menu
                     each transaction_templates
                         a.item.select_template(class=template_class) 
                             |#{title}
@@ -299,12 +325,12 @@ template(name='group_edit_features')
         .row
             .seven.wide.column
                 .ui.small.header enabled
-                .ui.fluid.large.vertical.pointing.menu
+                .ui.fluid.vertical.pointing.menu
                     each enabled_features
                         +feature_menu_item
                 div
                 .ui.small.inline.header available
-                .ui.fluid.large.vertical.pointing.menu
+                .ui.fluid.vertical.pointing.menu
                     each disabled_features
                         +feature_menu_item
             .nine.wide.column

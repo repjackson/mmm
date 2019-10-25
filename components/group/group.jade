@@ -13,26 +13,13 @@ template(name='group_view_layout')
                         | #{company_name}
                     img.ui.centered.rounded.small.image(src="{{c.url group_image_id gravity='face' crop='fit'}}")
                     .ui.large.fluid.vertical.pointing.menu
-                        a.item(href="/group/#{_id}/members" class="{{isActiveRoute regex='group_members'}}")
+                        a.item(href="/group/#{_id}/" class="{{isActiveRoute regex='group_members'}}")
                             i.dashboard.grey.icon
                             | dashboard
                         each enabled_features
                             a.item(href="/group/#{current_doc._id}/f/#{slug}")
                                 |#{title}
                                 i.icon(class=icon)
-
-                        //- a.item(href="/group/#{_id}/lunch" class="{{isActiveRoute regex='group_lunch'}}")
-                        //-     i.food.grey.icon
-                        //-     | lunch
-                        //- a.item(href="/group/#{_id}/reports" class="{{isActiveRoute regex='group_reports'}}")
-                        //-     i.line.chart.grey.icon
-                        //-     | reports
-                        //- a.item(href="/group/#{_id}/feed" class="{{isActiveRoute regex='group_feed'}}")
-                        //-     i.list.grey.icon
-                        //-     | feed
-                        //- a.item(href="/group/#{_id}/feed" class="{{isActiveRoute regex='group_feed'}}")
-                        //-     i.list.grey.icon
-                        //-     | files
                     .ui.header
                         small leader
                         | #{leader_name}
@@ -45,6 +32,42 @@ template(name='group_view_layout')
 
 
 
+template(name='group_dashboard')
+    .ui.stackable.grid
+        .row
+            .sixteen.wide.column
+                .ui.header
+                    img.ui.rounded.small.image(src="{{c.url group_image_id gravity='face' crop='fit'}}")
+                    |#{title}
+        .row
+            .eight.wide.column
+                +group_votes
+            .eight.wide.column
+                +group_feed
+        .row
+            .ui.header features
+            +group_info
+    
+    
+template(name='group_votes')   
+    .ui.segment 
+        +voting_full
+    
+template(name='group_info')
+    .ui.segment 
+        .ui.small.header 
+            i.info.icon
+            |info
+        .ui.list
+            .item #{phone}    
+            .item #{address}    
+            .item #{link}    
+            .item #{email}    
+            .item #{contact}    
+            .item
+                each location_tags
+                    |#{this}
+            
 template(name='group_loans')
     .ui.header 
         i.money.icon
@@ -153,15 +176,6 @@ template(name='group_members')
                         each daily_manual_group_debits
                             .ui.button.debit_group(class=bulk_action_class) #{title}
                                 span.ui.red.text -#{amount}
-                        //- 
-                        //- each daily_actions
-                        //-     .ui.button #{title}
-                        //- .ui.button.charge_rent charge daily rent 
-                        //-     span.ui.red.text -#{desk_rental_amount}
-                        //- .ui.button.charge_janitor_base charge daily janitor fee 
-                        //-     span.ui.red.text -#{janitor_base_amount}
-                        //- .ui.button.charge_janitor_extra charge daily janitor extra fee 
-                        //-     span.ui.red.text -#{janitor_extra_amount}
     .ui.accordion
         each group_members
             .active.title
@@ -182,37 +196,12 @@ template(name='group_members')
                 .description
                     .ui.two.column.stackable.grid
                         .column
-                            //- .ui.button bonus
-                            //- .ui.button overtime
                             each individual_credit_types
                                 +individual_credit_button
                         .column
                             each individual_debit_types
                                 +individual_debit_button
-                //- .extra.content.smallscroll
-                //-     .ui.list
-                //-         each member_events
-                //-             .item #{text} #{when}
-                //-                 +remove_button
-                                
-            //- .ui.item
-            //-     .image
-            //-         img.ui.mini.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
-            //-     .content
-            //-         a.header(href="/user/#{username}")
-            //-             |#{first_name} #{last_name} 
-            //-         .ui.small.header #{credit}c
-            //-         .description
-            //-             each individual_credit_types
-            //-                 +class_credit_button
-            //-             each group_debit_types
-            //-                 +class_debit_button
-            //-     .extra.content.smallscroll
-            //-         .ui.list
-            //-             each member_events
-            //-                 .item #{text} #{when}
-            //-                     +remove_button
-            //- 
+                
                                         
 template(name='individual_credit_button')
     .ui.button.credit_member 
