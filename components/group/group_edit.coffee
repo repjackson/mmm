@@ -23,6 +23,10 @@ if Meteor.isClient
         @layout 'group_edit_layout'
         @render 'group_edit_templates'
         ), name:'group_edit_templates'
+    Router.route '/group/:doc_id/edit/features', (->
+        @layout 'group_edit_layout'
+        @render 'group_edit_features'
+        ), name:'group_edit_features'
 
 
     Template.group_edit_layout.onRendered ->
@@ -92,7 +96,6 @@ if Meteor.isClient
                 model:'credit_type'
                 group_id: Router.current().params.doc_id
                 template_id:$exists:false
-
         selected_credit: ->
             Docs.findOne Session.get('selected_credit_id')
     Template.group_edit_credits.events
@@ -133,11 +136,8 @@ if Meteor.isClient
             Docs.find
                 model:'transaction_template'
                 _author_id: Meteor.userId()
-        selected_template: ->
-            Docs.findOne Session.get('selected_template_id')
-        template_class: ->
-            if Session.equals('selected_template_id',@_id) then 'active' else ''
-
+        selected_template: -> Docs.findOne Session.get('selected_template_id')
+        template_class: -> if Session.equals('selected_template_id',@_id) then 'active' else ''
     Template.group_edit_templates.events
         'click .generate_from_current': ->
             group = Docs.findOne Router.current().params.doc_id
@@ -152,6 +152,87 @@ if Meteor.isClient
             new_credit_id = Docs.insert
                 model:'credit_type'
                 group_id: Router.current().params.doc_id
+
+
+
+    Template.group_edit_features.onRendered ->
+    Template.group_edit_features.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'model_docs', 'feature'
+    Template.group_edit_features.helpers
+        group_monthly_bill: ->
+            bill = 0
+            group = Docs.findOne Router.current().params.doc_id
+            enabled_features =
+                Docs.find(
+                    model:'feature'
+                    _id: $in: group.enabled_feature_ids
+                ).fetch()
+            for feature in enabled_features
+                bill += feature.monthly_price
+            bill
+
+        disabled_features: ->
+            group = Docs.findOne Router.current().params.doc_id
+            Docs.find
+                model:'feature'
+                _id: $nin: group.enabled_feature_ids
+        enabled_features: ->
+            group = Docs.findOne Router.current().params.doc_id
+            Docs.find
+                model:'feature'
+                _id: $in: group.enabled_feature_ids
+        selected_feature: -> Docs.findOne Session.get('selected_feature_id')
+        feature_class: -> if Session.equals('selected_feature_id',@_id) then 'active' else ''
+    Template.group_edit_features.events
+        'click .select_feature': -> Session.set 'selected_feature_id', @_id
+        'click .add_feature': ->
+            new_feature_id = Docs.insert
+                model:'feature'
+            Session.set 'selected_feature_id', new_feature_id
+
+
+    Template.feature.onCreated ->
+        @editing_feature = new ReactiveVar false
+    Template.feature.helpers
+        editing_feature: -> Template.instance().editing_feature.get()
+        enabled: ->
+            group = Docs.findOne Router.current().params.doc_id
+            if @_id in group.enabled_feature_ids then true else false
+    Template.feature.events
+        'click .enable_feature': ->
+            Docs.update Router.current().params.doc_id,
+                $addToSet: enabled_feature_ids: @_id
+
+            $('body').toast({
+                message: "feature #{@title} was enabled"
+                class:'success'
+                showProgress: 'bottom'
+            })
+
+        'click .disable_feature': ->
+            Docs.update Router.current().params.doc_id,
+                $pull: enabled_feature_ids: @_id
+
+            $('body').toast({
+                message: "feature #{@title} was disabled"
+                class:'info'
+                showProgress: 'bottom'
+            })
+
+        'click .save_feature': (e,t)->
+            t.editing_feature.set false
+        'click .edit_feature': (e,t)->
+            t.editing_feature.set true
+
+
+
+
+
+
+
+
+
 
 
 

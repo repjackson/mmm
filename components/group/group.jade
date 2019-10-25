@@ -63,30 +63,23 @@ template(name='group_view_layout')
                     .ui.center.aligned.huge.header
                         | #{company_name}
                     +image_view key='group_image_id' label='image' direct=true
-                    .ui.big.fluid.vertical.pointing.menu
+                    .ui.large.fluid.vertical.pointing.menu
                         a.item(href="/group/#{_id}/members" class="{{isActiveRoute regex='group_members'}}")
                             i.dashboard.grey.icon
-                            if is_admin
-                                img(src="https://img.icons8.com/color/48/000000/the-flash-sign--v2.png")        
                             | dashboard
                         a.item(href="/group/#{_id}/lunch" class="{{isActiveRoute regex='group_lunch'}}")
                             i.food.grey.icon
-                            if is_admin
-                                img(src="https://img.icons8.com/color/48/000000/the-flash-sign--v2.png")        
                             | lunch
                         a.item(href="/group/#{_id}/reports" class="{{isActiveRoute regex='group_reports'}}")
                             i.line.chart.grey.icon
-                            if is_admin
-                                img(src="https://img.icons8.com/color/48/000000/batman-old.png")        
                             | reports
                         a.item(href="/group/#{_id}/feed" class="{{isActiveRoute regex='group_feed'}}")
                             i.list.grey.icon
-                            if is_admin
-                                img(src="https://img.icons8.com/color/48/000000/batman-old.png")        
                             | feed
+                        a.item(href="/group/#{_id}/feed" class="{{isActiveRoute regex='group_feed'}}")
+                            i.list.grey.icon
+                            | files
                     .ui.header
-                        if is_admin
-                            img(src="https://img.icons8.com/color/48/000000/the-flash-sign--v2.png")        
                         small leader
                         | #{leader_name}
                     a.ui.fluid.large.button(href="/group/#{_id}/edit/info")
@@ -105,6 +98,7 @@ template(name='group_loans')
     +loans
 
 
+
 template(name='group_lunch')        
     .ui.padded.stackable.grid
         .row
@@ -112,10 +106,8 @@ template(name='group_lunch')
                 .ui.center.aligned.large.button.back_to_group
                     i.chevron.left.icon
                     |#{current_doc.title}
-                    //- |group
             .eight.wide.column
                 .ui.center.aligned.large.header 
-                    //- +i name='food'
                     i.food.icon
                     |lunch
             .four.wide.column

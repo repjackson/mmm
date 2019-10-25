@@ -14,7 +14,7 @@ template(name='group_edit_layout')
                         i.checkmark.green.icon
                         //- |Save
                     //- if is_admin
-                    .ui.vertical.huge.fluid.pointing.menu
+                    .ui.vertical.large.fluid.pointing.menu
                         a.item(href="/group/#{_id}/edit/info" class="{{isActiveRoute regex='group_edit_info'}}") 
                             |info
                             i.info.icon
@@ -30,6 +30,12 @@ template(name='group_edit_layout')
                         a.item(href="/group/#{_id}/edit/templates" class="{{isActiveRoute regex='group_edit_templates'}}")
                             |templates
                             i.clone.icon
+                        a.item(href="/group/#{_id}/edit/files" class="{{isActiveRoute regex='group_edit_files'}}")
+                            |files
+                            i.file.icon
+                        a.item(href="/group/#{_id}/edit/features" class="{{isActiveRoute regex='group_edit_features'}}")
+                            |features
+                            i.th.icon
                 .twelve.wide.column
                     +yield
                                     
@@ -39,8 +45,8 @@ template(name='group_edit_info')
         |info
     .ui.two.column.grid
         .column
-            +text_edit key='leader_name' label='leader Name' placeholder='enter your name' tooltip='examples: john smith' direct=true
-            //- +text_edit key='title' direct=true
+            +text_edit key='title' label='group title' direct=true
+            +text_edit key='leader_name' label='leader name' placeholder='enter your name' tooltip='examples: john smith' direct=true
             +text_edit key='company_name' label='company name' direct=true
             +image_edit key='group_image_id' label='image' direct=true
         .column
@@ -55,21 +61,6 @@ template(name='group_edit_members')
     //- .ui.large.header 
     //-     i.users.icon
     //-     |members
-    //- if adding_member
-    //-     .ui.header adding member
-    //-     .ui.large.form
-    //-         .field
-    //-             input#first_name(type='text' placeholder='first name' autocomplete='off')
-    //-         .field
-    //-             input#last_name(type='text' placeholder='last name' autocomplete='off')
-    //-         //- .field
-    //-         //-     |Username
-    //-         //-     input#username(type='text')
-    //-     .ui.fluid.green.huge.button.create_member
-    //-         |create member
-    //- unless adding_member
-    //-     .ui.icon.button.set_adding_member(title='add member')
-    //-         i.plus.large.green.icon
     +member_selector
 
 template(name='group_edit_credits')
@@ -89,16 +80,6 @@ template(name='group_edit_credits')
             .ui.fluid.huge.vertical.pointing.menu
                 each custom_credit_types
                     +credit_menu_item
-            
-            //- +number_edit key='salary_amount' label='salary amount' icon='money' direct=true
-            //- +boolean_edit key='salary_automatic' label='automatic'
-            //- if salary_automatic
-            //-     +boolean_edit key='salary_automatic_daily' label='daily'
-            //-     +boolean_edit key='salary_automatic_weekly' label='weekly'
-            //- .spacer
-            //- +number_edit key='bonus_amount' label='bonus amount' icon='trust' direct=true
-            //- .spacer
-            //- +number_edit key='overtime_amount' label='overtime amount' icon='clock' direct=true
         .eight.wide.column
             div
             with selected_credit
@@ -137,21 +118,13 @@ template(name='group_edit_debits')
                 .ui.fluid.huge.vertical.pointing.menu
                     each custom_debit_types
                         +debit_menu_item
-                //- .ui.header presets
-                //- +number_edit key='desk_rental_amount' label='desk rental amount' icon='table' direct=true
-                //- .spacer
-                //- +number_edit key='fines_amount' label='fines amount' icon='foul' direct=true
-                //- .spacer
-                //- +number_edit key='janitor_base_amount' label='janitor base fee' icon='housekeeper-male' direct=true
-                //- .spacer
-                //- +number_edit key='janitor_extra_amount' label='janitor extra fee' icon='housekeeper-male' direct=true
-                //- .spacer
-                //- +number_edit key='lunch_base_amount' label='lunch cafeteria amount' icon='food' direct=true
-                //- .spacer
-                //- +number_edit key='lunch_extra_amount' label='lunch home amount' icon='food' direct=true
             .eight.wide.column
                 with selected_debit
                     +transaction
+
+
+
+
 
 template(name='debit_menu_item')
     a.item.select_debit(class=debit_class) 
@@ -274,9 +247,6 @@ template(name='template')
             //- +image_edit key='image_id' label='image' direct=true
             +text_edit key='title' direct=true
             div
-            +key_value_edit key='dispersion_type' value='automatic' label='automatic'
-            +key_value_edit key='dispersion_type' value='manual' label='manual'
-            div
             +remove_button
             .ui.divider
             .ui.fluid.button.save_template
@@ -308,4 +278,86 @@ template(name='template')
             .ui.fluid.button.clone_template
                 i.clone.icon
                 |clone
+            
+
+
+
+
+template(name='group_edit_features')       
+    .ui.large.inline.header 
+        i.th.icon
+        |features
+    if is_dev
+        .ui.icon.button.add_feature
+            i.plus.icon
+    .ui.stackable.grid
+        .row
+            .eight.wide.column
+                .ui.header
+                    small current monthly bill 
+                    |$#{group_monthly_bill}/month
+        .row
+            .eight.wide.column
+                .ui.small.header enabled
+                .ui.fluid.huge.vertical.pointing.menu
+                    each enabled_features
+                        a.item.select_feature(class=feature_class) 
+                            if icon
+                                i.icon(class=icon)
+                            |#{title}
+                            small $#{monthly_price}
+                div
+                .ui.small.inline.header available
+                .ui.fluid.large.vertical.pointing.menu
+                    each disabled_features
+                        a.item.select_feature(class=feature_class) 
+                            if icon
+                                i.icon(class=icon)
+                            |#{title}
+                            small $#{monthly_price}/month
+            .eight.wide.column
+                with selected_feature
+                    +feature
+
+
+
+
+
+template(name='feature')
+    .ui.segment
+        if editing_feature
+            .ui.header editing feature
+            +text_edit key='title' direct=true
+            +image_edit key='image_id' label='image' direct=true
+            +text_edit key='icon' direct=true
+            +array_edit key='tags' label='tags' direct=true
+            div
+            +number_edit key='monthly_price' label='monthly price' direct=true
+            div
+            +remove_button
+            .ui.divider
+            .ui.fluid.button.save_feature
+                i.green.checkmark.icon
+                |save
+        else 
+            .ui.header viewing feature
+            .ui.header 
+                small title
+                | #{title}
+            div
+            |#{description}
+            div
+            .ui.divider
+            if is_dev
+                .ui.fluid.button.edit_feature
+                    i.pencil.icon
+                    |edit
+            unless enabled
+                .ui.fluid.button.enable_feature
+                    i.toggle.off.icon
+                    |enable
+            else 
+                .ui.fluid.button.disable_feature
+                    i.toggle.on.icon
+                    |disable
             

@@ -104,12 +104,6 @@ if Meteor.isServer
         Meteor.users.find
             _id: $in: chat.participant_ids
 
-    Meteor.publish 'group_docs', (group_id)->
-        Docs.find
-            group_id: group_id
-
-
-
 
     # Meteor.publish 'chat_messages', (chat_id) ->
     #     Docs.find
