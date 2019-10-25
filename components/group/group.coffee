@@ -7,7 +7,7 @@ if Meteor.isClient
 
     Router.route '/group/:doc_id/', (->
         @layout 'group_view_layout'
-        @render 'group_members'
+        @render 'group_view_info'
         ), name:'group_view'
     Router.route '/group/:doc_id/dashboard', (->
         @layout 'group_view_layout'
@@ -25,26 +25,10 @@ if Meteor.isClient
         @layout 'mlayout'
         @render 'group_lunch'
         ), name:'group_lunch'
-    Router.route '/group/:doc_id/debits', (->
+    Router.route '/group/:doc_id/f/:feature_slug', (->
         @layout 'group_view_layout'
-        @render 'group_debits'
-        ), name:'group_debits'
-    Router.route '/group/:doc_id/credits', (->
-        @layout 'group_view_layout'
-        @render 'group_credits'
-        ), name:'group_credits'
-    Router.route '/group/:doc_id/members', (->
-        @layout 'group_view_layout'
-        @render 'group_members'
-        ), name:'group_members'
-    Router.route '/group/:doc_id/feed', (->
-        @layout 'group_view_layout'
-        @render 'group_feed'
-        ), name:'group_feed'
-    Router.route '/group/:doc_id/loans', (->
-        @layout 'group_view_layout'
-        @render 'group_loans'
-        ), name:'group_loans'
+        @render 'group_view_feature'
+        ), name:'group_view_feature'
 
 
     Template.group_card.onCreated ->
@@ -52,7 +36,101 @@ if Meteor.isClient
     Template.groups.helpers
 
 
+    Template.group_view_layout.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'model_docs', 'feature'
+        @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id
 
+    Template.group_view_layout.onRendered ->
+        Meteor.call 'increment_view', Router.current().params.doc_id, ->
+        # Meteor.setTimeout ->
+        #     $('.tabular.menu .item').tab()
+        # , 1000
+
+    Template.group_view_layout.helpers
+        features: ->
+            Docs.find
+                model:'feature'
+        feature_view_template: ->
+            "#{@title}_view_template"
+
+        enabled_features: ->
+            group = Docs.findOne Router.current().params.doc_id
+            Docs.find(
+                _id: $in: group.enabled_feature_ids
+                model:'feature'
+            ).fetch()
+
+
+
+    Template.group_view_feature.onRendered ->
+    Template.group_view_feature.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'feature_by_slug', Router.current().params.feature_slug
+    Template.group_view_feature.helpers
+        current_feature: ->
+            Docs.findOne
+                model:'feature'
+                slug:Router.current().params.feature_slug
+
+        feature_view_template: ->
+            console.log @
+            "group_edit_#{@slug}"
+
+
+
+
+    Template.group_feed.onCreated ->
+        @autorun => Meteor.subscribe 'group_docs', 'group_event', Router.current().params.doc_id
+    Template.group_feed.helpers
+        group_events: ->
+            Docs.find {
+                model:'group_event'
+                group_id:Router.current().params.doc_id
+            }, sort: _timestamp:-1
+
+    Template.group_feed.events
+        'click .remove_all_events': ->
+            if confirm 'remove all events?'
+                events = Docs.find({
+                    model:'group_event'
+                    group_id:Router.current().params.doc_id
+                }).fetch()
+                for event in events
+                    Docs.remove event._id
+
+
+
+        'click .remove': (e,t)->
+            if confirm  "undo #{@event_type}?"
+                $(e.currentTarget).closest('.event').transition('fly right', 1000)
+                Meteor.setTimeout =>
+                    Docs.remove @_id
+                , 500
+                if @event_type is 'credit'
+                    Meteor.users.update @user_id,
+                        $inc:credit:-@amount
+                else if @event_type is 'debit'
+                    Meteor.users.update @user_id,
+                        $inc:credit:@amount
+
+
+
+
+
+
+
+    Template.group_stats.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'group_stats'
+    Template.group_stats.helpers
+        gsd: ->
+            Docs.findOne
+                model:'group_stats'
+                group_id:Router.current().params.doc_id
+    Template.group_stats.events
+        'click .refresh_group_stats': ->
+            Meteor.call 'refresh_group_stats', @_id
+#
 
     # Template.group_dashboard.onCreated ->
     #     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
@@ -439,84 +517,6 @@ if Meteor.isClient
 
 
 
-    Template.group_view_layout.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        # @autorun => Meteor.subscribe 'model_docs', 'feature'
-        @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id
-
-    Template.group_view_layout.onRendered ->
-        Meteor.call 'increment_view', Router.current().params.doc_id, ->
-        # Meteor.setTimeout ->
-        #     $('.tabular.menu .item').tab()
-        # , 1000
-
-    Template.group_view_layout.helpers
-        # features: ->
-        #     Docs.find
-        #         model:'feature'
-        # feature_view_template: ->
-        #     "#{@title}_view_template"
-        #
-        # selected_features: ->
-        #     group = Docs.findOne Router.current().params.doc_id
-        #     Docs.find(
-        #         _id: $in: group.feature_ids
-        #         model:'feature'
-        #     ).fetch()
-
-
-
-
-    Template.group_feed.onCreated ->
-        @autorun => Meteor.subscribe 'group_docs', 'group_event', Router.current().params.doc_id
-    Template.group_feed.helpers
-        group_events: ->
-            Docs.find {
-                model:'group_event'
-                group_id:Router.current().params.doc_id
-            }, sort: _timestamp:-1
-
-    Template.group_feed.events
-        'click .remove_all_events': ->
-            if confirm 'remove all events?'
-                events = Docs.find({
-                    model:'group_event'
-                    group_id:Router.current().params.doc_id
-                }).fetch()
-                for event in events
-                    Docs.remove event._id
-
-
-
-        'click .remove': (e,t)->
-            if confirm  "undo #{@event_type}?"
-                $(e.currentTarget).closest('.event').transition('fly right', 1000)
-                Meteor.setTimeout =>
-                    Docs.remove @_id
-                , 500
-                if @event_type is 'credit'
-                    Meteor.users.update @user_id,
-                        $inc:credit:-@amount
-                else if @event_type is 'debit'
-                    Meteor.users.update @user_id,
-                        $inc:credit:@amount
-
-
-
-
-
-
-
-    Template.group_stats.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'group_stats'
-    Template.group_stats.helpers
-        gsd: ->
-            Docs.findOne
-                model:'group_stats'
-                group_id:Router.current().params.doc_id
-    Template.group_stats.events
-        'click .refresh_group_stats': ->
-            Meteor.call 'refresh_group_stats', @_id
 
 
 

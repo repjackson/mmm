@@ -11,10 +11,11 @@ if Meteor.isClient
         @layout 'group_edit_layout'
         @render 'group_edit_members'
         ), name:'group_edit_members'
-    Router.route '/group/:doc_id/edit/credits', (->
+
+    Router.route '/group/:doc_id/edit/f/:feature_slug', (->
         @layout 'group_edit_layout'
-        @render 'group_edit_credits'
-        ), name:'group_edit_credits'
+        @render 'group_edit_feature'
+        ), name:'group_edit_feature'
     Router.route '/group/:doc_id/edit/debits', (->
         @layout 'group_edit_layout'
         @render 'group_edit_debits'
@@ -29,10 +30,25 @@ if Meteor.isClient
         ), name:'group_edit_features'
 
 
-    Template.group_edit_layout.onRendered ->
+    # Template.group_edit_layout.onRendered ->
     Template.group_edit_layout.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        # @autorun => Meteor.subscribe 'model_docs', 'feature'
+        @autorun => Meteor.subscribe 'model_docs', 'feature'
+    Template.group_edit_layout.onRendered ->
+        Meteor.setTimeout ->
+            $('.accordion').accordion()
+        , 750
+    Template.group_edit_layout.helpers
+        enabled_features: ->
+            group = Docs.findOne Router.current().params.doc_id
+            Docs.find
+                model:'feature'
+                _id: $in: group.enabled_feature_ids
+
+
+
+
+
 
     Template.group_edit_debits.onCreated ->
         # @autorun => Meteor.subscribe 'model_docs', 'credit_type'
@@ -43,10 +59,6 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'model_docs', 'debit_type'
         # Session.set 'permission', false
 
-    Template.group_edit_layout.onRendered ->
-        Meteor.setTimeout ->
-            $('.accordion').accordion()
-        , 750
 
 
 
@@ -174,9 +186,10 @@ if Meteor.isClient
 
         disabled_features: ->
             group = Docs.findOne Router.current().params.doc_id
-            Docs.find
-                model:'feature'
-                _id: $nin: group.enabled_feature_ids
+            match = {model:'feature'}
+            if group.enabled_feature_ids
+                match._id = $nin: group.enabled_feature_ids
+            Docs.find match
         enabled_features: ->
             group = Docs.findOne Router.current().params.doc_id
             Docs.find
@@ -199,27 +212,47 @@ if Meteor.isClient
         enabled: ->
             group = Docs.findOne Router.current().params.doc_id
             if @_id in group.enabled_feature_ids then true else false
+        feature_class: ->
+            group = Docs.findOne Router.current().params.doc_id
+            if @_id in group.enabled_feature_ids then 'green raised' else ''
     Template.feature.events
         'click .enable_feature': ->
-            Docs.update Router.current().params.doc_id,
-                $addToSet: enabled_feature_ids: @_id
+            if @dependencies and @dependencies.length
+                if confirm "#{@title} is dependent on #{@dependencies}, each will be installed, confirm?"
+                    Docs.update Router.current().params.doc_id,
+                        $addToSet: enabled_feature_ids: @_id
+                    $('body').toast({
+                        message: "#{@title} enabled"
+                        class:'success'
+                        # showProgress: 'bottom'
+                    })
+                    for dependent in @dependencies
+                        feature = Docs.findOne({model:'feature', slug:dependent})
+                        Docs.update Router.current().params.doc_id,
+                            $addToSet: enabled_feature_ids: feature._id
+                        $('body').toast({
+                            message: "#{dependent} enabled"
+                            class:'success'
+                        })
 
-            $('body').toast({
-                message: "feature #{@title} was enabled"
-                class:'success'
-                showProgress: 'bottom'
-            })
+            else
+                Docs.update Router.current().params.doc_id,
+                    $addToSet: enabled_feature_ids: @_id
+                $('body').toast({
+                    message: "#{@title} enabled"
+                    class:'success'
+                    # showProgress: 'bottom'
+                })
+
 
         'click .disable_feature': ->
             Docs.update Router.current().params.doc_id,
                 $pull: enabled_feature_ids: @_id
-
             $('body').toast({
-                message: "feature #{@title} was disabled"
+                message: "#{@title} disabled"
                 class:'info'
-                showProgress: 'bottom'
+                # showProgress: 'bottom'
             })
-
         'click .save_feature': (e,t)->
             t.editing_feature.set false
         'click .edit_feature': (e,t)->
@@ -229,11 +262,19 @@ if Meteor.isClient
 
 
 
+    Template.group_edit_feature.onRendered ->
+    Template.group_edit_feature.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'feature_by_slug', Router.current().params.feature_slug
+    Template.group_edit_feature.helpers
+        current_feature: ->
+            Docs.findOne
+                model:'feature'
+                slug:Router.current().params.feature_slug
 
-
-
-
-
+        feature_edit_template: ->
+            console.log @
+            "group_edit_#{@slug}"
 
 
 
@@ -292,7 +333,7 @@ if Meteor.isClient
                 $('body').toast({
                     message: "credit #{credit.title} was cloned"
                     class:'success'
-                    showProgress: 'bottom'
+                    # showProgress: 'bottom'
                 })
 
             group_debits =
@@ -327,7 +368,7 @@ if Meteor.isClient
                 $('body').toast({
                     message: "debit #{debit.title} was cloned"
                     class:'success'
-                    showProgress: 'bottom'
+                    # showProgress: 'bottom'
                 })
 
             console.log group_debits
@@ -335,3 +376,14 @@ if Meteor.isClient
             t.editing_template.set false
         'click .edit_template': (e,t)->
             t.editing_template.set true
+
+
+
+
+
+
+if Meteor.isServer
+    Meteor.publish 'feature_by_slug', (slug)->
+        Docs.find
+            model:'feature'
+            slug:slug

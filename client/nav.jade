@@ -6,23 +6,23 @@ template(name='nav')
         a.compact.item(href='/' class="{{isActivePath '/'}}") 
             img.ui.tiny.compact.image(src="{{c.url 'mmm_logo_small' height=200 }}" title='Home')
         a.ui.item(href='/p/about')
-            |Our Work
+            |our work
         //- a.item(href='/p/partners')
         //-     //- +ismall name='test-passed'
         //-     span.mobile.hidden &nbsp; Community Partners
         a.item(href='/p/team')
             //- +ismall name='question'
-            span.mobile.hidden &nbsp; Team
+            span.mobile.hidden &nbsp; team
         a.item(href='/contact')
             //- +ismall name='treasure-chest'
-            span.mobile.hidden &nbsp; Contact
+            span.mobile.hidden &nbsp; contact
             
         .right.menu
             unless currentUser
                 .item
-                    a.ui.button(href='/login') Log In
+                    a.ui.button(href='/login') log In
                 .item
-                    a.ui.teal.button(href='/choose_user_type') Sign Up
+                    a.ui.teal.button(href='/choose_user_type') sign up
             if currentUser
                 if is_dev
                     a.icon.item.set_models(href="/m/model")
@@ -53,7 +53,7 @@ template(name='footer')
                 //-         +ismall name='calculator'
                 //-         |tools
 
-                img.ui.tiny.inline.image(src="{{c.url 'bcorp' }}")
+                //- img.ui.tiny.inline.image(src="{{c.url 'bcorp' }}")
                 //- img.ui.small.image(src="{{c.url 'stripe_badge' }}")
                 //- img.ui.small.image(src="{{c.url 'builtin' }}")
             .four.wide.column

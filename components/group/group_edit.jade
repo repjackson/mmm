@@ -7,7 +7,7 @@ template(name='group_edit_layout')
                     .ui.header 
                         small editing 
                         div
-                        strong #{company_name}
+                        strong #{title}
                         div
                         small group
                     a.ui.huge.icon.fluid.button(href="/group/#{_id}/members" title='save')
@@ -18,24 +18,24 @@ template(name='group_edit_layout')
                         a.item(href="/group/#{_id}/edit/info" class="{{isActiveRoute regex='group_edit_info'}}") 
                             |info
                             i.info.icon
-                        a.item(href="/group/#{_id}/edit/members" class="{{isActiveRoute regex='group_edit_members'}}") 
-                            |members
-                            i.users.icon
-                        a.item(href="/group/#{_id}/edit/credits" class="{{isActiveRoute regex='group_edit_credits'}}")
-                            |credits
-                            i.plus.icon
-                        a.item(href="/group/#{_id}/edit/debits" class="{{isActiveRoute regex='group_edit_debits'}}")
-                            |debits
-                            i.minus.icon
-                        a.item(href="/group/#{_id}/edit/templates" class="{{isActiveRoute regex='group_edit_templates'}}")
-                            |templates
-                            i.clone.icon
-                        a.item(href="/group/#{_id}/edit/files" class="{{isActiveRoute regex='group_edit_files'}}")
-                            |files
-                            i.file.icon
                         a.item(href="/group/#{_id}/edit/features" class="{{isActiveRoute regex='group_edit_features'}}")
                             |features
                             i.th.icon
+                        a.item(href="/group/#{_id}/edit/templates" class="{{isActiveRoute regex='group_edit_templates'}}")
+                            |templates
+                            i.clone.icon
+                    
+                    .ui.vertical.large.fluid.pointing.menu
+                        each enabled_features
+                            a.item(href="/group/#{current_doc._id}/edit/f/#{slug}")
+                                |#{title}
+                                i.icon(class=icon)
+                            //- a.item(href="/group/#{_id}/edit/debits" class="{{isActiveRoute regex='group_edit_debits'}}")
+                            //-     |debits
+                            //-     i.minus.icon
+                            //- a.item(href="/group/#{_id}/edit/files" class="{{isActiveRoute regex='group_edit_files'}}")
+                            //-     |files
+                            //-     i.file.icon
                 .twelve.wide.column
                     +yield
                                     
@@ -297,40 +297,44 @@ template(name='group_edit_features')
                     small current monthly bill 
                     |$#{group_monthly_bill}/month
         .row
-            .eight.wide.column
+            .seven.wide.column
                 .ui.small.header enabled
-                .ui.fluid.huge.vertical.pointing.menu
+                .ui.fluid.large.vertical.pointing.menu
                     each enabled_features
-                        a.item.select_feature(class=feature_class) 
-                            if icon
-                                i.icon(class=icon)
-                            |#{title}
-                            small $#{monthly_price}
+                        +feature_menu_item
                 div
                 .ui.small.inline.header available
                 .ui.fluid.large.vertical.pointing.menu
                     each disabled_features
-                        a.item.select_feature(class=feature_class) 
-                            if icon
-                                i.icon(class=icon)
-                            |#{title}
-                            small $#{monthly_price}/month
-            .eight.wide.column
+                        +feature_menu_item
+            .nine.wide.column
                 with selected_feature
                     +feature
 
+template(name='feature_menu_item')
+    a.item.select_feature(class=feature_class) 
+        if icon
+            i.icon(class=icon)
+        |#{title}
+        if dependencies.length
+            i.fork.icon(title="dependencies: #{dependencies}")
+        if monthly_price
+            small $#{monthly_price}/month
 
 
 
 
 template(name='feature')
-    .ui.segment
+    .ui.segment(class=feature_class)
         if editing_feature
             .ui.header editing feature
             +text_edit key='title' direct=true
+            +slug_edit key='slug' direct=true
             +image_edit key='image_id' label='image' direct=true
             +text_edit key='icon' direct=true
+            +textarea_edit key='description' direct=true
             +array_edit key='tags' label='tags' direct=true
+            +array_edit key='dependencies' label='dependencies' direct=true
             div
             +number_edit key='monthly_price' label='monthly price' direct=true
             div
@@ -340,24 +344,44 @@ template(name='feature')
                 i.green.checkmark.icon
                 |save
         else 
-            .ui.header viewing feature
             .ui.header 
-                small title
+                if icon
+                    i.icon(class=icon)
                 | #{title}
             div
+            .ui.small.header $#{monthly_price}/month
             |#{description}
+            +array_view key='tags' label='tags' icon='tags' direct=true
+            +array_view key='dependencies' label='dependencies' icon='fork' direct=true
             div
             .ui.divider
             if is_dev
-                .ui.fluid.button.edit_feature
+                .ui.fluid.small.button.edit_feature
                     i.pencil.icon
                     |edit
             unless enabled
-                .ui.fluid.button.enable_feature
+                .ui.fluid.large.button.enable_feature
                     i.toggle.off.icon
                     |enable
             else 
-                .ui.fluid.button.disable_feature
+                .ui.fluid.large.button.disable_feature
                     i.toggle.on.icon
                     |disable
             
+
+
+
+
+
+template(name='group_edit_feature')
+    with current_feature
+        .ui.header  
+            if icon 
+                i.icon(class=icon)
+            |#{title}
+        +Template.dynamic template=feature_edit_template
+
+
+
+template(name='group_edit_files')
+    .ui.header file editing

@@ -6,7 +6,7 @@ template(name='leader_layout')
 
 
 template(name='leader_nav')
-    .ui.attached.borderless.leader_nav.large.inverted.blue.menu
+    .ui.attached.borderless.leader_nav.inverted.blue.menu
         if is_loading
             .item
                 i.big.loading.notched.circle.icon
@@ -21,7 +21,7 @@ template(name='leader_nav')
         each my_groups
             a.item(href="/group/#{_id}")
                 img.ui.avatar.image(src="{{c.url group_image_id width=200 height=200 crop='fit'}}")
-                span.mobile.hidden &nbsp; #{company_name}
+                span.mobile.hidden &nbsp; #{title}
         //- a.item(href='/tests' title='tests')
         //-     +ismall name='test-passed'
         //-     span.mobile.hidden &nbsp; tests
