@@ -151,7 +151,7 @@ template(name='i')
     if currentUser.icon_theme
         img(src="https://img.icons8.com/#{currentUser.icon_theme}/48/000000/#{name}.png" class=classes title=title)
     else
-        if is_teacher
+        if is_leader
             img(src="https://img.icons8.com/ios/48/000000/#{name}.png" class=classes title=title)
         else
             img(src="https://img.icons8.com/office/48/000000/#{name}.png" class=classes title=title)
@@ -173,7 +173,7 @@ template(name='iios')
 
 template(name='ismall')
     //- i.icon(class=name)
-    if is_teacher
+    if is_leader
         img(src="https://img.icons8.com/ios/24/000000/#{name}.png" class='ui inline image' title=title)
         //- img(src="https://img.icons8.com/ios/24/000000/#{name}.png" class=classes title=title)
     else 
@@ -242,7 +242,7 @@ template(name='pdf_edit')
         if icon
             i.grey.icon(class=icon)
             //- +i name=icon
-        .ui.inline.header.capitalize
+        .ui.inline.header
             if title
                 |#{title}
             else if label
@@ -293,7 +293,7 @@ template(name='image_edit')
     .ui.form
         if icon
             +ismall name=icon classes='ui middle aligned image'
-        .ui.inline.header.capitalize
+        .ui.inline.header
             if title
                 |#{title}
             else if label
@@ -430,7 +430,7 @@ template(name='text_edit')
     if icon
         //- i.grey.icon(class=icon)
         +ismall name=icon classes='ui middle aligned image'
-    .ui.inline.header.capitalize
+    .ui.inline.header
         if title
             |#{title}
         else if label
@@ -606,7 +606,7 @@ template(name='number_view')
 
 
 template(name='number_edit')
-    .ui.inline.small.header.capitalize(title=tooltip)
+    .ui.inline.small.header(title=tooltip)
         if icon
             +i name=icon classes='ui middle aligned image'
         if title
@@ -649,7 +649,7 @@ template(name='float_view')
         if icon
             //- i.grey.icon(class=icon)
             +ismall name=icon classes='ui inline mini image'
-        .ui.inline.header.capitalize
+        .ui.inline.header
             if title
                 |#{title}
             else if label

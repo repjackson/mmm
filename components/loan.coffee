@@ -27,7 +27,7 @@ if Meteor.isClient
         'click .add_loan_item': ->
             new_mi_id = Docs.insert
                 model:'loan_item'
-                classroom_id: Router.current().params.doc_id
+                group_id: Router.current().params.doc_id
             Router.go "/loan/#{_id}/edit"
 
 

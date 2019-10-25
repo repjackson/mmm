@@ -89,24 +89,24 @@ template(name='footer')
                         
             //- .three.wide.column
             //-     .ui.link.large.list
-            //-         a.item.capitalize(href='/p/classrooms') 
-            //-             //- +ismall name='classroom'
-            //-             |classrooms
+            //-         a.item.capitalize(href='/p/groups') 
+            //-             //- +ismall name='group'
+            //-             |groups
             //-         a.item.capitalize(href='/p/investors') 
             //-             //- +ismall name='money'
             //-             |investors
-            //-         a.item.capitalize(href='/p/teachers') 
-            //-             //- +ismall name='teacher'
-            //-             |teachers
+            //-         a.item.capitalize(href='/p/leaders') 
+            //-             //- +ismall name='leader'
+            //-             |leaders
             //-         a.item.capitalize(href="/p/parents") 
             //-             //- +ismall name='children'
             //-             |parents
-            //-         a.item.capitalize(href='/p/students') 
-            //-             //- +ismall name='students'
-            //-             |students
-            //-         a.item.capitalize(href='/p/schools') 
-            //-             //- +ismall name='school'
-            //-             |schools
+            //-         a.item.capitalize(href='/p/members') 
+            //-             //- +ismall name='members'
+            //-             |members
+            //-         a.item.capitalize(href='/p/companys') 
+            //-             //- +ismall name='company'
+            //-             |companys
             //-         a.item.capitalize(href='/p/administrators') 
             //-             //- +ismall name='user-shield'
             //-             |administrators
@@ -195,6 +195,6 @@ template(name='role_switcher')
     //- +user_array_element_toggle key='current_roles' value='admin' user=currentUser
     //- +user_array_element_toggle key='current_roles' value='member' user=currentUser
     //- +user_array_element_toggle key='current_roles' value='staff' user=currentUser
-    +user_array_element_toggle key='roles' value='student' user=currentUser
-    +user_array_element_toggle key='roles' value='teacher' user=currentUser
+    +user_array_element_toggle key='roles' value='member' user=currentUser
+    +user_array_element_toggle key='roles' value='leader' user=currentUser
     +user_array_element_toggle key='roles' value='parent' user=currentUser

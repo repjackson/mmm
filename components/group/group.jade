@@ -1,85 +1,85 @@
-template(name='my_classrooms')
+template(name='my_groups')
     .ui.stackable.padded.grid
         .row
             .twelve.wide.column
                 .ui.inline.header 
-                    i.school.icon
-                    |your classrooms
-                if is_teacher
-                    .ui.icon.button.add_classroom(title='add classroom')
+                    i.company.icon
+                    |your groups
+                if is_leader
+                    .ui.icon.button.add_group(title='add group')
                         //- +i name='plus' classes='ui mini inline image'
                         i.green.large.plus.icon
-                        //- |add classroom
+                        //- |add group
         .row
             .sixteen.wide.column
                 .ui.stackable.four.cards
-                    each classrooms
-                        +classroom_card
+                    each groups
+                        +group_card
 
-template(name='classrooms')
+template(name='groups')
     .ui.stackable.padded.grid
         .row
             .twelve.wide.column
                 .ui.inline.header 
-                    +i name='classroom'
-                    |classrooms
+                    +i name='group'
+                    |groups
                 if currentUser
-                    .ui.icon.button.add_classroom(title='add classroom')
+                    .ui.icon.button.add_group(title='add group')
                         //- +i name='plus' classes='ui mini inline image'
                         i.green.large.plus.icon
-                        //- |add classroom
+                        //- |add group
         .row
             .sixteen.wide.column
                 .ui.stackable.four.cards
-                    each classrooms
-                        +classroom_card
+                    each groups
+                        +group_card
 
-template(name='classroom_card')
+template(name='group_card')
     .ui.card
-        a(href="/classroom/#{_id}")
-            img.ui.fluid.image(src="{{c.url classroom_image_id crop='lpad'}}")
-            //- img.ui.fluid.image(src="{{c.url classroom_image_id crop='lpad'}}")
+        a(href="/group/#{_id}")
+            img.ui.fluid.image(src="{{c.url group_image_id crop='lpad'}}")
+            //- img.ui.fluid.image(src="{{c.url group_image_id crop='lpad'}}")
         .content
-            a.ui.header(href="/classroom/#{_id}" title='balance') #{title}
-            .ui.green.inline.header $#{csd.classroom_balance}
-            .ui.green.inline.small.header(title='income') ($#{csd.total_credit_amount}
-            .ui.red.inline.small.header(title='expenses') / -$#{csd.total_debit_amount})
-            a.ui.header(href="/classroom/#{_id}")
+            a.ui.header(href="/group/#{_id}" title='balance') #{title}
+            .ui.green.inline.header $#{gsd.group_balance}
+            .ui.green.inline.small.header(title='income') ($#{gsd.total_credit_amount}
+            .ui.red.inline.small.header(title='expenses') / -$#{gsd.total_debit_amount})
+            a.ui.header(href="/group/#{_id}")
                 |view 
                 i.right.chevron.icon
 
                     
-template(name='classroom_view_layout')
-    +teacher_nav
+template(name='group_view_layout')
+    +leader_nav
     with current_doc
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
-                    //- a.ui.fluid.button(href="/my_classrooms")
+                    //- a.ui.fluid.button(href="/my_groups")
                     //-     i.chevron.left.grey.icon
-                    //-     i.school.icon
-                    //-     //- +i name='classroom' classes='ui inline mini image'
-                    //-     |classrooms
+                    //-     i.company.icon
+                    //-     //- +i name='group' classes='ui inline mini image'
+                    //-     |groups
                     .ui.center.aligned.huge.header
                         | #{company_name}
-                    +image_view key='classroom_image_id' label='image' direct=true
+                    +image_view key='group_image_id' label='image' direct=true
                     .ui.big.fluid.vertical.pointing.menu
-                        a.item(href="/classroom/#{_id}/students" class="{{isActiveRoute regex='classroom_students'}}")
+                        a.item(href="/group/#{_id}/members" class="{{isActiveRoute regex='group_members'}}")
                             i.dashboard.grey.icon
                             if is_admin
                                 img(src="https://img.icons8.com/color/48/000000/the-flash-sign--v2.png")        
                             | dashboard
-                        a.item(href="/classroom/#{_id}/lunch" class="{{isActiveRoute regex='classroom_lunch'}}")
+                        a.item(href="/group/#{_id}/lunch" class="{{isActiveRoute regex='group_lunch'}}")
                             i.food.grey.icon
                             if is_admin
                                 img(src="https://img.icons8.com/color/48/000000/the-flash-sign--v2.png")        
                             | lunch
-                        a.item(href="/classroom/#{_id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
+                        a.item(href="/group/#{_id}/reports" class="{{isActiveRoute regex='group_reports'}}")
                             i.line.chart.grey.icon
                             if is_admin
                                 img(src="https://img.icons8.com/color/48/000000/batman-old.png")        
                             | reports
-                        a.item(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
+                        a.item(href="/group/#{_id}/feed" class="{{isActiveRoute regex='group_feed'}}")
                             i.list.grey.icon
                             if is_admin
                                 img(src="https://img.icons8.com/color/48/000000/batman-old.png")        
@@ -87,32 +87,32 @@ template(name='classroom_view_layout')
                     .ui.header
                         if is_admin
                             img(src="https://img.icons8.com/color/48/000000/the-flash-sign--v2.png")        
-                        small teacher
-                        | #{teacher_name}
-                    a.ui.fluid.large.button(href="/classroom/#{_id}/edit/info")
+                        small leader
+                        | #{leader_name}
+                    a.ui.fluid.large.button(href="/group/#{_id}/edit/info")
                         i.pencil.icon
                         | edit
                 .twelve.wide.column
                     +yield
-    //- +teacher_footer
+    //- +leader_footer
 
 
 
-template(name='classroom_loans')
+template(name='group_loans')
     .ui.header 
         i.money.icon
-        |classroom loans
+        |group loans
     +loans
 
 
-template(name='classroom_lunch')        
+template(name='group_lunch')        
     .ui.padded.stackable.grid
         .row
             .four.wide.column
-                .ui.center.aligned.large.button.back_to_classroom
+                .ui.center.aligned.large.button.back_to_group
                     i.chevron.left.icon
                     |#{current_doc.title}
-                    //- |classroom
+                    //- |group
             .eight.wide.column
                 .ui.center.aligned.large.header 
                     //- +i name='food'
@@ -120,7 +120,7 @@ template(name='classroom_lunch')
                     |lunch
             .four.wide.column
             .ui.four.stackable.cards
-                each classroom_students
+                each group_members
                     unless lunch_chosen
                         .ui.card
                             img.ui.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
@@ -140,23 +140,23 @@ template(name='classroom_lunch')
 
 
 
-template(name='classroom_credits')
+template(name='group_credits')
     .ui.header 
         i.money.icon
-        |classroom loans
+        |group loans
     +loans
 
     
 
-template(name='classroom_students')
+template(name='group_members')
     .ui.header 
         i.dashboard.grey.icon
-        |classroom dashboard
+        |group dashboard
     with current_doc
         .ui.styled.fluid.accordion 
             .active.title 
                 .ui.header
-                    | classroom actions
+                    | group actions
                     i.dropdown.icon
             .active.content
                 .ui.two.column.grid
@@ -187,7 +187,7 @@ template(name='classroom_students')
                         .ui.small.header 
                             i.calendar.grey.inline.icon
                             i.hand.point.up.outline.grey.inline.icon
-                            |weekly manual classroom actions
+                            |weekly manual group actions
                         //- .ui.button.pay_salary disperse weekly paycheck
                         //-     span.ui.green.text +#{salary_amount}
                         each weekly_manual_credits
@@ -200,11 +200,11 @@ template(name='classroom_students')
                         .ui.small.header
                             i.clock.grey.inline.icon
                             i.hand.point.up.outline.grey.inline.icon
-                            | daily manual classroom actions
-                        each daily_manual_classroom_credits
+                            | daily manual group actions
+                        each daily_manual_group_credits
                             .ui.button.credit_group(class=bulk_action_class) #{title}
                                 span.ui.green.text +#{amount}
-                        each daily_manual_classroom_debits
+                        each daily_manual_group_debits
                             .ui.button.debit_group(class=bulk_action_class) #{title}
                                 span.ui.red.text -#{amount}
                         //- 
@@ -217,7 +217,7 @@ template(name='classroom_students')
                         //- .ui.button.charge_janitor_extra charge daily janitor extra fee 
                         //-     span.ui.red.text -#{janitor_extra_amount}
     .ui.accordion
-        each classroom_students
+        each group_members
             .active.title
                 img.ui.avatar.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
                 .ui.inline.header
@@ -245,7 +245,7 @@ template(name='classroom_students')
                                 +individual_debit_button
                 //- .extra.content.smallscroll
                 //-     .ui.list
-                //-         each student_events
+                //-         each member_events
                 //-             .item #{text} #{when}
                 //-                 +remove_button
                                 
@@ -259,53 +259,53 @@ template(name='classroom_students')
             //-         .description
             //-             each individual_credit_types
             //-                 +class_credit_button
-            //-             each classroom_debit_types
+            //-             each group_debit_types
             //-                 +class_debit_button
             //-     .extra.content.smallscroll
             //-         .ui.list
-            //-             each student_events
+            //-             each member_events
             //-                 .item #{text} #{when}
             //-                     +remove_button
             //- 
                                         
 template(name='individual_credit_button')
-    .ui.button.credit_student 
+    .ui.button.credit_member 
         |#{title}
         span.ui.green.text
             |+#{amount}
     
 template(name='individual_debit_button')
-    .ui.button.debit_student 
+    .ui.button.debit_member 
         |#{title}
         span.ui.red.text
             |-#{amount}
 
 
     
-template(name='classroom_reports')
+template(name='group_reports')
     with current_doc
-        +classroom_stats
+        +group_stats
         .ui.stackable.padded.grid
             .row
                 //- .four.wide.column
-                //-     a.ui.big.button(href="/classroom/#{_id}/view" title='save')
+                //-     a.ui.big.button(href="/group/#{_id}/view" title='save')
                 //-         i.chevron.left.icon
-                //-         |classroom
+                //-         |group
                 //- .twelve.wide.column
                 //- .ui.large.header 
                 //-     i.line.chart.icon
-                //-     |student reports
+                //-     |member reports
                 table.ui.celled.very.basic.table
                     thead
                         tr
-                            th student
+                            th member
                             //- th week 1
                             //- th week 2
                             //- th week 3
                             //- th week 4
                             th credit
                     tbody
-                        each classroom_students
+                        each group_members
                             tr
                                 td 
                                     a.ui.header(href="/user/#{username}") 
@@ -330,7 +330,7 @@ template(name='classroom_reports')
 
 
 
-template(name='classroom_feed')
+template(name='group_feed')
     .ui.inline.header 
         +i name='rss'
         |feed
@@ -340,7 +340,7 @@ template(name='classroom_feed')
             |remove all events
     div
     .ui.feed.scrolling
-        each classroom_events
+        each group_events
             .event 
                 .label
                     img.ui.avatar.image(src="{{c.url target_user.profile_image_id height=100 gravity='face' crop='fill'}}")
@@ -368,28 +368,28 @@ template(name='classroom_feed')
 
 
 
-template(name='classroom_stats')
+template(name='group_stats')
     .ui.two.column.grid
         .column
-            .ui.header.refresh_classroom_stats
+            .ui.header.refresh_group_stats
                 //- +ismall name='line-chart'
                 i.line.chart.icon
                 |stats
             div
-            .ui.green.inline.header $#{csd.classroom_balance}
+            .ui.green.inline.header $#{gsd.group_balance}
             | balance
             div
-            .ui.green.inline.header $#{csd.total_credit_amount}
+            .ui.green.inline.header $#{gsd.total_credit_amount}
             | income
             div
-            .ui.red.inline.header -$#{csd.total_debit_amount}
+            .ui.red.inline.header -$#{gsd.total_debit_amount}
             | expenses
         .column
             .ui.big.list
                 .item #{views} views
-                .item #{csd.student_count} students
-                .item #{csd.credit_count} total credits
-                .item #{csd.debit_count} total debits
-                .item $#{csd.average_credit_per_student} credit/student
-                .item $#{csd.average_debit_per_student} debit/student
+                .item #{gsd.member_count} members
+                .item #{gsd.credit_count} total credits
+                .item #{gsd.debit_count} total debits
+                .item $#{gsd.average_credit_per_member} credit/member
+                .item $#{gsd.average_debit_per_member} debit/member
         

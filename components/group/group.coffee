@@ -1,83 +1,83 @@
 if Meteor.isClient
-    Router.route '/classrooms', ->
-        @render 'classrooms'
-    Router.route '/my_classrooms', ->
-        @layout 'teacher_layout'
-        @render 'my_classrooms'
+    Router.route '/groups', ->
+        @render 'groups'
+    Router.route '/my_groups', ->
+        @layout 'leader_layout'
+        @render 'my_groups'
 
-    Router.route '/classroom/:doc_id/', (->
-        @layout 'classroom_view_layout'
-        @render 'classroom_students'
-        ), name:'classroom_view'
-    Router.route '/classroom/:doc_id/dashboard', (->
-        @layout 'classroom_view_layout'
-        @render 'classroom_dashboard'
-        ), name:'classroom_dashboard'
-    Router.route '/classroom/:doc_id/reports', (->
-        @layout 'classroom_view_layout'
-        @render 'classroom_reports'
-        ), name:'classroom_reports'
-    Router.route '/classroom/:doc_id/stats', (->
-        @layout 'classroom_view_layout'
-        @render 'classroom_stats'
-        ), name:'classroom_stats'
-    Router.route '/classroom/:doc_id/lunch', (->
+    Router.route '/group/:doc_id/', (->
+        @layout 'group_view_layout'
+        @render 'group_members'
+        ), name:'group_view'
+    Router.route '/group/:doc_id/dashboard', (->
+        @layout 'group_view_layout'
+        @render 'group_dashboard'
+        ), name:'group_dashboard'
+    Router.route '/group/:doc_id/reports', (->
+        @layout 'group_view_layout'
+        @render 'group_reports'
+        ), name:'group_reports'
+    Router.route '/group/:doc_id/stats', (->
+        @layout 'group_view_layout'
+        @render 'group_stats'
+        ), name:'group_stats'
+    Router.route '/group/:doc_id/lunch', (->
         @layout 'mlayout'
-        @render 'classroom_lunch'
-        ), name:'classroom_lunch'
-    Router.route '/classroom/:doc_id/debits', (->
-        @layout 'classroom_view_layout'
-        @render 'classroom_debits'
-        ), name:'classroom_debits'
-    Router.route '/classroom/:doc_id/credits', (->
-        @layout 'classroom_view_layout'
-        @render 'classroom_credits'
-        ), name:'classroom_credits'
-    Router.route '/classroom/:doc_id/students', (->
-        @layout 'classroom_view_layout'
-        @render 'classroom_students'
-        ), name:'classroom_students'
-    Router.route '/classroom/:doc_id/feed', (->
-        @layout 'classroom_view_layout'
-        @render 'classroom_feed'
-        ), name:'classroom_feed'
-    Router.route '/classroom/:doc_id/loans', (->
-        @layout 'classroom_view_layout'
-        @render 'classroom_loans'
-        ), name:'classroom_loans'
+        @render 'group_lunch'
+        ), name:'group_lunch'
+    Router.route '/group/:doc_id/debits', (->
+        @layout 'group_view_layout'
+        @render 'group_debits'
+        ), name:'group_debits'
+    Router.route '/group/:doc_id/credits', (->
+        @layout 'group_view_layout'
+        @render 'group_credits'
+        ), name:'group_credits'
+    Router.route '/group/:doc_id/members', (->
+        @layout 'group_view_layout'
+        @render 'group_members'
+        ), name:'group_members'
+    Router.route '/group/:doc_id/feed', (->
+        @layout 'group_view_layout'
+        @render 'group_feed'
+        ), name:'group_feed'
+    Router.route '/group/:doc_id/loans', (->
+        @layout 'group_view_layout'
+        @render 'group_loans'
+        ), name:'group_loans'
 
 
-    Template.classroom_card.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'classroom_stats'
-    Template.classrooms.helpers
+    Template.group_card.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'group_stats'
+    Template.groups.helpers
 
 
 
 
-    # Template.classroom_dashboard.onCreated ->
+    # Template.group_dashboard.onCreated ->
     #     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    #     @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
+    #     @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id
     #     @autorun => Meteor.subscribe 'model_docs', 'credit_type'
-    # Template.classroom_dashboard.onRendered ->
+    # Template.group_dashboard.onRendered ->
     #     Meteor.setTimeout ->
     #         $('#date_calendar')
     #             .calendar({
     #                 type: 'date'
     #             })
     #     , 700
-    # Template.classroom_dashboard.helpers
+    # Template.group_dashboard.helpers
     #     individual_credit_types: ->
     #         Docs.find
     #             model:'credit_type'
     #             # weekly:$ne:true
-    #             classroom_id: Router.current().params.doc_id
+    #             group_id: Router.current().params.doc_id
 
-    Template.classroom_students.onCreated ->
-        @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'classroom_docs', 'credit_type', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'classroom_docs', 'debit_type', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'classroom_docs', 'classroom_event', Router.current().params.doc_id
-    Template.classroom_students.onRendered ->
+    Template.group_members.onCreated ->
+        @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'group_docs', 'credit_type', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'group_docs', 'debit_type', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'group_docs', 'group_event', Router.current().params.doc_id
+    Template.group_members.onRendered ->
         Meteor.setTimeout ->
             $('.accordion').accordion(
                 selector:
@@ -85,129 +85,129 @@ if Meteor.isClient
             )
         , 1000
 
-    Template.classroom_students.helpers
+    Template.group_members.helpers
         # bulk_action_class: ->
         #     console.log @
         weekly_automatic_debits: ->
             Docs.find
                 model:'debit_type'
-                classroom_id: Router.current().params.doc_id
+                group_id: Router.current().params.doc_id
                 dispersion_type:'automatic'
                 automatic_period:'weekly'
         weekly_automatic_credits: ->
             Docs.find
                 model:'credit_type'
-                classroom_id: Router.current().params.doc_id
+                group_id: Router.current().params.doc_id
                 dispersion_type:'automatic'
                 automatic_period:'weekly'
         daily_automatic_debits: ->
             Docs.find
                 model:'debit_type'
-                classroom_id: Router.current().params.doc_id
+                group_id: Router.current().params.doc_id
                 dispersion_type:'automatic'
                 automatic_period:'daily'
         daily_automatic_credits: ->
             Docs.find
                 model:'credit_type'
-                classroom_id: Router.current().params.doc_id
+                group_id: Router.current().params.doc_id
                 dispersion_type:'automatic'
                 automatic_period:'daily'
         weekly_manual_debits: ->
             Docs.find
                 model:'debit_type'
-                classroom_id: Router.current().params.doc_id
+                group_id: Router.current().params.doc_id
                 dispersion_type:'manual'
                 manual_period:'weekly'
         weekly_manual_credits: ->
             Docs.find
                 model:'credit_type'
-                classroom_id: Router.current().params.doc_id
+                group_id: Router.current().params.doc_id
                 dispersion_type:'manual'
                 manual_period:'weekly'
         daily_manual_debits: ->
             Docs.find
                 model:'debit_type'
-                classroom_id: Router.current().params.doc_id
+                group_id: Router.current().params.doc_id
                 dispersion_type:'manual'
                 manual_period:'daily'
         daily_manual_credits: ->
             Docs.find
                 model:'credit_type'
-                classroom_id: Router.current().params.doc_id
+                group_id: Router.current().params.doc_id
                 dispersion_type:'manual'
                 manual_period:'daily'
-        daily_manual_classroom_debits: ->
+        daily_manual_group_debits: ->
             Docs.find
                 model:'debit_type'
-                classroom_id: Router.current().params.doc_id
+                group_id: Router.current().params.doc_id
                 dispersion_type:'manual'
                 scope:'group'
                 manual_period:'daily'
-        daily_manual_classroom_credits: ->
+        daily_manual_group_credits: ->
             Docs.find
                 model:'credit_type'
-                classroom_id: Router.current().params.doc_id
+                group_id: Router.current().params.doc_id
                 scope:'group'
                 dispersion_type:'manual'
                 manual_period:'daily'
-        classroom_students: ->
-            classroom = Docs.findOne Router.current().params.doc_id
+        group_members: ->
+            group = Docs.findOne Router.current().params.doc_id
             Meteor.users.find
-                _id: $in: classroom.student_ids
+                _id: $in: group.member_ids
         individual_credit_types: ->
             Docs.find
                 model:'credit_type'
                 dispersion_type: 'manual'
                 scope: 'individual'
-                classroom_id: Router.current().params.doc_id
+                group_id: Router.current().params.doc_id
         individual_debit_types: ->
             Docs.find
                 model:'debit_type'
                 dispersion_type: 'manual'
                 scope: 'individual'
-                classroom_id: Router.current().params.doc_id
-        classroom_debit_types: ->
+                group_id: Router.current().params.doc_id
+        group_debit_types: ->
             Docs.find
                 model:'debit_type'
                 scope: 'group'
-                classroom_id: Router.current().params.doc_id
-        student_events: ->
+                group_id: Router.current().params.doc_id
+        member_events: ->
             Docs.find
-                model:'classroom_event'
+                model:'group_event'
                 user_id: @_id
 
-    Template.classroom_students.events
+    Template.group_members.events
         'click .debit_group': ->
-            classroom = Docs.findOne Router.current().params.doc_id
+            group = Docs.findOne Router.current().params.doc_id
             $('.title').transition('shake', 500)
-            for student_id in classroom.student_ids
-                student = Meteor.users.findOne student_id
-                Meteor.users.update student._id,
+            for member_id in group.member_ids
+                member = Meteor.users.findOne member_id
+                Meteor.users.update member._id,
                     $inc:credit:-@amount
                 Docs.insert
-                    model:'classroom_event'
+                    model:'group_event'
                     event_type:'debit'
                     amount: @amount
                     event_type_id: @_id
                     text:"was debited #{@amount} for #{@title}"
-                    user_id: student._id
-                    classroom_id: Router.current().params.doc_id
+                    user_id: member._id
+                    group_id: Router.current().params.doc_id
                 $('body').toast({
-                    message: "#{student.first_name} #{student.last_name} was debited #{@amount} for #{@title}"
+                    message: "#{member.first_name} #{member.last_name} was debited #{@amount} for #{@title}"
                     class:'error'
                     showProgress: 'bottom'
                 })
             # Docs.update Router.current().params.doc_id,
             #     $inc:credit:-@amount
             Docs.insert
-                model:'classroom_event'
+                model:'group_event'
                 event_type:'debit'
                 amount: @amount
                 event_type_id: @_id
-                text:"Class was debited #{@amount} for #{@title}"
-                classroom_id: Router.current().params.doc_id
+                text:"group was debited #{@amount} for #{@title}"
+                group_id: Router.current().params.doc_id
             $('body').toast({
-                message: "Class was debited #{@amount} for #{@title}"
+                message: "group was debited #{@amount} for #{@title}"
                 class:'error'
                 showProgress: 'bottom'
             })
@@ -215,31 +215,31 @@ if Meteor.isClient
         'click .credit_group': ->
             group = Docs.findOne Router.current().params.doc_id
             $('.title').transition('bounce', 500)
-            for student_id in group.student_ids
-                student = Meteor.users.findOne student_id
+            for member_id in group.member_ids
+                member = Meteor.users.findOne member_id
                 $('body').toast({
-                    message: "#{student.first_name} #{student.last_name} was credited #{@amount} for #{@title}"
+                    message: "#{member.first_name} #{member.last_name} was credited #{@amount} for #{@title}"
                     class:'success'
                     showProgress: 'bottom'
                 })
-                Meteor.users.update student._id,
+                Meteor.users.update member._id,
                     $inc:credit:@amount
                 Docs.insert
-                    model:'classroom_event'
+                    model:'group_event'
                     event_type:'credit'
                     amount: @amount
                     text:"was credited #{@amount} for #{@title}"
-                    user_id: student._id
-                    classroom_id: Router.current().params.doc_id
+                    user_id: member._id
+                    group_id: Router.current().params.doc_id
             Docs.insert
-                model:'classroom_event'
+                model:'group_event'
                 event_type:'credit'
                 amount: @amount
                 event_type_id: @_id
-                text:"Class was credited #{@amount} for #{@title}"
-                classroom_id: Router.current().params.doc_id
+                text:"group was credited #{@amount} for #{@title}"
+                group_id: Router.current().params.doc_id
             $('body').toast({
-                message: "Class was credited #{@amount} for #{@title}"
+                message: "group was credited #{@amount} for #{@title}"
                 class:'success'
                 showProgress: 'bottom'
             })
@@ -247,25 +247,25 @@ if Meteor.isClient
         'click .add_bonus': (e,t)->
             # alert 'hi'
             # console.log @
-            classroom = Docs.findOne Router.current().params.doc_id
+            group = Docs.findOne Router.current().params.doc_id
             $(e.currentTarget).closest('.title').transition('bounce', 500)
             # console.log @
             if Meteor.user()
                 $('body').toast({
-                    message: "#{classroom.bonus_amount}c bonus given to #{@first_name} #{@last_name}"
+                    message: "#{group.bonus_amount}c bonus given to #{@first_name} #{@last_name}"
                     class:'success'
                     showProgress: 'bottom'
                 })
 
                 Meteor.users.update @_id,
-                    $inc:credit:classroom.bonus_amount
+                    $inc:credit:group.bonus_amount
                 Docs.insert
-                    model:'classroom_event'
+                    model:'group_event'
                     event_type:'credit'
-                    amount: classroom.bonus_amount
-                    text:"was credited #{classroom.bonus_amount}"
+                    amount: group.bonus_amount
+                    text:"was credited #{group.bonus_amount}"
                     user_id: @_id
-                    classroom_id: Router.current().params.doc_id
+                    group_id: Router.current().params.doc_id
             else
                 $('body').toast({
                     message: 'need to be logged in to give bonus'
@@ -274,28 +274,28 @@ if Meteor.isClient
                 })
 
         'click .add_fine': (e,t)->
-            classroom = Docs.findOne Router.current().params.doc_id
+            group = Docs.findOne Router.current().params.doc_id
 
             $(e.currentTarget).closest('.title').transition('shake', 500)
             if Meteor.user()
                 $('body').toast({
-                    message: "#{classroom.fines_amount}c fine given to #{@first_name} #{@last_name}"
+                    message: "#{group.fines_amount}c fine given to #{@first_name} #{@last_name}"
                     class:'error'
                     showProgress: 'bottom'
                 })
 
                 Meteor.users.update @_id,
-                    $inc:credit:-classroom.fines_amount
+                    $inc:credit:-group.fines_amount
                 Docs.insert
-                    model:'classroom_event'
+                    model:'group_event'
                     event_type:'debit'
-                    amount: classroom.fines_amount
-                    text:"was fined #{classroom.fines_amount}"
+                    amount: group.fines_amount
+                    text:"was fined #{group.fines_amount}"
                     user_id: @_id
-                    classroom_id: Router.current().params.doc_id
+                    group_id: Router.current().params.doc_id
             else
                 $('body').toast({
-                    message: 'need to be teacher to give fine'
+                    message: 'need to be logged in to give fine'
                     class:'error'
                     showProgress: 'bottom'
                 })
@@ -306,30 +306,30 @@ if Meteor.isClient
 
 
 
-    Template.classroom_lunch.onCreated ->
+    Template.group_lunch.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'classroom_docs', 'classroom_event', Router.current().params.doc_id
-    Template.classroom_students.onRendered ->
+        @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'group_docs', 'group_event', Router.current().params.doc_id
+    Template.group_members.onRendered ->
         # Meteor.setTimeout ->
         #     $('.accordion').accordion()
         # , 1000
-    Template.classroom_lunch.events
-        'click .back_to_classroom': ->
-            Router.go "/classroom/#{Router.current().params.doc_id}/"
+    Template.group_lunch.events
+        'click .back_to_group': ->
+            Router.go "/group/#{Router.current().params.doc_id}/"
         'click .choose_home': (e,t)->
             $(e.currentTarget).closest('.button').transition('zoom', 1000)
             $(e.currentTarget).closest('.card').transition('fade left', 1000)
             Meteor.setTimeout =>
                 Docs.insert
-                    model:'classroom_event'
+                    model:'group_event'
                     event_type:'debit'
                     amount: -3
                     debit_type: 'lunch'
                     date:moment().format("MM-DD-YYYY")
                     text:"was debited 3 for a home lunch"
                     user_id: @_id
-                    classroom_id: Router.current().params.doc_id
+                    group_id: Router.current().params.doc_id
             , 1000
 
         'click .choose_cafeteria': (e,t)->
@@ -337,21 +337,21 @@ if Meteor.isClient
             $(e.currentTarget).closest('.card').transition('fade left', 1000)
             Meteor.setTimeout =>
                 Docs.insert
-                    model:'classroom_event'
+                    model:'group_event'
                     event_type:'debit'
                     amount: -5
                     date:moment().format("MM-DD-YYYY")
                     debit_type: 'lunch'
                     text:"was debited 5 for a cafeteria lunch"
                     user_id: @_id
-                    classroom_id: Router.current().params.doc_id
+                    group_id: Router.current().params.doc_id
             , 1000
 
-    Template.classroom_lunch.helpers
-        classroom_students: ->
-            classroom = Docs.findOne Router.current().params.doc_id
+    Template.group_lunch.helpers
+        group_members: ->
+            group = Docs.findOne Router.current().params.doc_id
             Meteor.users.find
-                _id: $in: classroom.student_ids
+                _id: $in: group.member_ids
 
         lunch_chosen: ->
             today = moment().format("MM-DD-YYYY")
@@ -361,52 +361,52 @@ if Meteor.isClient
                 user_id: @_id
             console.log chosen_lunch
             chosen_lunch
-        classroom_debit_types: ->
+        group_debit_types: ->
             Docs.find
                 model:'debit_type'
                 # weekly:$ne:true
-                classroom_id: Router.current().params.doc_id
+                group_id: Router.current().params.doc_id
 
 
 
 
 
     Template.individual_credit_button.events
-        'click .credit_student': ->
-            student = Template.parentData()
+        'click .credit_member': ->
+            member = Template.parentData()
             # console.log @
-            Meteor.users.update student._id,
+            Meteor.users.update member._id,
                 $inc:credit:@amount
             Docs.insert
-                model:'classroom_event'
+                model:'group_event'
                 event_type:'credit'
                 amount: @amount
                 event_type_id: @_id
                 text:"was credited #{@amount} for #{@title}"
-                user_id: student._id
-                classroom_id: Router.current().params.doc_id
+                user_id: member._id
+                group_id: Router.current().params.doc_id
             $('body').toast({
-                message: "#{student.first_name} #{student.last_name} was credited #{@amount} for #{@title}"
+                message: "#{member.first_name} #{member.last_name} was credited #{@amount} for #{@title}"
                 class:'success'
                 showProgress: 'bottom'
             })
 
     Template.individual_debit_button.events
-        'click .debit_student': ->
-            student = Template.parentData()
+        'click .debit_member': ->
+            member = Template.parentData()
             # console.log @
-            Meteor.users.update student._id,
+            Meteor.users.update member._id,
                 $inc:credit:-@amount
             Docs.insert
-                model:'classroom_event'
+                model:'group_event'
                 event_type:'debit'
                 amount: @amount
                 event_type_id: @_id
                 text:"was debited #{@amount} for #{@title}"
-                user_id: student._id
-                classroom_id: Router.current().params.doc_id
+                user_id: member._id
+                group_id: Router.current().params.doc_id
             $('body').toast({
-                message: "#{student.first_name} #{student.last_name} was debited #{@amount} for #{@title}"
+                message: "#{member.first_name} #{member.last_name} was debited #{@amount} for #{@title}"
                 class:'error'
                 showProgress: 'bottom'
             })
@@ -414,22 +414,22 @@ if Meteor.isClient
 
 
 
-    Template.classroom_reports.onCreated ->
+    Template.group_reports.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
-    # Template.classroom_reports.onRendered ->
+        @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id
+    # Template.group_reports.onRendered ->
     #     Meteor.setTimeout ->
     #         $('#date_calendar')
     #             .calendar({
     #                 type: 'date'
     #             })
     #     , 700
-    Template.classroom_reports.helpers
-        classroom_students: ->
-            classroom = Docs.findOne Router.current().params.doc_id
+    Template.group_reports.helpers
+        group_members: ->
+            group = Docs.findOne Router.current().params.doc_id
             Meteor.users.find
-                _id: $in: classroom.student_ids
-    Template.classroom_reports.events
+                _id: $in: group.member_ids
+    Template.group_reports.events
         'change .date_select': ->
             console.log $('.date_select').val()
 
@@ -439,18 +439,18 @@ if Meteor.isClient
 
 
 
-    Template.classroom_view_layout.onCreated ->
+    Template.group_view_layout.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'model_docs', 'feature'
-        @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id
 
-    Template.classroom_view_layout.onRendered ->
+    Template.group_view_layout.onRendered ->
         Meteor.call 'increment_view', Router.current().params.doc_id, ->
         # Meteor.setTimeout ->
         #     $('.tabular.menu .item').tab()
         # , 1000
 
-    Template.classroom_view_layout.helpers
+    Template.group_view_layout.helpers
         # features: ->
         #     Docs.find
         #         model:'feature'
@@ -458,30 +458,30 @@ if Meteor.isClient
         #     "#{@title}_view_template"
         #
         # selected_features: ->
-        #     classroom = Docs.findOne Router.current().params.doc_id
+        #     group = Docs.findOne Router.current().params.doc_id
         #     Docs.find(
-        #         _id: $in: classroom.feature_ids
+        #         _id: $in: group.feature_ids
         #         model:'feature'
         #     ).fetch()
 
 
 
 
-    Template.classroom_feed.onCreated ->
-        @autorun => Meteor.subscribe 'classroom_docs', 'classroom_event', Router.current().params.doc_id
-    Template.classroom_feed.helpers
-        classroom_events: ->
+    Template.group_feed.onCreated ->
+        @autorun => Meteor.subscribe 'group_docs', 'group_event', Router.current().params.doc_id
+    Template.group_feed.helpers
+        group_events: ->
             Docs.find {
-                model:'classroom_event'
-                classroom_id:Router.current().params.doc_id
+                model:'group_event'
+                group_id:Router.current().params.doc_id
             }, sort: _timestamp:-1
 
-    Template.classroom_feed.events
+    Template.group_feed.events
         'click .remove_all_events': ->
             if confirm 'remove all events?'
                 events = Docs.find({
-                    model:'classroom_event'
-                    classroom_id:Router.current().params.doc_id
+                    model:'group_event'
+                    group_id:Router.current().params.doc_id
                 }).fetch()
                 for event in events
                     Docs.remove event._id
@@ -507,88 +507,88 @@ if Meteor.isClient
 
 
 
-    Template.classroom_stats.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'classroom_stats'
-    Template.classroom_stats.helpers
-        csd: ->
+    Template.group_stats.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'group_stats'
+    Template.group_stats.helpers
+        gsd: ->
             Docs.findOne
-                model:'classroom_stats'
-                classroom_id:Router.current().params.doc_id
-    Template.classroom_stats.events
-        'click .refresh_classroom_stats': ->
-            Meteor.call 'refresh_classroom_stats', @_id
+                model:'group_stats'
+                group_id:Router.current().params.doc_id
+    Template.group_stats.events
+        'click .refresh_group_stats': ->
+            Meteor.call 'refresh_group_stats', @_id
 
 
 
 
 if Meteor.isServer
-    Meteor.publish 'classroom_students', (classroom_id)->
-        classroom = Docs.findOne classroom_id
+    Meteor.publish 'group_members', (group_id)->
+        group = Docs.findOne group_id
         Meteor.users.find
-            _id: $in: classroom.student_ids
+            _id: $in: group.member_ids
 
-    Meteor.publish 'classroom_docs', (model, classroom_id)->
+    Meteor.publish 'group_docs', (model, group_id)->
         Docs.find
             model:model
-            classroom_id:classroom_id
+            group_id:group_id
 
 
     Meteor.methods
-        refresh_classroom_stats: (classroom_id)->
-            classroom = Docs.findOne classroom_id
-            # console.log classroom
-            classroom_stats_doc = Docs.findOne
-                model:'classroom_stats'
-                classroom_id: classroom_id
+        refresh_group_stats: (group_id)->
+            group = Docs.findOne group_id
+            # console.log group
+            group_stats_doc = Docs.findOne
+                model:'group_stats'
+                group_id: group_id
 
-            unless classroom_stats_doc
+            unless group_stats_doc
                 new_stats_doc_id = Docs.insert
-                    model:'classroom_stats'
-                    classroom_id: classroom_id
-                classroom_stats_doc = Docs.findOne new_stats_doc_id
+                    model:'group_stats'
+                    group_id: group_id
+                group_stats_doc = Docs.findOne new_stats_doc_id
 
-            student_count = classroom.student_ids.length
+            member_count = group.member_ids.length
 
             debits = Docs.find({
-                model:'classroom_event'
+                model:'group_event'
                 event_type:'debit'
-                classroom_id:classroom_id})
+                group_id:group_id})
             debit_count = debits.count()
             total_debit_amount = 0
             for debit in debits.fetch()
                 total_debit_amount += debit.amount
 
             credits = Docs.find({
-                model:'classroom_event'
+                model:'group_event'
                 event_type:'credit'
-                classroom_id:classroom_id})
+                group_id:group_id})
             credit_count = credits.count()
             total_credit_amount = 0
             for credit in credits.fetch()
                 total_credit_amount += credit.amount
 
-            classroom_balance = total_credit_amount-total_debit_amount
+            group_balance = total_credit_amount-total_debit_amount
 
-            average_credit_per_student = total_credit_amount/student_count
-            average_debit_per_student = total_debit_amount/student_count
+            average_credit_per_member = total_credit_amount/member_count
+            average_debit_per_member = total_debit_amount/member_count
 
 
-            Docs.update classroom_stats_doc._id,
+            Docs.update group_stats_doc._id,
                 $set:
-                    student_count: student_count
+                    member_count: member_count
                     total_credit_amount: total_credit_amount
                     total_debit_amount: total_debit_amount
                     debit_count: debit_count
                     credit_count: credit_count
-                    classroom_balance: classroom_balance
-                    average_credit_per_student: average_credit_per_student.toFixed(2)
-                    average_debit_per_student: average_debit_per_student.toFixed(2)
+                    group_balance: group_balance
+                    average_credit_per_member: average_credit_per_member.toFixed(2)
+                    average_debit_per_member: average_debit_per_member.toFixed(2)
 
             # .ui.small.header total earnings
-            # .ui.small.header classroom ranking #reservations
-            # .ui.small.header classroom ranking $ earned
+            # .ui.small.header group ranking #reservations
+            # .ui.small.header group ranking $ earned
             # .ui.small.header # different renters
-            # .ui.small.header avg classroom time
+            # .ui.small.header avg group time
             # .ui.small.header avg daily earnings
             # .ui.small.header avg weekly earnings
             # .ui.small.header avg monthly earnings

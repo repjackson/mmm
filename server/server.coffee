@@ -5,7 +5,7 @@ Meteor.users.allow
         #     true
     remove: (user_id, doc, fields, modifier) ->
         user = Meteor.users.findOne user_id
-        if user_id and 'teacher' in user.roles
+        if user_id and 'leader' in user.roles
             true
         # if userId and doc._id == userId
         #     true
@@ -131,10 +131,10 @@ Meteor.publish 'checkin_guests', (doc_id)->
         _id:$in:session_document.guest_ids
 
 
-Meteor.publish 'student', (guest_id)->
+Meteor.publish 'member', (guest_id)->
     guest = Docs.findOne guest_id
     Meteor.users.find
-        _id:guest.student_id
+        _id:guest.member_id
 
 
 
@@ -151,7 +151,7 @@ Meteor.publish 'health_club_members', (username_query)->
         # _id:$nin:active_session_ids
         username: {$regex:"#{username_query}", $options: 'i'}
         # healthclub_checkedin:$ne:true
-        roles:$in:['student','owner']
+        roles:$in:['member','owner']
         },{ limit:20 })
 
 

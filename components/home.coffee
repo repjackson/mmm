@@ -31,11 +31,11 @@ if Meteor.isServer
                     model:'home_stats'
                 hs = Docs.findOne new_stats
             user_count = Meteor.users.find().count()
-            teacher_count = Meteor.users.find(roles:$in:['teacher']).count()
+            leader_count = Meteor.users.find(roles:$in:['leader']).count()
             donor_count = Meteor.users.find(roles:$in:['donor']).count()
-            classroom_count =
+            group_count =
                 Docs.find(
-                    model:'classroom'
+                    model:'group'
                 ).count()
             donations_count =
                 Docs.find(
@@ -56,9 +56,9 @@ if Meteor.isServer
             Docs.update hs._id,
                 $set:
                     user_count:user_count
-                    teacher_count:teacher_count
+                    leader_count:leader_count
                     donor_count:donor_count
-                    classroom_count:classroom_count
+                    group_count:group_count
                     credit_count:credit_count
                     debit_count:debit_count
                     donations_count:donations_count

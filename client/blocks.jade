@@ -164,7 +164,7 @@ template(name='user_email')
 template(name='big_user_card')
     with user
         //- .ui.card
-        //- .ui.card(class=student_status_class)
+        //- .ui.card(class=member_status_class)
         .ui.card
             .image
                 img.ui.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
@@ -423,7 +423,7 @@ template(name='user_guidelines_check')
     //-             |rules and regs signed 
                 
         
-template(name='student_key_check')
+template(name='member_key_check')
     //- unless key_on_file
     //-     .ui.large.orange.basic.button
     //-         i.ban.icon

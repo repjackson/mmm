@@ -1,6 +1,6 @@
 template(name='profile_layout')
-    if is_teacher
-        +teacher_nav
+    if is_leader
+        +leader_nav
     else 
         +nav
     with user_from_username_param
@@ -45,14 +45,14 @@ template(name='profile_layout')
                                 //-     //- i.globe.icon
                                 //-     +ismall name='globe' 
                                 //-     |log out other clients
-                            .ui.header classrooms
+                            .ui.header groups
                             .ui.large.fluid.vertical.menu
                                 a.item.select_all
                                     |all 
-                                each student_classrooms
+                                each member_groups
                                     a.ui.item
                                         |#{title}
-                                        a.ui.icon.button(href="/classroom/#{_id}" title='goto classroom')
+                                        a.ui.icon.button(href="/group/#{_id}" title='goto group')
                                             i.external.icon
                             if is_admin
                                 .ui.basic.segment
@@ -69,8 +69,8 @@ template(name='profile_layout')
                             //-         |#{title}
 
                             +yield    
-    if is_teacher
-        +teacher_footer
+    if is_leader
+        +leader_footer
     else 
         +footer
                 
@@ -86,11 +86,11 @@ template(name='user_section_cloud')
             strong #{this.name}
                 
                     
-template(name='student_dashboard')                    
+template(name='member_dashboard')                    
     .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
-                .ui.inline.header.recalc_student_stats
+                .ui.inline.header.recalc_member_stats
                     +i name='dashboard'
                     |#{user_from_username_param.first_name}'s dashboard
                 .ui.inline.grey.header current balance $#{user_from_username_param.credit}

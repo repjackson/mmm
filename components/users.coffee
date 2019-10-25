@@ -1,21 +1,20 @@
 if Meteor.isClient
-    Router.route '/students', -> @render 'students'
-    Router.route '/users', -> @render 'users'
     Router.route '/members', -> @render 'members'
+    Router.route '/users', -> @render 'users'
 
-    Template.students.onCreated ->
-        @autorun => Meteor.subscribe 'user_search', Session.get('username_query'), 'student'
+    Template.members.onCreated ->
+        @autorun => Meteor.subscribe 'user_search', Session.get('username_query'), 'member'
     Template.profiles.onCreated ->
         @autorun => Meteor.subscribe 'profiles'
-    Template.students.helpers
-        students: ->
+    Template.members.helpers
+        members: ->
             username_query = Session.get('username_query')
             Meteor.users.find({
                 username: {$regex:"#{username_query}", $options: 'i'}
                 # healthclub_checkedin:$ne:true
-                # roles:$in:['student','owner']
+                # roles:$in:['member','owner']
                 },{ limit:20 }).fetch()
-    Template.students.events
+    Template.members.events
         # 'click #add_user': ->
         #     id = Docs.insert model:'person'
         #     Router.go "/person/edit/#{id}"
@@ -67,7 +66,7 @@ if Meteor.isClient
             Meteor.users.find({
                 username: {$regex:"#{username_query}", $options: 'i'}
                 # healthclub_checkedin:$ne:true
-                # roles:$in:['student','owner']
+                # roles:$in:['member','owner']
                 },{ limit:20 }).fetch()
     Template.users.events
         # 'click #add_user': ->
@@ -156,7 +155,7 @@ if Meteor.isServer
 
     Meteor.publish 'profiles', ()->
         Meteor.users.find
-            roles:$in:['student']
+            roles:$in:['member']
             profile_published:true
 
 

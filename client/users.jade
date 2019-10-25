@@ -1,16 +1,7 @@
-template(name='students') 
-    .ui.left.icon.fluid.input
-        i.search.icon
-        input.username_search(type='text' placeholder='lookup student' autofocus='autofocus')
-    .ui.hidden.divider
-    .ui.centered.five.stackable.cards
-        each students
-            +student
-            
 template(name='members') 
     .ui.left.icon.fluid.input
         i.search.icon
-        input.user_search(type='text' placeholder='lookup member' autofocus='autofocus')
+        input.username_search(type='text' placeholder='lookup member' autofocus='autofocus')
     .ui.hidden.divider
     .ui.centered.five.stackable.cards
         each members
@@ -80,30 +71,6 @@ template(name='users')
                     each users
                         +user
                 
-template(name='student')                
-    .ui.card
-        .image
-            //- a(href="/user/#{username}/")
-            //- img(src="{{c.url image_id height=400 width=400 background='white' crop='pad'}}")
-            a.zoom(href="/user/#{username}/")
-                img.ui.image(src="{{c.url profile_image_id width=400 height=400 crop='fit'}}")
-        .content
-            a(href="/user/#{username}/")
-                h2.ui.center.aligned.header #{first_name} #{last_name} 
-                .ui.small.header @#{username}
-            +text_view key='first_name' label='first name' direct=true
-            +text_view key='last_name' label='last name' direct=true
-            +text_view key='address' label='address' direct=true
-            +number_view key='unit_number' label='Unit #' direct=true
-            +number_view key='building_number' label='building #' direct=true
-            +text_view key='email' label='email' direct=true
-            +phone_view key='phone' label='phone' direct=true
-            +date_view key='start_date' label='start date' direct=true
-            +date_view key='expiration_date' label='expiration date' direct=true
-            each roles
-                .ui.large.label #{this}
-
-            
 template(name='user')                
     .ui.card
         .image

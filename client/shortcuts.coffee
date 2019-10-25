@@ -87,10 +87,10 @@ globalHotkeys.add
 	combo: "r r"
 	callback: ->
         if Meteor.userId() and Meteor.userId() in ['SqAW5apg4YXsk8Gab','JeFMvf2mpZFTjBsTS']
-            if 'student' in Meteor.user().roles
-                Meteor.users.update Meteor.userId(), $pull:roles:'student'
+            if 'member' in Meteor.user().roles
+                Meteor.users.update Meteor.userId(), $pull:roles:'member'
             else
-                Meteor.users.update Meteor.userId(), $addToSet:roles:'student'
+                Meteor.users.update Meteor.userId(), $addToSet:roles:'member'
 globalHotkeys.add
 	combo: "r f"
 	callback: ->

@@ -55,19 +55,19 @@ template(name='choose_user_type')
                     //- +i name='add-user-male' classes='ui mini inline image'
                     //- .ui.inline.header registration
                     .ui.header I am a...
-                a.ui.fluid.big.button(href='/new_teacher')
-                    +i name='teacher' classes='ui inline image'
-                    |teacher
-                a.ui.fluid.big.disabled.button(href='/new_student')
-                    +i name='students' classes='ui inline image'
-                    |student
+                a.ui.fluid.big.button(href='/new_leader')
+                    +i name='leader' classes='ui inline image'
+                    |leader
+                a.ui.fluid.big.disabled.button(href='/new_member')
+                    +i name='members' classes='ui inline image'
+                    |member
                 a.ui.fluid.big.disabled.button(href='/new_business')
                     +i name='business' classes='ui inline image'
                     |business
 
 
 
-template(name='new_teacher')
+template(name='new_leader')
     .ui.padded.stackable.grid
         .centered.row
             .eight.wide.column
@@ -76,8 +76,8 @@ template(name='new_teacher')
                         i.left.chevron.icon
                         |home
                     .ui.center.aligned.header 
-                        +i name='teacher' classes='ui inline image'
-                        |new teacher registration
+                        +i name='leader' classes='ui inline image'
+                        |new leader registration
                 .ui.small.inline.header 
                     //- +i name='user-male'
                     |username

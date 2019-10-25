@@ -203,7 +203,7 @@ body {
     transition: all .25s !important;
 }
 
-#topnav, .teacher_nav{
+#topnav, .leader_nav{
     border-radius: 0px 0px 0px 0px !important;
 }
 .hour_selected {
@@ -1005,7 +1005,7 @@ h1.ui.header{
     height: 1px;
 }
 
-.teacher_nav{
+.leader_nav{
 	overflow-y:hidden;
 	overflow-x:scroll;
 	/*max-height:1000px;*/
@@ -1020,7 +1020,7 @@ h1.ui.header{
     /* mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0)); */ */
 }
 
-.teacher_nav::-webkit-scrollbar {
+.leader_nav::-webkit-scrollbar {
     height: 1px;
 }
 

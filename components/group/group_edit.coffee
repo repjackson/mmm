@@ -1,45 +1,45 @@
 if Meteor.isClient
-    Router.route '/classroom/:doc_id/edit', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_students'
-        ), name:'classroom_edit'
-    Router.route '/classroom/:doc_id/edit/info', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_info'
-        ), name:'classroom_edit_info'
-    Router.route '/classroom/:doc_id/edit/students', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_students'
-        ), name:'classroom_edit_students'
-    Router.route '/classroom/:doc_id/edit/credits', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_credits'
-        ), name:'classroom_edit_credits'
-    Router.route '/classroom/:doc_id/edit/debits', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_debits'
-        ), name:'classroom_edit_debits'
-    Router.route '/classroom/:doc_id/edit/templates', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_templates'
-        ), name:'classroom_edit_templates'
+    Router.route '/group/:doc_id/edit', (->
+        @layout 'group_edit_layout'
+        @render 'group_edit_members'
+        ), name:'group_edit'
+    Router.route '/group/:doc_id/edit/info', (->
+        @layout 'group_edit_layout'
+        @render 'group_edit_info'
+        ), name:'group_edit_info'
+    Router.route '/group/:doc_id/edit/members', (->
+        @layout 'group_edit_layout'
+        @render 'group_edit_members'
+        ), name:'group_edit_members'
+    Router.route '/group/:doc_id/edit/credits', (->
+        @layout 'group_edit_layout'
+        @render 'group_edit_credits'
+        ), name:'group_edit_credits'
+    Router.route '/group/:doc_id/edit/debits', (->
+        @layout 'group_edit_layout'
+        @render 'group_edit_debits'
+        ), name:'group_edit_debits'
+    Router.route '/group/:doc_id/edit/templates', (->
+        @layout 'group_edit_layout'
+        @render 'group_edit_templates'
+        ), name:'group_edit_templates'
 
 
-    Template.classroom_edit_layout.onRendered ->
-    Template.classroom_edit_layout.onCreated ->
+    Template.group_edit_layout.onRendered ->
+    Template.group_edit_layout.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'model_docs', 'feature'
 
-    Template.classroom_edit_debits.onCreated ->
+    Template.group_edit_debits.onCreated ->
         # @autorun => Meteor.subscribe 'model_docs', 'credit_type'
-        @autorun => Meteor.subscribe 'classroom_docs', 'debit_type', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'group_docs', 'debit_type', Router.current().params.doc_id
 
-    Template.classroom_edit_credits.onCreated ->
-        @autorun => Meteor.subscribe 'classroom_docs', 'credit_type', Router.current().params.doc_id
+    Template.group_edit_credits.onCreated ->
+        @autorun => Meteor.subscribe 'group_docs', 'credit_type', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'model_docs', 'debit_type'
         # Session.set 'permission', false
 
-    Template.classroom_edit_layout.onRendered ->
+    Template.group_edit_layout.onRendered ->
         Meteor.setTimeout ->
             $('.accordion').accordion()
         , 750
@@ -49,28 +49,28 @@ if Meteor.isClient
 
 
 
-    Template.classroom_edit_debits.events
+    Template.group_edit_debits.events
         'click .select_debit': -> Session.set 'selected_debit_id', @_id
         'click .add_debit_type': ->
             new_debit_id = Docs.insert
                 model:'debit_type'
-                classroom_id: Router.current().params.doc_id
+                group_id: Router.current().params.doc_id
             Session.set 'selected_debit_id', new_debit_id
     Template.debit_menu_item.helpers
         debit_class: ->
             if Session.equals('selected_debit_id',@_id) then 'active' else ''
-    Template.classroom_edit_debits.helpers
+    Template.group_edit_debits.helpers
         selected_debit: ->
             Docs.findOne Session.get('selected_debit_id')
         template_debit_types: ->
             Docs.find
                 model:'debit_type'
-                classroom_id: Router.current().params.doc_id
+                group_id: Router.current().params.doc_id
                 template_id:$exists:true
         custom_debit_types: ->
             Docs.find
                 model:'debit_type'
-                classroom_id: Router.current().params.doc_id
+                group_id: Router.current().params.doc_id
                 template_id:$exists:false
 
 
@@ -81,26 +81,26 @@ if Meteor.isClient
         credit_class: ->
             if Session.equals('selected_credit_id',@_id) then 'active' else ''
 
-    Template.classroom_edit_credits.helpers
+    Template.group_edit_credits.helpers
         template_credit_types: ->
             Docs.find
                 model:'credit_type'
-                classroom_id: Router.current().params.doc_id
+                group_id: Router.current().params.doc_id
                 template_id:$exists:true
         custom_credit_types: ->
             Docs.find
                 model:'credit_type'
-                classroom_id: Router.current().params.doc_id
+                group_id: Router.current().params.doc_id
                 template_id:$exists:false
 
         selected_credit: ->
             Docs.findOne Session.get('selected_credit_id')
-    Template.classroom_edit_credits.events
+    Template.group_edit_credits.events
         'click .select_credit': -> Session.set 'selected_credit_id', @_id
         'click .add_credit_type': ->
             new_credit_id = Docs.insert
                 model:'credit_type'
-                classroom_id: Router.current().params.doc_id
+                group_id: Router.current().params.doc_id
             Session.set 'selected_credit_id', new_credit_id
         'click .remove_credit': ->
             Docs.remove @_id
@@ -121,11 +121,11 @@ if Meteor.isClient
 
 
 
-    Template.classroom_edit_templates.onRendered ->
-    Template.classroom_edit_templates.onCreated ->
+    Template.group_edit_templates.onRendered ->
+    Template.group_edit_templates.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'transaction_template'
-    Template.classroom_edit_templates.helpers
+    Template.group_edit_templates.helpers
         transaction_templates: ->
             Docs.find
                 model:'transaction_template'
@@ -138,20 +138,20 @@ if Meteor.isClient
         template_class: ->
             if Session.equals('selected_template_id',@_id) then 'active' else ''
 
-    Template.classroom_edit_templates.events
+    Template.group_edit_templates.events
         'click .generate_from_current': ->
             group = Docs.findOne Router.current().params.doc_id
             new_template_id = Docs.insert
                 model:'transaction_template'
                 title:group.company_name
-                classroom_company_name: group.company_name
-                classroom_id: Router.current().params.doc_id
+                group_company_name: group.company_name
+                group_id: Router.current().params.doc_id
             Session.set 'selected_template_id', new_template_id
         'click .select_template': -> Session.set 'selected_template_id', @_id
         'click .add_credit_type': ->
             new_credit_id = Docs.insert
                 model:'credit_type'
-                classroom_id: Router.current().params.doc_id
+                group_id: Router.current().params.doc_id
 
 
 
@@ -161,34 +161,34 @@ if Meteor.isClient
     Template.template.onCreated ->
         @editing_template = new ReactiveVar false
         console.log @data
-        @autorun => Meteor.subscribe 'classroom_docs', 'credit_type', @data.classroom_id
-        @autorun => Meteor.subscribe 'classroom_docs', 'debit_type', @data.classroom_id
+        @autorun => Meteor.subscribe 'group_docs', 'credit_type', @data.group_id
+        @autorun => Meteor.subscribe 'group_docs', 'debit_type', @data.group_id
         @autorun => Meteor.subscribe 'model_docs', 'debit_type'
         @autorun => Meteor.subscribe 'model_docs', 'credit_type'
 
     Template.template.helpers
         editing_template: -> Template.instance().editing_template.get()
-        classroom_debits: ->
+        group_debits: ->
             Docs.find
                 model:'debit_type'
-                classroom_id: @classroom_id
-        classroom_credits: ->
+                group_id: @group_id
+        group_credits: ->
             Docs.find
                 model:'credit_type'
-                classroom_id: @classroom_id
+                group_id: @group_id
     Template.template.events
         'click .clone_template': ->
             # console.log @
             group_credits =
                 Docs.find(
                     model:'credit_type'
-                    classroom_id: @classroom_id
+                    group_id: @group_id
                 ).fetch()
             for credit in group_credits
                 # console.log 'cloning credit', credit
                 new_credit_object = {}
                 new_credit_object.model = 'credit_type'
-                new_credit_object.classroom_id = Router.current().params.doc_id
+                new_credit_object.group_id = Router.current().params.doc_id
                 new_credit_object.template_id = @_id
 
                 if credit.title
@@ -217,13 +217,13 @@ if Meteor.isClient
             group_debits =
                 Docs.find(
                     model:'debit_type'
-                    classroom_id: @classroom_id
+                    group_id: @group_id
                 ).fetch()
             for debit in group_debits
                 # console.log 'cloning debit', debit
                 new_debit_object = {}
                 new_debit_object.model = 'debit_type'
-                new_debit_object.classroom_id = Router.current().params.doc_id
+                new_debit_object.group_id = Router.current().params.doc_id
                 new_debit_object.template_id = @_id
 
                 if debit.title

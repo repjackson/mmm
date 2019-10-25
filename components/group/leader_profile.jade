@@ -1,5 +1,5 @@
-template(name='teacher_profile_layout')
-    +teacher_nav
+template(name='leader_profile_layout')
+    +leader_nav
     with user_from_username_param
         .ui.stackable.grid
             .row
@@ -53,23 +53,23 @@ template(name='teacher_profile_layout')
                             //-         |#{title}
 
                             +yield    
-    +teacher_footer
+    +leader_footer
                 
-template(name='teacher_dashboard')
-    //- .ui.header teacher dashboard
-    //- .ui.header my classroom
-    //- .ui.header my students
+template(name='leader_dashboard')
+    //- .ui.header leader dashboard
+    //- .ui.header my group
+    //- .ui.header my members
     //- .ui.header activity feed
                 
                 
                 
-template(name='teacher_profile_dashboard')                    
+template(name='leader_profile_dashboard')                    
     .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
-                .ui.inline.header.recalc_teacher_stats
+                .ui.inline.header.recalc_leader_stats
                     +i name='dashboard'
-                    |#{user_from_username_param.first_name}'s teacher dashboard
+                    |#{user_from_username_param.first_name}'s leader dashboard
                 .ui.inline.grey.header current balance $#{user_from_username_param.credit}
         .three.column.row
             .column

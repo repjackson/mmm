@@ -6,14 +6,14 @@
 #             slug:'rules_regs'
 #         rules = rule_doc.content
 #         # console.log rules
-#         user = Meteor.users.findOne username:signing_doc.student
+#         user = Meteor.users.findOne username:signing_doc.member
 #         # console.log signing_doc
 #         doc = new PDFDocument({size: 'A4', margin: 50})
 #         doc.fontSize(12)
 #         doc.font('Times-Bold').text("Gold Run Rules and Regulations Contract", {align: 'center'})
 #         # console.log key,value
 #         doc.font('Times-Roman').text(rules, {align: 'left', continued:false})
-#         doc.font('Times-Bold').text(" Resident:#{signing_doc.student}", {align: 'left'})
+#         doc.font('Times-Bold').text(" Resident:#{signing_doc.member}", {align: 'left'})
 #         doc.image(signing_doc.signature, 200, 400, {width: 300})
 #
 #         # doc.moveDown();
@@ -29,7 +29,7 @@ Meteor.methods
         human_timestamp = moment(@_timestamp).format("dddd, MMMM Do h:mm:ss a")
 
         # console.log rules
-        user = Meteor.users.findOne username:signing_doc.student
+        user = Meteor.users.findOne username:signing_doc.member
         # console.log signing_doc
         doc = new PDFDocument({size: 'A4', margin: 50})
         doc.fontSize(12)
@@ -38,11 +38,11 @@ Meteor.methods
         # doc.font('Times-Roman').text(rules, {align: 'left', continued:false})
         doc.font('Times-Roman').text("Dated July 2, 2014 GOLD RUN CONDOMINIUMS RULES AND REGULATIONS", {align:'left'})
 
-        doc.font('Times-Roman').text("The purpose of these rules and regulations is to identify both specific and general standards of behavior that, in the judgment of the Board of Directors, are in the best interest of the majority of students of Gold Run. Each of us, by choosing to live in a condominium community, has accepted the fact that we must be considerate of our neighbors. In tum, we expect that they will show the same consideration to us. By complying with these rules and regulations, each of us will be both giving and receiving the thoughtful respect that must be the cornerstone of safe and satisfying condominium living. A comprehensive listing of the use of condominiums may be found in article IX of the Gold Run Declarations.", {align:'left'})
+        doc.font('Times-Roman').text("The purpose of these rules and regulations is to identify both specific and general standards of behavior that, in the judgment of the Board of Directors, are in the best interest of the majority of members of Gold Run. Each of us, by choosing to live in a condominium community, has accepted the fact that we must be considerate of our neighbors. In tum, we expect that they will show the same consideration to us. By complying with these rules and regulations, each of us will be both giving and receiving the thoughtful respect that must be the cornerstone of safe and satisfying condominium living. A comprehensive listing of the use of condominiums may be found in article IX of the Gold Run Declarations.", {align:'left'})
 
         doc.font('Times-Roman').text("A. COVENANT ENFORCEMENT GENERALLY", {align:'left'})
 
-        doc.font('Times-Roman').text("Reporting Violations. Complaints regarding alleged violations may be reported by an Owner or student within the community, a group of Owners or students, the Association's management company, if any, Board member(s) or committee member(s) by submission of a written or a verbal complaint.", {align:'left'})
+        doc.font('Times-Roman').text("Reporting Violations. Complaints regarding alleged violations may be reported by an Owner or member within the community, a group of Owners or members, the Association's management company, if any, Board member(s) or committee member(s) by submission of a written or a verbal complaint.", {align:'left'})
 
         doc.font('Times-Roman').text("Investigation. Upon receipt of a complaint by the Association of any specific violation identified herein or any other violations of these Rules and Regulations of the Declaration, the Association shall investigate the complaint. If additional information is needed, the complaint may be returned to the owner submitting the complaint with a request for additional information.", {align:'left'})
 
@@ -86,7 +86,7 @@ Meteor.methods
 
         doc.font('Times-Roman').text("8. Per environmental regulations, wood burning and barbecuing are not allowed during high pollution days. As a courtesy to your neighbors, you should avoid these activities on high wind days as well.", {align:'left'})
 
-        doc.font('Times-Roman').text("9. Condominiums are for studential use only. Businesses or professionals that manufacture products, use hazardous chemicals, engage in dleliveries or pickups, or result in customer foot traffic may not be operated from a condominium unit.", {align:'left'})
+        doc.font('Times-Roman').text("9. Condominiums are for memberial use only. Businesses or professionals that manufacture products, use hazardous chemicals, engage in dleliveries or pickups, or result in customer foot traffic may not be operated from a condominium unit.", {align:'left'})
 
         doc.font('Times-Roman').text("10. Only electric barbecues are permitted. Use of electric barbecues is authorized.  Inspection by the HOA of electric barbecue will be required and a sticker will be placed on barbecue.", {align:'left'})
 
@@ -126,7 +126,7 @@ Meteor.methods
 
         doc.font('Times-Roman').text("Community shall cause or permit to be caused any damage to the common elements either by their act or failure to act.", {align:'left'})
 
-        doc.font('Times-Roman').text("4. Other Acts. Any other act which annoys or acts to harass another student within", {align:'left'})
+        doc.font('Times-Roman').text("4. Other Acts. Any other act which annoys or acts to harass another member within", {align:'left'})
 
         doc.font('Times-Roman').text("Gold Run as may be determined in the reasonable discretion of the Board of Directors.", {align:'left'})
 
@@ -143,7 +143,7 @@ Meteor.methods
 
         doc.font('Times-Roman').text("2. Parking is not permitted on lawns or in front of fire hydrants, fire lanes, garage", {align:'left'})
 
-        doc.font('Times-Roman').text("doors, trash containers, blocking other vehicles, or where 'no parking' notices are posted or in students assigned parking space. Call Boulder Valley Towing at 303-444-4868 to have a vehicle towed at the vehicle owner's expense in emergency situations. Owners of a vehicle parked in violation of this policy may not be given notice.", {align:'left'})
+        doc.font('Times-Roman').text("doors, trash containers, blocking other vehicles, or where 'no parking' notices are posted or in members assigned parking space. Call Boulder Valley Towing at 303-444-4868 to have a vehicle towed at the vehicle owner's expense in emergency situations. Owners of a vehicle parked in violation of this policy may not be given notice.", {align:'left'})
 
         doc.font('Times-Roman').text("3. Vehicles shall be parked within designated parking spaces within the community. Each Owner and Tenant shall use their assigned space for the primary parking. Any violation of this shall be subject to enforcement pursuant to Section A above.", {align:'left'})
 
@@ -155,7 +155,7 @@ Meteor.methods
 
         doc.font('Times-Roman').text("6. Except for first responder vehicles as defined by Colorado law, Commercial vehicles and vehicles larger than -%-ton pickup trucks are not allowed on Gold Run property, except for the express purpose of moving household goods, trash or maintenance. No parking of oversized vehicles, stored vehicles, trailers, boats or campers of any kind is allowed on Gold Run property.", {align:'left'})
 
-        doc.font('Times-Roman').text("7. Vehicle maintenance is not permitted on the Gold Run common elements, including limited common elements. Vehicle maintenance using jacks, jack stands or blocks is not permitted except for the purpose of changing flat tires, any damage to the asphalt or common area will be assessed to the condominium student.", {align:'left'})
+        doc.font('Times-Roman').text("7. Vehicle maintenance is not permitted on the Gold Run common elements, including limited common elements. Vehicle maintenance using jacks, jack stands or blocks is not permitted except for the purpose of changing flat tires, any damage to the asphalt or common area will be assessed to the condominium member.", {align:'left'})
 
         doc.font('Times-Roman').text("8. Because of environmental regulations and continuing damage to the association's common property, you may not change any oil or other fluids in your vehicles on Gold Run property. No disposal of oil, motor vehicle fluids, or other hazardous waste in trash containers or on Gold Run property is permitted.", {align:'left'})
 
@@ -164,7 +164,7 @@ Meteor.methods
         doc.font('Times-Roman').text("10. Skate boarding is not allowed on common elements.", {align:'left'})
 
         doc.font('Times-Roman').text("E. PETS", {align:'left'})
-        doc.font('Times-Roman').text("1. Dogs are not allowed at any time anywhere at Gold Run. The only exception is for students or visitors who require a seeing-eye dog or similar canine assistance to address a disability. Resident shall be fined for each violation relating to dogs at Gold Run after the 1st notice, pursuant to Section A above.", {align:'left'})
+        doc.font('Times-Roman').text("1. Dogs are not allowed at any time anywhere at Gold Run. The only exception is for members or visitors who require a seeing-eye dog or similar canine assistance to address a disability. Resident shall be fined for each violation relating to dogs at Gold Run after the 1st notice, pursuant to Section A above.", {align:'left'})
 
         doc.font('Times-Roman').text("Renters are not allowed to have pets of any kind except for the exception stated above.", {align:'left'})
 
@@ -172,7 +172,7 @@ Meteor.methods
 
         doc.font('Times-Roman').text("Cats must remain inside the units and not be allowed in hallways or common areas.", {align:'left'})
 
-        doc.font('Times-Roman').text("3. An owner (whether they are student or not) shall be fined $100 for each violation after the 1st notice of the requirements related to animals. Repeated violators may be subject to a fine of $200 for the 3rd notice and $500 for each subsequent notice.", {align:'left'})
+        doc.font('Times-Roman').text("3. An owner (whether they are member or not) shall be fined $100 for each violation after the 1st notice of the requirements related to animals. Repeated violators may be subject to a fine of $200 for the 3rd notice and $500 for each subsequent notice.", {align:'left'})
 
         doc.font('Times-Roman').text("F. HEALTH CLUB", {align:'left'})
 

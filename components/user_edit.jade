@@ -1,6 +1,6 @@
 template(name='user_edit_layout')
-    if is_teacher
-        +teacher_nav
+    if is_leader
+        +leader_nav
     else 
         +nav
     with user_from_username_param          

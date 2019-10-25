@@ -20,8 +20,8 @@ head
     
 template(name='layout')
     //- img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
-    if is_teacher
-        +teacher_nav
+    if is_leader
+        +leader_nav
     else 
         +nav
     //- .context
@@ -29,8 +29,8 @@ template(name='layout')
     //-         .centered.row
     //-             .sixteen.wide.column
     +yield
-    if is_teacher
-        +teacher_footer
+    if is_leader
+        +leader_footer
     else 
         +footer
         //- +shortcut_modal

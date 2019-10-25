@@ -8,10 +8,10 @@ if Meteor.isClient
         Session.set 'username', null
 
     Template.build_world.events
-        'click .build_classroom': (e,t)->
-            new_classroom_id = Docs.insert
-                model:'classroom'
-                teacher_id: Meteor.userId()
+        'click .build_group': (e,t)->
+            new_group_id = Docs.insert
+                model:'group'
+                leader_id: Meteor.userId()
                 salary_amount:100
                 bonus_amount:1
                 overtime_amount:3
@@ -21,7 +21,7 @@ if Meteor.isClient
                 janitor_extra_amount:2
                 lunch_base_amount:3
                 lunch_extra_amount:2
-            Router.go "/build_classroom/#{new_classroom_id}/info"
+            Router.go "/build_group/#{new_group_id}/info"
 
 
     Template.build_world.helpers

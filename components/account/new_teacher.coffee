@@ -1,13 +1,13 @@
 if Meteor.isClient
-    Router.route '/new_teacher', (->
+    Router.route '/new_leader', (->
         @layout 'no_footer_layout'
-        @render 'new_teacher'
-        ), name:'new_teacher'
+        @render 'new_leader'
+        ), name:'new_leader'
 
-    Template.new_teacher.onCreated ->
+    Template.new_leader.onCreated ->
         Session.set 'username', null
 
-    Template.new_teacher.events
+    Template.new_leader.events
         'keyup .username': ->
             username = $('.username').val()
             Session.set 'username', username
@@ -29,7 +29,7 @@ if Meteor.isClient
                 }
             Meteor.call 'create_user', options, (err,res)->
                 Meteor.users.update res,
-                    $set: roles: ['teacher']
+                    $set: roles: ['leader']
                 Meteor.loginWithPassword username, password, (err,res)=>
                     if err
                         alert err.reason
@@ -39,7 +39,7 @@ if Meteor.isClient
                         #     Session.set 'username', "#{username}"
                     else
                         Router.go "/build_world"
-                        # Router.go "/teacher/#{username}/edit"
+                        # Router.go "/leader/#{username}/edit"
             # else
             #     Meteor.loginWithPassword username, password, (err,res)=>
             #         if err
@@ -51,7 +51,7 @@ if Meteor.isClient
             #             Router.go '/'
 
 
-    Template.new_teacher.helpers
+    Template.new_leader.helpers
         username: -> Session.get 'username'
         registering: -> Session.equals 'enter_mode', 'register'
         enter_class: -> if Meteor.loggingIn() then 'loading disabled' else ''

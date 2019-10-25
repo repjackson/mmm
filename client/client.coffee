@@ -1,5 +1,5 @@
 @selected_tags = new ReactiveArray []
-@selected_classroom_tags = new ReactiveArray []
+@selected_group_tags = new ReactiveArray []
 
 Meteor.startup ->
     process.env.TZ='America/Denver'
@@ -66,8 +66,8 @@ Template.registerHelper 'is_individual', ->
 Template.registerHelper 'is_group', ->
     @scope is 'group'
     # console.log @
-# Template.registerHelper 'is_student', -> @scope is 'student'
-# Template.registerHelper 'is_classroom', -> @scope is 'classroom'
+# Template.registerHelper 'is_member', -> @scope is 'member'
+# Template.registerHelper 'is_group', -> @scope is 'group'
 
 
 
@@ -81,7 +81,7 @@ Template.registerHelper 'is_loading', -> Session.get 'loading'
 Template.registerHelper 'dev', -> Meteor.isDevelopment
 Template.registerHelper 'is_author', -> @_author_id is Meteor.userId()
 Template.registerHelper 'is_handler', -> @handler_username is Meteor.user().username
-Template.registerHelper 'is_teacher', -> @teacher_username is Meteor.user().username
+Template.registerHelper 'is_leader', -> @leader_username is Meteor.user().username
 Template.registerHelper 'is_grandparent_author', ->
     grandparent = Template.parentData(2)
     grandparent._author_id is Meteor.userId()
@@ -103,15 +103,15 @@ Template.registerHelper 'cal_time', (input) -> moment(input).calendar()
 Template.registerHelper 'last_initial', (user) ->
     @last_name[0]+'.'
 
-Template.registerHelper 'csd', () ->
+Template.registerHelper 'gsd', () ->
     if Router.current().params.doc_id
         Docs.findOne
-            model:'classroom_stats'
-            classroom_id:Router.current().params.doc_id
+            model:'group_stats'
+            group_id:Router.current().params.doc_id
     else
         Docs.findOne
-            model:'classroom_stats'
-            classroom_id:@_id
+            model:'group_stats'
+            group_id:@_id
 
 Template.registerHelper 'first_letter', (user) ->
     @first_name[..0]+'.'
@@ -169,7 +169,7 @@ Template.registerHelper 'hsd', () ->
 
 
 
-Template.registerHelper 'student_status_class', ()->
+Template.registerHelper 'member_status_class', ()->
     # console.log @
     unless @rules_and_regs_signed
         'red_flagged'
@@ -273,23 +273,23 @@ Template.registerHelper 'is_staff', () ->
 
 
 
-Template.registerHelper 'is_teacher', () ->
+Template.registerHelper 'is_leader', () ->
     if Meteor.user() and Meteor.user().roles
         # if _.intersection(['dev','staff'], Meteor.user().roles) then true else false
-        if 'teacher' in Meteor.user().roles then true else false
-Template.registerHelper 'is_current_teacher', () ->
+        if 'leader' in Meteor.user().roles then true else false
+Template.registerHelper 'is_current_leader', () ->
     if Meteor.user() and Meteor.user().roles
         # if _.intersection(['dev','staff'], Meteor.user().roles) then true else false
-        if 'teacher' in Meteor.user().current_roles then true else false
+        if 'leader' in Meteor.user().current_roles then true else false
 
-Template.registerHelper 'is_student', () ->
+Template.registerHelper 'is_member', () ->
     if Meteor.user() and Meteor.user().roles
         # if _.intersection(['dev','staff'], Meteor.user().roles) then true else false
-        if 'student' in Meteor.user().roles then true else false
-Template.registerHelper 'is_current_student', () ->
+        if 'member' in Meteor.user().roles then true else false
+Template.registerHelper 'is_current_member', () ->
     if Meteor.user() and Meteor.user().roles
         # if _.intersection(['dev','staff'], Meteor.user().roles) then true else false
-        if 'student' in Meteor.user().current_roles then true else false
+        if 'member' in Meteor.user().current_roles then true else false
 
 
 Template.registerHelper 'is_dev', () ->
@@ -306,9 +306,9 @@ Template.registerHelper 'is_current_manager', () ->
 # Template.registerHelper 'is_handler', () ->
 #     if Meteor.user() and Meteor.user().roles
 #         if 'handler' in Meteor.user().roles then true else false
-Template.registerHelper 'is_student', () ->
+Template.registerHelper 'is_member', () ->
     if Meteor.user() and Meteor.user().roles
-        if 'student' in Meteor.user().roles then true else false
+        if 'member' in Meteor.user().roles then true else false
 
 Template.registerHelper 'is_member', () ->
     if Meteor.user() and Meteor.user().roles
@@ -317,26 +317,26 @@ Template.registerHelper 'is_current_member', () ->
     if Meteor.user() and Meteor.user().roles
         if 'member' in Meteor.user().current_roles then true else false
 
-Template.registerHelper 'is_student_or_user', () ->
+Template.registerHelper 'is_member_or_user', () ->
     if Meteor.user() and Meteor.user().roles
-        # console.log _.intersection(Meteor.user().roles, ['student','user']).length
-        if _.intersection(Meteor.user().roles, ['student','user']).length then true else false
+        # console.log _.intersection(Meteor.user().roles, ['member','user']).length
+        if _.intersection(Meteor.user().roles, ['member','user']).length then true else false
 
 Template.registerHelper 'is_staff_or_manager', () ->
     if Meteor.user() and Meteor.user().roles
-        # console.log _.intersection(Meteor.user().roles, ['student','user']).length
+        # console.log _.intersection(Meteor.user().roles, ['member','user']).length
         if _.intersection(Meteor.user().roles, ['manager','staff']).length then true else false
 
 
 
 
-Template.registerHelper 'user_is_student', () -> if @roles and 'student' in @roles then true else false
-Template.registerHelper 'user_is_teacher', () -> if @roles and 'teacher' in @roles then true else false
+Template.registerHelper 'user_is_member', () -> if @roles and 'member' in @roles then true else false
+Template.registerHelper 'user_is_leader', () -> if @roles and 'leader' in @roles then true else false
 Template.registerHelper 'user_is_staff', () -> if @roles and 'staff' in @roles then true else false
 Template.registerHelper 'user_is_admin', () -> if @roles and 'admin' in @roles then true else false
 Template.registerHelper 'user_is_member', () -> if @roles and 'member' in @roles then true else false
 Template.registerHelper 'user_is_handler', () -> if @roles and 'handler' in @roles then true else false
-Template.registerHelper 'user_is_student_or_teacher', () -> if @roles and _.intersection(@roles,['student','teacher']) then true else false
+Template.registerHelper 'user_is_member_or_leader', () -> if @roles and _.intersection(@roles,['member','leader']) then true else false
 
 Template.registerHelper 'is_eric', () -> if Meteor.userId() and Meteor.userId() in ['SqAW5apg4YXsk8Gab','rDqxdcTBTszjeMh9T'] then true else false
 
