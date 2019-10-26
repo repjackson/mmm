@@ -57,6 +57,15 @@ Template.registerHelper 'gs', () ->
     Docs.findOne
         model:'global_settings'
 
+Template.registerHelper 'group_members', ->
+    console.log @
+    if @member_ids
+        Meteor.users.find
+            _id: $in: @member_ids
+
+
+
+
 Template.registerHelper 'is_automatic', -> @dispersion_type is 'automatic'
 Template.registerHelper 'is_manual', -> @dispersion_type is 'manual'
 Template.registerHelper 'is_manual_daily', -> @manual_period is 'daily'

@@ -1,5 +1,5 @@
 template(name='group_view_layout')
-    +user_nav
+    +nav
     with current_doc
         .ui.stackable.padded.grid
             .row
@@ -10,7 +10,7 @@ template(name='group_view_layout')
                     //-     //- +i name='group' classes='ui inline mini image'
                     //-     |groups
                     .ui.center.aligned.huge.header
-                        | #{company_name}
+                        | #{title}
                     img.ui.centered.rounded.small.image(src="{{c.url group_image_id gravity='face' crop='fit'}}")
                     .ui.large.fluid.vertical.pointing.menu
                         a.item(href="/group/#{_id}/" class="{{isActiveRoute regex='group_members'}}")
@@ -23,9 +23,10 @@ template(name='group_view_layout')
                     .ui.header
                         small leader
                         | #{leader_name}
-                    a.ui.fluid.large.button(href="/group/#{_id}/edit/info")
-                        i.pencil.icon
-                        | edit
+                    if can_edit
+                        a.ui.fluid.large.button(href="/group/#{_id}/edit/info")
+                            i.pencil.icon
+                            | edit
                 .twelve.wide.column
                     +yield
     //- +user_footer
@@ -33,21 +34,26 @@ template(name='group_view_layout')
 
 
 template(name='group_dashboard')
+    //- .ui.header
+    //-     img.ui.rounded.small.image(src="{{c.url group_image_id gravity='face' crop='fit'}}")
+    //-     |#{title}
     .ui.stackable.grid
         .row
-            .sixteen.wide.column
-                .ui.header
-                    img.ui.rounded.small.image(src="{{c.url group_image_id gravity='face' crop='fit'}}")
-                    |#{title}
-        .row
             .eight.wide.column
+                +group_info
+                +group_members_small
                 +group_votes
             .eight.wide.column
                 +group_feed
-        .row
-            .ui.header features
-            +group_info
     
+    
+template(name='group_members_small')   
+    .ui.segment 
+        .ui.grey.header
+            i.users.icon
+            | members
+        each group_members
+            .ui.header #{name}
     
 template(name='group_votes')   
     .ui.segment 
@@ -58,6 +64,15 @@ template(name='group_info')
         .ui.small.header 
             i.info.icon
             |info
+        if description
+            p #{description}
+        if leader_name
+            .ui.small.inline.header #{leader_name}
+        if company_name
+            .ui.small.inline.header #{company_name}
+        if tags.length
+            each tags
+                .ui.label #{this}
         .ui.list
             .item #{phone}    
             .item #{address}    
@@ -73,6 +88,14 @@ template(name='group_loans')
         i.money.icon
         |group loans
     +loans
+
+
+
+template(name='group_tasks')
+    .ui.header 
+        i.task.icon
+        |group tasks
+    +group_delta model='task' feature=this
 
 
 
@@ -280,9 +303,11 @@ template(name='group_feed')
                 .label
                     img.ui.avatar.image(src="{{c.url target_user.profile_image_id height=100 gravity='face' crop='fill'}}")
                     if is_credit
-                        +i name='deposit' classes='ui inline mini image'
+                        i.green.plus.icon
+                        //- +i name='deposit' classes='ui inline mini image'
                     if is_debit
-                        +i name='withdrawal' classes='ui inline mini image'
+                        i.red.minus.icon
+                        //- +i name='withdrawal' classes='ui inline mini image'
                     else if icon
                         +i name=icon
                 .content

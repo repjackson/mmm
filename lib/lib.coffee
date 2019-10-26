@@ -2,9 +2,9 @@
 @Tags = new Meteor.Collection 'tags'
 @Company_tags = new Meteor.Collection 'company_tags'
 @Group_tags = new Meteor.Collection 'group_tags'
+@Group_location_tags = new Meteor.Collection 'group_location_tags'
 @Question_tags = new Meteor.Collection 'question_tags'
 @Test_tags = new Meteor.Collection 'test_tags'
-@Rental_tags = new Meteor.Collection 'rental_tags'
 @User_section_tags = new Meteor.Collection 'user_section_tags'
 @Company_section_tags = new Meteor.Collection 'company_section_tags'
 

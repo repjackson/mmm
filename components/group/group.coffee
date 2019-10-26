@@ -1,10 +1,6 @@
 if Meteor.isClient
     Router.route '/groups', ->
         @render 'groups'
-    Router.route '/my_groups', ->
-        @layout 'leader_layout'
-        @render 'my_groups'
-
     Router.route '/group/:doc_id/', (->
         @layout 'group_view_layout'
         @render 'group_dashboard'
@@ -66,7 +62,7 @@ if Meteor.isClient
                 slug:Router.current().params.feature_slug
 
         feature_view_template: ->
-            console.log @
+            # console.log @
             "group_#{@slug}"
 
 
@@ -90,9 +86,6 @@ if Meteor.isClient
                 }).fetch()
                 for event in events
                     Docs.remove event._id
-
-
-
         'click .remove': (e,t)->
             if confirm  "undo #{@event_type}?"
                 $(e.currentTarget).closest('.event').transition('fly right', 1000)
@@ -122,25 +115,26 @@ if Meteor.isClient
     Template.group_stats.events
         'click .refresh_group_stats': ->
             Meteor.call 'refresh_group_stats', @_id
-#
 
-    # Template.group_dashboard.onCreated ->
-    #     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    #     @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id
-    #     @autorun => Meteor.subscribe 'model_docs', 'credit_type'
-    # Template.group_dashboard.onRendered ->
-    #     Meteor.setTimeout ->
-    #         $('#date_calendar')
-    #             .calendar({
-    #                 type: 'date'
-    #             })
-    #     , 700
-    # Template.group_dashboard.helpers
-    #     individual_credit_types: ->
-    #         Docs.find
-    #             model:'credit_type'
-    #             # weekly:$ne:true
-    #             group_id: Router.current().params.doc_id
+
+
+    Template.group_dashboard.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'model_docs', 'credit_type'
+    Template.group_dashboard.onRendered ->
+        Meteor.setTimeout ->
+            $('#date_calendar')
+                .calendar({
+                    type: 'date'
+                })
+        , 700
+    Template.group_dashboard.helpers
+        individual_credit_types: ->
+            Docs.find
+                model:'credit_type'
+                # weekly:$ne:true
+                group_id: Router.current().params.doc_id
 
     Template.group_members.onCreated ->
         @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id

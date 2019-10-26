@@ -277,14 +277,14 @@ template(name='voting_full')
         .ui.large.basic.label(title='points') #{points} pts
         .ui.large.basic.label(title='anon points') #{anon_points} anon pts
     if upvoter_ids
-        .ui.small.header 
-            i.thumbs.up.icon
+        .ui.small.grey.header 
+            i.thumbs.up.outline.icon
             |upvoters
         each upvoter_ids
             +user_info
     if downvoter_ids
-        .ui.small.header 
-            i.thumbs.up.icon
+        .ui.small.grey.header 
+            i.thumbs.up.outline.icon
             |downvoters
         each downvoter_ids
             +user_info

@@ -1,5 +1,5 @@
 template(name='nav')
-    .ui.attached.borderless.topnav.menu
+    .ui.attached.borderless.topnav.large.menu
         if is_loading
             .item
                 i.large.loading.notched.circle.icon
@@ -16,13 +16,18 @@ template(name='nav')
         a.item(href='/contact')
             //- +ismall name='treasure-chest'
             span.mobile.hidden &nbsp; contact
+        a.item(href='/groups')
+            //- +ismall name='treasure-chest'
+            span.mobile.hidden &nbsp; groups
             
         .right.menu
             unless currentUser
-                .item
-                    a.ui.button(href='/login') log In
-                .item
-                    a.ui.teal.button(href='/choose_user_type') sign up
+                a.item(href='/login') 
+                    i.sign.in.grey.icon
+                    |log In
+                a.item(href='/choose_user_type')
+                    i.user.plus.grey.icon
+                    |sign up
             if currentUser
                 if is_dev
                     a.icon.item.set_models(href="/m/model")
@@ -44,7 +49,7 @@ template(name='nav')
 template(name='footer')
     .ui.stackable.secondary.padded.grid.segment
         .row
-            .three.wide.column
+            //- .three.wide.column
                 //- .ui.link.large.list
                 //-     a.icon.item.set_reference(href='/m/reference')
                 //-         +ismall name='university'
@@ -114,18 +119,19 @@ template(name='footer')
             //-             //- +ismall name='donate'
             //-             |donors
             //-     //- +add_button label='bug' model='bug' icon='bug'
-            .seven.wide.column
+            .six.wide.column
                 unless currentUser
                     a.ui.big.button(href='/login')
                         i.sign.in.icon
                         |login
-                +footer_chat
                 if is_admin
                     with currentUser
                         +role_switcher
                 .ui.grey.header 
                     i.copyright.outline.icon
                     | Mini Money Management 2019
+            .six.wide.column
+                +footer_chat
 
             
                 

@@ -1,4 +1,4 @@
-template(name='leader_layout')
+template(name='users_layout')
     +user_nav
     +yield
     +user_footer
@@ -13,9 +13,9 @@ template(name='user_nav')
         
         //- a.item(href='/grid' class="{{isActivePath '/grid'}}")
         //-     i.th.large.icon
-        a.item(href='/m/group' class="{{isActivePath '/m/group'}}")
-            i.clone.icon
-            |groups
+        //- a.item(href='/m/group' class="{{isActivePath '/m/group'}}")
+        //-     i.clone.icon
+        //-     |groups
         a.item(href='/groups' class="{{isActivePath '/groups'}}")
             i.clone.icon
             |groups
