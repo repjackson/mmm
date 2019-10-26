@@ -1,8 +1,10 @@
 if Meteor.isClient
     Template.group_delta.onCreated ->
+        console.log @data
         @autorun => Meteor.subscribe 'model_from_slug', @data.model
         @autorun => Meteor.subscribe 'model_fields', @data.model
-        @autorun => Meteor.subscribe 'my_delta'
+        @autorun => Meteor.subscribe 'my_group_delta', Router.current().params.doc_id
+        # @autorun => Meteor.subscribe 'my_delta'
         Session.set 'loading', true
         Meteor.call 'set_facets', Template.currentData().model, ->
             Session.set 'loading', false
@@ -10,7 +12,7 @@ if Meteor.isClient
     #     Meteor.call 'increment_view', @_id, ->
 
     Template.group_delta.helpers
-        current_model: ->
+        current_group_model: ->
             Docs.findOne
                 model:'model'
                 slug: Template.currentData().model
@@ -19,21 +21,21 @@ if Meteor.isClient
             Docs.findOne model:'group_delta'
 
         sorting_up: ->
-            delta = Docs.findOne model:'delta'
+            delta = Docs.findOne model:'group_delta'
             if delta
                 if delta.sort_direction is 1 then true
 
         selected_tags: -> selected_tags.list()
         view_mode_template: ->
             # console.log @
-            delta = Docs.findOne model:'delta'
+            delta = Docs.findOne model:'group_delta'
             if delta
                 "delta_#{delta.view_mode}"
 
         sorted_facets: ->
             current_delta =
                 Docs.findOne
-                    model:'delta'
+                    model:'group_delta'
             if current_delta
                 # console.log _.sortBy current_delta.facets,'rank'
                 _.sortBy current_delta.facets,'rank'
@@ -43,7 +45,7 @@ if Meteor.isClient
             if 0 < doc_count < 3 then Tags.find { count: $lt: doc_count } else Tags.find()
 
         single_doc: ->
-            delta = Docs.findOne model:'delta'
+            delta = Docs.findOne model:'group_delta'
             count = delta.result_ids.length
             if count is 1 then true else false
 
@@ -69,7 +71,7 @@ if Meteor.isClient
 
         'click .set_sort_key': ->
             # console.log @
-            delta = Docs.findOne model:'delta'
+            delta = Docs.findOne model:'group_delta'
             Docs.update delta._id,
                 $set:sort_key:@key
             Session.set 'loading', true
@@ -80,7 +82,7 @@ if Meteor.isClient
             # console.log @
             $(e.currentTarget).closest('.button').transition('pulse', 500)
 
-            delta = Docs.findOne model:'delta'
+            delta = Docs.findOne model:'group_delta'
             if delta.sort_direction is -1
                 Docs.update delta._id,
                     $set:sort_direction:1
@@ -93,10 +95,10 @@ if Meteor.isClient
 
         'click .create_group_delta': (e,t)->
             console.log Template.currentData().model
-            # Docs.insert
-            #     model:'group_delta'
-            #     model_filter: Template.currentData().model
-            #     group_id: Router.current().params.doc_id
+            Docs.insert
+                model:'group_delta'
+                model_filter: Template.currentData().model
+                group_id: Router.current().params.doc_id
 
 
         'keyup .import_subreddit': (e,t)->
@@ -107,7 +109,7 @@ if Meteor.isClient
 
 
         'click .print_delta': (e,t)->
-            delta = Docs.findOne model:'delta'
+            delta = Docs.findOne model:'group_delta'
             console.log delta
 
         'click .reset': ->
@@ -117,7 +119,7 @@ if Meteor.isClient
                 Session.set 'loading', false
 
         'click .delete_delta': (e,t)->
-            delta = Docs.findOne model:'delta'
+            delta = Docs.findOne model:'group_delta'
             if delta
                 if confirm "delete  #{delta._id}?"
                     Docs.remove delta._id
@@ -163,7 +165,7 @@ if Meteor.isClient
             Router.go "/model/edit/#{model._id}"
 
         # 'click .page_up': (e,t)->
-        #     delta = Docs.findOne model:'delta'
+        #     delta = Docs.findOne model:'group_delta'
         #     Docs.update delta._id,
         #         $inc: current_page:1
         #     Session.set 'is_calculating', true
@@ -173,7 +175,7 @@ if Meteor.isClient
         #             Session.set 'is_calculating', false
         #
         # 'click .page_down': (e,t)->
-        #     delta = Docs.findOne model:'delta'
+        #     delta = Docs.findOne model:'group_delta'
         #     Docs.update delta._id,
         #         $inc: current_page:-1
         #     Session.set 'is_calculating', true
@@ -199,89 +201,89 @@ if Meteor.isClient
             #         if e.target.value is ''
             #             selected_tags.pop()
 
-    Template.set_limit.events
-        'click .set_limit': ->
-            # console.log @
-            delta = Docs.findOne model:'delta'
-            Docs.update delta._id,
-                $set:limit:@amount
-            Session.set 'loading', true
-            Meteor.call 'fum', delta._id, ->
-                Session.set 'loading', false
-
-    Template.set_view_mode.events
-        'click .set_view_mode': ->
-            console.log @
-            delta = Docs.findOne model:'delta'
-            Docs.update delta._id,
-                $set:view_mode:@title
-            Session.set 'loading', true
-            Meteor.call 'fum', delta._id, ->
-                Session.set 'loading', false
-
-
-
-
-
-    Template.facet.onRendered ->
-        Meteor.setTimeout ->
-            $('.accordion').accordion()
-        , 1500
-
-    Template.facet.events
-        # 'click .ui.accordion': ->
-        #     $('.accordion').accordion()
-
-        'click .toggle_selection': ->
-            delta = Docs.findOne model:'delta'
-            facet = Template.currentData()
-
-            Session.set 'loading', true
-            if facet.filters and @name in facet.filters
-                Meteor.call 'remove_facet_filter', delta._id, facet.key, @name, ->
-                    Session.set 'loading', false
-            else
-                Meteor.call 'add_facet_filter', delta._id, facet.key, @name, ->
-                    Session.set 'loading', false
-
-        'keyup .add_filter': (e,t)->
-            # console.log @
-            if e.which is 13
-                delta = Docs.findOne model:'delta'
-                facet = Template.currentData()
-                if @field_type is 'number'
-                    filter = parseInt t.$('.add_filter').val()
-                else
-                    filter = t.$('.add_filter').val()
-                Session.set 'loading', true
-                Meteor.call 'add_facet_filter', delta._id, facet.key, filter, ->
-                    Session.set 'loading', false
-                t.$('.add_filter').val('')
+    # Template.set_limit.events
+    #     'click .set_limit': ->
+    #         # console.log @
+    #         delta = Docs.findOne model:'group_delta'
+    #         Docs.update delta._id,
+    #             $set:limit:@amount
+    #         Session.set 'loading', true
+    #         Meteor.call 'fum', delta._id, ->
+    #             Session.set 'loading', false
+    #
+    # Template.set_view_mode.events
+    #     'click .set_view_mode': ->
+    #         console.log @
+    #         delta = Docs.findOne model:'group_delta'
+    #         Docs.update delta._id,
+    #             $set:view_mode:@title
+    #         Session.set 'loading', true
+    #         Meteor.call 'fum', delta._id, ->
+    #             Session.set 'loading', false
 
 
 
 
-    Template.facet.helpers
-        filtering_res: ->
-            delta = Docs.findOne model:'delta'
-            filtering_res = []
-            if @key is '_keys'
-                @res
-            else
-                for filter in @res
-                    if filter.count < delta.total
-                        filtering_res.push filter
-                    else if filter.name in @filters
-                        filtering_res.push filter
-                filtering_res
-        toggle_value_class: ->
-            facet = Template.parentData()
-            delta = Docs.findOne model:'delta'
-            if Session.equals 'loading', true
-                 'disabled'
-            else if facet.filters.length > 0 and @name in facet.filters
-                'active'
-            else ''
+
+    # Template.facet.onRendered ->
+    #     Meteor.setTimeout ->
+    #         $('.accordion').accordion()
+    #     , 1500
+    #
+    # Template.facet.events
+    #     # 'click .ui.accordion': ->
+    #     #     $('.accordion').accordion()
+    #
+    #     'click .toggle_selection': ->
+    #         delta = Docs.findOne model:'group_delta'
+    #         facet = Template.currentData()
+    #
+    #         Session.set 'loading', true
+    #         if facet.filters and @name in facet.filters
+    #             Meteor.call 'remove_facet_filter', delta._id, facet.key, @name, ->
+    #                 Session.set 'loading', false
+    #         else
+    #             Meteor.call 'add_facet_filter', delta._id, facet.key, @name, ->
+    #                 Session.set 'loading', false
+    #
+    #     'keyup .add_filter': (e,t)->
+    #         # console.log @
+    #         if e.which is 13
+    #             delta = Docs.findOne model:'group_delta'
+    #             facet = Template.currentData()
+    #             if @field_type is 'number'
+    #                 filter = parseInt t.$('.add_filter').val()
+    #             else
+    #                 filter = t.$('.add_filter').val()
+    #             Session.set 'loading', true
+    #             Meteor.call 'add_facet_filter', delta._id, facet.key, filter, ->
+    #                 Session.set 'loading', false
+    #             t.$('.add_filter').val('')
+    #
+    #
+    #
+    #
+    # Template.facet.helpers
+    #     filtering_res: ->
+    #         delta = Docs.findOne model:'group_delta'
+    #         filtering_res = []
+    #         if @key is '_keys'
+    #             @res
+    #         else
+    #             for filter in @res
+    #                 if filter.count < delta.total
+    #                     filtering_res.push filter
+    #                 else if filter.name in @filters
+    #                     filtering_res.push filter
+    #             filtering_res
+    #     toggle_value_class: ->
+    #         facet = Template.parentData()
+    #         delta = Docs.findOne model:'group_delta'
+    #         if Session.equals 'loading', true
+    #              'disabled'
+    #         else if facet.filters.length > 0 and @name in facet.filters
+    #             'active'
+    #         else ''
 
     Template.group_delta_result.onRendered ->
         # Meteor.setTimeout ->
@@ -307,7 +309,7 @@ if Meteor.isClient
 
         toggle_value_class: ->
             facet = Template.parentData()
-            delta = Docs.findOne model:'delta'
+            delta = Docs.findOne model:'group_delta'
             if Session.equals 'loading', true
                  'disabled'
             else if facet.filters.length > 0 and @name in facet.filters
@@ -353,7 +355,7 @@ if Meteor.isClient
             Session.set 'loading', true
             Meteor.call 'set_facets', @slug, ->
                 Session.set 'loading', false
-            # delta = Docs.findOne model:'delta'
+            # delta = Docs.findOne model:'group_delta'
             # Docs.update delta._id,
             #     $set:model_filter:@slug
             #
@@ -362,7 +364,7 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'model_from_slug', (model_slug)->
+    Meteor.publish 'group_model_from_slug', (model_slug)->
         # if model_slug in ['model','brick','field','tribe','block','page']
         #     Docs.find
         #         model:'model'
@@ -376,12 +378,14 @@ if Meteor.isServer
         Docs.find match
 
 
-    Meteor.publish 'my_delta', ->
+    Meteor.publish 'my_group_delta', (group_id)->
         if Meteor.userId()
             Docs.find
                 _author_id:Meteor.userId()
-                model:'delta'
+                model:'group_delta'
+                group_id: group_id
         else
             Docs.find
                 _author_id:null
-                model:'delta'
+                model:'group_delta'
+                group_id: group_id

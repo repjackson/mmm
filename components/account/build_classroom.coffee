@@ -1,18 +1,18 @@
 if Meteor.isClient
     Router.route '/build_group/:doc_id', (->
-        @layout 'no_footer_layout'
+        @layout 'mlayout'
         @render 'build_group_finance'
         ), name:'build_group_home'
     Router.route '/build_group/:doc_id/finance', (->
-        @layout 'no_footer_layout'
+        @layout 'mlayout'
         @render 'build_group_finance'
         ), name:'build_group_finance'
     Router.route '/build_group/:doc_id/info', (->
-        @layout 'no_footer_layout'
+        @layout 'mlayout'
         @render 'build_group_info'
         ), name:'build_group_info'
     Router.route '/build_group/:doc_id/members', (->
-        @layout 'no_footer_layout'
+        @layout 'mlayout'
         @render 'build_group_members'
         ), name:'build_group_members'
 

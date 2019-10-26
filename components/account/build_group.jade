@@ -1,4 +1,4 @@
-template(name='build_world')
+template(name='build_group')
     .ui.padded.stackable.grid
         .centered.row
             .ten.wide.column
@@ -6,7 +6,7 @@ template(name='build_world')
                     img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
                     .ui.header
                         +i name='earth-planet'
-                        | build world
+                        | build group
                 .ui.fluid.big.button.build_group
                     +i name='group' classes='ui inline image'
                     |group

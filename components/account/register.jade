@@ -4,17 +4,19 @@ template(name='register')
             .ten.wide.column
                 .ui.center.aligned.basic.segment
                     img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
-                    +i name='add-user-male' classes='ui mini inline image'
+                    //- +i name='add-user-male' classes='ui mini inline image'
                     .ui.inline.header registration
                 if message
                     h4.ui.center.aligned.header #{message}
                 .ui.small.inline.header 
-                    +i name='user-male'
+                    //- +i name='user-male'
+                    i.user.grey.icon
                     |username
                 .ui.fluid.input(class=login_class)
                     input.username(type='text')
                 .ui.small.inline.header 
-                    +i name='password'
+                    //- +i name='password'
+                    i.lock.grey.icon
                     | password
                 .ui.fluid.input(class=login_class)
                     input.password(type='password')
@@ -26,7 +28,7 @@ template(name='register')
                 if username
                     if registering
                         .ui.fluid.large.circular.button.enter(class=enter_class)
-                            +i name='enter-2' classes='ui mini inline image'                    
+                            +i name='enter-2' classes='ui mini inline image'  
                             |register '#{username}'
                     else
                         .ui.small.header username "#{username}" found
@@ -36,7 +38,7 @@ template(name='register')
                         
                         
                 .ui.center.aligned.basic.segment    
-                    .ui.small.header by clicking register, you agree to our 
+                    .ui.small.header by registering you agree to our 
                         a(href='/p/privacy' target="_window") privacy policy
                     unless username
                         .ui.small.header or
@@ -44,57 +46,44 @@ template(name='register')
                                 +i name='enter-2' classes='ui mini inline image'                    
                                 |login
                     
-                    
-                    
-template(name='choose_user_type')
+template(name='choose_personas')
     .ui.padded.stackable.grid
         .centered.row
-            .ten.wide.column
+            .twelve.wide.column
                 .ui.center.aligned.basic.segment
                     img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
                     //- +i name='add-user-male' classes='ui mini inline image'
                     //- .ui.inline.header registration
-                    .ui.header I am a...
-                a.ui.fluid.big.button(href='/new_leader')
-                    +i name='leader' classes='ui inline image'
-                    |leader
-                a.ui.fluid.big.disabled.button(href='/new_member')
-                    +i name='members' classes='ui inline image'
-                    |member
-                a.ui.fluid.big.disabled.button(href='/new_business')
-                    +i name='business' classes='ui inline image'
-                    |business
-
-
-
-template(name='new_leader')
+                    div
+                    .ui.huge.header I am a...
+                    each user_personas
+                        .ui.large.button.select_persona(class=persona_class)
+                            +i name=icon classes='ui inline avatar image'
+                            |#{title}
+                    .spacer
+                    a.ui.big.green.button(href="/choose_interests")
+                        |continue
+                        i.right.chevron.icon
+                            
+                            
+template(name='choose_interests')
     .ui.padded.stackable.grid
         .centered.row
-            .eight.wide.column
+            .twelve.wide.column
                 .ui.center.aligned.basic.segment
-                    a.ui.center.aligned.button(href="/")
+                    img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
+                    //- +i name='add-user-male' classes='ui mini inline image'
+                    //- .ui.inline.header registration
+                    div
+                    .ui.huge.header I want to...
+                    each user_interests
+                        .ui.large.button.select_interest(class=interest_class)
+                            +i name=icon classes='ui inline avatar image'
+                            |#{title}
+                    .spacer
+                    a.ui.button(href="/choose_personas")
                         i.left.chevron.icon
-                        |home
-                    .ui.center.aligned.header 
-                        +i name='leader' classes='ui inline image'
-                        |new leader registration
-                .ui.small.inline.header 
-                    //- +i name='user-male'
-                    |username
-                .ui.fluid.input(class=login_class)
-                    input.username(type='text')
-                .ui.small.inline.header 
-                    //- +i name='password'
-                    | password
-                .ui.fluid.input(class=login_class)
-                    input.password(type='password')
-                if username
-                    if registering
-                        .ui.fluid.large.circular.button.enter(class=enter_class)
-                            +i name='enter-2' classes='ui mini inline image'                    
-                            |register '#{username}'
-                    else
-                        .ui.small.header username "#{username}" found
-                        a.ui.basic.fluid.button(href='/login') 
-                            +i name='enter-2' classes='ui mini inline image'                    
-                            |login
+                        |back
+                    a.ui.big.green.button(href="/user/#{currentUser.username}")
+                        |continue
+                        i.right.chevron.icon

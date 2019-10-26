@@ -1,13 +1,13 @@
 if Meteor.isClient
-    Router.route '/build_world', (->
-        @layout 'no_footer_layout'
-        @render 'build_world'
-        ), name:'build_world'
+    Router.route '/build_group', (->
+        @layout 'mlayout'
+        @render 'build_group'
+        ), name:'build_group'
 
-    Template.build_world.onCreated ->
+    Template.build_group.onCreated ->
         Session.set 'username', null
 
-    Template.build_world.events
+    Template.build_group.events
         'click .build_group': (e,t)->
             new_group_id = Docs.insert
                 model:'group'
@@ -24,7 +24,7 @@ if Meteor.isClient
             Router.go "/build_group/#{new_group_id}/info"
 
 
-    Template.build_world.helpers
+    Template.build_group.helpers
         username: -> Session.get 'username'
         registering: -> Session.equals 'enter_mode', 'register'
         enter_class: -> if Meteor.loggingIn() then 'loading disabled' else ''

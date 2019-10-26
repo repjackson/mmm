@@ -25,7 +25,7 @@ template(name='nav')
                 a.item(href='/login') 
                     i.sign.in.grey.icon
                     |log In
-                a.item(href='/choose_user_type')
+                a.item(href='/register')
                     i.user.plus.grey.icon
                     |sign up
             if currentUser
@@ -40,7 +40,7 @@ template(name='nav')
                             +ismall name='user-male'
                         span.mobile.hidden #{currentUser.name} #{currentUser.credit}
                     a#logout.item(href='#' title='log out')
-                        i.sign.out.icon
+                        i.sign.out.grey.icon
                 if logging_out
                     .item
                         i.loading.circle.notch.icon

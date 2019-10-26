@@ -1,10 +1,7 @@
 template(name='profile_layout')
-    if is_leader
-        +user_nav
-    else 
-        +nav
-    with user_from_username_param
-        .ui.stackable.grid
+    +nav
+    with current_user
+        .ui.stackable.padded.grid
             .row
                 //- if view_side
                 //-     .two.wide.column
@@ -20,7 +17,7 @@ template(name='profile_layout')
                         .four.wide.column
                             //- .ui.fluid.button.toggle_size
                             //-     i.bars.icon
-                            img.ui.centered.small.circular.image(src="{{c.url user_from_username_param.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+                            img.ui.centered.small.circular.image(src="{{c.url current_user.profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                             .ui.center.aligned.basic.segment
                                 a(href="/user/#{user.username}")
                                     .ui.center.aligned.header
@@ -34,13 +31,18 @@ template(name='profile_layout')
                             //-                 +ismall name=icon
                             //-             |#{title}
                             if is_current_user
+                                a.ui.large.fluid.button(href="/user/#{current_user.username}/edit")
+                                    i.cog.grey.icon
+                                        //- +ismall name='settings' classes='ui inline mini image'
+                                    |edit
+                                a.ui.fluid.button(href="/choose_personas")
+                                    i.list.icon
+                                    //- +ismall name='exit' 
+                                    |onboarding
                                 a.ui.fluid.button.logout(href="#" title='logout')
                                     i.sign.out.alternate.icon
                                     //- +ismall name='exit' 
                                     |log out
-                                a.ui.fluid.button(href="/user/#{user_from_username_param.username}/edit")
-                                    +ismall name='settings' classes='ui inline mini image'
-                                    |edit
                                 //- a.ui.large.button.logout_other_clients(href="#" title='logout other clients')
                                 //-     //- i.globe.icon
                                 //-     +ismall name='globe' 
@@ -69,10 +71,7 @@ template(name='profile_layout')
                             //-         |#{title}
 
                             +yield    
-    if is_leader
-        +user_footer
-    else 
-        +footer
+    +footer
                 
 template(name='user_section_cloud')
     if selected_user_section_tags
@@ -86,14 +85,45 @@ template(name='user_section_cloud')
             strong #{this.name}
                 
                     
-template(name='member_dashboard')                    
+template(name='user_dashboard')                    
     .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+                +user_tasks
+                +user_actions
         .row
             .sixteen.wide.column
                 .ui.inline.header.recalc_member_stats
                     +i name='dashboard'
-                    |#{user_from_username_param.first_name}'s dashboard
-                .ui.inline.grey.header current balance $#{user_from_username_param.credit}
+                    |#{current_user.name}'s dashboard
+                .ui.inline.small.grey.header current balance $#{current_user.credit}
+        if user_is_member
+            +member_dashboard
+        
+        
+        
+template(name='user_tasks')
+    .ui.fluid.segment
+        .ui.grey.header 
+            i.tasks.icon
+            |tasks        
+        
+        
+template(name='user_actions')
+    .ui.fluid.segment
+        .ui.grey.header 
+            i.target.icon
+            |actions        
+        
+        
+        
+        
+        
+        
+        
+        
+template(name='member_dashboard')        
+    .row
         .three.column.row
             .column
                 .ui.segment

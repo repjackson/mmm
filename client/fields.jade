@@ -98,7 +98,7 @@ template(name='html_edit')
 //- 
 //- template(name='color_icon')
 //-     div
-//-     .ui.inline.header
+//-     .ui.inline.small.grey.header
 //-         if icon
 //-             i.grey.icon(class=icon)
 //-             //- +i name=icon
@@ -118,7 +118,7 @@ template(name='icon_edit')
     if icon
         //- i.grey.icon(class=icon)
         +ismall name=icon classes='ui middle aligned image'
-    .ui.inline.header
+    .ui.inline.small.grey.header
         if title
             |#{title}
         else if key
@@ -148,13 +148,13 @@ template(name='icon_view')
 
 
 template(name='i')
-    if currentUser.icon_theme
-        img(src="https://img.icons8.com/#{currentUser.icon_theme}/48/000000/#{name}.png" class=classes title=title)
-    else
-        if is_leader
-            img(src="https://img.icons8.com/ios/48/000000/#{name}.png" class=classes title=title)
-        else
-            img(src="https://img.icons8.com/office/48/000000/#{name}.png" class=classes title=title)
+    //- if currentUser.icon_theme
+    //-     img(src="https://img.icons8.com/#{currentUser.icon_theme}/48/000000/#{name}.png" class=classes title=title)
+    //- else
+    //-     //- if is_leader
+        //-     img(src="https://img.icons8.com/ios/48/000000/#{name}.png" class=classes title=title)
+        //- else
+    img(src="https://img.icons8.com/color/48/000000/#{name}.png" class=classes title=title)
     //- i.icon(class=name)
     //- img(src="https://img.icons8.com/cotton/48/000000/#{name}.png" class=classes title=title)
     //- img.icon8(src="https://img.icons8.com/ios/50/000000/#{name}.png" class=classes title=title)
@@ -173,11 +173,11 @@ template(name='iios')
 
 template(name='ismall')
     //- i.icon(class=name)
-    if is_leader
-        img(src="https://img.icons8.com/ios/24/000000/#{name}.png" class='ui inline image' title=title)
+    //- if is_leader
+    //-     img(src="https://img.icons8.com/ios/24/000000/#{name}.png" class='ui inline image' title=title)
         //- img(src="https://img.icons8.com/ios/24/000000/#{name}.png" class=classes title=title)
-    else 
-        img.ui.middle.aligned.image(src="https://img.icons8.com/cotton/24/000000/#{name}.png" class=classes title=title)
+    //- else 
+    img.ui.middle.aligned.image(src="https://img.icons8.com/color/24/000000/#{name}.png" class=classes title=title)
     //- img(src="https://img.icons8.com/office/24/000000/#{name}.png" class=classes title=title)
     //- img.ui.middle.aligned.image(src="https://img.icons8.com/plasticine/24/000000/#{name}.png" class=classes title=title)
     //- img(src="https://img.icons8.com/plasticine/24/000000/#{name}.png" class=classes title=title)
@@ -200,7 +200,7 @@ template(name='link_edit')
     if icon
         //- i.grey.icon(class=icon)
         +i name=icon classes='ui mini inline image'
-    .ui.inline.header
+    .ui.inline.small.grey.header
         |#{title} #{label}
     .ui.fluid.input
         input.edit_url(type='url' value=field_value placeholder='url' autocomplete="off")
@@ -242,7 +242,7 @@ template(name='pdf_edit')
         if icon
             i.grey.icon(class=icon)
             //- +i name=icon
-        .ui.inline.header
+        .ui.inline.small.grey.header
             if title
                 |#{title}
             else if label
@@ -414,7 +414,7 @@ template(name='text')
     if icon
         //- i.grey.icon(class=icon)
         +ismall name=icon classes='ui middle aligned image'
-    .ui.inline.header
+    .ui.inline.small.grey.header
         if title
             |#{title}
         else if label
@@ -442,7 +442,7 @@ template(name='text_edit')
         .ui.small.grey.inline.header 
             |#{subtitle}
     if tooltip 
-        i.circular.info.icon(title=tooltip)
+        i.info.grey.icon(title=tooltip)
     .ui.fluid.icon.input
         input.edit_text(type='text' value=field_value placeholder=placeholder autocomplete="off")
         
@@ -473,7 +473,7 @@ template(name='text_view')
 
 template(name='parent')
     .ui.fluid.icon.input
-        .ui.inline.header
+        .ui.inline.small.grey.header
             |parent edit
             //- if icon
             //-     i.grey.icon(class=icon)
@@ -566,7 +566,7 @@ template(name='number_view')
 
 
 template(name='number_edit')
-    .ui.inline.small.header(title=tooltip)
+    .ui.inline.small.grey.header(title=tooltip)
         if icon
             +i name=icon classes='ui middle aligned image'
         if title
@@ -609,7 +609,7 @@ template(name='float_view')
         if icon
             //- i.grey.icon(class=icon)
             +ismall name=icon classes='ui inline mini image'
-        .ui.inline.header
+        .ui.inline.small.grey.header
             if title
                 |#{title}
             else if label
@@ -627,7 +627,7 @@ template(name='date_edit')
     if icon
         +ismall name=icon classes='ui inline mini image'   
     //-     |&nbsp;
-    .ui.inline.header
+    .ui.inline.small.grey.header
         if title
             |#{title}
         else if label
@@ -726,7 +726,7 @@ template(name='array')
     if icon
         //- i.grey.icon(class=icon)
         +ismall name=icon classes='ui middle aligned image'
-    .ui.inline.header
+    .ui.inline.small.grey.header
         if title
             |#{title}
         else if label
@@ -818,7 +818,7 @@ template(name='children_view')
         .title
             //- if icon
             //-     +i name=icon                
-            .ui.inline.header
+            .ui.inline.small.grey.header
                 if title
                     |#{title}
                 else if label
@@ -1169,7 +1169,7 @@ template(name='single_person')
 
 template(name='multi_user_edit')
     div
-    .ui.inline.header
+    .ui.inline.small.grey.header
         if icon
             i.grey.icon(class=icon)
             //- +i name=icon
@@ -1283,7 +1283,7 @@ template(name='project_lookup')
                 each doc_results
                     .select_doc.item
                         +ismall name=icon classes='ui middle aligned image'
-                        .ui.inline.header
+                        .ui.inline.small.grey.header
                             strong #{title}
                         div
         //- +clear_value                
@@ -1446,5 +1446,5 @@ template(name='slug_view')
                     |#{key}
                 else
                     |#{this}
-        .ui.inline.header
+        .ui.inline.small.grey.header
             strong #{field_value}

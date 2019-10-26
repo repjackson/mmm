@@ -23,7 +23,7 @@ Router.onBeforeAction(force_loggedin, {
     'questions'
     'tests'
     'groups'
-    'choose_user_type'
+    'choose_persona'
     'new_leader'
     'new_member'
     'new_business'

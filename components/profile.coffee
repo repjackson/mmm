@@ -1,7 +1,7 @@
 if Meteor.isClient
     Router.route '/user/:username', (->
         @layout 'profile_layout'
-        @render 'member_dashboard'
+        @render 'user_dashboard'
         ), name:'profile_layout'
     Router.route '/user/:username/about', (->
         @layout 'profile_layout'
@@ -163,7 +163,7 @@ if Meteor.isClient
                 'fourteen wide column'
             else
                 'sixteen wide column'
-    Template.member_dashboard.helpers
+    Template.user_dashboard.helpers
         ssd: ->
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.findOne

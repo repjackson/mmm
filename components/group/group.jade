@@ -19,7 +19,7 @@ template(name='group_view_layout')
                         each enabled_features
                             a.item(href="/group/#{current_doc._id}/f/#{slug}")
                                 |#{title}
-                                i.icon(class=icon)
+                                i.grey.icon(class=icon)
                     .ui.header
                         small leader
                         | #{leader_name}
@@ -92,9 +92,6 @@ template(name='group_loans')
 
 
 template(name='group_tasks')
-    .ui.header 
-        i.task.icon
-        |group tasks
     +group_delta model='task' feature=this
 
 
@@ -141,16 +138,16 @@ template(name='group_credits')
     
 
 template(name='group_members')
-    .ui.header 
-        i.dashboard.grey.icon
-        |group dashboard
+    //- .ui.header 
+    //-     i.dashboard.grey.icon
+    //-     |group dashboard
     with current_doc
         .ui.styled.fluid.accordion 
-            .active.title 
+            .title 
                 .ui.header
                     | group actions
                     i.dropdown.icon
-            .active.content
+            .content
                 .ui.two.column.grid
                     .column
                         .ui.small.header 
@@ -201,7 +198,7 @@ template(name='group_members')
                                 span.ui.red.text -#{amount}
     .ui.accordion
         each group_members
-            .active.title
+            .title
                 img.ui.avatar.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
                 .ui.inline.header
                     i.dropdown.icon
@@ -212,7 +209,7 @@ template(name='group_members')
                 //- .ui.icon.circular.button.
             //- .ui.item
             //- .image
-            .active.content
+            .content
                 a.ui.basic.green.large.right.floated.button(href="/user/#{username}")
                     |view profile
                     i.right.chevron.icon

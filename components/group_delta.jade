@@ -1,6 +1,6 @@
 template(name='group_delta')
     .ui.stackable.padded.grid
-        with current_model
+        with current_group_model
             .row
                 .five.wide.column
                     if is_loading
@@ -125,7 +125,7 @@ template(name='group_delta')
                     //- .ui.header calculations
                     //- .ui.button rerun calculations
         unless current_group_model
-            .ui.big.button.create_model create model
+            .ui.big.button.create_model create group model
                 
 template(name='group_delta_table')
     .ui.table

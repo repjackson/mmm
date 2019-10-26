@@ -3,40 +3,40 @@ template(name='user_edit_layout')
         +user_nav
     else 
         +nav
-    with user_from_username_param          
+    with current_user          
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
                     .ui.center.aligned.large.inline.grey.header
-                        | #{user_from_username_param.first_name} #{user_from_username_param.last_name}
+                        | #{current_user.first_name} #{current_user.last_name}
                     //- +i name='pencil'
-                    .ui.small.inline.header @#{user_from_username_param.username}
-                    a.ui.fluid.basic.button(href="/user/#{user_from_username_param.username}/") 
+                    .ui.small.inline.header @#{current_user.username}
+                    a.ui.fluid.basic.button(href="/user/#{current_user.username}/") 
                         i.checkmark.large.green.icon
                         strong save
                     .ui.vertical.fluid.big.secondary.menu
-                        a.item(href="/user/#{user_from_username_param.username}/edit/info" class="{{isActiveRoute regex='user_edit_info'}}") 
+                        a.item(href="/user/#{current_user.username}/edit/info" class="{{isActiveRoute regex='user_edit_info'}}") 
                             |info
                             i.info.icon
-                        a.item(href="/user/#{user_from_username_param.username}/edit/friends" class="{{isActiveRoute regex='user_edit_friends'}}") 
+                        a.item(href="/user/#{current_user.username}/edit/friends" class="{{isActiveRoute regex='user_edit_friends'}}") 
                             |friends
                             i.users.icon
-                        a.item(href="/user/#{user_from_username_param.username}/edit/styles" class="{{isActiveRoute regex='user_edit_styles'}}") 
+                        a.item(href="/user/#{current_user.username}/edit/styles" class="{{isActiveRoute regex='user_edit_styles'}}") 
                             |styles
                             i.brush.icon
-                        a.item(href="/user/#{user_from_username_param.username}/edit/notifications" class="{{isActiveRoute regex='user_edit_notifications'}}") 
+                        a.item(href="/user/#{current_user.username}/edit/notifications" class="{{isActiveRoute regex='user_edit_notifications'}}") 
                             |notifications
                             i.bell.icon
-                        a.item(href="/user/#{user_from_username_param.username}/edit/payment" class="{{isActiveRoute regex='user_edit_payment'}}") 
+                        a.item(href="/user/#{current_user.username}/edit/payment" class="{{isActiveRoute regex='user_edit_payment'}}") 
                             |payment
                             i.money.icon
-                        a.item(href="/user/#{user_from_username_param.username}/edit/account" class="{{isActiveRoute regex='user_edit_account'}}") 
+                        a.item(href="/user/#{current_user.username}/edit/account" class="{{isActiveRoute regex='user_edit_account'}}") 
                             |account
                             i.cog.icon
-                        a.item(href="/user/#{user_from_username_param.username}/edit/tags" class="{{isActiveRoute regex='user_edit_tags'}}") 
+                        a.item(href="/user/#{current_user.username}/edit/tags" class="{{isActiveRoute regex='user_edit_tags'}}") 
                             |tags
                             i.tags.icon
-                        a.item(href="/user/#{user_from_username_param.username}/edit/ads" class="{{isActiveRoute regex='user_edit_ads'}}") 
+                        a.item(href="/user/#{current_user.username}/edit/ads" class="{{isActiveRoute regex='user_edit_ads'}}") 
                             |ads
                             i.bullhorn.icon
                 .twelve.wide.column
@@ -69,8 +69,8 @@ template(name='phone_editor')
     .ui.icon.fluid.input(title='Add Phone')
         i.plus.icon
         input#phone.form-control(type='phone', name='phone', value='{{newNumber}}')
-    if user_from_username_param.profile.phone
-        if user_from_username_param.profile.phone_verified
+    if current_user.profile.phone
+        if current_user.profile.phone_verified
             .ui.label verified
         else
             p
@@ -184,7 +184,7 @@ template(name='user_edit_account')
         .column
             +password_edit
             if is_admin
-                with user_from_username_param
+                with current_user
                     .ui.orange.basic.button.remove_user 
                         i.remove.icon
                         |delete user
@@ -198,7 +198,7 @@ template(name='user_edit_account')
 template(name='username_edit')
     .ui.small.header 
         i.i.cursor.icon
-        |change username [#{user_from_username_param.username}]
+        |change username [#{current_user.username}]
     .ui.icon.fluid.input
         input.new_username(type='text' placeholder='new username...')
         i.play.link.icon.change_username

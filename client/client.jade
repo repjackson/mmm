@@ -23,13 +23,8 @@ template(name='layout')
     +yield
     +footer
 
-template(name='no_footer_layout')
-    //- +nav
-    +yield
-
 template(name='mlayout')
-    .global_container(class=invert_class)
-        +yield
+    +yield
 
 
 template(name='verification_confirmation')

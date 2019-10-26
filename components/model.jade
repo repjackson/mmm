@@ -5,13 +5,14 @@ template(name='model_edit')
                 .four.wide.column
                     h1.ui.header edit model #{title}
                     +creation_info
-                    a.ui.big.icon.button(href="/m/#{slug}")
+                    div
+                    a.ui.icon.button(href="/m/#{slug}")
                         i.big.checkmark.green.icon
                     #delete_model.ui.icon.button
                         i.trash.red.icon
                     .ui.form
                         +text_edit key='title' label='title' direct=true
-                        +text_edit key='slug' label='slug' direct=true
+                        +slug_edit key='slug' label='slug' direct=true
                         +icon_edit key='icon' label='icon' direct=true
                         +textarea_edit key='description' label='description' direct=true
                         +array_edit key='tags' label='tags' direct=true

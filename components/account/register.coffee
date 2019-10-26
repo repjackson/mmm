@@ -1,16 +1,76 @@
 if Meteor.isClient
-    Router.route '/choose_user_type', (->
-        @layout 'no_footer_layout'
-        @render 'choose_user_type'
-        ), name:'choose_user_type'
-    # Router.route '/register', (->
-    #     @layout 'no_footer_layout'
-    #     @render 'register'
-    #     ), name:'register'
+    Router.route '/register', (->
+        @layout 'layout'
+        @render 'register'
+        ), name:'register'
+    Router.route '/onboarding', (->
+        @layout 'mlayout'
+        @render 'onboarding'
+        ), name:'onboarding'
+    Router.route '/choose_personas', (->
+        @layout 'mlayout'
+        @render 'choose_personas'
+        ), name:'choose_personas'
+    Router.route '/choose_interests', (->
+        @layout 'mlayout'
+        @render 'choose_interests'
+        ), name:'choose_interests'
+
+    Template.choose_personas.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'user_persona'
+    Template.choose_personas.events
+        'click .select_persona': ->
+            if Meteor.user().personas
+                if @slug in Meteor.user().personas
+                    Meteor.users.update Meteor.userId(),
+                         $pull: personas: @slug
+                 else
+                     Meteor.users.update Meteor.userId(),
+                         $addToSet: personas: @slug
+            else
+                Meteor.users.update Meteor.userId(),
+                    $addToSet: personas: @slug
+    Template.choose_personas.helpers
+        persona_class: ->
+            if Meteor.user().personas and @slug in Meteor.user().personas then 'active' else ''
+        user_personas: ->
+            Docs.find
+                model:'user_persona'
+
+
+
+
+    Template.choose_interests.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'user_interest'
+    Template.choose_interests.events
+        'click .select_interest': ->
+            if Meteor.user().interests
+                if @slug in Meteor.user().interests
+                    Meteor.users.update Meteor.userId(),
+                         $pull: interests: @slug
+                 else
+                     Meteor.users.update Meteor.userId(),
+                         $addToSet: interests: @slug
+            else
+                Meteor.users.update Meteor.userId(),
+                    $addToSet: interests: @slug
+    Template.choose_interests.helpers
+        interest_class: ->
+            if Meteor.user().interests and @slug in Meteor.user().interests then 'active' else ''
+        user_interests: ->
+            Docs.find
+                model:'user_interest'
+
+
+
+
+
+
+
+
 
     Template.register.onCreated ->
         Session.set 'username', null
-
     Template.register.events
         'keyup .username': ->
             username = $('.username').val()
@@ -32,8 +92,6 @@ if Meteor.isClient
                 password:password
                 }
             Meteor.call 'create_user', options, (err,res)->
-                Meteor.users.update res,
-                    $set: roles: ['member']
                 Meteor.loginWithPassword username, password, (err,res)=>
                     if err
                         alert err.reason
@@ -42,7 +100,7 @@ if Meteor.isClient
                         #     Session.set 'enter_mode', 'register'
                         #     Session.set 'username', "#{username}"
                     else
-                        Router.go "/user/#{username}/edit"
+                        Router.go "/onboarding"
             # else
             #     Meteor.loginWithPassword username, password, (err,res)=>
             #         if err

@@ -234,9 +234,6 @@ Template.registerHelper 'sortable_fields', () ->
             sortable:true
         }, sort:rank:1
 
-Template.registerHelper 'current_user', (input) ->
-    Meteor.user() and Meteor.user().username is Router.current().params.username
-
 Template.registerHelper 'answer_segment_class', () ->
     if @correct then 'green' else ''
 
@@ -387,11 +384,6 @@ Template.registerHelper 'page_doc', ->
     doc = Docs.findOne Router.current().params.doc_id
     if doc then doc
 
-
-Template.registerHelper 'user_from_username_param', () ->
-    found = Meteor.users.findOne username:Router.current().params.username
-    # console.log found
-    found
 Template.registerHelper 'field_value', () ->
     # console.log @
     parent = Template.parentData()

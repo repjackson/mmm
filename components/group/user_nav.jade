@@ -50,7 +50,7 @@ template(name='user_nav')
         .right.menu
             unless currentUser
                 a.item(href='/login') log In
-                a.item(href='/choose_user_type') register
+                a.item(href='/choose_persona') register
         
             if currentUser
                 //- a.icon.item(href="/tasks" class="{{isActivePath '/tasks'}}")
