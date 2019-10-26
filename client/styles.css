@@ -5,9 +5,9 @@ body {
     font-family: 'Ubuntu', sans-serif !important;
     /* font-size: 110% !important; */
     /*line-height: 200% !important;*/
-    /* background: rgba(0,0,0,.9) !important; */
+    background: rgba(0,0,0,.08) !important;
     /* filter: invert(.9) !important; */
-    background: rgba(250, 250, 250, .05) !important
+    /* background: rgba(250, 250, 250, .05) !important */
     /* background: #0e0e44 !important; */
 }
 
@@ -203,7 +203,7 @@ body {
     transition: all .5s !important;
 }
 
-#topnav, .leader_nav{
+#topnav, .user_nav{
     border-radius: 0px 0px 0px 0px !important;
 }
 .hour_selected {
@@ -483,10 +483,10 @@ input.user_search{
     font-weight: bold !important;
     /* font-size: 110% !important; */
 
-    background-color: rgba(250,250,250,1) !important;
-    border: solid !important;
-    border-width: 1px !important;
-    border-color: rgba(0,0,0,.1) !important;
+    /* background-color: rgba(250,250,250,1) !important; */
+    /* border: solid !important; */
+    /* border-width: 1px !important; */
+    /* border-color: rgba(0,0,0,.1) !important; */
     /* transform: translate(0, 4px); */
 }
 
@@ -1005,7 +1005,7 @@ h1.ui.header{
     height: 1px;
 }
 
-.leader_nav{
+.user_nav{
 	overflow-y:hidden;
 	overflow-x:scroll;
 	/*max-height:1000px;*/
@@ -1020,7 +1020,7 @@ h1.ui.header{
     /* mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0)); */ */
 }
 
-.leader_nav::-webkit-scrollbar {
+.user_nav::-webkit-scrollbar {
     height: 1px;
 }
 

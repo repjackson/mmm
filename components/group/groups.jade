@@ -1,24 +1,3 @@
-template(name='my_groups')
-    .ui.stackable.padded.grid
-        .row
-            .twelve.wide.column
-                .ui.inline.header 
-                    i.company.icon
-                    |your groups
-                if is_leader
-                    .ui.icon.button.add_group(title='add group')
-                        //- +i name='plus' classes='ui mini inline image'
-                        i.green.large.plus.icon
-                        //- |add group
-        .row
-            .four.wide.column
-                .ui.header group cloud
-            .twelve.wide.column
-                each groups
-                    +group_card_template
-
-
-
 template(name='groups')
     .ui.stackable.padded.grid
         .row
@@ -32,9 +11,31 @@ template(name='groups')
                         i.green.large.plus.icon
                         //- |add group
         .row
-            .sixteen.wide.column
+            .four.wide.column
+                .ui.button mine
+                .ui.button all
+                .ui.inline.header 
+                    i.large.tags.icon
+                    |tags
+                +group_cloud
+            .twelve.wide.column
                 each groups
                     +group_card_template
+
+template(name='group_cloud')
+    if selected_group_tags
+        #clear_group_tags.ui.active.icon.circular.button
+            i.remove.icon
+        each selected_group_tags
+            .unselect_group_tag.ui.active.circular.button
+                strong #{this}
+    each all_group_tags
+        .ui.compact.circular.button.select_group_tag(class=cloud_tag_class) 
+            strong #{this.name}
+
+
+
+
 
 
 template(name='group_card_template')
@@ -45,6 +46,8 @@ template(name='group_card_template')
         .twelve.wide.column
             a.ui.header(href="/group/#{_id}" title='balance') #{title} #{company_name}
             .content
+            each tags
+                .ui.label #{this}
             .ui.green.inline.header $#{gsd.group_balance}
             .ui.green.inline.small.header(title='income') ($#{gsd.total_credit_amount}
             .ui.red.inline.small.header(title='expenses') / -$#{gsd.total_debit_amount})

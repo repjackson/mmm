@@ -1,5 +1,5 @@
 template(name='group_edit_layout')
-    +leader_nav
+    +user_nav
     with current_doc
         .ui.stackable.padded.grid
             .row
@@ -132,14 +132,14 @@ template(name='group_edit_debits')
         .row
             .eight.wide.column
                 .ui.small.header from template
-                .ui.fluid.huge.vertical.pointing.menu
+                .ui.fluid.vertical.pointing.menu
                     each template_debit_types
                         +debit_menu_item
                 div
                 .ui.small.inline.header custom
                 .ui.icon.button.add_debit_type
                     i.plus.icon
-                .ui.fluid.huge.vertical.pointing.menu
+                .ui.fluid.vertical.pointing.menu
                     each custom_debit_types
                         +debit_menu_item
             .eight.wide.column

@@ -20,7 +20,7 @@ head
     
 template(name='layout')
     //- img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")
-    +leader_nav
+    +user_nav
     //- if is_leader
     //- else 
     //-     +nav
@@ -29,11 +29,12 @@ template(name='layout')
     //-         .centered.row
     //-             .sixteen.wide.column
     +yield
-    +leader_footer
+    +user_footer
     //- if is_leader
     //- else 
     //-     +footer
         //- +shortcut_modal
+
 
 template(name='no_footer_layout')
     //- +nav

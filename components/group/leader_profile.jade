@@ -1,5 +1,5 @@
 template(name='leader_profile_layout')
-    +leader_nav
+    +user_nav
     with user_from_username_param
         .ui.stackable.grid
             .row
@@ -53,7 +53,7 @@ template(name='leader_profile_layout')
                             //-         |#{title}
 
                             +yield    
-    +leader_footer
+    +user_footer
                 
 template(name='leader_dashboard')
     //- .ui.header leader dashboard

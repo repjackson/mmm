@@ -2,7 +2,7 @@ template(name='nav')
     .ui.attached.borderless.topnav.menu
         if is_loading
             .item
-                i.big.loading.notched.circle.icon
+                i.large.loading.notched.circle.icon
         a.compact.item(href='/' class="{{isActivePath '/'}}") 
             img.ui.tiny.compact.image(src="{{c.url 'mmm_logo_small' height=200 }}" title='Home')
         a.ui.item(href='/p/about')

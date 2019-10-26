@@ -1,9 +1,9 @@
 if Meteor.isClient
-    Template.leader_footer.events
+    Template.user_footer.events
         'click .shortcut_modal': ->
             $('.ui.shortcut.modal').modal('show')
-    Template.leader_nav.onRendered ->
-        @autorun => Meteor.subscribe 'my_groups'
+    Template.user_nav.onRendered ->
+        # @autorun => Meteor.subscribe 'my_groups'
 
         # Meteor.setTimeout ->
         #     $('.dropdown').dropdown(
@@ -20,7 +20,7 @@ if Meteor.isClient
 
 
 
-    Template.leader_nav.events
+    Template.user_nav.events
         # 'mouseenter .item': (e,t)->
             # $(e.currentTarget).closest('.item').transition('pulse', 400)
         'click .menu_dropdown': ->
@@ -45,13 +45,13 @@ if Meteor.isClient
         'click .spinning': ->
             Session.set 'loading', false
 
-    Template.leader_footer_chat.onCreated ->
+    Template.user_footer_chat.onCreated ->
         @autorun -> Meteor.subscribe 'model_docs', 'footer_chat'
-    Template.leader_footer_chat.helpers
+    Template.user_footer_chat.helpers
         chat_messages: ->
             Docs.find
                 model:'footer_chat'
-    Template.leader_footer_chat.events
+    Template.user_footer_chat.events
         'keyup .new_footer_chat_message': (e,t)->
             if e.which is 13
                 new_message = $('.new_footer_chat_message').val()
@@ -69,7 +69,7 @@ if Meteor.isClient
 
     Template.mlayout.onCreated ->
         @autorun -> Meteor.subscribe 'me'
-    Template.leader_nav.onCreated ->
+    Template.user_nav.onCreated ->
         @autorun -> Meteor.subscribe 'me'
         # @autorun -> Meteor.subscribe 'role_models'
         # @autorun -> Meteor.subscribe 'users_by_role','staff'
@@ -78,7 +78,7 @@ if Meteor.isClient
         # @autorun -> Meteor.subscribe 'current_session'
         # @autorun -> Meteor.subscribe 'unread_messages'
 
-    Template.leader_nav.helpers
+    Template.user_nav.helpers
         notifications: ->
             Docs.find
                 model:'notification'

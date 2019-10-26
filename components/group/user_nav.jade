@@ -1,12 +1,12 @@
 template(name='leader_layout')
-    +leader_nav
+    +user_nav
     +yield
-    +leader_footer
+    +user_footer
 
 
 
-template(name='leader_nav')
-    .ui.attached.borderless.leader_nav.inverted.blue.menu
+template(name='user_nav')
+    .ui.attached.borderless.user_nav.inverted.blue.menu
         if is_loading
             .item
                 i.big.loading.notched.circle.icon
@@ -79,8 +79,8 @@ template(name='leader_nav')
 
 
 
-template(name='leader_footer')
-    .ui.stackable.padded.grid.segment
+template(name='user_footer')
+    .ui.stackable.padded.grid.secondary.segment
         .row
             .three.wide.column
                 //- .ui.link.big.list
@@ -120,7 +120,7 @@ template(name='leader_footer')
 
 
                 
-template(name='leader_footer_chat')
+template(name='user_footer_chat')
     .ui.grey.header 
         +i name='chat' classes='ui inline mini image'
         |chat

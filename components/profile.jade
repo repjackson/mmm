@@ -1,6 +1,6 @@
 template(name='profile_layout')
     if is_leader
-        +leader_nav
+        +user_nav
     else 
         +nav
     with user_from_username_param
@@ -70,7 +70,7 @@ template(name='profile_layout')
 
                             +yield    
     if is_leader
-        +leader_footer
+        +user_footer
     else 
         +footer
                 

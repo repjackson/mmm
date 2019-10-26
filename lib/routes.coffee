@@ -106,7 +106,7 @@ Router.route '/download_rules_pdf/:username', (->
     ), name: 'download_rules_pdf'
 
 
-# Router.route '/', -> @redirect '/m/model'
+# Router.route '/', -> @redirect '/m/group'
 # Router.route '/', -> @redirect "/user/#{Meteor.user().username}"
 # Router.route '/', -> @render 'home'
 Router.route '/', (->
