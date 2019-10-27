@@ -209,12 +209,23 @@ template(name='link_edit')
 template(name='link_view')
     if field_value
         div
-        if icon
-            +ismall name=icon classes='ui middle aligned image'
-        //- .ui.inline.header 
-        //-     |#{title} #{label}
+        //- if icon
+        //-     +ismall name=icon classes='ui middle aligned image'
+        a.ui.grey.header(href=field_value targe='_window' title='click to download')
+            |#{title} #{label}
         //- a.ui.header(href=field_value target='_window') #{label}
-        a.ui.header(href=field_value target='_window') #{field_value}
+        a.ui.small.header(href=field_value target='_window') #{field_value}
+        //- img.ui.fluid.image(src=field_value)
+
+template(name='big_link_view')
+    if field_value
+        div
+        //- if icon
+        //-     +ismall name=icon classes='ui middle aligned image'
+        a.ui.big.button(href=field_value target='_window' title='click to download')
+            |#{title} #{label}
+        //- a.ui.header(href=field_value target='_window') #{label}
+        //- a.ui.header(href=field_value target='_window') #{field_value}
         //- img.ui.fluid.image(src=field_value)
 
 template(name='image_view')

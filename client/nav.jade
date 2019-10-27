@@ -3,20 +3,18 @@ template(name='nav')
         if is_loading
             .item
                 i.large.loading.notched.circle.icon
-        a.compact.item(href='/' class="{{isActivePath '/'}}") 
-            img.ui.tiny.compact.image(src="{{c.url 'mmm_logo_small' height=200 }}" title='Home')
-        a.ui.item(href='/p/about')
-            |our work
-        //- a.item(href='/p/partners')
-        //-     //- +ismall name='test-passed'
-        //-     span.mobile.hidden &nbsp; Community Partners
-        a.item(href='/p/team')
-            //- +ismall name='question'
-            span.mobile.hidden &nbsp; team
-        a.item(href='/contact')
-            //- +ismall name='treasure-chest'
-            span.mobile.hidden &nbsp; contact
-            i.phone.icon.mobile.only
+        unless currentUser
+            a.compact.item(href='/' class="{{isActivePath '/'}}") 
+                img.ui.tiny.compact.image(src="{{c.url 'mmm_logo_small' height=200 }}" title='Home')
+            a.ui.item(href='/p/about')
+                |our work
+            a.item(href='/p/team')
+                //- +ismall name='question'
+                span.mobile.hidden &nbsp; team
+            a.item(href='/contact')
+                //- +ismall name='treasure-chest'
+                span.mobile.hidden &nbsp; contact
+                i.phone.icon.mobile.only
         a.item(href='/groups')
             //- +ismall name='treasure-chest'
             span.mobile.hidden &nbsp; groups

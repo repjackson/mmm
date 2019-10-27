@@ -136,6 +136,9 @@ if Meteor.isClient
                 # weekly:$ne:true
                 group_id: Router.current().params.doc_id
 
+
+
+
     Template.group_members.onCreated ->
         @autorun => Meteor.subscribe 'group_members', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'group_docs', 'credit_type', Router.current().params.doc_id
@@ -148,6 +151,8 @@ if Meteor.isClient
                     trigger: '.title .header'
             )
         , 1000
+
+
 
     Template.group_members.helpers
         # bulk_action_class: ->
@@ -496,6 +501,19 @@ if Meteor.isClient
     Template.group_reports.events
         'change .date_select': ->
             console.log $('.date_select').val()
+
+
+
+
+    Template.group_files.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'file'
+    Template.group_files.helpers
+        classroom_files: ->
+            Docs.find
+                model:'file'
+    # Template.group_files.events
+    #     'change .date_select': ->
+    #         console.log $('.date_select').val()
 
 
 

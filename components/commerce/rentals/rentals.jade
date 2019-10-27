@@ -1,8 +1,11 @@
 template(name='rentals')
     .ui.stackable.padded.grid
-        .four.wide.right.aligned.column
-            .ui.header 
+        .four.wide.column
+            .ui.inline.header
+                i.clock.icon 
                 |rentals
+            .ui.icon.button.add_rental 
+                i.plus.icon
             +rental_cloud
         .twelve.wide.column
             .ui.icon.button.set_card_view

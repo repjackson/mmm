@@ -5,15 +5,14 @@ if Meteor.isClient
         ), name:'rentals'
 
 
-
     Template.rentals.onRendered ->
         @autorun => Meteor.subscribe 'model_docs', 'rental'
     Template.rentals.helpers
-        products: ->
+        rentals: ->
             Docs.find
                 model:'rental'
     Template.rentals.events
-        'click .add_product': ->
+        'click .add_rental': ->
             new_rental_id = Docs.insert
                 model:'rental'
             Router.go "/rental/#{new_rental_id}/edit"

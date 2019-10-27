@@ -52,8 +52,13 @@ template(name='group_members_small')
         .ui.grey.header
             i.users.icon
             | members
-        each group_members
-            .ui.header #{name}
+        .ui.large.list
+            each group_members
+                .item
+                    img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
+                    .content
+                        .header 
+                            |#{name}
     
 template(name='group_votes')   
     .ui.segment 
@@ -94,6 +99,22 @@ template(name='group_loans')
 template(name='group_tasks')
     +group_delta model='task' feature=this
 
+
+template(name='group_files')
+    .ui.large.linked.list
+        each classroom_files
+            .item 
+                a.ui.grey.header(href=link target='_window' title='click to download')
+                    |#{title}
+                //- a.ui.header(href=link target='_window') #{label}
+                //- a.ui.small.header(href=link target='_window') #{link}
+
+    //- +big_link_view key='link2' label='link2' direct=true
+    //- +big_link_view key='link3' label='link3' direct=true
+    //- +big_link_view key='link4' label='link4' direct=true
+    //- +big_link_view key='link5' label='link5' direct=true
+    //- +big_link_view key='link6' label='link6' direct=true
+    //- +big_link_view key='link7' label='link7' direct=true
 
 
 template(name='group_lunch')        

@@ -302,7 +302,7 @@ if Meteor.isClient
                 slug:Router.current().params.feature_slug
 
         feature_edit_template: ->
-            console.log @
+            # console.log @
             "group_edit_#{@slug}"
 
 

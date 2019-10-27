@@ -69,11 +69,11 @@ template(name='profile_layout')
                                     each roles
                                         .ui.basic.label #{this}
                         .twelve.wide.column
-                            //- each user_sections
-                            //-     a.ui.button(href="/user/#{user.username}/#{slug}")
-                            //-         //- i.icon(class=icon)
-                            //-         +ismall name=icon
-                            //-         |#{title}
+                            each user_sections
+                                a.ui.button(href="/user/#{user.username}/#{slug}")
+                                    //- i.icon(class=icon)
+                                    +ismall name=icon
+                                    |#{title}
 
                             +yield    
     +footer

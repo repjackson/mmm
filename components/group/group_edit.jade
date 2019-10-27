@@ -37,6 +37,15 @@ template(name='group_edit_settings')
         i.cog.icon
         |settings
     .ui.two.column.grid
+        //- if is_admin 
+        .column
+            +boolean_edit key='classroom' label='classroom' icon='classroom' direct=true
+            if classroom 
+                .ui.header need to set school, have school overview, be able to see and compare amongst classrooms
+                .ui.header need to allow sponsorships, make it clear that using this platform is a fundraising tool
+                .ui.header classes want to show progress to earn sponsorships
+            +boolean_edit key='allow_sponsorship' label='allow sponsorships' direct=true
+            
         .column
             +boolean_edit key='published' label='published' icon='eye' direct=true
             +boolean_edit key='private' label='private' icon='invisible' direct=true
@@ -337,6 +346,8 @@ template(name='group_edit_features')
                 with selected_feature
                     +feature
 
+
+
 template(name='feature_menu_item')
     a.item.select_feature(class=feature_class) 
         if icon
@@ -411,3 +422,12 @@ template(name='group_edit_feature')
 
 template(name='group_edit_files')
     .ui.header file editing
+    //- each file_links
+    //- each mmm_files
+    //-     .ui.button.toggle
+    +link_edit key='link1' label='link 1' direct=true     
+    +link_edit key='link2' label='link 2' direct=true     
+    +link_edit key='link3' label='link 3' direct=true     
+    +link_edit key='link4' label='link 4' direct=true     
+    +link_edit key='link5' label='link 5' direct=true     
+    +link_edit key='link6' label='link 6' direct=true     

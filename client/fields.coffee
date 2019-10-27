@@ -466,10 +466,12 @@ Template.number_edit.events
 
 Template.float_edit.events
     'blur .edit_float': (e,t)->
+
         if @direct
             parent = Template.parentData(2)
         else
             parent = Template.parentData(5)
+        console.log parent
         val = parseFloat t.$('.edit_float').val()
         doc = Docs.findOne parent._id
         user = Meteor.users.findOne parent._id
