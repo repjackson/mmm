@@ -3,10 +3,51 @@ if Meteor.isClient
         @layout 'layout'
         @render 'offers'
         ), name:'offers'
+    Router.route '/offer/:doc_id/edit', (->
+        @layout 'layout'
+        @render 'offer_edit'
+        ), name:'offer_edit'
+    Router.route '/offer/:doc_id/view', (->
+        @layout 'layout'
+        @render 'offer_view'
+        ), name:'offer_view'
+
+
+    Template.offer_edit.onRendered ->
+        Meteor.setTimeout ->
+            $('.accordion').accordion()
+        , 1000
+    Template.offer_edit.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    Template.offer_edit.events
+
+
+    Template.offer_view.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    Template.offer_view.onRendered ->
+        Meteor.call 'increment_view', Router.current().params.doc_id, ->
+
+
+
+
+
+
 
     Template.offers.onCreated ->
         @autorun -> Meteor.subscribe 'model_docs', 'user_offer'
+        @autorun -> Meteor.subscribe 'model_docs', 'credit_transaction'
+        @autorun -> Meteor.subscribe 'offer_events'
     Template.offers.helpers
+        credit_transactions: ->
+            Docs.find
+                model:'credit_transaction'
+        offer_events: ->
+            Docs.find
+                model:'log_event'
+                event_type:'offer_completion'
+        all_offers: ->
+            Docs.find
+                model:'user_offer'
         available_offers: ->
             Docs.find
                 model:'user_offer'
@@ -57,6 +98,11 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+    Meteor.publish 'offer_events', ->
+        Docs.find
+            model:'log_event'
+            event_type:'offer_completion'
+
     Meteor.methods
         check_offer: (offer_id, user_id)->
             offer = Docs.findOne offer_id
@@ -67,16 +113,19 @@ if Meteor.isServer
                 if res is true
                     Docs.insert
                         model:'log_event'
-                        event_type:'offer completion'
+                        event_type:'offer_completion'
                         referenced_doc_id:offer_id
                         referenced_user_id:user_id
-                        text: "offer #{offer.title} was completed by #{user.name}"
+                        user_id:user_id
+                        text: "offer '#{offer.title}' was completed by #{user.name()}"
                     Docs.update offer._id,
                         $addToSet: completed_user_ids: user_id
                         $pull: accepted_user_ids: user_id
                     Docs.insert
                         model:'credit_transaction'
+                        transaction_type:'offer_completion'
                         recipient_id: user_id
+                        user_id: user_id
                         credit_amount: offer.credit_amount
                         text: "#{offer.credit_amount} was sent to #{user.username} for completing #{offer.title}"
                     Meteor.users.update user_id,

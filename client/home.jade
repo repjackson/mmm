@@ -19,11 +19,19 @@ template(name='home')
                         .item 
                             //- i.users.icon
                             //- +ismall name='groups'
+                            |#{hs.homepage_views} homepage views
+                        .item 
+                            //- i.users.icon
+                            //- +ismall name='groups'
                             |#{hs.user_count} users
                         .item 
                             //- i.user.shield.icon
                             //- +ismall name='leader'
-                            |#{hs.leader_count} leaders
+                            |#{hs.offer_count} offers
+                        .item 
+                            //- i.user.shield.icon
+                            //- +ismall name='leader'
+                            |#{hs.leader_count} group leaders
                         .item 
                             //- +ismall name='group'
                             |#{hs.group_count} groups

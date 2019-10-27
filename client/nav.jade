@@ -101,32 +101,16 @@ template(name='footer')
                         
             .three.wide.column
                 .ui.link.large.list
-                    a.item(href='/groups') 
-                        //- +ismall name='group'
-                        |groups
+                    a.item(href='/groups')
+                        .content
+                            i.users.grey.icon 
+                            |groups
                     a.item(href='/offers') 
-                        //- +ismall name='money'
-                        |offers
-                    //- a.item(href='/p/leaders') 
-                    //-     //- +ismall name='leader'
-                    //-     |leaders
-                    //- a.item(href="/p/parents") 
-                    //-     //- +ismall name='children'
-                    //-     |parents
-                    //- a.item(href='/p/members') 
-                    //-     //- +ismall name='members'
-                    //-     |members
-                    //- a.item(href='/p/companys') 
-                    //-     //- +ismall name='company'
-                    //-     |companys
-                    //- a.item(href='/p/administrators') 
-                    //-     //- +ismall name='user-shield'
-                    //-     |administrators
-                    //- a.item(href='/p/donors') 
-            //-             //- +ismall name='donate'
-            //-             |donors
-            //-     //- +add_button label='bug' model='bug' icon='bug'
+                        .content
+                            i.donate.grey.icon
+                            |offers
             .six.wide.column
+                +footer_chat
                 unless currentUser
                     a.ui.big.button(href='/login')
                         i.sign.in.icon
@@ -137,8 +121,6 @@ template(name='footer')
                 .ui.grey.header 
                     i.copyright.outline.icon
                     | Mini Money Management 2019
-            .six.wide.column
-                +footer_chat
 
             
                 

@@ -7,6 +7,8 @@ if Meteor.isClient
             $('.ui.sidebar')
                 .sidebar('attach events', '.toc.item')
         ,500
+        # if Meteor.isProduction
+        Meteor.call 'increment_home_view', ->
 
     Template.home.helpers
         hs: ->
@@ -23,6 +25,12 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.methods
+        increment_home_view: ->
+            hs = Docs.findOne
+                model:'home_stats'
+            Docs.update hs._id,
+                $inc: homepage_views: 1
+
         calc_home_stats: ->
             hs = Docs.findOne
                 model:'home_stats'
@@ -45,6 +53,10 @@ if Meteor.isServer
                 Docs.find(
                     model:'credit_type'
                 ).count()
+            offer_count =
+                Docs.find(
+                    model:'user_offer'
+                ).count()
             debit_count =
                 Docs.find(
                     model:'debit_type'
@@ -58,6 +70,7 @@ if Meteor.isServer
                     user_count:user_count
                     leader_count:leader_count
                     donor_count:donor_count
+                    offer_count:offer_count
                     group_count:group_count
                     credit_count:credit_count
                     debit_count:debit_count

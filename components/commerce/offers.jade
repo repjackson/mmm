@@ -5,7 +5,22 @@ template(name='offers')
                 .ui.header 
                     i.donate.icon
                     |offers
-            .twelve.wide.column
+            .six.wide.column
+                .ui.large.header 
+                    i.clock.grey.icon
+                    |all offers 
+                .ui.large.link.list
+                    each all_offers
+                        a.item(href="/offer/#{_id}/view")
+                            .content
+                                .header
+                                    |#{title}
+                                    if automatic 
+                                        i.yellow.lightning.icon(title='automatic, code based')
+            
+                .ui.large.header 
+                    i.clock.grey.icon
+                    |your offers 
                 .ui.header 
                     i.clock.grey.icon
                     |available 
@@ -44,6 +59,51 @@ template(name='offers')
                 .ui.list
                     each completed_offers
                         .item #{title}
+            .six.wide.column
+                .ui.header offer events
+                .ui.feed.scrolling
+                    each offer_events
+                        +offer_event_item
+                .ui.header credit transactions
+                .ui.feed.scrolling
+                    each credit_transactions
+                        +transaction_item
+
+template(name='transaction_item')
+    .event 
+        .label
+            img.ui.avatar.image(src="{{c.url target_user.profile_image_id height=100 gravity='face' crop='fill'}}")
+        .content
+            .summary
+                a.user(href="/user/#{target_user.username}")
+                    |#{target_user.name}
+                |#{text}
+                .date #{when}
+            .meta
+                +voting_small
+                a.remove
+                    i.undo.icon
+                if is_dev
+                    +remove_button
+
+
+template(name='offer_event_item')
+    .event 
+        .label
+            img.ui.avatar.image(src="{{c.url target_user.profile_image_id height=100 gravity='face' crop='fill'}}")
+        .content
+            .summary
+                a.user(href="/user/#{target_user.username}")
+                    |#{target_user.name}
+                |#{text}
+                .date #{when}
+            .meta
+                +voting_small
+                a.remove
+                    i.undo.icon
+                if is_dev
+                    +remove_button
+
 
 
 
@@ -60,3 +120,56 @@ template(name='accepted_offer')
             if automatic 
                 .ui.small.button.check_completion
                     |check completion
+
+
+
+
+
+
+
+template(name='offer_view')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .eight.wide.column
+                    a.ui.button(href="/offer")
+                        i.chevron.left.icon
+                        +i name='offer' classes='ui inline mini image'
+                        |offer
+                    .ui.header offer view 
+                    +image_view key='offer_image_id' label='image' direct=true
+                    a.ui.button(href="/offer/#{_id}/edit")
+                        i.pencil.icon
+                        |edit
+                .eight.wide.column
+                    .ui.header #{title}
+                    .ui.header $#{price}
+                    a.ui.fluid.button(href="/offer/#{_id}/checkout")
+                        +i name='buy' classes='ui inline mini image'
+                        |purchase
+                    .ui.header 
+                        +i name='offer'
+                        |purchases
+                    each purchases
+                        .ui.header #{title}
+                    +comments
+                    
+
+template(name='offer_edit')
+    with current_doc
+        .ui.stackable.padded.grid
+            .row
+                .six.wide.column 
+                    .ui.header 
+                        i.pencil.icon
+                        | edit '#{title}' offer
+                    a.ui.big.fluid.button(href="/offer/#{_id}/view" title='save')
+                        i.checkmark.large.green.icon
+                        |save
+                    +remove_button
+                    +image_edit key='offer_image_id' icon='image' label='image' direct=true
+                    +array_edit key='tags' label='tags' icon='tags' direct=true
+                .ten.wide.column 
+                    +text_edit key='title' direct=true
+                    +number_edit key='price' icon='money' direct=true
+                    +textarea_edit key='description' label='description' icon='content' direct=true
