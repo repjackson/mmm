@@ -25,6 +25,10 @@ template(name='nav')
             //- +ismall name='treasure-chest'
             span.mobile.hidden &nbsp; offers
             i.give.icon.mobile.only
+        a.item(href='/shop')
+            //- +ismall name='treasure-chest'
+            span.mobile.hidden &nbsp; shop
+            i.give.icon.mobile.only
                 
             
         .right.menu
@@ -109,6 +113,19 @@ template(name='footer')
                         .content
                             i.donate.grey.icon
                             |offers
+                    a.item(href='/rentals')
+                        .content
+                            i.grey.clock.icon
+                            |rentals
+                    a.item(href='/shop')
+                        .content
+                            i.shop.grey.icon
+                            | shop
+                    a.item(href='/services')
+                        .content
+                            i.wrench.grey.icon
+                            |services
+
             .six.wide.column
                 +footer_chat
                 unless currentUser
@@ -118,9 +135,9 @@ template(name='footer')
                 if is_admin
                     with currentUser
                         +role_switcher
-                .ui.grey.header 
+                .ui.grey.small.header 
                     i.copyright.outline.icon
-                    | Mini Money Management 2019
+                    | mini money management 2019
 
             
                 

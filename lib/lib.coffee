@@ -1,7 +1,10 @@
 @Docs = new Meteor.Collection 'docs'
 @Tags = new Meteor.Collection 'tags'
 @Company_tags = new Meteor.Collection 'company_tags'
+
+@Rental_tags = new Meteor.Collection 'rental_tags'
 @Group_tags = new Meteor.Collection 'group_tags'
+@Shop_tags = new Meteor.Collection 'shop_tags'
 @Group_location_tags = new Meteor.Collection 'group_location_tags'
 @Question_tags = new Meteor.Collection 'question_tags'
 @Test_tags = new Meteor.Collection 'test_tags'
