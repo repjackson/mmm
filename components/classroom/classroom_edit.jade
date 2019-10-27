@@ -1,5 +1,5 @@
-template(name='group_edit_layout')
-    +user_nav
+template(name='classroom_edit_layout')
+    +nav
     with current_doc
         .ui.stackable.padded.grid
             .row
@@ -9,30 +9,30 @@ template(name='group_edit_layout')
                         div
                         strong #{title}
                         div
-                        small group
-                    a.ui.icon.fluid.button(href="/group/#{_id}" title='save')
+                        small classroom
+                    a.ui.icon.fluid.button(href="/classroom/#{_id}" title='save')
                         i.checkmark.green.icon
                         //- |Save
                     //- if is_admin
                     .ui.vertical.fluid.pointing.menu
-                        a.item(href="/group/#{_id}/edit/info" class="{{isActiveRoute regex='group_edit_info'}}") 
+                        a.item(href="/classroom/#{_id}/edit/info" class="{{isActiveRoute regex='classroom_edit_info'}}") 
                             |info
                             i.info.icon
-                        a.item(href="/group/#{_id}/edit/settings" class="{{isActiveRoute regex='group_edit_settings'}}") 
+                        a.item(href="/classroom/#{_id}/edit/settings" class="{{isActiveRoute regex='classroom_edit_settings'}}") 
                             |settings
                             i.cog.icon
-                        a.item(href="/group/#{_id}/edit/features" class="{{isActiveRoute regex='group_edit_features'}}")
+                        a.item(href="/classroom/#{_id}/edit/features" class="{{isActiveRoute regex='classroom_edit_features'}}")
                             |features
                             i.th.icon                    
                     .ui.vertical.large.fluid.pointing.menu
                         each enabled_features
-                            a.item(href="/group/#{current_doc._id}/edit/f/#{slug}")
+                            a.item(href="/classroom/#{current_doc._id}/edit/f/#{slug}")
                                 |#{title}
                                 i.icon(class=icon)
                 .twelve.wide.column
                     +yield
-                                    
-template(name='group_edit_settings')
+
+template(name='classroom_edit_settings')
     .ui.header 
         i.cog.icon
         |settings
@@ -45,27 +45,27 @@ template(name='group_edit_settings')
                 .ui.header need to allow sponsorships, make it clear that using this platform is a fundraising tool
                 .ui.header classes want to show progress to earn sponsorships
             +boolean_edit key='allow_sponsorship' label='allow sponsorships' direct=true
-            
+
         .column
             +boolean_edit key='published' label='published' icon='eye' direct=true
             +boolean_edit key='private' label='private' icon='invisible' direct=true
             if private
                 +multi_user_edit key='visible_user_ids' label='visible to users' icon='users' direct=true
-            .ui.orange.button.remove_group
+            .ui.orange.button.remove_classroom
                 i.remove.icon
-                |remove group
-                
+                |remove classroom
 
-template(name='group_edit_info')
+
+template(name='classroom_edit_info')
     .ui.header 
         i.info.icon
         |info
     .ui.two.column.grid
         .column
-            +text_edit key='title' label='group title' direct=true
-            +text_edit key='leader_name' label='leader name' placeholder='enter your name' tooltip='examples: john smith' direct=true
-            +text_edit key='company_name' label='company name' direct=true
-            +image_edit key='group_image_id' label='image' direct=true
+            +text_edit key='title' label='classroom title' direct=true
+            +text_edit key='teacher_name' label='teacher name' placeholder='enter your name' tooltip='examples: john smith' direct=true
+            +text_edit key='school_name' label='school name' direct=true
+            +image_edit key='classroom_image_id' label='image' direct=true
         .column
             +textarea_edit key='description' label='description' direct=true
             +array_edit key='tags' label='tags' icon='tags' direct=true
@@ -84,16 +84,16 @@ template(name='group_edit_info')
                 +text_edit key='hours' label='hours' direct=true
                 +array_edit key='availability_tags' label='availability tags' direct=true
             if is_admin
-                +leader_selector
-                                    
-template(name='group_edit_members')                                    
-    +member_selector
+                +teacher_selector
 
-template(name='group_edit_credits')
+template(name='classroom_edit_students')                                    
+    +student_selector
+
+template(name='classroom_edit_credits')
     //- .ui.large.header 
     //-     i.plus.icon
     //-     |credits
-    a.ui.button(href="/group/#{_id}/edit/templates" class="{{isActiveRoute regex='group_edit_templates'}}")
+    a.ui.button(href="/classroom/#{_id}/edit/templates" class="{{isActiveRoute regex='classroom_edit_templates'}}")
         i.download.icon
         |templates
     .ui.stackable.grid
@@ -113,8 +113,8 @@ template(name='group_edit_credits')
             div
             with selected_credit
                 +transaction
-                        
-                        
+
+
 template(name='credit_menu_item')                        
     a.item.select_credit(class=credit_class) 
         |#{title}
@@ -122,21 +122,21 @@ template(name='credit_menu_item')
         if is_automatic
             i.lightning.yellow.icon
         if is_individual
-            i.user.outline.icon(title='member scope')
-        if is_group 
-            i.users.icon(title='group scope')
+            i.user.outline.icon(title='student scope')
+        if is_classroom 
+            i.users.icon(title='classroom scope')
         if is_admin
             i.circular.remove.icon.remove_credit
 
-                        
-template(name='group_edit_debits')       
+
+template(name='classroom_edit_debits')       
     //- .ui.large.header 
     //-     i.chevron.up.icon
     //-     |debits
-    a.ui.button(href="/group/#{current_doc._id}/edit/templates" class="{{isActiveRoute regex='group_edit_templates'}}")
+    a.ui.button(href="/classroom/#{current_doc._id}/edit/templates" class="{{isActiveRoute regex='classroom_edit_templates'}}")
         i.download.icon
         |templates
-        
+
     .ui.stackable.grid
         .row
             .eight.wide.column
@@ -168,9 +168,9 @@ template(name='debit_menu_item')
         else 
             i.hand.icon
         if is_individual
-            i.user.outline.icon(title='member scope')
-        if is_group 
-            i.users.icon(title='group scope')
+            i.user.outline.icon(title='student scope')
+        if is_classroom 
+            i.users.icon(title='classroom scope')
 
 
 
@@ -207,14 +207,14 @@ template(name='transaction')
                 //-     +number_edit key='limit_amount' label='limit amount'
             div
             .ui.small.grey.inline.header scope
-            +key_value_edit key='scope' value='individual' label='member'
-            +key_value_edit key='scope' value='group' label='group'
+            +key_value_edit key='scope' value='individual' label='student'
+            +key_value_edit key='scope' value='classroom' label='classroom'
             div
             .ui.button.remove_transaction 
                 i.remove.icon
                 |remove
             .ui.divider
-        
+
             .ui.fluid.button.save_transaction
                 i.green.checkmark.icon
                 |save
@@ -252,7 +252,7 @@ template(name='transaction')
 
 
 
-template(name='group_edit_templates')       
+template(name='classroom_edit_templates')       
     .ui.large.header 
         i.clone.icon
         |templates
@@ -298,11 +298,11 @@ template(name='template')
             div
             .ui.small.grey.inline.header credits
             .ui.bulleted.list
-                each group_credits 
+                each classroom_credits 
                     .item #{title} +#{amount}
             .ui.small.grey.inline.header debits
             .ui.bulleted.list
-                each group_debits 
+                each classroom_debits 
                     .item #{title} -#{amount}
             div
             .ui.divider
@@ -313,12 +313,12 @@ template(name='template')
             .ui.fluid.button.clone_template
                 i.clone.icon
                 |clone
-            
 
 
 
 
-template(name='group_edit_features')       
+
+template(name='classroom_edit_features')       
     .ui.large.inline.header 
         i.th.icon
         |features
@@ -330,7 +330,7 @@ template(name='group_edit_features')
             .eight.wide.column
                 .ui.header
                     small current monthly bill 
-                    |$#{group_monthly_bill}/month
+                    |$#{classroom_monthly_bill}/month
         .row
             .seven.wide.column
                 .ui.small.header enabled
@@ -404,13 +404,13 @@ template(name='feature')
                 .ui.fluid.large.button.disable_feature
                     i.toggle.on.icon
                     |disable
-            
 
 
 
 
 
-template(name='group_edit_feature')
+
+template(name='classroom_edit_feature')
     with current_feature
         .ui.header  
             if icon 
@@ -420,7 +420,7 @@ template(name='group_edit_feature')
 
 
 
-template(name='group_edit_files')
+template(name='classroom_edit_files')
     .ui.header file editing
     //- each file_links
     //- each mmm_files

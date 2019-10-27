@@ -1,30 +1,30 @@
-template(name='group_view_layout')
+template(name='classroom_view_layout')
     +nav
     with current_doc
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
-                    //- a.ui.fluid.button(href="/my_groups")
+                    //- a.ui.fluid.button(href="/my_classrooms")
                     //-     i.chevron.left.grey.icon
-                    //-     i.company.icon
-                    //-     //- +i name='group' classes='ui inline mini image'
-                    //-     |groups
+                    //-     i.school.icon
+                    //-     //- +i name='classroom' classes='ui inline mini image'
+                    //-     |classrooms
                     .ui.center.aligned.huge.header
                         | #{title}
-                    img.ui.centered.rounded.small.image(src="{{c.url group_image_id gravity='face' crop='fit'}}")
+                    img.ui.centered.rounded.small.image(src="{{c.url classroom_image_id gravity='face' crop='fit'}}")
                     .ui.large.fluid.vertical.pointing.menu
-                        a.item(href="/group/#{_id}/" class="{{isActiveRoute regex='group_members'}}")
+                        a.item(href="/classroom/#{_id}/" class="{{isActiveRoute regex='classroom_students'}}")
                             i.dashboard.grey.icon
                             | dashboard
                         each enabled_features
-                            a.item(href="/group/#{current_doc._id}/f/#{slug}")
+                            a.item(href="/classroom/#{current_doc._id}/f/#{slug}")
                                 |#{title}
                                 i.grey.icon(class=icon)
                     .ui.header
-                        small leader
-                        | #{leader_name}
+                        small teacher
+                        | #{teacher_name}
                     if can_edit
-                        a.ui.fluid.large.button(href="/group/#{_id}/edit/info")
+                        a.ui.fluid.large.button(href="/classroom/#{_id}/edit/info")
                             i.pencil.icon
                             | edit
                 .twelve.wide.column
@@ -33,48 +33,48 @@ template(name='group_view_layout')
 
 
 
-template(name='group_dashboard')
+template(name='classroom_dashboard')
     //- .ui.header
-    //-     img.ui.rounded.small.image(src="{{c.url group_image_id gravity='face' crop='fit'}}")
+    //-     img.ui.rounded.small.image(src="{{c.url classroom_image_id gravity='face' crop='fit'}}")
     //-     |#{title}
     .ui.stackable.grid
         .row
             .eight.wide.column
-                +group_info
-                +group_members_small
-                +group_votes
+                +classroom_info
+                +classroom_students_small
+                +classroom_votes
             .eight.wide.column
-                +group_feed
-    
-    
-template(name='group_members_small')   
+                +classroom_feed
+
+
+template(name='classroom_students_small')   
     .ui.segment 
         .ui.grey.header
             i.users.icon
-            | members
+            | students
         .ui.large.list
-            each group_members
+            each classroom_students
                 .item
                     img.ui.avatar.image(src="{{c.url profile_image_id height=200 width=200 gravity='face' crop='fill'}}")
                     .content
                         .header 
                             |#{name}
-    
-template(name='group_votes')   
+
+template(name='classroom_votes')   
     .ui.segment 
         +voting_full
-    
-template(name='group_info')
+
+template(name='classroom_info')
     .ui.segment 
         .ui.small.header 
             i.info.icon
             |info
         if description
             p #{description}
-        if leader_name
-            .ui.small.inline.header #{leader_name}
-        if company_name
-            .ui.small.inline.header #{company_name}
+        if teacher_name
+            .ui.small.inline.header #{teacher_name}
+        if school_name
+            .ui.small.inline.header #{school_name}
         if tags.length
             each tags
                 .ui.label #{this}
@@ -87,20 +87,20 @@ template(name='group_info')
             .item
                 each location_tags
                     |#{this}
-            
-template(name='group_loans')
+
+template(name='classroom_loans')
     .ui.header 
         i.money.icon
-        |group loans
+        |classroom loans
     +loans
 
 
 
-template(name='group_tasks')
-    +group_delta model='task' feature=this
+template(name='classroom_tasks')
+    +classroom_delta model='task' feature=this
 
 
-template(name='group_files')
+template(name='classroom_files')
     .ui.large.linked.list
         each classroom_files
             .item 
@@ -117,11 +117,11 @@ template(name='group_files')
     //- +big_link_view key='link7' label='link7' direct=true
 
 
-template(name='group_lunch')        
+template(name='classroom_lunch')        
     .ui.padded.stackable.grid
         .row
             .four.wide.column
-                .ui.center.aligned.large.button.back_to_group
+                .ui.center.aligned.large.button.back_to_classroom
                     i.chevron.left.icon
                     |#{current_doc.title}
             .eight.wide.column
@@ -130,7 +130,7 @@ template(name='group_lunch')
                     |lunch
             .four.wide.column
             .ui.four.stackable.cards
-                each group_members
+                each classroom_students
                     unless lunch_chosen
                         .ui.card
                             img.ui.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
@@ -150,23 +150,23 @@ template(name='group_lunch')
 
 
 
-template(name='group_credits')
+template(name='classroom_credits')
     .ui.header 
         i.money.icon
-        |group loans
+        |classroom loans
     +loans
 
-    
 
-template(name='group_members')
+
+template(name='classroom_students')
     //- .ui.header 
     //-     i.dashboard.grey.icon
-    //-     |group dashboard
+    //-     |classroom dashboard
     with current_doc
         .ui.styled.fluid.accordion 
             .title 
                 .ui.header
-                    | group actions
+                    | classroom actions
                     i.dropdown.icon
             .content
                 .ui.two.column.grid
@@ -197,7 +197,7 @@ template(name='group_members')
                         .ui.small.header 
                             i.calendar.grey.inline.icon
                             i.hand.point.up.outline.grey.inline.icon
-                            |weekly manual group actions
+                            |weekly manual classroom actions
                         //- .ui.button.pay_salary disperse weekly paycheck
                         //-     span.ui.green.text +#{salary_amount}
                         each weekly_manual_credits
@@ -210,15 +210,15 @@ template(name='group_members')
                         .ui.small.header
                             i.clock.grey.inline.icon
                             i.hand.point.up.outline.grey.inline.icon
-                            | daily manual group actions
-                        each daily_manual_group_credits
-                            .ui.button.credit_group(class=bulk_action_class) #{title}
+                            | daily manual classroom actions
+                        each daily_manual_classroom_credits
+                            .ui.button.credit_classroom(class=bulk_action_class) #{title}
                                 span.ui.green.text +#{amount}
-                        each daily_manual_group_debits
-                            .ui.button.debit_group(class=bulk_action_class) #{title}
+                        each daily_manual_classroom_debits
+                            .ui.button.debit_classroom(class=bulk_action_class) #{title}
                                 span.ui.red.text -#{amount}
     .ui.accordion
-        each group_members
+        each classroom_students
             .title
                 img.ui.avatar.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
                 .ui.inline.header
@@ -242,46 +242,46 @@ template(name='group_members')
                         .column
                             each individual_debit_types
                                 +individual_debit_button
-                
-                                        
+
+
 template(name='individual_credit_button')
-    .ui.button.credit_member 
+    .ui.button.credit_student 
         |#{title}
         span.ui.green.text
             |+#{amount}
-    
+
 template(name='individual_debit_button')
-    .ui.button.debit_member 
+    .ui.button.debit_student 
         |#{title}
         span.ui.red.text
             |-#{amount}
 
 
-    
-template(name='group_reports')
+
+template(name='classroom_reports')
     with current_doc
-        +group_stats
+        +classroom_stats
         .ui.stackable.padded.grid
             .row
                 //- .four.wide.column
-                //-     a.ui.big.button(href="/group/#{_id}/view" title='save')
+                //-     a.ui.big.button(href="/classroom/#{_id}/view" title='save')
                 //-         i.chevron.left.icon
-                //-         |group
+                //-         |classroom
                 //- .twelve.wide.column
                 //- .ui.large.header 
                 //-     i.line.chart.icon
-                //-     |member reports
+                //-     |student reports
                 table.ui.celled.very.basic.table
                     thead
                         tr
-                            th member
+                            th student
                             //- th week 1
                             //- th week 2
                             //- th week 3
                             //- th week 4
                             th credit
                     tbody
-                        each group_members
+                        each classroom_students
                             tr
                                 td 
                                     a.ui.header(href="/user/#{username}") 
@@ -306,7 +306,7 @@ template(name='group_reports')
 
 
 
-template(name='group_feed')
+template(name='classroom_feed')
     .ui.inline.header 
         +i name='rss'
         |feed
@@ -316,7 +316,7 @@ template(name='group_feed')
             |remove all events
     div
     .ui.feed.scrolling
-        each group_events
+        each classroom_events
             .event 
                 .label
                     img.ui.avatar.image(src="{{c.url target_user.profile_image_id height=100 gravity='face' crop='fill'}}")
@@ -343,15 +343,15 @@ template(name='group_feed')
 
 
 
-template(name='group_stats')
+template(name='classroom_stats')
     .ui.two.column.grid
         .column
-            .ui.header.refresh_group_stats
+            .ui.header.refresh_classroom_stats
                 //- +ismall name='line-chart'
                 i.line.chart.icon
                 |stats
             div
-            .ui.green.inline.header $#{gsd.group_balance}
+            .ui.green.inline.header $#{gsd.classroom_balance}
             | balance
             div
             .ui.green.inline.header $#{gsd.total_credit_amount}
@@ -362,15 +362,15 @@ template(name='group_stats')
         .column
             .ui.big.list
                 .item #{views} views
-                .item #{gsd.member_count} members
+                .item #{gsd.student_count} students
                 .item #{gsd.credit_count} total credits
                 .item #{gsd.debit_count} total debits
-                .item $#{gsd.average_credit_per_member} credit/member
-                .item $#{gsd.average_debit_per_member} debit/member
-        
+                .item $#{gsd.average_credit_per_student} credit/student
+                .item $#{gsd.average_debit_per_student} debit/student
 
 
-template(name='group_view_feature')
+
+template(name='classroom_view_feature')
     with current_feature
         .ui.header  
             if icon 

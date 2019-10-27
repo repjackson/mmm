@@ -1,68 +1,68 @@
 if Meteor.isClient
-    Router.route '/build_group/:doc_id', (->
+    Router.route '/build_classroom/:doc_id', (->
         @layout 'mlayout'
-        @render 'build_group_finance'
-        ), name:'build_group_home'
-    Router.route '/build_group/:doc_id/finance', (->
+        @render 'build_classroom_finance'
+        ), name:'build_classroom_home'
+    Router.route '/build_classroom/:doc_id/finance', (->
         @layout 'mlayout'
-        @render 'build_group_finance'
-        ), name:'build_group_finance'
-    Router.route '/build_group/:doc_id/info', (->
+        @render 'build_classroom_finance'
+        ), name:'build_classroom_finance'
+    Router.route '/build_classroom/:doc_id/info', (->
         @layout 'mlayout'
-        @render 'build_group_info'
-        ), name:'build_group_info'
-    Router.route '/build_group/:doc_id/members', (->
+        @render 'build_classroom_info'
+        ), name:'build_classroom_info'
+    Router.route '/build_classroom/:doc_id/students', (->
         @layout 'mlayout'
-        @render 'build_group_members'
-        ), name:'build_group_members'
+        @render 'build_classroom_students'
+        ), name:'build_classroom_students'
 
-    Template.build_group_info.onCreated ->
+    Template.build_classroom_info.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    Template.build_group_info.events
-    Template.build_group_info.helpers
+    Template.build_classroom_info.events
+    Template.build_classroom_info.helpers
 
-    Template.build_group_finance.onCreated ->
+    Template.build_classroom_finance.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-    Template.build_group_finance.events
-    Template.build_group_finance.helpers
+    Template.build_classroom_finance.events
+    Template.build_classroom_finance.helpers
 
-    Template.build_group_members.onCreated ->
+    Template.build_classroom_students.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'group_members_by_group_id', Router.current().params.doc_id
-    Template.build_group_members.events
+        @autorun => Meteor.subscribe 'classroom_students_by_classroom_id', Router.current().params.doc_id
+    Template.build_classroom_students.events
         'keyup #last_name': (e,t)->
             first_name = $('#first_name').val().trim()
             last_name = $('#last_name').val().trim()
             if e.which is 13
-                Meteor.call 'add_member', first_name, last_name, Router.current().params.doc_id, (err,res)=>
+                Meteor.call 'add_student', first_name, last_name, Router.current().params.doc_id, (err,res)=>
                     if err
                         alert err
                     else
                         $('#first_name').val('')
                         $('#last_name').val('')
-        'click .remove_member': ->
+        'click .remove_student': ->
             if confirm "remove #{first_name} #{last_name}?"
                 Meteor.users.remove @_id
 
 
-    Template.build_group_members.helpers
-        group_members: ->
+    Template.build_classroom_students.helpers
+        classroom_students: ->
             Meteor.users.find
-                roles:$in:['member']
-                group_id:Router.current().params.doc_id
+                roles:$in:['student']
+                classroom_id:Router.current().params.doc_id
 
 
 
 
 if Meteor.isServer
-    Meteor.publish 'group_members_by_group_id', (group_id)->
-        group = Docs.findOne group_id
+    Meteor.publish 'classroom_students_by_classroom_id', (classroom_id)->
+        classroom = Docs.findOne classroom_id
         Meteor.users.find
-            roles:$in:['member']
-            group_id:group_id
+            roles:$in:['student']
+            classroom_id:classroom_id
 
     Meteor.methods
-        add_member: (first_name, last_name, group_id)->
+        add_student: (first_name, last_name, classroom_id)->
             username = "#{first_name.toLowerCase()}_#{last_name.toLowerCase()}"
 
             options = {}
@@ -74,10 +74,10 @@ if Meteor.isServer
                     $set:
                         first_name: first_name
                         last_name: last_name
-                        group_id: group_id
+                        classroom_id: classroom_id
                         added_by_username: Meteor.user().username
                         added_by_user_id: Meteor.userId()
-                        roles: ['member']
+                        roles: ['student']
                 return res
             else
                 Throw.new Meteor.Error 'err creating user'

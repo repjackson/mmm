@@ -248,7 +248,7 @@ if Meteor.isClient
 
                 # minute_difference = diff/1000/60
                 # if minute_difference>60
-                    # Meteor.users.update(member._id,{$set:healthclub_checkedin:false})
+                    # Meteor.users.update(student._id,{$set:healthclub_checkedin:false})
 
 
 
@@ -461,7 +461,7 @@ if Meteor.isServer
     Meteor.publish 'rules_signed_username', (username)->
         Docs.find
             model:'rules_and_regs_signing'
-            member:username
+            student:username
             # agree:true
 
     Meteor.publish 'type', (type)->
@@ -471,7 +471,7 @@ if Meteor.isServer
     Meteor.publish 'user_guidelines_username', (username)->
         Docs.find
             model:'user_guidelines_signing'
-            # member:username
+            # student:username
             # agree:true
 
     Meteor.publish 'guests', ()->

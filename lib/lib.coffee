@@ -1,15 +1,15 @@
 @Docs = new Meteor.Collection 'docs'
 @Tags = new Meteor.Collection 'tags'
-@Company_tags = new Meteor.Collection 'company_tags'
+@School_tags = new Meteor.Collection 'school_tags'
 
 @Rental_tags = new Meteor.Collection 'rental_tags'
-@Group_tags = new Meteor.Collection 'group_tags'
+@Classroom_tags = new Meteor.Collection 'classroom_tags'
 @Shop_tags = new Meteor.Collection 'shop_tags'
-@Group_location_tags = new Meteor.Collection 'group_location_tags'
+@classroom_location_tags = new Meteor.Collection 'classroom_location_tags'
 @Question_tags = new Meteor.Collection 'question_tags'
 @Test_tags = new Meteor.Collection 'test_tags'
 @User_section_tags = new Meteor.Collection 'user_section_tags'
-@Company_section_tags = new Meteor.Collection 'company_section_tags'
+@School_section_tags = new Meteor.Collection 'school_section_tags'
 
 
 Docs.before.insert (userId, doc)->
@@ -108,12 +108,12 @@ Meteor.users.helpers
             "#{@first_name} #{@last_name}"
         else
             "#{@username}"
-    is_current_member: ->
+    is_current_student: ->
         if @roles
             if 'admin' in @roles
-                if 'member' in @current_roles then true else false
+                if 'student' in @current_roles then true else false
             else
-                if 'member' in @roles then true else false
+                if 'student' in @roles then true else false
 
     email_address: -> if @emails and @emails[0] then @emails[0].address
     email_verified: -> if @emails and @emails[0] then @emails[0].verified

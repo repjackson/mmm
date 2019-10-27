@@ -1,6 +1,6 @@
-template(name='group_delta')
+template(name='classroom_delta')
     .ui.stackable.padded.grid
-        with current_group_model
+        with current_classroom_model
             .row
                 .five.wide.column
                     if is_loading
@@ -25,13 +25,13 @@ template(name='group_delta')
                         // // each sessions
                         // //     .ui.icon.button.select_session(class=session_selector_class title='select session')
                         // //         i.play.icon
-                        if current_group_delta
+                        if current_classroom_delta
                             if is_dev
                                 i.refresh.circular.link.reset.icon(title='reload session')
                                 i.circular.code.link.icon.print_delta(title='print session doc')
                                 i.circular.trash.delete_delta.icon(title='delete session')
                         else
-                            .create_group_delta.ui.large.button(title='new session')
+                            .create_classroom_delta.ui.large.button(title='new session')
                                 i.plus.icon
                                 |session
                         //- if is_dev
@@ -121,13 +121,13 @@ template(name='group_delta')
             //-     .sixteen.wide.column
             //-         if model_stats_exists
             //-             +Template.dynamic template=model_stats
-    
+
                     //- .ui.header calculations
                     //- .ui.button rerun calculations
-        unless current_group_model
-            .ui.big.button.create_model create group model
-                
-template(name='group_delta_table')
+        unless current_classroom_model
+            .ui.big.button.create_model create classroom model
+
+template(name='classroom_delta_table')
     .ui.table
         thead
             each fields
@@ -138,22 +138,22 @@ template(name='group_delta_table')
                     each fields
                         td
                             |#{field_value}   
-                            
-                            
-template(name='group_delta_list')
+
+
+template(name='classroom_delta_list')
     each current_delta.result_ids
         //- .column
         +delta_result
-                        
-template(name='group_delta_card')
+
+template(name='classroom_delta_card')
     each current_delta.result_ids
         //- .column
         +delta_result
-                    
-                        
-                
-                
-                
+
+
+
+
+
 //- template(name='set_limit')
 //-     .item.set_limit #{amount}
 //- 
@@ -195,7 +195,7 @@ template(name='group_delta_card')
 //-         //- .ui.hidden.divider
 
 
-template(name='group_delta_result')
+template(name='classroom_delta_result')
     with result 
         if template_exists
             +Template.dynamic template=model_template
@@ -232,5 +232,3 @@ template(name='group_delta_result')
                         //- +comments
                     if is_dev
                         +remove_button
-            
-                    

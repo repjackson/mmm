@@ -1,20 +1,20 @@
-template(name='groups')
+template(name='classrooms')
     .ui.stackable.padded.grid
         .row
             .four.wide.column
                 .ui.inline.header 
                     i.users.icon
-                    |groups
+                    |classrooms
                 if currentUser
-                    .ui.icon.button.add_group(title='add group')
+                    .ui.icon.button.add_classroom(title='add classroom')
                         //- +i name='plus' classes='ui mini inline image'
                         i.green.large.plus.icon
-                        //- |add group
+                        //- |add classroom
                 if currentUser
                     .ui.button mine
                     .ui.button all
                 div
-                +group_cloud
+                +classroom_cloud
             .twelve.wide.column
                 .filter_row.ui.basic.segment(class=loading_class)
                     .ui.inline.small.grey.header
@@ -52,34 +52,34 @@ template(name='groups')
                                 +set_limit amount=20
                                 +set_limit amount=50
 
-                each groups
-                    +group_card_template
+                each classrooms
+                    +classroom_card_template
 
-template(name='group_cloud')
+template(name='classroom_cloud')
     .ui.inline.small.grey.header 
         i.tags.icon
         |tags    
-    if selected_group_tags
-        #clear_group_tags.ui.active.icon.circular.button
+    if selected_classroom_tags
+        #clear_classroom_tags.ui.active.icon.circular.button
             i.remove.icon
-        each selected_group_tags
-            .unselect_group_tag.ui.active.circular.button
+        each selected_classroom_tags
+            .unselect_classroom_tag.ui.active.circular.button
                 strong #{this}
-    each all_group_tags
-        .ui.compact.circular.button.select_group_tag(class=cloud_tag_class) 
+    each all_classroom_tags
+        .ui.compact.circular.button.select_classroom_tag(class=cloud_tag_class) 
             strong #{this.name}
     .spacer
     .ui.inline.small.grey.header 
         i.marker.icon
         |location    
-    if selected_group_location_tags
-        #clear_group_location_tags.ui.active.icon.circular.button
+    if selected_classroom_location_tags
+        #clear_classroom_location_tags.ui.active.icon.circular.button
             i.remove.icon
-        each selected_group_location_tags
-            .unselect_group_location_tag.ui.active.circular.button
+        each selected_classroom_location_tags
+            .unselect_classroom_location_tag.ui.active.circular.button
                 strong #{this}
-    each all_group_location_tags
-        .ui.compact.circular.button.select_group_location_tag(class=cloud_tag_class) 
+    each all_classroom_location_tags
+        .ui.compact.circular.button.select_classroom_location_tag(class=cloud_tag_class) 
             strong #{this.name}
 
 
@@ -87,19 +87,19 @@ template(name='group_cloud')
 
 
 
-template(name='group_card_template')
+template(name='classroom_card_template')
     .ui.segment.stackable.grid
         .four.wide.column
-            a(href="/group/#{_id}")
-                img.ui.tiny.image(src="{{c.url group_image_id crop='lpad'}}")
+            a(href="/classroom/#{_id}")
+                img.ui.tiny.image(src="{{c.url classroom_image_id crop='lpad'}}")
         .twelve.wide.column
-            a.ui.header(href="/group/#{_id}" title='balance') #{title} #{company_name}
+            a.ui.header(href="/classroom/#{_id}" title='balance') #{title} #{school_name}
             .content
             each tags
                 .ui.label #{this}
-            .ui.green.inline.header $#{gsd.group_balance}
+            .ui.green.inline.header $#{gsd.classroom_balance}
             .ui.green.inline.small.header(title='income') ($#{gsd.total_credit_amount}
             .ui.red.inline.small.header(title='expenses') / -$#{gsd.total_debit_amount})
-            a.ui.header(href="/group/#{_id}")
+            a.ui.header(href="/classroom/#{_id}")
                 |view 
                 i.right.chevron.icon

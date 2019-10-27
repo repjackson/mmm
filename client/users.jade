@@ -1,13 +1,13 @@
-template(name='members') 
+template(name='students') 
     .ui.left.icon.fluid.input
         i.search.icon
-        input.username_search(type='text' placeholder='lookup member' autofocus='autofocus')
+        input.username_search(type='text' placeholder='lookup student' autofocus='autofocus')
     .ui.hidden.divider
     .ui.centered.five.stackable.cards
-        each members
-            +member
+        each students
+            +student
             
-template(name='member')                
+template(name='student')                
     .ui.card
         .image
             //- a(href="/user/#{username}/")
@@ -17,7 +17,7 @@ template(name='member')
             else if image_id
                 img.ui.image(src="{{c.url image_id width=400 height=400 crop='fit'}}")
         .content
-            a(href="/member/#{username}/")
+            a(href="/student/#{username}/")
                 h2.ui.center.aligned.header #{name} 
                 .ui.small.header @#{username}
             each five_tags
@@ -60,7 +60,7 @@ template(name='users')
         .row
             .sixteen.wide.column
                 //- .ui.center.aligned.header 
-                //-     +i name='groups'
+                //-     +i name='classrooms'
                 //-     //- i.users.icon
                 //-     |users
                 .ui.left.icon.fluid.input

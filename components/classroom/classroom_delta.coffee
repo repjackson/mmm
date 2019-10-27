@@ -1,41 +1,41 @@
 if Meteor.isClient
-    Template.group_delta.onCreated ->
+    Template.classroom_delta.onCreated ->
         console.log @data
         @autorun => Meteor.subscribe 'model_from_slug', @data.model
         @autorun => Meteor.subscribe 'model_fields', @data.model
-        @autorun => Meteor.subscribe 'my_group_delta', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'my_classroom_delta', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'my_delta'
         Session.set 'loading', true
         Meteor.call 'set_facets', Template.currentData().model, ->
             Session.set 'loading', false
-    # Template.group_delta.onRendered ->
+    # Template.classroom_delta.onRendered ->
     #     Meteor.call 'increment_view', @_id, ->
 
-    Template.group_delta.helpers
-        current_group_model: ->
+    Template.classroom_delta.helpers
+        current_classroom_model: ->
             Docs.findOne
                 model:'model'
                 slug: Template.currentData().model
 
-        current_group_delta: ->
-            Docs.findOne model:'group_delta'
+        current_classroom_delta: ->
+            Docs.findOne model:'classroom_delta'
 
         sorting_up: ->
-            delta = Docs.findOne model:'group_delta'
+            delta = Docs.findOne model:'classroom_delta'
             if delta
                 if delta.sort_direction is 1 then true
 
         selected_tags: -> selected_tags.list()
         view_mode_template: ->
             # console.log @
-            delta = Docs.findOne model:'group_delta'
+            delta = Docs.findOne model:'classroom_delta'
             if delta
                 "delta_#{delta.view_mode}"
 
         sorted_facets: ->
             current_delta =
                 Docs.findOne
-                    model:'group_delta'
+                    model:'classroom_delta'
             if current_delta
                 # console.log _.sortBy current_delta.facets,'rank'
                 _.sortBy current_delta.facets,'rank'
@@ -45,7 +45,7 @@ if Meteor.isClient
             if 0 < doc_count < 3 then Tags.find { count: $lt: doc_count } else Tags.find()
 
         single_doc: ->
-            delta = Docs.findOne model:'group_delta'
+            delta = Docs.findOne model:'classroom_delta'
             count = delta.result_ids.length
             if count is 1 then true else false
 
@@ -60,7 +60,7 @@ if Meteor.isClient
             "#{current_model}_stats"
 
 
-    Template.group_delta.events
+    Template.classroom_delta.events
         'click .create_model': ->
             new_model_id = Docs.insert
                 model:'model'
@@ -71,7 +71,7 @@ if Meteor.isClient
 
         'click .set_sort_key': ->
             # console.log @
-            delta = Docs.findOne model:'group_delta'
+            delta = Docs.findOne model:'classroom_delta'
             Docs.update delta._id,
                 $set:sort_key:@key
             Session.set 'loading', true
@@ -82,7 +82,7 @@ if Meteor.isClient
             # console.log @
             $(e.currentTarget).closest('.button').transition('pulse', 500)
 
-            delta = Docs.findOne model:'group_delta'
+            delta = Docs.findOne model:'classroom_delta'
             if delta.sort_direction is -1
                 Docs.update delta._id,
                     $set:sort_direction:1
@@ -93,12 +93,12 @@ if Meteor.isClient
             Meteor.call 'fum', delta._id, ->
                 Session.set 'loading', false
 
-        'click .create_group_delta': (e,t)->
+        'click .create_classroom_delta': (e,t)->
             console.log Template.currentData().model
             Docs.insert
-                model:'group_delta'
+                model:'classroom_delta'
                 model_filter: Template.currentData().model
-                group_id: Router.current().params.doc_id
+                classroom_id: Router.current().params.doc_id
 
 
         'keyup .import_subreddit': (e,t)->
@@ -109,7 +109,7 @@ if Meteor.isClient
 
 
         'click .print_delta': (e,t)->
-            delta = Docs.findOne model:'group_delta'
+            delta = Docs.findOne model:'classroom_delta'
             console.log delta
 
         'click .reset': ->
@@ -119,7 +119,7 @@ if Meteor.isClient
                 Session.set 'loading', false
 
         'click .delete_delta': (e,t)->
-            delta = Docs.findOne model:'group_delta'
+            delta = Docs.findOne model:'classroom_delta'
             if delta
                 if confirm "delete  #{delta._id}?"
                     Docs.remove delta._id
@@ -165,7 +165,7 @@ if Meteor.isClient
             Router.go "/model/edit/#{model._id}"
 
         # 'click .page_up': (e,t)->
-        #     delta = Docs.findOne model:'group_delta'
+        #     delta = Docs.findOne model:'classroom_delta'
         #     Docs.update delta._id,
         #         $inc: current_page:1
         #     Session.set 'is_calculating', true
@@ -175,7 +175,7 @@ if Meteor.isClient
         #             Session.set 'is_calculating', false
         #
         # 'click .page_down': (e,t)->
-        #     delta = Docs.findOne model:'group_delta'
+        #     delta = Docs.findOne model:'classroom_delta'
         #     Docs.update delta._id,
         #         $inc: current_page:-1
         #     Session.set 'is_calculating', true
@@ -204,7 +204,7 @@ if Meteor.isClient
     # Template.set_limit.events
     #     'click .set_limit': ->
     #         # console.log @
-    #         delta = Docs.findOne model:'group_delta'
+    #         delta = Docs.findOne model:'classroom_delta'
     #         Docs.update delta._id,
     #             $set:limit:@amount
     #         Session.set 'loading', true
@@ -214,7 +214,7 @@ if Meteor.isClient
     # Template.set_view_mode.events
     #     'click .set_view_mode': ->
     #         console.log @
-    #         delta = Docs.findOne model:'group_delta'
+    #         delta = Docs.findOne model:'classroom_delta'
     #         Docs.update delta._id,
     #             $set:view_mode:@title
     #         Session.set 'loading', true
@@ -235,7 +235,7 @@ if Meteor.isClient
     #     #     $('.accordion').accordion()
     #
     #     'click .toggle_selection': ->
-    #         delta = Docs.findOne model:'group_delta'
+    #         delta = Docs.findOne model:'classroom_delta'
     #         facet = Template.currentData()
     #
     #         Session.set 'loading', true
@@ -249,7 +249,7 @@ if Meteor.isClient
     #     'keyup .add_filter': (e,t)->
     #         # console.log @
     #         if e.which is 13
-    #             delta = Docs.findOne model:'group_delta'
+    #             delta = Docs.findOne model:'classroom_delta'
     #             facet = Template.currentData()
     #             if @field_type is 'number'
     #                 filter = parseInt t.$('.add_filter').val()
@@ -265,7 +265,7 @@ if Meteor.isClient
     #
     # Template.facet.helpers
     #     filtering_res: ->
-    #         delta = Docs.findOne model:'group_delta'
+    #         delta = Docs.findOne model:'classroom_delta'
     #         filtering_res = []
     #         if @key is '_keys'
     #             @res
@@ -278,22 +278,22 @@ if Meteor.isClient
     #             filtering_res
     #     toggle_value_class: ->
     #         facet = Template.parentData()
-    #         delta = Docs.findOne model:'group_delta'
+    #         delta = Docs.findOne model:'classroom_delta'
     #         if Session.equals 'loading', true
     #              'disabled'
     #         else if facet.filters.length > 0 and @name in facet.filters
     #             'active'
     #         else ''
 
-    Template.group_delta_result.onRendered ->
+    Template.classroom_delta_result.onRendered ->
         # Meteor.setTimeout ->
         #     $('.progress').popup()
         # , 2000
-    Template.group_delta_result.onCreated ->
+    Template.classroom_delta_result.onCreated ->
         @autorun => Meteor.subscribe 'doc', @data._id
         @autorun => Meteor.subscribe 'user_from_id', @data._id
 
-    Template.group_delta_result.helpers
+    Template.classroom_delta_result.helpers
         template_exists: ->
             current_model = Template.currentData().model
             if Template["#{current_model}_card_template"]
@@ -309,7 +309,7 @@ if Meteor.isClient
 
         toggle_value_class: ->
             facet = Template.parentData()
-            delta = Docs.findOne model:'group_delta'
+            delta = Docs.findOne model:'classroom_delta'
             if Session.equals 'loading', true
                  'disabled'
             else if facet.filters.length > 0 and @name in facet.filters
@@ -329,7 +329,7 @@ if Meteor.isClient
                 # console.log 'user'
                 Meteor.users.findOne @_id
 
-    Template.group_delta_result.events
+    Template.classroom_delta_result.events
         'click .result': ->
             # console.log @
             model_slug =  Template.currentData().model
@@ -343,8 +343,8 @@ if Meteor.isClient
             #         $inc: views: 1
             if @model is 'model'
                 Router.go "/m/#{@slug}"
-            else if @model is 'group'
-                Router.go "/group/#{@_id}"
+            else if @model is 'classroom'
+                Router.go "/classroom/#{@_id}"
             else
                 Router.go "/m/#{model_slug}/#{@_id}/view"
 
@@ -355,7 +355,7 @@ if Meteor.isClient
             Session.set 'loading', true
             Meteor.call 'set_facets', @slug, ->
                 Session.set 'loading', false
-            # delta = Docs.findOne model:'group_delta'
+            # delta = Docs.findOne model:'classroom_delta'
             # Docs.update delta._id,
             #     $set:model_filter:@slug
             #
@@ -364,7 +364,7 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'group_model_from_slug', (model_slug)->
+    Meteor.publish 'classroom_model_from_slug', (model_slug)->
         # if model_slug in ['model','brick','field','tribe','block','page']
         #     Docs.find
         #         model:'model'
@@ -378,14 +378,14 @@ if Meteor.isServer
         Docs.find match
 
 
-    Meteor.publish 'my_group_delta', (group_id)->
+    Meteor.publish 'my_classroom_delta', (classroom_id)->
         if Meteor.userId()
             Docs.find
                 _author_id:Meteor.userId()
-                model:'group_delta'
-                group_id: group_id
+                model:'classroom_delta'
+                classroom_id: classroom_id
         else
             Docs.find
                 _author_id:null
-                model:'group_delta'
-                group_id: group_id
+                model:'classroom_delta'
+                classroom_id: classroom_id

@@ -1,0 +1,191 @@
+//- template(name='users_layout')
+//-     +user_nav
+//-     +yield
+//-     +user_footer
+//- 
+//- 
+//- 
+//- template(name='user_nav')
+//-     .ui.attached.borderless.user_nav.inverted.blue.menu
+//-         if is_loading
+//-             .item
+//-                 i.big.loading.notched.circle.icon
+//- 
+//-         //- a.item(href='/grid' class="{{isActivePath '/grid'}}")
+//-         //-     i.th.large.icon
+//-         //- a.item(href='/m/classroom' class="{{isActivePath '/m/classroom'}}")
+//-         //-     i.clone.icon
+//-         //-     |classrooms
+//-         a.item(href='/classrooms' class="{{isActivePath '/classrooms'}}")
+//-             i.clone.icon
+//-             |classrooms
+//-         //- a.item(href='/schools' title='schools')
+//-         //-     +ismall name='school'
+//-         //-     span.mobile.hidden &nbsp; schools
+//-         //- each my_classrooms
+//-         //-     a.item(href="/classroom/#{_id}")
+//-         //-         img.ui.avatar.image(src="{{c.url classroom_image_id width=200 height=200 crop='fit'}}")
+//-         //-         span.mobile.hidden &nbsp; #{title}
+//-         //- a.item(href='/tests' title='tests')
+//-         //-     +ismall name='test-passed'
+//-         //-     span.mobile.hidden &nbsp; tests
+//-         //- a.item(href='/questions' title='questions')
+//-         //-     +ismall name='faq'
+//-         //-     span.mobile.hidden &nbsp; questions
+//-         //- a.item(href='/bounties' title='bounties')
+//-         //-     +ismall name='treasure-chest'
+//-         //-     span.mobile.hidden &nbsp; bounties
+//-         //- a.item(href='/teachers' title='teachers')
+//-         //-     +ismall name='teacher'
+//-         //-     //- |teachers
+//-         //- a.item(href='/students' title='students') 
+//-         //-     +ismall name='students'
+//-         //-     span.mobile.hidden &nbsp; students
+//-         //- a.item(href='/schools' title='schools') 
+//-         //-     +ismall name='school'
+//-         //-     schools
+//-         //- a.item.set_reference(href='/m/reference')
+//-         //-     i.book.icon
+//-         //-     span.mobile.hidden &nbsp; reference
+//-         .right.menu
+//-             unless currentUser
+//-                 a.item(href='/login') log In
+//-                 a.item(href='/choose_persona') register
+//- 
+//-             if currentUser
+//-                 //- a.icon.item(href="/tasks" class="{{isActivePath '/tasks'}}")
+//-                 //-     i.tasks.icon
+//-                 //- a.icon.item(href="/chat" class="{{isActivePath '/chat'}}")
+//-                 //-     i.chat.outline.large.icon
+//-                 //- a.icon.item(href="/alerts" class="{{isActivePath '/alerts'}}")
+//-                 //-     i.bell.outline.large.icon
+//-                 //- a.icon.item(href="/mail" class="{{isActivePath '/mail'}}")
+//-                 //-     i.envelope.outline.large.icon
+//-                 if is_dev
+//-                     a.icon.item.set_models(href="/m/model")
+//-                         i.large.grey.database.icon
+//-                 a.item(href="/teacher/#{currentUser.username}" class=user_nav_button_class title=user_nav_button_title)
+//-                     if currentUser.profile_image_id
+//-                         img.ui.avatar.inline.image(src="{{c.url currentUser.profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
+//-                     else
+//-                         +ismall name='user-male'
+//-                     span.mobile.hidden #{currentUser.name} #{currentUser.credit}
+//-                 unless logging_out
+//-                     a#logout.item(href='#' title='log out')
+//-                         i.sign.out.icon
+//-                 if logging_out
+//-                     .item
+//-                         i.loading.circle.notch.icon
+//- 
+//- 
+//- 
+//- template(name='user_footer')
+//-     .ui.stackable.padded.grid.secondary.segment
+//-         .row
+//-             .three.wide.column
+//-                 //- .ui.link.big.list
+//-                 //-     a.item.set_reference(href='/m/reference')
+//-                 //-         i.book.icon
+//-                 //-         |reference
+//-                 //-     a.item.set_tool(href='/m/tool')
+//-                 //-         i.calculator.icon
+//-                 //-         |tools
+//- 
+//-             .four.wide.column
+//-                 .ui.link.big.list
+//-                     //- a.item(href='/m/blog') 
+//-                     //-     i.blog.icon
+//-                     //-     |blog
+//-                     //- a.item(href='/p/about')
+//-                     //-     i.info.icon
+//-                     //-     |about
+//-                     a.item(href='/contact')
+//-                         i.phone.icon
+//-                         | teacher support
+//-                 //- +add_button label='bug' model='bug' icon='bug'
+//-                 if is_dev    
+//-                     with current_user
+//-                         +role_switcher
+//-             .seven.wide.column
+//-                 unless currentUser
+//-                     a.ui.big.button(href='/login')
+//-                         i.sign.in.icon
+//-                         |login
+//-                 +footer_chat
+//-                 if is_admin
+//-                     with currentUser
+//-                         +role_switcher
+//- 
+//- 
+//- 
+//- 
+//- 
+//- template(name='user_footer_chat')
+//-     .ui.grey.header 
+//-         +i name='chat' classes='ui inline mini image'
+//-         |chat
+//-     .ui.list.scroll
+//-         each chat_messages
+//-             .item(title="by #{author.name} #{when}")
+//-                 if author
+//-                     img.ui.avatar.image(src="{{c.url author.kiosk_photo width=200 height=200 gravity='face' crop='fill'}}")
+//-                 |#{text}
+//-                 //- small #{when}
+//-                 if is_author
+//-                     span
+//-                         i.remove.link.icon.remove_message
+//-     .ui.bottom.attached.fluid.icon.large.input
+//-         i.plus.blue.icon
+//-         input.new_footer_chat_message(type='text' placeholder='add message')
+//- 
+//- 
+//- 
+//- //- 
+//- //- 
+//- //- template(name='my_latest_activity')
+//- //-     .ui.grey.header 
+//- //-         //- i.grey.rss.icon
+//- //-         +ismall name='rss'
+//- //-         |your activity
+//- //-     .ui.list
+//- //-         each my_latest_activity
+//- //-             .item 
+//- //-                 img.ui.avatar.image(src="{{c.url author.kiosk_photo width=200 height=200 gravity='face' crop='fill'}}")
+//- //-                 |#{text} #{body}
+//- //-                 small #{when}
+//- //- 
+//- //- 
+//- //- template(name='latest_activity')
+//- //-     .ui.grey.header 
+//- //-         //- i.grey.rss.icon
+//- //-         +ismall name='rss'
+//- //-         |all activity
+//- //-     .ui.list
+//- //-         each latest_activity
+//- //-             .item 
+//- //-                 img.ui.avatar.image(src="{{c.url author.kiosk_photo width=200 height=200 gravity='face' crop='fill'}}")
+//- //-                 |#{text} #{body} 
+//- //-                 .ui.basic.label #{log_type}
+//- //-                 small #{when}
+//- //- 
+//- //- 
+//- //- template(name='role_switcher')
+//- //-     .ui.inline.center.aligned.small.header 
+//- //-         |#{username} role switcher
+//- //-     //- if is_eric
+//- //-     //-     +multi_doc key='roles' label='roles' ref_model='role' direct=true
+//- //-     //-     div
+//- //-         //- +user_array_element_toggle key='roles' value='dev' user=currentUser
+//- //-     //- if current_user
+//- //-     //-     with current_user
+//- //-     //- else if currentUser
+//- //-     //-     with currentUser
+//- //-     //- +multi_doc_edit key='roles' label='roles' ref_model='role' direct=true
+//- //-     //- if is_admin
+//- //-         //- +multi_doc_edit key='current_roles' label='current roles' ref_model='role' direct=true
+//- //-     //- +user_array_element_toggle key='current_roles' value='admin' user=currentUser
+//- //-     //- +user_array_element_toggle key='current_roles' value='student' user=currentUser
+//- //-     //- +user_array_element_toggle key='current_roles' value='staff' user=currentUser
+//- //-     +user_array_element_toggle key='roles' value='student' user=currentUser
+//- //-     +user_array_element_toggle key='roles' value='teacher' user=currentUser
+//- //-     +user_array_element_toggle key='roles' value='parent' user=currentUser

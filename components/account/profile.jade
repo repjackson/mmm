@@ -52,14 +52,14 @@ template(name='profile_layout')
                                 //-     //- i.globe.icon
                                 //-     +ismall name='globe' 
                                 //-     |log out other clients
-                            .ui.header groups
+                            .ui.header classrooms
                             .ui.large.fluid.vertical.menu
                                 a.item.select_all
                                     |all 
-                                each member_groups
+                                each student_classrooms
                                     a.ui.item
                                         |#{title}
-                                        a.ui.icon.button(href="/group/#{_id}" title='goto group')
+                                        a.ui.icon.button(href="/classroom/#{_id}" title='goto classroom')
                                             i.external.icon
                             if is_admin
                                 .ui.basic.segment
@@ -105,12 +105,12 @@ template(name='user_dashboard')
                 +user_actions
         .row
             .sixteen.wide.column
-                .ui.inline.header.recalc_member_stats
+                .ui.inline.header.recalc_student_stats
                     +i name='dashboard'
                     |#{current_user.name}'s dashboard
                 .ui.inline.small.grey.header current balance $#{current_user.credit}
-    if user_is_member
-        +member_dashboard
+    if user_is_student
+        +student_dashboard
         
         
         
@@ -146,7 +146,7 @@ template(name='user_actions')
         
         
         
-template(name='member_dashboard')  
+template(name='student_dashboard')  
     .ui.grid      
         .three.column.row
             .column

@@ -1,10 +1,10 @@
-template(name='add_member')
+template(name='add_student')
     .ui.stackable.padded.grid
         .centered.row
             .eight.wide.column
                 h1.ui.center.aligned.header
                     i.plus.icon
-                    | member
+                    | student
                 .ui.big.form
                     .field
                         input#first_name(type='text' placeholder='first name' autocomplete='off')
@@ -14,5 +14,5 @@ template(name='add_member')
                     //-     |Username
                     //-     input#username(type='text')
                 if permission
-                    .ui.fluid.green.big.button.create_member
-                        |create member
+                    .ui.fluid.green.big.button.create_student
+                        |create student

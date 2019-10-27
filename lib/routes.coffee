@@ -22,18 +22,18 @@ Router.onBeforeAction(force_loggedin, {
     'team'
     'questions'
     'tests'
-    'groups'
+    'classrooms'
     'choose_persona'
-    'new_leader'
-    'new_member'
+    'new_teacher'
+    'new_student'
     'new_business'
-    'group_view'
+    'classroom_view'
     'contact'
-    'company_view'
+    'school_view'
     'parents'
     'donate'
-    'leaders'
-    'companys'
+    'teachers'
+    'schools'
     'donors'
     'forgot_password'
     'reset_password'
@@ -85,10 +85,10 @@ Router.route '/verification_confirmation', -> @render 'verification_confirmation
 Router.route '*', -> @render 'not_found'
 
 # Router.route '/user/:username/m/:type', -> @render 'profile_layout', 'user_section'
-Router.route '/add_member', (->
+Router.route '/add_student', (->
     @layout 'layout'
-    @render 'add_member'
-    ), name:'add_member'
+    @render 'add_student'
+    ), name:'add_student'
 
 Router.route '/forgot_password', -> @render 'forgot_password'
 
@@ -106,7 +106,7 @@ Router.route '/download_rules_pdf/:username', (->
     ), name: 'download_rules_pdf'
 
 
-# Router.route '/', -> @redirect '/m/group'
+# Router.route '/', -> @redirect '/m/classroom'
 # Router.route '/', -> @redirect "/user/#{Meteor.user().username}"
 # Router.route '/', -> @render 'home'
 Router.route '/', (->

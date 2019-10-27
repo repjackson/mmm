@@ -3,11 +3,11 @@
 # PrettyEmail.options =
 #   from: 'admin@henry-health.com'
 #   logoUrl: 'https://henry-health.com/wp-content/uploads/2018/05/xHenryHealth-LogoREV_clr.png.pagespeed.ic.BMtMqydFa0.png'
-#   companyName: 'Henry Health'
-#   companyUrl: 'http://henry-health.com'
-#   companyAddress: '2231 Crystal Drive, Suite 1000, Arlington, VA, 22202'
-#   companyTelephone: '+2023503372'
-#   companyEmail: 'admin@henry-health.com'
+#   schoolName: 'Henry Health'
+#   schoolUrl: 'http://henry-health.com'
+#   schoolAddress: '2231 Crystal Drive, Suite 1000, Arlington, VA, 22202'
+#   schoolTelephone: '+2023503372'
+#   schoolEmail: 'admin@henry-health.com'
 #   siteName: 'Henry Health'
 
 

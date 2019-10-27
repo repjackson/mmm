@@ -1,17 +1,17 @@
 if Meteor.isClient
-    Router.route '/build_group', (->
+    Router.route '/build_classroom', (->
         @layout 'mlayout'
-        @render 'build_group'
-        ), name:'build_group'
+        @render 'build_classroom'
+        ), name:'build_classroom'
 
-    Template.build_group.onCreated ->
+    Template.build_classroom.onCreated ->
         Session.set 'username', null
 
-    Template.build_group.events
-        'click .build_group': (e,t)->
-            new_group_id = Docs.insert
-                model:'group'
-                leader_id: Meteor.userId()
+    Template.build_classroom.events
+        'click .build_classroom': (e,t)->
+            new_classroom_id = Docs.insert
+                model:'classroom'
+                teacher_id: Meteor.userId()
                 salary_amount:100
                 bonus_amount:1
                 overtime_amount:3
@@ -21,10 +21,10 @@ if Meteor.isClient
                 janitor_extra_amount:2
                 lunch_base_amount:3
                 lunch_extra_amount:2
-            Router.go "/build_group/#{new_group_id}/info"
+            Router.go "/build_classroom/#{new_classroom_id}/info"
 
 
-    Template.build_group.helpers
+    Template.build_classroom.helpers
         username: -> Session.get 'username'
         registering: -> Session.equals 'enter_mode', 'register'
         enter_class: -> if Meteor.loggingIn() then 'loading disabled' else ''

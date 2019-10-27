@@ -5,7 +5,7 @@ Meteor.users.allow
         #     true
     remove: (user_id, doc, fields, modifier) ->
         user = Meteor.users.findOne user_id
-        if user_id and 'leader' in user.roles
+        if user_id and 'teacher' in user.roles
             true
         # if userId and doc._id == userId
         #     true
@@ -28,11 +28,11 @@ Cloudinary.config
 
 
 SyncedCron.add({
-        name: 'check out members'
+        name: 'check out students'
         schedule: (parser) ->
             parser.text 'every 2 hours'
         job: ->
-            Meteor.call 'checkout_members', (err, res)->
+            Meteor.call 'checkout_students', (err, res)->
     },{
         name: 'check leases'
         schedule: (parser) ->
@@ -80,10 +80,10 @@ Meteor.publish 'child_docs', (doc_id)->
     Docs.find
         parent_id:doc_id
 
-Meteor.publish 'all_group_docs', (doc_id)->
-    console.log 'running group docs', doc_id
+Meteor.publish 'all_classroom_docs', (doc_id)->
+    console.log 'running classroom docs', doc_id
     Docs.find
-        group_id:doc_id
+        classroom_id:doc_id
 
 
 Meteor.publish 'facet_doc', (tags)->
@@ -136,14 +136,14 @@ Meteor.publish 'checkin_guests', (doc_id)->
         _id:$in:session_document.guest_ids
 
 
-Meteor.publish 'member', (guest_id)->
+Meteor.publish 'student', (guest_id)->
     guest = Docs.findOne guest_id
     Meteor.users.find
-        _id:guest.member_id
+        _id:guest.student_id
 
 
 
-Meteor.publish 'health_club_members', (username_query)->
+Meteor.publish 'health_club_students', (username_query)->
     existing_sessions =
         Docs.find(
             model:'healthclub_session'
@@ -156,7 +156,7 @@ Meteor.publish 'health_club_members', (username_query)->
         # _id:$nin:active_session_ids
         username: {$regex:"#{username_query}", $options: 'i'}
         # healthclub_checkedin:$ne:true
-        roles:$in:['member','owner']
+        roles:$in:['student','owner']
         },{ limit:20 })
 
 
@@ -186,7 +186,7 @@ Meteor.publish 'doc_tags', (selected_tags)->
         { $match: match }
         { $project: tags: 1 }
         { $unwind: "$tags" }
-        { $group: _id: '$tags', count: $sum: 1 }
+        { $classroom: _id: '$tags', count: $sum: 1 }
         { $match: _id: $nin: selected_tags }
         { $sort: count: -1, _id: 1 }
         { $limit: 50 }

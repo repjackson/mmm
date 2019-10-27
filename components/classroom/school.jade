@@ -1,45 +1,45 @@
-template(name='companys')
+template(name='schools')
     .ui.stackable.padded.grid
         .row
             .twelve.wide.column
                 .ui.inline.header 
-                    +i name='company'
-                    |companys
+                    +i name='school'
+                    |schools
                 if currentUser
-                    .ui.icon.button.add_company(title='add company')
+                    .ui.icon.button.add_school(title='add school')
                         //- +i name='plus' classes='ui mini inline image'
                         i.green.large.plus.icon
-                        //- |add company
+                        //- |add school
         .row
             .sixteen.wide.column
                 .ui.stackable.four.cards
-                    each companys
-                        +company_card
+                    each schools
+                        +school_card
 
-template(name='company_card')
+template(name='school_card')
     .ui.card
-        a(href="/company/#{_id}")
+        a(href="/school/#{_id}")
             img.ui.fluid.image(src="{{c.url image height=300 crop='lpad'}}")
-            //- img.ui.fluid.image(src="{{c.url company_image_id crop='lpad'}}")
+            //- img.ui.fluid.image(src="{{c.url school_image_id crop='lpad'}}")
         .content
-            a.ui.header(href="/company/#{_id}" title='balance') #{title}
-            .ui.green.inline.header $#{gsd.company_balance}
+            a.ui.header(href="/school/#{_id}" title='balance') #{title}
+            .ui.green.inline.header $#{gsd.school_balance}
             .ui.green.inline.small.header(title='income') ($#{gsd.total_credit_amount}
             .ui.red.inline.small.header(title='expenses') / -$#{gsd.total_debit_amount})
-        a.ui.fluid.tertiary.button(href="/company/#{_id}")
+        a.ui.fluid.tertiary.button(href="/school/#{_id}")
             |view details
             i.right.chevron.icon
                     
-template(name='company_view_layout')
+template(name='school_view_layout')
     +nav
     with current_doc
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
-                    a.ui.fluid.small.button(href="/companys")
+                    a.ui.fluid.small.button(href="/schools")
                         i.chevron.left.icon
-                        +i name='company' classes='ui inline mini image'
-                        |companys
+                        +i name='school' classes='ui inline mini image'
+                        |schools
                     +image key='image' label='image' direct=true
                     div
                     .ui.inline.header
@@ -48,10 +48,10 @@ template(name='company_view_layout')
                     //-     small principal
                     //-     | #{principal_name}
                     div
-                    +company_section_cloud
+                    +school_section_cloud
                     .ui.big.fluid.vertical.menu
-                        each company_sections
-                            a.item(href="/company/#{current_doc._id}/#{slug}" class="{{isActiveRoute regex=route_slug}}")
+                        each school_sections
+                            a.item(href="/school/#{current_doc._id}/#{slug}" class="{{isActiveRoute regex=route_slug}}")
                                 i.icon
                                     +ismall name=icon
                                 |#{title}
@@ -59,44 +59,44 @@ template(name='company_view_layout')
                     +yield
     +footer
 
-template(name='company_section_cloud')
-    if selected_company_section_tags
+template(name='school_section_cloud')
+    if selected_school_section_tags
         #clear_tags.ui.active.icon.circular.tiny.button
             i.remove.icon
-        each selected_company_section_tags
-            .unselect_company_section_tag.ui.active.circular.tiny.button
+        each selected_school_section_tags
+            .unselect_school_section_tag.ui.active.circular.tiny.button
                 strong #{this}
-    each all_company_section_tags
-        .ui.compact.circular.basic.tiny.button.select_company_section_tag(class=cloud_tag_class) 
+    each all_school_section_tags
+        .ui.compact.circular.basic.tiny.button.select_school_section_tag(class=cloud_tag_class) 
             strong #{this.name}
 
 
 
-template(name='company_jobs')        
+template(name='school_jobs')        
     +jobs
 
-template(name='company_loans')
+template(name='school_loans')
     +loans
 
-template(name='company_shop')        
+template(name='school_shop')        
     +shop
 
-template(name='company_grades')        
+template(name='school_grades')        
     .ui.header grades
 
 
 
-template(name='company_credits')
+template(name='school_credits')
     +loans
 
-template(name='company_debits')        
+template(name='school_debits')        
     +shop
 
 
 
     
 
-template(name='company_dashboard')
+template(name='school_dashboard')
     with current_doc
         .ui.stackable.padded.grid
             //- .row
@@ -110,11 +110,11 @@ template(name='company_dashboard')
             //-             |disperse weekly salary
             .row
                 .eight.wide.column
-                    +company_feed
+                    +school_feed
                 .eight.wide.column
-                    +company_stats
+                    +school_stats
                     
-template(name='company_info')
+template(name='school_info')
     with current_doc
         +html key='description' direct=true
         +html key='principals_message' direct=true
@@ -122,12 +122,12 @@ template(name='company_info')
         +array_view key='location_tags' direct=true
         
             
-template(name='company_leaders')
-    each company_leaders
+template(name='school_teachers')
+    each school_teachers
         .ui.header #{first_name} #{last_name}
-template(name='company_members')
+template(name='school_students')
     .ui.styled.accordion
-        each company_members
+        each school_students
             .title
                 img.ui.avatar.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
                 .ui.inline.small.header
@@ -151,11 +151,11 @@ template(name='company_members')
                                     +class_credit_button
                         .column
                             .ui.vertical.buttons
-                                each company_debit_types
+                                each school_debit_types
                                     +class_debit_button
                 //- .extra.content.smallscroll
                 //-     .ui.list
-                //-         each member_events
+                //-         each student_events
                 //-             .item #{text} #{when}
                 //-                 +remove_button
                                 
@@ -169,38 +169,38 @@ template(name='company_members')
             //-         .description
             //-             each individual_credit_types
             //-                 +class_credit_button
-            //-             each company_debit_types
+            //-             each school_debit_types
             //-                 +class_debit_button
             //-     .extra.content.smallscroll
             //-         .ui.list
-            //-             each member_events
+            //-             each student_events
             //-                 .item #{text} #{when}
             //-                     +remove_button
             //- 
                                         
-template(name='company_reports')
+template(name='school_reports')
     with current_doc
         .ui.stackable.padded.grid
             .row
                 //- .four.wide.column
-                //-     a.ui.big.button(href="/company/#{_id}/view" title='save')
+                //-     a.ui.big.button(href="/school/#{_id}/view" title='save')
                 //-         i.chevron.left.icon
-                //-         |company
+                //-         |school
                 //- .twelve.wide.column
                 .ui.large.header 
                     +i name='invoice' classes='ui inline mini image'
-                    |member reports
+                    |student reports
                 table.ui.celled.table
                     thead
                         tr
-                            th member
+                            th student
                             th week 1
                             th week 2
                             th week 3
                             th week 4
                             th credit
                     tbody
-                        each company_members
+                        each school_students
                             tr
                                 td 
                                     a(href="/user/#{username}") 
@@ -225,12 +225,12 @@ template(name='company_reports')
 
 
 
-template(name='company_feed')
+template(name='school_feed')
     .ui.header 
         +i name='rss'
         |feed
     .ui.feed.mediumscroll
-        each company_events
+        each school_events
             .event 
                 .label
                     img.ui.avatar.image(src="{{c.url target_user.profile_image_id height=100 gravity='face' crop='fill'}}")
@@ -258,12 +258,12 @@ template(name='company_feed')
 
 
 
-template(name='company_stats')
-    .ui.header.refresh_company_stats
+template(name='school_stats')
+    .ui.header.refresh_school_stats
         +i name='line-chart'
         |stats
         div
-        .ui.green.inline.header $#{gsd.company_balance}
+        .ui.green.inline.header $#{gsd.school_balance}
         | balance
         div
         .ui.green.inline.header $#{gsd.total_credit_amount}
@@ -273,10 +273,10 @@ template(name='company_stats')
         | expenses
     .ui.big.list
         .item #{views} views
-        .item #{gsd.member_count} members
+        .item #{gsd.student_count} students
         .item #{gsd.credit_count} total credits
         .item #{gsd.debit_count} total debits
-        .item $#{gsd.average_credit_per_member} credit/member
-        .item $#{gsd.average_debit_per_member} debit/member
+        .item $#{gsd.average_credit_per_student} credit/student
+        .item $#{gsd.average_debit_per_student} debit/student
         
     +html_raw_view key='google_map' direct=true

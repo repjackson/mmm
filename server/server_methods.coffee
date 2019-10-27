@@ -48,9 +48,9 @@ Meteor.methods
 
 
     check_lease_status: ->
-        members =
+        students =
             Meteor.users.find(
-                roles:$in:['member']
+                roles:$in:['student']
             ).fetch()
 
 
@@ -80,9 +80,9 @@ Meteor.methods
                     "<br><h4>View your messages here:<a href=#{message_link}>#{message_link}</a>.</h4>"
             })
 
-    checkout_members: ()->
+    checkout_students: ()->
         now = Date.now()
-        # checkedin_members = Meteor.users.find(healthclub_checkedin:true).fetch()
+        # checkedin_students = Meteor.users.find(healthclub_checkedin:true).fetch()
         checkedin_sessions = Docs.find(
             model:'healthclub_session',
             active:true
@@ -93,20 +93,20 @@ Meteor.methods
         for session in checkedin_sessions
             # checkedin_doc =
             #     Docs.findOne
-            #         user_id:member._id
+            #         user_id:student._id
             #         model:'healthclub_checkin'
             #         active:true
             diff = now-session._timestamp
             minute_difference = diff/1000/60
             if minute_difference>60
-                # Meteor.users.update(member._id,{$set:healthclub_checkedin:false})
+                # Meteor.users.update(student._id,{$set:healthclub_checkedin:false})
                 Docs.update session._id,
                     $set:
                         active:false
                         logout_timestamp:Date.now()
-                # checkedin_members = Meteor.users.find(healthclub_checkedin:true).fetch()
+                # checkedin_students = Meteor.users.find(healthclub_checkedin:true).fetch()
 
-    check_member_status: (user_id)->
+    check_student_status: (user_id)->
         user = Meteor.users.findOne user_id
 
 

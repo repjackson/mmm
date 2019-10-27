@@ -1,67 +1,67 @@
-template(name='leaders')
+template(name='teachers')
     .ui.stackable.padded.grid
         .ui.header 
-            +i name='leader'
-            |leaders
-        each leaders
+            +i name='teacher'
+            |teachers
+        each teachers
             .four.wide.column
-                a(href="/leader/#{slug}")
+                a(href="/teacher/#{slug}")
                     .ui.card.home_segment
                         img.ui.fluid.image(src="{{c.url image width=400 height=200 crop='fill'}}")
                         .content
-                            .ui.large.header #{leader_code}
-                                each leader_numbers
+                            .ui.large.header #{teacher_code}
+                                each teacher_numbers
                                     .ui.basic.label #{this}
-                            .ui.grey.small.header #{leader_street}
+                            .ui.grey.small.header #{teacher_street}
                 
                 
                 
-template(name='leader_view')
+template(name='teacher_view')
     .ui.padded.stackable.grid
         .row
             .sixteen.wide.column
-                a.ui.big.button(href="/leaders")
+                a.ui.big.button(href="/teachers")
                     i.chevron.left.icon
-                    +i name='leader' classes='ui inline mini image'
-                    |leaders
+                    +i name='teacher' classes='ui inline mini image'
+                    |teachers
                 if is_dev
                     .ui.icon.input
                         i.home.icon
                         //- +ismall name='home' classes='ui inline mini image'
-                        input.group_number(type='number' placeholder='group number')
+                        input.classroom_number(type='number' placeholder='classroom number')
                     .ui.icon.input
-                        i.leader.icon
-                        //- +ismall name='leader' classes='ui inline mini image'
-                        input.leader_number(type='number' placeholder='group leader number')
+                        i.teacher.icon
+                        //- +ismall name='teacher' classes='ui inline mini image'
+                        input.teacher_number(type='number' placeholder='classroom teacher number')
                     .ui.icon.input
                         i.header.icon
-                        //- +ismall name='leader' classes='ui inline mini image'
-                        input.leader_label(type='text' placeholder='group leader label')
+                        //- +ismall name='teacher' classes='ui inline mini image'
+                        input.teacher_label(type='text' placeholder='classroom teacher label')
                 .ui.large.inline.header 
-                    small leader
-                    strong #{leader.leader_code}
-                each leader.leader_numbers
+                    small teacher
+                    strong #{teacher.teacher_code}
+                each teacher.teacher_numbers
                     .ui.basic.large.label #{this}
         .row
             .ui.sixteen.wide.column
                 .ui.three.cards
-                    each groups
-                        +group_card
+                    each classrooms
+                        +classroom_card
 
     
-//- template(name='leader_edit')
+//- template(name='teacher_edit')
 //-     with current_doc
 //-         .ui.stackable.padded.grid
 //-             .row
 //-                 .six.wide.column 
 //-                     .ui.header 
 //-                         i.pencil.icon
-//-                         | edit '#{title}' leader
-//-                     a.ui.big.fluid.button(href="/leader/#{_id}/view" title='save')
+//-                         | edit '#{title}' teacher
+//-                     a.ui.big.fluid.button(href="/teacher/#{_id}/view" title='save')
 //-                         i.checkmark.large.green.icon
 //-                         |save
 //-                     +remove_button
-//-                     +image_edit key='leader_image_id' icon='image' label='image' direct=true
+//-                     +image_edit key='teacher_image_id' icon='image' label='image' direct=true
 //-                     +array_edit key='tags' label='tags' icon='tags' direct=true
 //-                 .ten.wide.column 
 //-                     +text_edit key='title' direct=true
@@ -70,49 +70,49 @@ template(name='leader_view')
                 
 
 
-template(name='leader_selector')
+template(name='teacher_selector')
     div
     .ui.inline.header 
-        |leader selector
-    if current_doc.leader_id
-        .clear_leader.ui.icon.button(title='remove leader')
+        |teacher selector
+    if current_doc.teacher_id
+        .clear_teacher.ui.icon.button(title='remove teacher')
             i.remove.icon
-    unless current_doc.leader_id
+    unless current_doc.teacher_id
         .ui.input
-            input#leader_lookup(type='text' placeholder='lookup leader..')
+            input#teacher_lookup(type='text' placeholder='lookup teacher..')
             each selections
                 .ui.basic.label
                     |#{first_name} #{last_name}
-        if leader_results
+        if teacher_results
             .ui.attached.smoothed.segment
                 .ui.middle.aligned.selection.animated.list
-                    each leader_results
-                        .select_leader.item
+                    each teacher_results
+                        .select_teacher.item
                             h4.ui.header
                                 img.ui.avatar.image(src="{{c.url kiosk_photo width=100 height=100 gravity='face' crop='fill'}}")
-                                |#{first_name} #{last_name} #{leadername}
-    if current_doc.leader_id
-        +leader_card leader_id
+                                |#{first_name} #{last_name} #{teachername}
+    if current_doc.teacher_id
+        +teacher_card teacher_id
         //- |#{this}
         //- .item
         //-     .right.floated.content
-        //-         i.pull_leader.remove.link.icon
+        //-         i.pull_teacher.remove.link.icon
         //-     .image
         //-         img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
         //-     .content
         //-         h4.ui.header
         //-             |#{first_name} #{last_name}
-        //-             @#{leadername}
+        //-             @#{teachername}
 
 
 
 
-template(name='leader_card')            
+template(name='teacher_card')            
     .item
-        with leader
+        with teacher
             img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
             .content
                 .header #{first_name} #{last_name}
                 |$#{credit}
                 //- |@#{username} $#{credit}
-                //- i.grey.link.remove.icon.remove_leader
+                //- i.grey.link.remove.icon.remove_teacher

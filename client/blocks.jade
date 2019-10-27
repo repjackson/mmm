@@ -133,7 +133,7 @@ template(name='small_horizontal_user_card')
                 else if image_id
                     img.ui.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
             .content    
-                a.header(href="/member/#{username}") #{first_initial} #{last_name} 
+                a.header(href="/student/#{username}") #{first_initial} #{last_name} 
                 //- .meta @#{username}
                 //- span(title='points')
                 //-     |#{points} pts
@@ -164,7 +164,7 @@ template(name='user_email')
 template(name='big_user_card')
     with user
         //- .ui.card
-        //- .ui.card(class=member_status_class)
+        //- .ui.card(class=student_status_class)
         .ui.card
             .image
                 img.ui.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
@@ -198,7 +198,7 @@ template(name='user_info')
 
 template(name='username_info')
     .ui.small.compact.basic.button.goto_profile
-        if is_member
+        if is_student
             img.ui.tiny.image(src="{{c.url user.profile_image_id width=100 height=100}}")
         |#{user.name}
         //- |@#{user.username}
@@ -407,23 +407,23 @@ template(name='user_guidelines_check')
         if guidelines_signed
             a.ui.basic.button(href="/m/sign_guidelines/#{guidelines_signed._id}/view" title='click to view/edit signing document')
                 i.signature.icon
-                |member guidelines signed 
+                |student guidelines signed 
         else
             .ui.basic.fluid.button
                 i.signature.icon
-                | member guidelines not signed
+                | student guidelines not signed
     else
         unless guidelines_signed
             .ui.large.basic.fluid.button.sign_guidelines
                 i.signature.icon
-                | sign member guidelines
+                | sign student guidelines
     //-     else if is_staff
     //-         .ui.large.basic.button
     //-             i.signature.icon
     //-             |rules and regs signed 
                 
         
-template(name='member_key_check')
+template(name='student_key_check')
     //- unless key_on_file
     //-     .ui.large.orange.basic.button
     //-         i.ban.icon

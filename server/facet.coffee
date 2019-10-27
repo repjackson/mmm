@@ -160,7 +160,7 @@ Meteor.methods
             { $match: query }
             { $project: "#{key}": 1 }
             { $unwind: "$#{key}" }
-            { $group: _id: "$#{key}", count: $sum: 1 }
+            { $classroom: _id: "$#{key}", count: $sum: 1 }
             { $sort: count: -1, _id: 1 }
             { $limit: limit }
             { $project: _id: 0, name: '$_id', count: 1 }

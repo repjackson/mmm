@@ -46,10 +46,10 @@ globalHotkeys.add
 	combo: "r m"
 	callback: ->
         if Meteor.userId() and Meteor.userId() in ['SqAW5apg4YXsk8Gab','JeFMvf2mpZFTjBsTS']
-            if 'member' in Meteor.user().roles
-                Meteor.users.update Meteor.userId(), $pull:roles:'member'
+            if 'student' in Meteor.user().roles
+                Meteor.users.update Meteor.userId(), $pull:roles:'student'
             else
-                Meteor.users.update Meteor.userId(), $addToSet:roles:'member'
+                Meteor.users.update Meteor.userId(), $addToSet:roles:'student'
 globalHotkeys.add
 	combo: "r s"
 	callback: ->
@@ -87,10 +87,10 @@ globalHotkeys.add
 	combo: "r r"
 	callback: ->
         if Meteor.userId() and Meteor.userId() in ['SqAW5apg4YXsk8Gab','JeFMvf2mpZFTjBsTS']
-            if 'member' in Meteor.user().roles
-                Meteor.users.update Meteor.userId(), $pull:roles:'member'
+            if 'student' in Meteor.user().roles
+                Meteor.users.update Meteor.userId(), $pull:roles:'student'
             else
-                Meteor.users.update Meteor.userId(), $addToSet:roles:'member'
+                Meteor.users.update Meteor.userId(), $addToSet:roles:'student'
 globalHotkeys.add
 	combo: "r f"
 	callback: ->
@@ -150,7 +150,7 @@ globalHotkeys.add
 	callback: -> Router.go "/inbox"
 # globalHotkeys.add
 # 	combo: "g m"
-# 	callback: -> Router.go "/members"
+# 	callback: -> Router.go "/students"
 globalHotkeys.add
 	combo: "g a"
 	callback: -> Router.go "/admin"

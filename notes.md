@@ -3,7 +3,7 @@ DEPLOY_HOSTNAME=us-east-1.galaxy-deploy.meteor.com meteor deploy --settings sett
 
 mongo --ssl --sslAllowInvalidCertificates aws-us-east-1-portal.21.dblayer.com:10444/facetdb -u facetadmin -pTurnf34ragainst!
 
-member login
+student login
 profile
 
 admin
@@ -18,7 +18,7 @@ front desk
 lost and found
 
 
-member
+student
     login
     classifides
     services

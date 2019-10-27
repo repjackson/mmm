@@ -11,7 +11,7 @@ Meteor.methods
         Docs.remove chat_id
         Docs.remove
             model: 'message'
-            group_id: chat_id
+            classroom_id: chat_id
 
     join_chat: (chat_id)->
         Docs.update chat_id,
@@ -57,7 +57,7 @@ if Meteor.isClient
             for chat in my_chats
                 unread_count = Docs.find(
                     model: 'message'
-                    group_id: chat._id
+                    classroom_id: chat._id
                     read_ids: $nin: [Meteor.userId()]
                 ).count()
                 count += unread_count
@@ -126,7 +126,7 @@ if Meteor.isServer
                     { $match: match }
                     { $project: participant_ids: 1 }
                     { $unwind: "$participant_ids" }
-                    { $group: _id: '$participant_ids', count: $sum: 1 }
+                    { $classroom: _id: '$participant_ids', count: $sum: 1 }
                     { $match: _id: $nin: selected_participant_ids }
                     { $sort: count: -1, _id: 1 }
                     { $limit: 20 }

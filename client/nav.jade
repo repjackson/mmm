@@ -15,14 +15,14 @@ template(name='nav')
                 //- +ismall name='treasure-chest'
                 span.mobile.hidden &nbsp; contact
                 i.phone.icon.mobile.only
-        a.item(href='/groups')
+        a.item(href='/classrooms')
             //- +ismall name='treasure-chest'
-            span.mobile.hidden &nbsp; groups
+            span.mobile.hidden &nbsp; classrooms
             i.users.icon.mobile.only
-        a.item(href='/offers')
-            //- +ismall name='treasure-chest'
-            span.mobile.hidden &nbsp; offers
-            i.give.icon.mobile.only
+        //- a.item(href='/offers')
+        //-     //- +ismall name='treasure-chest'
+        //-     span.mobile.hidden &nbsp; offers
+        //-     i.give.icon.mobile.only
         a.item(href='/shop')
             //- +ismall name='treasure-chest'
             span.mobile.hidden &nbsp; shop
@@ -95,7 +95,7 @@ template(name='footer')
                     //-     //- +ismall name='line-chart'
                     //-     |stats
                     a.item(href='/team')
-                        //- +ismall name='groups'
+                        //- +ismall name='classrooms'
                         | our team
                     a.item(href='/contact')
                         //- +ismall name='phone'
@@ -103,10 +103,10 @@ template(name='footer')
                         
             .three.wide.column
                 .ui.link.large.list
-                    a.item(href='/groups')
+                    a.item(href='/classrooms')
                         .content
                             i.users.grey.icon 
-                            |groups
+                            |classrooms
                     a.item(href='/offers') 
                         .content
                             i.donate.grey.icon
@@ -135,7 +135,7 @@ template(name='footer')
                         +role_switcher
                 .ui.grey.small.header 
                     i.copyright.outline.icon
-                    | mini money management 2019
+                    | Mini Money Management 2019
 
             
                 
@@ -203,8 +203,8 @@ template(name='role_switcher')
     //- if is_admin
         //- +multi_doc_edit key='current_roles' label='current roles' ref_model='role' direct=true
     //- +user_array_element_toggle key='current_roles' value='admin' user=currentUser
-    //- +user_array_element_toggle key='current_roles' value='member' user=currentUser
+    //- +user_array_element_toggle key='current_roles' value='student' user=currentUser
     //- +user_array_element_toggle key='current_roles' value='staff' user=currentUser
-    +user_array_element_toggle key='roles' value='member' user=currentUser
-    +user_array_element_toggle key='roles' value='leader' user=currentUser
+    +user_array_element_toggle key='roles' value='student' user=currentUser
+    +user_array_element_toggle key='roles' value='teacher' user=currentUser
     +user_array_element_toggle key='roles' value='parent' user=currentUser

@@ -1,4 +1,4 @@
-template(name='build_group')
+template(name='build_classroom')
     .ui.padded.stackable.grid
         .centered.row
             .ten.wide.column
@@ -6,45 +6,45 @@ template(name='build_group')
                     img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
                     .ui.header
                         +i name='earth-planet'
-                        | build group
-                .ui.fluid.big.button.build_group
-                    +i name='group' classes='ui inline image'
-                    |group
-                .ui.fluid.big.disabled.button.build_after_company
+                        | build classroom
+                .ui.fluid.big.button.build_classroom
+                    +i name='classroom' classes='ui inline image'
+                    |classroom
+                .ui.fluid.big.disabled.button.build_after_school
                     +i name='clock' classes='ui inline image'
-                    |after company
+                    |after school
                 .ui.fluid.big.disabled.button.build_home
                     +i name='home' classes='ui inline image'
                     |home
 
 
-template(name='build_group_info')
+template(name='build_classroom_info')
     with current_doc
         .ui.padded.stackable.grid
             .centered.row
                 .sixteen.wide.column
                     .ui.center.aligned.basic.segment
                         .ui.small.inline.header
-                            //- +i name='group'
+                            //- +i name='classroom'
                             |building
-                        .ui.inline.header #{leader_name}'s #{company_name}
+                        .ui.inline.header #{teacher_name}'s #{school_name}
                         .ui.small.inline.header
-                            //- +i name='group'
-                            |group
+                            //- +i name='classroom'
+                            |classroom
                     .ui.four.small.steps
                         .active.step
                             i.info.icon
                             .content
                                 .title info
-                        a.step(href="/build_group/#{_id}/finance")
+                        a.step(href="/build_classroom/#{_id}/finance")
                             i.grey.money.icon
                             .content
                                 .title finance
-                        a.step(href="/build_group/#{_id}/members")
+                        a.step(href="/build_classroom/#{_id}/students")
                             i.users.grey.icon
                             .content
-                                .title members
-                        a.step(href="/group/#{_id}/members")
+                                .title students
+                        a.step(href="/classroom/#{_id}/students")
                             i.dashboard.icon
                             .content
                                 .title dashboard
@@ -56,13 +56,13 @@ template(name='build_group_info')
                     //-     +i name='info'
                     //-     |info
                     .spacer
-                    +text_edit key='leader_name' label='leader Name' placeholder='enter your name' tooltip='examples: john smith' direct=true
+                    +text_edit key='teacher_name' label='teacher Name' placeholder='enter your name' tooltip='examples: john smith' direct=true
                     .spacer
-                    +text_edit key='company_name' label='company name'  tooltip='examples: Acme members, Inc' placeholder='enter your group name' direct=true
+                    +text_edit key='school_name' label='school name'  tooltip='examples: Acme students, Inc' placeholder='enter your classroom name' direct=true
                     .spacer
-                    +image_edit key='group_image_id' tooltip='this is the image that shows up in the group profile' label='image' direct=true
+                    +image_edit key='classroom_image_id' tooltip='this is the image that shows up in the classroom profile' label='image' direct=true
                     .spacer
-                    a.ui.fluid.large.basic.button(href="/build_group/#{_id}/finance")
+                    a.ui.fluid.large.basic.button(href="/build_classroom/#{_id}/finance")
                         i.green.checkmark.icon
                         |Save
                         //- i.right.chevron.icon
@@ -71,21 +71,21 @@ template(name='build_group_info')
                     //- .spacer
                     //- +array_edit key='tags' label='tags' icon='tags' direct=true
 
-template(name='build_group_finance')
+template(name='build_classroom_finance')
     with current_doc
         .ui.padded.stackable.grid
             .centered.row
                 .sixteen.wide.column
                     .ui.center.aligned.basic.segment
                         .ui.small.inline.header
-                            //- +i name='group'
+                            //- +i name='classroom'
                             |building
-                        .ui.inline.header #{leader_name}'s #{company_name}
+                        .ui.inline.header #{teacher_name}'s #{school_name}
                         .ui.small.inline.header
-                            //- +i name='group'
-                            |group
+                            //- +i name='classroom'
+                            |classroom
                     .ui.four.small.steps
-                        a.step(href="/build_group/#{_id}/info")
+                        a.step(href="/build_classroom/#{_id}/info")
                             i.green.info.icon
                             .content
                                 .title info
@@ -93,11 +93,11 @@ template(name='build_group_finance')
                             i.money.icon
                             .content
                                 .title finance
-                        a.step(href="/build_group/#{_id}/members")
+                        a.step(href="/build_classroom/#{_id}/students")
                             i.users.grey.icon
                             .content
-                                .title members
-                        a.step(href="/group/#{_id}/members")
+                                .title students
+                        a.step(href="/classroom/#{_id}/students")
                             i.dashboard.icon
                             .content
                                 .title dashboard
@@ -131,38 +131,38 @@ template(name='build_group_finance')
                     .spacer
                     +number_edit key='lunch_extra_amount' label='lunch extra amount' icon='food' direct=true
                     .spacer
-                    a.ui.fluid.large.basic.button(href="/build_group/#{_id}/members")
+                    a.ui.fluid.large.basic.button(href="/build_classroom/#{_id}/students")
                         i.green.checkmark.icon
                         |Save
             
                         
-template(name='build_group_members')
+template(name='build_classroom_students')
     with current_doc
         .ui.padded.stackable.grid
             .centered.row
                 .sixteen.wide.column
                     .ui.center.aligned.basic.segment
                         .ui.small.inline.header
-                            //- +i name='group'
+                            //- +i name='classroom'
                             |building
-                        .ui.inline.header #{leader_name}'s #{company_name}
+                        .ui.inline.header #{teacher_name}'s #{school_name}
                         .ui.small.inline.header
-                            //- +i name='group'
-                            |group
+                            //- +i name='classroom'
+                            |classroom
                     .ui.four.small.steps
-                        a.step(href="/build_group/#{_id}/info")
+                        a.step(href="/build_classroom/#{_id}/info")
                             i.green.info.icon
                             .content
                                 .title info
-                        a.step(href="/build_group/#{_id}/finance")
+                        a.step(href="/build_classroom/#{_id}/finance")
                             i.money.green.icon
                             .content
                                 .title finance
                         .active.step
                             i.users.icon
                             .content
-                                .title members
-                        a.step(href="/group/#{_id}/members")
+                                .title students
+                        a.step(href="/classroom/#{_id}/students")
                             i.dashboard.icon
                             .content
                                 .title dashboard
@@ -170,16 +170,16 @@ template(name='build_group_members')
             .centered.row
                 .seven.wide.center.aligned.column
                     //- .ui.center.aligned.header 
-                    //-     +i name='members'
-                    //-     |members
-                    //- .ui.header members
+                    //-     +i name='students'
+                    //-     |students
+                    //- .ui.header students
                     //- .ui.large.list
-                    //-     each group_members
+                    //-     each classroom_students
                     //-         .item #{first_name} #{last_name}
-                    //-             i.remove.grey.link.icon.remove_member
-                    .ui.header member selector
-                    +member_selector
+                    //-             i.remove.grey.link.icon.remove_student
+                    .ui.header student selector
+                    +student_selector
                     .spacer
-                    a.ui.fluid.large.basic.button(href="/group/#{_id}/members")
+                    a.ui.fluid.large.basic.button(href="/classroom/#{_id}/students")
                         i.green.checkmark.icon
                         |Save

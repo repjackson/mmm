@@ -126,11 +126,11 @@ if Meteor.isClient
 
 
     Template.profile_layout.onCreated ->
-        # @autorun -> Meteor.subscribe 'model_docs', 'group'
+        # @autorun -> Meteor.subscribe 'model_docs', 'classroom'
     Template.profile_layout.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_events', Router.current().params.username
-        @autorun -> Meteor.subscribe 'member_stats', Router.current().params.username
+        @autorun -> Meteor.subscribe 'student_stats', Router.current().params.username
     Template.profile_layout.onRendered ->
         Meteor.setTimeout ->
             $('.button').popup()
@@ -145,16 +145,16 @@ if Meteor.isClient
             Docs.find {
                 model:'user_section'
             }, sort:title:1
-        member_groups: ->
+        student_classrooms: ->
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.find
-                model:'group'
-                member_ids: $in: [user._id]
+                model:'classroom'
+                student_ids: $in: [user._id]
 
         ssd: ->
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.findOne
-                model:'member_stats'
+                model:'student_stats'
                 user_id:user._id
         view_side: -> Session.get 'view_side'
         main_column_class: ->
@@ -166,26 +166,26 @@ if Meteor.isClient
         ssd: ->
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.findOne
-                model:'member_stats'
+                model:'student_stats'
                 user_id:user._id
 
-        member_groups: ->
+        student_classrooms: ->
             user = Meteor.users.findOne username:Router.current().params.username
             Docs.find
-                model:'group'
-                member_ids: $in: [user._id]
+                model:'classroom'
+                student_ids: $in: [user._id]
         user_events: ->
             Docs.find {
-                model:'group_event'
+                model:'classroom_event'
             }, sort: _timestamp: -1
         user_credits: ->
             Docs.find {
-                model:'group_event'
+                model:'classroom_event'
                 event_type:'credit'
             }, sort: _timestamp: -1
         user_debits: ->
             Docs.find {
-                model:'group_event'
+                model:'classroom_event'
                 event_type:'debit'
             }, sort: _timestamp: -1
         user_models: ->
@@ -198,8 +198,8 @@ if Meteor.isClient
     Template.profile_layout.events
         'click .toggle_size': ->
             Session.set 'view_side', !Session.get('view_side')
-        'click .recalc_member_stats': ->
-            Meteor.call 'recalc_member_stats', Router.current().params.username
+        'click .recalc_student_stats': ->
+            Meteor.call 'recalc_student_stats', Router.current().params.username
         'click .set_delta_model': ->
             Meteor.call 'set_delta_facets', @slug, null, true
 
@@ -235,34 +235,34 @@ if Meteor.isServer
     Meteor.publish 'user_events', (username)->
         user = Meteor.users.findOne username:username
         Docs.find
-            model:'group_event'
+            model:'classroom_event'
             user_id:user._id
 
-    Meteor.publish 'member_stats', (username)->
+    Meteor.publish 'student_stats', (username)->
         user = Meteor.users.findOne username:username
         if user
             Docs.find
-                model:'member_stats'
+                model:'student_stats'
                 user_id:user._id
 
 
     Meteor.methods
-        recalc_member_stats: (username)->
+        recalc_student_stats: (username)->
             user = Meteor.users.findOne username:username
             user_id = user._id
-            # console.log group
-            member_stats_doc = Docs.findOne
-                model:'member_stats'
+            # console.log classroom
+            student_stats_doc = Docs.findOne
+                model:'student_stats'
                 user_id: user_id
 
-            unless member_stats_doc
+            unless student_stats_doc
                 new_stats_doc_id = Docs.insert
-                    model:'member_stats'
+                    model:'student_stats'
                     user_id: user_id
-                member_stats_doc = Docs.findOne new_stats_doc_id
+                student_stats_doc = Docs.findOne new_stats_doc_id
 
             debits = Docs.find({
-                model:'group_event'
+                model:'classroom_event'
                 event_type:'debit'
                 user_id:user_id})
             debit_count = debits.count()
@@ -271,7 +271,7 @@ if Meteor.isServer
                 total_debit_amount += debit.amount
 
             credits = Docs.find({
-                model:'group_event'
+                model:'classroom_event'
                 event_type:'credit'
                 user_id:user_id})
             credit_count = credits.count()
@@ -279,16 +279,16 @@ if Meteor.isServer
             for credit in credits.fetch()
                 total_credit_amount += credit.amount
 
-            member_balance = total_credit_amount-total_debit_amount
+            student_balance = total_credit_amount-total_debit_amount
 
-            # average_credit_per_member = total_credit_amount/member_count
-            # average_debit_per_member = total_debit_amount/member_count
+            # average_credit_per_student = total_credit_amount/student_count
+            # average_debit_per_student = total_debit_amount/student_count
 
 
-            Docs.update member_stats_doc._id,
+            Docs.update student_stats_doc._id,
                 $set:
                     credit_count: credit_count
                     debit_count: debit_count
                     total_credit_amount: total_credit_amount
                     total_debit_amount: total_debit_amount
-                    member_balance: member_balance
+                    student_balance: student_balance

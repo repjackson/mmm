@@ -46,7 +46,7 @@ if Meteor.isClient
                     if Meteor.user().roles and 'staff' in Meteor.user().roles
                         Router.go "/staff"
                     else
-                        Router.go "/groups"
+                        Router.go "/classrooms"
                     # Router.go "/user/#{username}"
 
         'keyup .password, keyup .username': (e,t)->
@@ -71,7 +71,7 @@ if Meteor.isClient
                             if Meteor.user().roles and 'staff' in Meteor.user().roles
                                 Router.go "/staff"
                             else
-                                Router.go "/groups"
+                                Router.go "/classrooms"
 
 
     Template.login.helpers

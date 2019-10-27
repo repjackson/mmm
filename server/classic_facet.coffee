@@ -76,7 +76,7 @@ Meteor.publish 'facet', (
         #     { $match: match }
         #     { $project: ancestor_array: 1 }
         #     { $unwind: "$ancestor_array" }
-        #     { $group: _id: '$ancestor_array', count: $sum: 1 }
+        #     { $classroom: _id: '$ancestor_array', count: $sum: 1 }
         #     { $match: _id: $nin: selected_ancestor_ids }
         #     { $sort: count: -1, _id: 1 }
         #     { $limit: limit }
@@ -93,7 +93,7 @@ Meteor.publish 'facet', (
             { $match: match }
             { $project: tags: 1 }
             { $unwind: "$tags" }
-            { $group: _id: '$tags', count: $sum: 1 }
+            { $classroom: _id: '$tags', count: $sum: 1 }
             { $match: _id: $nin: selected_theme_tags }
             { $sort: count: -1, _id: 1 }
             { $limit: limit }
@@ -112,7 +112,7 @@ Meteor.publish 'facet', (
         # #     { $match: match }
         # #     { $project: watson_keywords: 1 }
         # #     { $unwind: "$watson_keywords" }
-        # #     { $group: _id: '$watson_keywords', count: $sum: 1 }
+        # #     { $classroom: _id: '$watson_keywords', count: $sum: 1 }
         # #     { $match: _id: $nin: selected_theme_tags }
         # #     { $sort: count: -1, _id: 1 }
         # #     { $limit: limit }
@@ -129,7 +129,7 @@ Meteor.publish 'facet', (
         #     { $match: match }
         #     { $project: timestamp_tags: 1 }
         #     { $unwind: "$_timestamp_tags" }
-        #     { $group: _id: '$_timestamp_tags', count: $sum: 1 }
+        #     { $classroom: _id: '$_timestamp_tags', count: $sum: 1 }
         #     { $match: _id: $nin: selected_timestamp_tags }
         #     { $sort: count: -1, _id: 1 }
         #     { $limit: 10 }
@@ -147,7 +147,7 @@ Meteor.publish 'facet', (
         #     { $match: match }
         #     { $project: building_tags: 1 }
         #     { $unwind: "$building_tags" }
-        #     { $group: _id: '$building_tags', count: $sum: 1 }
+        #     { $classroom: _id: '$building_tags', count: $sum: 1 }
         #     { $match: _id: $nin: selected_building_tags }
         #     { $sort: count: -1, _id: 1 }
         #     { $limit: limit }
@@ -165,7 +165,7 @@ Meteor.publish 'facet', (
         #     { $match: match }
         #     { $project: location_tags: 1 }
         #     { $unwind: "$location_tags" }
-        #     { $group: _id: '$location_tags', count: $sum: 1 }
+        #     { $classroom: _id: '$location_tags', count: $sum: 1 }
         #     { $match: _id: $nin: selected_location_tags }
         #     { $sort: count: -1, _id: 1 }
         #     { $limit: limit }
@@ -185,7 +185,7 @@ Meteor.publish 'facet', (
         # author_tag_cloud = Docs.aggregate [
         #     { $match: author_match }
         #     { $project: _author_id: 1 }
-        #     { $group: _id: '$_author_id', count: $sum: 1 }
+        #     { $classroom: _id: '$_author_id', count: $sum: 1 }
         #     { $match: _id: $nin: selected_author_ids }
         #     { $sort: count: -1, _id: 1 }
         #     { $limit: limit }
@@ -284,7 +284,7 @@ Meteor.publish 'facet', (
 #         { $match: match }
 #         { $project: ancestor_array: 1 }
 #         { $unwind: "$ancestor_array" }
-#         { $group: _id: '$ancestor_array', count: $sum: 1 }
+#         { $classroom: _id: '$ancestor_array', count: $sum: 1 }
 #         # { $match: _id: $nin: selected_ancestor_ids }
 #         { $sort: count: -1, _id: 1 }
 #         { $limit: 10 }
@@ -324,7 +324,7 @@ Meteor.publish 'facet', (
 # #             { $match: author_id:Meteor.userId() }
 # #             { $project: parent_id: 1 }
 # #             # { $unwind: "$tags" }
-# #             { $group: _id: '$parent_id', count: $sum: 1 }
+# #             { $classroom: _id: '$parent_id', count: $sum: 1 }
 # #             { $match: _id: $nin: selected_theme_tags }
 # #             { $sort: count: -1, _id: 1 }
 # #             { $limit: limit }
