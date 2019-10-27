@@ -23,13 +23,18 @@ template(name='profile_layout')
                                     .ui.center.aligned.header
                                         | #{user.first_name} #{user.last_name}
                                     //- .ui.small.header @#{user.username}        
-                            //- +user_section_cloud
-                            //- .ui.big.fluid.vertical.menu
-                            //-     each user_sections
-                            //-         a.item(href="/user/#{user.username}/#{slug}" class="{{isActiveRoute regex=route_slug}}")
-                            //-             i.icon
-                            //-                 +ismall name=icon
-                            //-             |#{title}
+                            .ui.big.fluid.vertical.menu
+                                a.item(href="/user/#{user.username}/offers" class="{{isActiveRoute regex=user_offers}}")
+                                    i.right.chevron.icon
+                                    |offers
+                            +user_section_cloud
+                            .ui.big.fluid.vertical.menu
+                                .item sections
+                                each user_sections
+                                    a.item(href="/user/#{user.username}/#{slug}" class="{{isActiveRoute regex=route_slug}}")
+                                        i.icon
+                                            +ismall name=icon
+                                        |#{title}
                             if is_current_user
                                 a.ui.large.fluid.button(href="/user/#{current_user.username}/edit")
                                     i.cog.grey.icon
@@ -39,7 +44,7 @@ template(name='profile_layout')
                                     i.list.icon
                                     //- +ismall name='exit' 
                                     |onboarding
-                                a.ui.fluid.button.logout(href="#" title='logout')
+                                a.ui.fluid.button.logout(href="#")
                                     i.sign.out.alternate.icon
                                     //- +ismall name='exit' 
                                     |log out
@@ -89,7 +94,14 @@ template(name='user_dashboard')
     .ui.stackable.padded.grid
         .row
             .sixteen.wide.column
-                +user_tasks
+                .ui.header personas
+                each current_user.personas
+                    .ui.large.label #{this}
+                    
+                .ui.header interests
+                each current_user.interests
+                    .ui.large.label #{this}
+                +user_offers_small
                 +user_actions
         .row
             .sixteen.wide.column
@@ -97,33 +109,45 @@ template(name='user_dashboard')
                     +i name='dashboard'
                     |#{current_user.name}'s dashboard
                 .ui.inline.small.grey.header current balance $#{current_user.credit}
-        if user_is_member
-            +member_dashboard
+    if user_is_member
+        +member_dashboard
         
         
         
-template(name='user_tasks')
+template(name='user_offers_small')
     .ui.fluid.segment
         .ui.grey.header 
             i.tasks.icon
-            |tasks        
-        
+            |offers
+        .ui.list
+            each available_offers
+                .ui.item
+                    |#{title}
+                    strong #{credit_amount}c
+                    .ui.small.button.accept_offer
+                        i.green.checkmark.icon
+                        |accept
+                    .ui.small.button.reject_offer
+                        i.red.cancel.icon
+                        |reject
         
 template(name='user_actions')
     .ui.fluid.segment
         .ui.grey.header 
             i.target.icon
             |actions        
+        .ui.large.list
+            each user_actions
+                a.item(href=link) #{title}
+    
         
         
         
         
         
         
-        
-        
-template(name='member_dashboard')        
-    .row
+template(name='member_dashboard')  
+    .ui.grid      
         .three.column.row
             .column
                 .ui.segment

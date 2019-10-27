@@ -1,0 +1,35 @@
+template(name='user_offers')
+    .ui.header 
+        i.donation.icon
+        |offers
+    .ui.header 
+        i.clock.grey.icon
+        |available 
+    .ui.list
+        each available_offers
+            .item #{title}
+                .ui.small.button.accept_offer
+                    i.green.checkmark.icon
+                    |accept
+                .ui.small.button.reject_offer
+                    i.red.cancel.icon
+                    |reject
+    
+    .ui.header 
+        i.ban.grey.icon
+        |rejected 
+    .ui.list
+        each rejected_offers
+            .item #{title}
+    .ui.header
+        i.thumbs.up.grey.icon
+        |accepted 
+    .ui.list
+        each accepted_offers
+            .item #{title}
+    .ui.header
+        i.checkmark.grey.icon
+        |completed 
+    .ui.list
+        each completed_offers
+            .item #{title}

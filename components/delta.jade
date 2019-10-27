@@ -14,17 +14,12 @@ template(name='delta')
                             | #{title}
                     unless is_loading
                         if currentUser
-                            .ui.icon.large.compact.button.add_model_doc(title="add #{title}")
-                                //- +i name='plus' classes='ui avatar inline image add_model_doc'title='add'
-                                i.plus.big.blue.icon
+                            .ui.icon.compact.circular.button.add_model_doc(title="add #{title}")
+                                i.plus.large.icon
                         //- +user_list_toggle key='bookmark_ids' add_icon='bookmark outline' remove_icon='bookmark' label="bookmark"
                         if is_admin
                             .ui.icon.button.edit_model
                                 i.cog.icon
-                        // .ui.divider
-                        // // each sessions
-                        // //     .ui.icon.button.select_session(class=session_selector_class title='select session')
-                        // //         i.play.icon
                         if current_delta
                             if is_dev
                                 i.refresh.circular.link.reset.icon(title='reload session')
@@ -46,7 +41,7 @@ template(name='delta')
                         +facet
                 .eleven.wide.column
                     .filter_row.ui.basic.segment(class=loading_class)
-                        .ui.inline.small.grey.header
+                        .ui.inline.small.grey.header(title='change sort direction')
                             |sort by
                         .ui.compact.small.menu
                             .ui.simple.dropdown.item

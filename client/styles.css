@@ -396,7 +396,7 @@ body {
 
 
 input:not(.no_format){
-    -webkit-border-radius: 7px !important; */
+    -webkit-border-radius: 10px !important; */
     border-radius: 10px !important;
     margin-bottom: 3px !important;
     margin-top: 3px !important;

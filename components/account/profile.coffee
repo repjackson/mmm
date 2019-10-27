@@ -131,7 +131,6 @@ if Meteor.isClient
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
         @autorun -> Meteor.subscribe 'user_events', Router.current().params.username
         @autorun -> Meteor.subscribe 'member_stats', Router.current().params.username
-
     Template.profile_layout.onRendered ->
         Meteor.setTimeout ->
             $('.button').popup()
@@ -210,6 +209,25 @@ if Meteor.isClient
         'click .logout': ->
             Router.go '/login'
             Meteor.logout()
+
+
+
+
+
+
+    Template.user_actions.onCreated ->
+        @autorun -> Meteor.subscribe 'model_docs', 'user_action'
+    Template.user_actions.helpers
+        user_actions: ->
+            Docs.find
+                model:'user_action'
+
+
+
+
+
+
+
 
 
 
