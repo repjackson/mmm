@@ -5,28 +5,43 @@ template(name='user_offers')
     .ui.header 
         i.clock.grey.icon
         |available 
-    .ui.list
+    .ui.large.list
         each available_offers
-            .item #{title}
-                .ui.small.button.accept_offer
-                    i.green.checkmark.icon
-                    |accept
-                .ui.small.button.reject_offer
-                    i.red.cancel.icon
-                    |reject
+            .item 
+                .content
+                    .header
+                        |#{title}
+                        if automatic 
+                            i.yellow.lightning.icon(title='automatic, code based')
+                    .ui.small.compact.button.accept_offer
+                        i.green.checkmark.icon
+                        |accept
+                    .ui.small.compact.button.reject_offer
+                        i.red.cancel.icon
+                        |reject
     
     .ui.header 
         i.ban.grey.icon
         |rejected 
     .ui.list
         each rejected_offers
-            .item #{title}
+            .item
+                .content
+                    .header #{title}
+                    i.circular.link.undo.icon.unreject_offer(title='unreject')
+            
     .ui.header
         i.thumbs.up.grey.icon
         |accepted 
     .ui.list
         each accepted_offers
-            .item #{title}
+            .item
+                .content
+                    .header
+                        |#{title}
+                        if automatic
+                            i.yellow.lightning.icon(title='automatic')
+                    i.circular.link.undo.icon.unaccept_offer(title='unaccept')
     .ui.header
         i.checkmark.grey.icon
         |completed 

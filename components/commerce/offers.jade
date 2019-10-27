@@ -1,0 +1,62 @@
+template(name='offers')
+    .ui.stackable.padded.grid
+        .row
+            .four.wide.column
+                .ui.header 
+                    i.donate.icon
+                    |offers
+            .twelve.wide.column
+                .ui.header 
+                    i.clock.grey.icon
+                    |available 
+                .ui.large.list
+                    each available_offers
+                        .item 
+                            .content
+                                .header
+                                    |#{title}
+                                    if automatic 
+                                        i.yellow.lightning.icon(title='automatic, code based')
+                                .ui.small.compact.button.accept_offer
+                                    i.green.checkmark.icon
+                                    |accept
+                                .ui.small.compact.button.reject_offer
+                                    i.red.cancel.icon
+                                    |reject
+                .ui.header 
+                    i.ban.grey.icon
+                    |rejected 
+                .ui.list
+                    each rejected_offers
+                        .item
+                            .content
+                                .header #{title}
+                                i.circular.link.undo.icon.unreject_offer(title='unreject')
+                .ui.header
+                    i.thumbs.up.grey.icon
+                    |accepted 
+                .ui.large.list
+                    each accepted_offers
+                        +accepted_offer
+                .ui.header
+                    i.checkmark.grey.icon
+                    |completed 
+                .ui.list
+                    each completed_offers
+                        .item #{title}
+
+
+
+template(name='accepted_offer')
+    .item
+        .content
+            .header
+                |#{title} 
+                span(title='credit received after completion') #{credit_amount}c
+                if automatic
+                    i.yellow.lightning.icon(title='automatic')
+            |#{description}
+            i.circular.link.undo.icon.unaccept_offer(title='unaccept')
+            if automatic 
+                .ui.small.button.check_completion
+                    |check completion
