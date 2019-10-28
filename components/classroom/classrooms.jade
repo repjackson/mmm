@@ -17,18 +17,18 @@ template(name='classrooms')
                 div
                 +classroom_cloud
             .twelve.wide.column
-                //- .filter_row.ui.basic.segment(class=loading_class)
-                //-     .ui.inline.small.grey.header
-                //-         |sort by
-                    //- .ui.compact.small.menu
-                    //-     .ui.simple.dropdown.item
-                    //-         strong #{current_delta.sort_key}
-                    //-         i.dropdown.icon
-                    //-         .menu
-                    //-             each sortable_fields
-                    //-                 .item.set_sort_key 
-                    //-                     //- +ismall name=icon
-                    //-                     |#{title}
+                .filter_row.ui.basic.segment(class=loading_class)
+                    .ui.inline.small.grey.header
+                        |sort by
+                    .ui.compact.small.menu
+                        .ui.simple.dropdown.item
+                            strong #{current_delta.sort_key}
+                            i.dropdown.icon
+                            .menu
+                                each sortable_fields
+                                    .item.set_sort_key 
+                                        //- +ismall name=icon
+                                        |#{title}
                     //- .ui.compact.icon.button.set_sort_direction
                     //-     if sorting_up
                     //-         //- +ismall name='generic-sorting-2'

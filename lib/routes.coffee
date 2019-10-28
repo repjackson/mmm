@@ -25,6 +25,8 @@ Router.onBeforeAction(force_loggedin, {
     'classrooms'
     'choose_persona'
     'new_teacher'
+    'choose_personas'
+    'student_connect'
     'new_student'
     'new_business'
     'classroom_view'

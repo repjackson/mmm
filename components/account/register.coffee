@@ -3,14 +3,14 @@ if Meteor.isClient
         @layout 'layout'
         @render 'register'
         ), name:'register'
-    Router.route '/onboarding', (->
-        @layout 'mlayout'
-        @render 'onboarding'
-        ), name:'onboarding'
     Router.route '/choose_personas', (->
         @layout 'mlayout'
         @render 'choose_personas'
         ), name:'choose_personas'
+    Router.route '/student_connect', (->
+        @layout 'mlayout'
+        @render 'student_connect'
+        ), name:'student_connect'
     Router.route '/choose_interests', (->
         @layout 'mlayout'
         @render 'choose_interests'
@@ -30,6 +30,18 @@ if Meteor.isClient
             else
                 Meteor.users.update Meteor.userId(),
                     $addToSet: personas: @slug
+
+
+        'click .choose_teacher': ->
+
+
+        'click .choose_student': ->
+
+
+        'click .choose_parent': ->
+
+
+
     Template.choose_personas.helpers
         persona_class: ->
             if Meteor.user().personas and @slug in Meteor.user().personas then 'active' else ''
@@ -37,6 +49,41 @@ if Meteor.isClient
             Docs.find
                 model:'user_persona'
 
+
+    Template.student_connect.onCreated ->
+        Session.set 'found_user', null
+        Session.set 'can_continue', null
+        @autorun => Meteor.subscribe 'users'
+
+    Template.student_connect.events
+        'keyup .student_code': ->
+            code = $('.student_code').val()
+            console.log code
+            Meteor.call 'lookup_student_code', code, (err,res)->
+                console.log res
+                if res
+                    Session.set 'found_user', res
+                    # Router.go "/user/#{res.username}"
+        'keyup .new_student_password': ->
+            password = $('.new_student_password').val()
+            if password.length > 4
+                Session.set 'can_continue', true
+        'click .continue': ->
+            user = Session.get('found_user')
+            password = $('.new_student_password').val()
+            Meteor.call 'set_user_password', user, password, (err,res)=>
+                console.log user
+                console.log password
+                # if res
+                Meteor.loginWithPassword(user.username, password, (err,res)=>
+                    console.log err
+                    console.log res
+                    Router.go "/user/#{user.username}"
+                    )
+
+    Template.student_connect.helpers
+        found_user: -> Session.get 'found_user'
+        can_continue: -> Session.get 'can_continue'
 
 
 
@@ -100,7 +147,7 @@ if Meteor.isClient
                         #     Session.set 'enter_mode', 'register'
                         #     Session.set 'username', "#{username}"
                     else
-                        Router.go "/onboarding"
+                        Router.go "/choose_personas"
             # else
             #     Meteor.loginWithPassword username, password, (err,res)=>
             #         if err
@@ -120,6 +167,25 @@ if Meteor.isClient
 
 if Meteor.isServer
     Meteor.methods
+        set_user_password: (user, password)->
+            result = Accounts.setPassword(user._id, password)
+            console.log result
+            result
+
+
+
+
+
+        lookup_student_code: (input)->
+            console.log 'looking up student code', input
+            found_user = Meteor.users.findOne
+                student_code: input
+            if found_user
+                found_user
+            else
+                null
+
+
         create_user: (options)->
             Accounts.createUser options
 

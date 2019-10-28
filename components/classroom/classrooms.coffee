@@ -22,23 +22,6 @@ if Meteor.isClient
             }, sort: _timestamp: -1
 
 
-    # Template.classrooms.onRendered ->
-    # Template.classrooms.onCreated ->
-    #     @autorun => Meteor.subscribe 'classrooms'
-    #     @autorun => Meteor.subscribe 'model_docs', 'classroom'
-    # Template.classrooms.events
-    #     'click .add_classroom': ->
-    #         new_classroom = Docs.insert
-    #             model:'classroom'
-    #             teacher_id: Meteor.userId()
-    #         Router.go "/classroom/#{new_classroom}/edit"
-    # Template.classrooms.helpers
-    #     classrooms: ->
-    #         Docs.find {
-    #             model:'classroom'
-    #         }, sort: _timestamp: -1
-
-
     Template.classroom_card_template.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'classroom_stats'
     Template.classrooms.helpers

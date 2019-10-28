@@ -15,17 +15,17 @@ template(name='nav')
                 //- +ismall name='treasure-chest'
                 span.mobile.hidden &nbsp; contact
                 i.phone.icon.mobile.only
-        a.item(href='/schools')
+        a.item(href='/schools' class="{{isActiveRoute regex='schools'}}")
             +ismall name='school'
             span.mobile.hidden &nbsp; schools
-        a.item(href='/classrooms')
+        a.item(href='/classrooms' class="{{isActiveRoute regex='classrooms'}}")
             +ismall name='classroom'
             span.mobile.hidden &nbsp; classrooms
         //- a.item(href='/offers')
         //-     //- +ismall name='treasure-chest'
         //-     span.mobile.hidden &nbsp; offers
         //-     i.give.icon.mobile.only
-        a.item(href='/shop')
+        a.item(href='/shop' class="{{isActiveRoute regex='shop'}}")
             +ismall name='shop'
             span.mobile.hidden &nbsp; shop
         .right.menu
@@ -33,7 +33,7 @@ template(name='nav')
                 a.item(href='/login') 
                     i.sign.in.grey.icon
                     |log In
-                a.item(href='/register')
+                a.item(href='/choose_personas')
                     i.user.plus.grey.icon
                     |sign up
             if currentUser

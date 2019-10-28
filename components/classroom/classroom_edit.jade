@@ -18,28 +18,32 @@ template(name='classroom_edit_layout')
                         a.item(href="/classroom/#{_id}/edit/info" class="{{isActiveRoute regex='classroom_edit_info'}}") 
                             |info
                             i.info.icon
-                        a.item(href="/classroom/#{_id}/edit/settings" class="{{isActiveRoute regex='classroom_edit_settings'}}") 
-                            |settings
-                            i.cog.icon
+                        //- a.item(href="/classroom/#{_id}/edit/settings" class="{{isActiveRoute regex='classroom_edit_settings'}}") 
+                        //-     |settings
+                        //-     i.cog.icon
                         //- a.item(href="/classroom/#{_id}/edit/features" class="{{isActiveRoute regex='classroom_edit_features'}}")
                         //-     |features
                         //-     i.th.icon                    
                     .ui.vertical.large.fluid.pointing.large.menu
-                        a.item(href="/classroom/#{current_doc._id}/edit/files" class="{{isActiveRoute regex='classroom_edit_files'}}")
-                            |files
-                            i.file.icon
-                        a.item(href="/classroom/#{current_doc._id}/edit/debits" class="{{isActiveRoute regex='classroom_edit_debits'}}")
-                            |debits
-                            i.minus.icon
-                        a.item(href="/classroom/#{current_doc._id}/edit/credits" class="{{isActiveRoute regex='classroom_edit_credits'}}")
-                            |credits
-                            i.plus.icon
-                        a.item(href="/classroom/#{current_doc._id}/edit/shop" class="{{isActiveRoute regex='classroom_edit_shop'}}")
-                            |shop
-                            i.shop.icon
-                        a.item(href="/classroom/#{current_doc._id}/edit/students" class="{{isActiveRoute regex='classroom_edit_students'}}")
-                            |students
-                            i.users.icon
+                        //- a.item(href="/classroom/#{current_doc._id}/edit/files" class="{{isActiveRoute regex='classroom_edit_files'}}")
+                        //-     |files
+                        //-     i.file.icon
+                        a.item(href="/classroom/#{current_doc._id}/edit/finance" class="{{isActiveRoute regex='classroom_edit_files'}}")
+                            |finance
+                            i.money.icon
+                                
+                        //- a.item(href="/classroom/#{current_doc._id}/edit/debits" class="{{isActiveRoute regex='classroom_edit_debits'}}")
+                        //-     |debits
+                        //-     i.minus.icon
+                        //- a.item(href="/classroom/#{current_doc._id}/edit/credits" class="{{isActiveRoute regex='classroom_edit_credits'}}")
+                        //-     |credits
+                        //-     i.plus.icon
+                        //- a.item(href="/classroom/#{current_doc._id}/edit/shop" class="{{isActiveRoute regex='classroom_edit_shop'}}")
+                        //-     |shop
+                        //-     i.shop.icon
+                        //- a.item(href="/classroom/#{current_doc._id}/edit/students" class="{{isActiveRoute regex='classroom_edit_students'}}")
+                        //-     |students
+                        //-     i.users.icon
                     //- .ui.vertical.large.fluid.pointing.menu
                     //-     each enabled_features
                     //-         a.item(href="/classroom/#{current_doc._id}/edit/f/#{slug}")
@@ -75,16 +79,31 @@ template(name='classroom_edit_info')
         i.info.icon
         |info
     .ui.two.column.grid
-        .column
-            +text_edit key='title' label='classroom title' direct=true
-            +image_edit key='image_id' label='image' direct=true
-        .column
-            +textarea_edit key='description' label='description' direct=true
-            +array_edit key='tags' label='tags' icon='tags' direct=true
-            div
-            if is_admin
-                +teacher_selector
-                +school_selector
+        .row
+            .column
+                +text_edit key='title' label='classroom title' direct=true
+                +image_edit key='image_id' label='image' direct=true
+            .column
+                //- +textarea_edit key='description' label='description' direct=true
+                //- +array_edit key='tags' label='tags' icon='tags' direct=true
+                div
+                if is_admin
+                    +teacher_selector
+                    +school_selector
+        .row
+            +classroom_edit_students
+
+
+template(name='classroom_edit_finance')
+    .ui.two.column.grid
+        .row
+            .column
+                +classroom_edit_credits
+            .column
+                +classroom_edit_debits
+
+
+
 
 template(name='classroom_edit_students')                 
     +student_selector

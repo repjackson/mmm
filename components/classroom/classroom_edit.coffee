@@ -20,6 +20,10 @@ if Meteor.isClient
         @layout 'classroom_edit_layout'
         @render 'classroom_edit_feature'
         ), name:'classroom_edit_feature'
+    Router.route '/classroom/:doc_id/edit/finance', (->
+        @layout 'classroom_edit_layout'
+        @render 'classroom_edit_finance'
+        ), name:'classroom_edit_finance'
     Router.route '/classroom/:doc_id/edit/debits', (->
         @layout 'classroom_edit_layout'
         @render 'classroom_edit_debits'

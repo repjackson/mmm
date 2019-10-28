@@ -49,23 +49,59 @@ template(name='register')
 template(name='choose_personas')
     .ui.padded.stackable.grid
         .centered.row
-            .twelve.wide.column
+            .eight.wide.column
                 .ui.center.aligned.basic.segment
                     img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
                     //- +i name='add-user-male' classes='ui mini inline image'
                     //- .ui.inline.header registration
                     div
                     .ui.huge.header I am a...
-                    each user_personas
-                        .ui.large.button.select_persona(class=persona_class)
-                            +i name=icon classes='ui inline avatar image'
-                            |#{title}
-                    .spacer
-                    a.ui.big.green.button(href="/choose_interests")
-                        |continue
-                        i.right.chevron.icon
+                    a.ui.huge.fluid.button.choose_teacher(href="/register")
+                        +i name='teacher' classes='ui inline image'
+                        |teacher
+                    a.ui.huge.fluid.button.choose_student(href='/student_connect')
+                        +i name='students' classes='ui inline image'
+                        |student
+                    a.ui.huge.fluid.button.choose_parent(href="/parent_connect")
+                        +i name='manager' classes='ui inline image'
+                        |parent
+                    //- .ui.huge.fluid.button
+                    //-     +i name='donate' classes='ui inline image'
+                    //-     |donor
+                    //- each user_personas
+                    //-     .ui.large.button.select_persona(class=persona_class)
+                    //-         +i name=icon classes='ui inline avatar image'
+                    //-         |#{title}
+                    //- .spacer
+                    //- a.ui.big.green.button(href="/choose_interests")
+                    //-     |continue
+                    //-     i.right.chevron.icon
                             
                             
+                            
+template(name='student_connect')
+    .ui.padded.stackable.grid
+        .centered.row
+            .twelve.wide.column
+                .ui.center.aligned.basic.segment
+                    img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
+                    .ui.header enter student code
+                    .ui.fluid.inverted.blue.center.aligned.segment
+                        .ui.massive.fluid.transparent.inverted.input 
+                            input.student_code(type='text' maxlength='6' autofocus='autofocus')
+                    if found_user 
+                        .ui.header #{found_user.username}   
+                        .ui.header set password
+                        .ui.massive.fluid.input 
+                            input.new_student_password(type='password' minlength='3' autofocus='autofocus')
+                        if can_continue 
+                            .ui.fluid.green.button.continue
+                                |continue
+                    else 
+                        .ui.header no user found         
+                                
+                                
+                                
 template(name='choose_interests')
     .ui.padded.stackable.grid
         .centered.row
