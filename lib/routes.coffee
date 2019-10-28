@@ -33,6 +33,7 @@ Router.onBeforeAction(force_loggedin, {
     'parents'
     'donate'
     'teachers'
+    'shop'
     'schools'
     'donors'
     'forgot_password'

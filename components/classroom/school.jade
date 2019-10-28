@@ -19,7 +19,7 @@ template(name='schools')
 template(name='school_card')
     .ui.card
         a(href="/school/#{_id}")
-            img.ui.image(src="{{c.url image width=200 height=200 crop='lpad'}}")
+            img.ui.image(src="{{c.url image_id width=200 height=200 crop='lpad'}}")
             //- img.ui.fluid.image(src="{{c.url school_image_id crop='lpad'}}")
         .content
             a.ui.header(href="/school/#{_id}" title='balance') #{title}

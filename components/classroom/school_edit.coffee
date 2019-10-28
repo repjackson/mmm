@@ -1,155 +1,152 @@
 if Meteor.isClient
-    Router.route '/classroom/:doc_id/edit', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_students'
-        ), name:'classroom_edit'
-    Router.route '/classroom/:doc_id/edit/info', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_info'
-        ), name:'classroom_edit_info'
-    Router.route '/classroom/:doc_id/edit/settings', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_settings'
-        ), name:'classroom_edit_settings'
-    Router.route '/classroom/:doc_id/edit/students', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_students'
-        ), name:'classroom_edit_students'
+    Router.route '/school/:doc_id/edit', (->
+        @layout 'school_edit_layout'
+        @render 'school_edit_students'
+        ), name:'school_edit'
+    Router.route '/school/:doc_id/edit/info', (->
+        @layout 'school_edit_layout'
+        @render 'school_edit_info'
+        ), name:'school_edit_info'
+    Router.route '/school/:doc_id/edit/settings', (->
+        @layout 'school_edit_layout'
+        @render 'school_edit_settings'
+        ), name:'school_edit_settings'
+    Router.route '/school/:doc_id/edit/students', (->
+        @layout 'school_edit_layout'
+        @render 'school_edit_students'
+        ), name:'school_edit_students'
 
-    Router.route '/classroom/:doc_id/edit/f/:feature_slug', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_feature'
-        ), name:'classroom_edit_feature'
-    Router.route '/classroom/:doc_id/edit/debits', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_debits'
-        ), name:'classroom_edit_debits'
-    Router.route '/classroom/:doc_id/edit/credits', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_credits'
-        ), name:'classroom_edit_credits'
-    Router.route '/classroom/:doc_id/edit/shop', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_shop'
-        ), name:'classroom_edit_shop'
-    Router.route '/classroom/:doc_id/edit/templates', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_templates'
-        ), name:'classroom_edit_templates'
-    Router.route '/classroom/:doc_id/edit/files', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_files'
-        ), name:'classroom_edit_files'
-    Router.route '/classroom/:doc_id/edit/features', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_features'
-        ), name:'classroom_edit_features'
+    Router.route '/school/:doc_id/edit/f/:feature_slug', (->
+        @layout 'school_edit_layout'
+        @render 'school_edit_feature'
+        ), name:'school_edit_feature'
+    Router.route '/school/:doc_id/edit/debits', (->
+        @layout 'school_edit_layout'
+        @render 'school_edit_debits'
+        ), name:'school_edit_debits'
+    Router.route '/school/:doc_id/edit/credits', (->
+        @layout 'school_edit_layout'
+        @render 'school_edit_credits'
+        ), name:'school_edit_credits'
+    Router.route '/school/:doc_id/edit/shop', (->
+        @layout 'school_edit_layout'
+        @render 'school_edit_shop'
+        ), name:'school_edit_shop'
+    Router.route '/school/:doc_id/edit/templates', (->
+        @layout 'school_edit_layout'
+        @render 'school_edit_templates'
+        ), name:'school_edit_templates'
+    Router.route '/school/:doc_id/edit/files', (->
+        @layout 'school_edit_layout'
+        @render 'school_edit_files'
+        ), name:'school_edit_files'
+    Router.route '/school/:doc_id/edit/features', (->
+        @layout 'school_edit_layout'
+        @render 'school_edit_features'
+        ), name:'school_edit_features'
 
 
-    # Template.classroom_edit_layout.onRendered ->
-    Template.classroom_edit_layout.onCreated ->
+    # Template.school_edit_layout.onRendered ->
+    Template.school_edit_layout.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'feature'
-    Template.classroom_edit_layout.onRendered ->
+    Template.school_edit_layout.onRendered ->
         Meteor.setTimeout ->
             $('.accordion').accordion()
         , 750
-    Template.classroom_edit_layout.helpers
+    Template.school_edit_layout.helpers
         enabled_features: ->
-            classroom = Docs.findOne Router.current().params.doc_id
+            school = Docs.findOne Router.current().params.doc_id
             Docs.find
                 model:'feature'
-                _id: $in: classroom.enabled_feature_ids
+                _id: $in: school.enabled_feature_ids
 
 
 
 
 
 
-    Template.classroom_edit_debits.onCreated ->
+    Template.school_edit_debits.onCreated ->
         # @autorun => Meteor.subscribe 'model_docs', 'credit_type'
-        @autorun => Meteor.subscribe 'classroom_docs', 'debit_type', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'school_docs', 'debit_type', Router.current().params.doc_id
 
-    Template.classroom_edit_credits.onCreated ->
-        @autorun => Meteor.subscribe 'classroom_docs', 'credit_type', Router.current().params.doc_id
+    Template.school_edit_credits.onCreated ->
+        @autorun => Meteor.subscribe 'school_docs', 'credit_type', Router.current().params.doc_id
         # @autorun => Meteor.subscribe 'model_docs', 'debit_type'
         # Session.set 'permission', false
 
 
-    Template.classroom_edit_settings.onCreated ->
-        @autorun => Meteor.subscribe 'all_classroom_docs', Router.current().params.doc_id
+    Template.school_edit_settings.onCreated ->
+        @autorun => Meteor.subscribe 'all_school_docs', Router.current().params.doc_id
 
 
-    Template.classroom_edit_settings.events
-        'click .remove_classroom': ->
+    Template.school_edit_settings.events
+        'click .remove_school': ->
             console.log @
-            classroom_docs =
+            school_docs =
                 Docs.find(
-                    classroom_id: @_id
+                    school_id: @_id
                 )
-            console.log classroom_docs
-            if confirm "confirm delete classroom? this will delete #{classroom_docs.count()} classroom documents"
-                for classroom_doc in classroom_docs.fetch()
-                    Docs.remove classroom_doc._id
+            console.log school_docs
+            if confirm "confirm delete school? this will delete #{school_docs.count()} school documents"
+                for school_doc in school_docs.fetch()
+                    Docs.remove school_doc._id
                     $('body').toast({
-                        message: "#{classroom_doc.model} deleted"
+                        message: "#{school_doc.model} deleted"
                         class:'info'
                     })
                 Docs.remove @_id
-                Router.go '/classrooms'
+                Router.go '/schools'
 
 
 
-    Template.classroom_edit_debits.events
+    Template.school_edit_debits.events
         'click .select_debit': -> Session.set 'selected_debit_id', @_id
         'click .add_debit_type': ->
             new_debit_id = Docs.insert
                 model:'debit_type'
-                classroom_id: Router.current().params.doc_id
+                school_id: Router.current().params.doc_id
             Session.set 'selected_debit_id', new_debit_id
     Template.debit_menu_item.helpers
         debit_class: ->
             if Session.equals('selected_debit_id',@_id) then 'active' else ''
-    Template.classroom_edit_debits.helpers
+    Template.school_edit_debits.helpers
         selected_debit: ->
             Docs.findOne Session.get('selected_debit_id')
         template_debit_types: ->
             Docs.find
                 model:'debit_type'
-                classroom_id: Router.current().params.doc_id
+                school_id: Router.current().params.doc_id
                 template_id:$exists:true
         custom_debit_types: ->
             Docs.find
                 model:'debit_type'
-                classroom_id: Router.current().params.doc_id
+                school_id: Router.current().params.doc_id
                 template_id:$exists:false
 
 
 
 
 
-    Template.credit_menu_item.helpers
-        credit_class: ->
-            if Session.equals('selected_credit_id',@_id) then 'active' else ''
-    Template.classroom_edit_credits.helpers
+    Template.school_edit_credits.helpers
         template_credit_types: ->
             Docs.find
                 model:'credit_type'
-                classroom_id: Router.current().params.doc_id
+                school_id: Router.current().params.doc_id
                 template_id:$exists:true
         custom_credit_types: ->
             Docs.find
                 model:'credit_type'
-                classroom_id: Router.current().params.doc_id
+                school_id: Router.current().params.doc_id
                 template_id:$exists:false
         selected_credit: ->
             Docs.findOne Session.get('selected_credit_id')
-    Template.classroom_edit_credits.events
+    Template.school_edit_credits.events
         'click .select_credit': -> Session.set 'selected_credit_id', @_id
         'click .add_credit_type': ->
             new_credit_id = Docs.insert
                 model:'credit_type'
-                classroom_id: Router.current().params.doc_id
+                school_id: Router.current().params.doc_id
             Session.set 'selected_credit_id', new_credit_id
         'click .remove_credit': ->
             Docs.remove @_id
@@ -177,11 +174,11 @@ if Meteor.isClient
 
 
 
-    Template.classroom_edit_templates.onRendered ->
-    Template.classroom_edit_templates.onCreated ->
+    Template.school_edit_templates.onRendered ->
+    Template.school_edit_templates.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'transaction_template'
-    Template.classroom_edit_templates.helpers
+    Template.school_edit_templates.helpers
         transaction_templates: ->
             Docs.find
                 model:'transaction_template'
@@ -191,54 +188,54 @@ if Meteor.isClient
                 _author_id: Meteor.userId()
         selected_template: -> Docs.findOne Session.get('selected_template_id')
         template_class: -> if Session.equals('selected_template_id',@_id) then 'active' else ''
-    Template.classroom_edit_templates.events
+    Template.school_edit_templates.events
         'click .generate_from_current': ->
-            classroom = Docs.findOne Router.current().params.doc_id
+            school = Docs.findOne Router.current().params.doc_id
             new_template_id = Docs.insert
                 model:'transaction_template'
-                title:classroom.school_name
-                classroom_school_name: classroom.school_name
-                classroom_id: Router.current().params.doc_id
+                title:school.school_name
+                school_school_name: school.school_name
+                school_id: Router.current().params.doc_id
             Session.set 'selected_template_id', new_template_id
         'click .select_template': -> Session.set 'selected_template_id', @_id
         'click .add_credit_type': ->
             new_credit_id = Docs.insert
                 model:'credit_type'
-                classroom_id: Router.current().params.doc_id
+                school_id: Router.current().params.doc_id
 
 
 
-    Template.classroom_edit_features.onRendered ->
-    Template.classroom_edit_features.onCreated ->
+    Template.school_edit_features.onRendered ->
+    Template.school_edit_features.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'feature'
-    Template.classroom_edit_features.helpers
-        classroom_monthly_bill: ->
+    Template.school_edit_features.helpers
+        school_monthly_bill: ->
             bill = 0
-            classroom = Docs.findOne Router.current().params.doc_id
+            school = Docs.findOne Router.current().params.doc_id
             enabled_features =
                 Docs.find(
                     model:'feature'
-                    _id: $in: classroom.enabled_feature_ids
+                    _id: $in: school.enabled_feature_ids
                 ).fetch()
             for feature in enabled_features
                 bill += feature.monthly_price
             bill
 
         disabled_features: ->
-            classroom = Docs.findOne Router.current().params.doc_id
+            school = Docs.findOne Router.current().params.doc_id
             match = {model:'feature'}
-            if classroom.enabled_feature_ids
-                match._id = $nin: classroom.enabled_feature_ids
+            if school.enabled_feature_ids
+                match._id = $nin: school.enabled_feature_ids
             Docs.find match
         enabled_features: ->
-            classroom = Docs.findOne Router.current().params.doc_id
+            school = Docs.findOne Router.current().params.doc_id
             Docs.find
                 model:'feature'
-                _id: $in: classroom.enabled_feature_ids
+                _id: $in: school.enabled_feature_ids
         selected_feature: -> Docs.findOne Session.get('selected_feature_id')
         feature_class: -> if Session.equals('selected_feature_id',@_id) then 'active' else ''
-    Template.classroom_edit_features.events
+    Template.school_edit_features.events
         'click .select_feature': -> Session.set 'selected_feature_id', @_id
         'click .add_feature': ->
             new_feature_id = Docs.insert
@@ -251,11 +248,11 @@ if Meteor.isClient
     Template.feature.helpers
         editing_feature: -> Template.instance().editing_feature.get()
         enabled: ->
-            classroom = Docs.findOne Router.current().params.doc_id
-            if @_id in classroom.enabled_feature_ids then true else false
+            school = Docs.findOne Router.current().params.doc_id
+            if @_id in school.enabled_feature_ids then true else false
         feature_class: ->
-            classroom = Docs.findOne Router.current().params.doc_id
-            if @_id in classroom.enabled_feature_ids then 'green raised' else ''
+            school = Docs.findOne Router.current().params.doc_id
+            if @_id in school.enabled_feature_ids then 'green raised' else ''
     Template.feature.events
         'click .enable_feature': ->
             if @dependencies and @dependencies.length
@@ -303,11 +300,11 @@ if Meteor.isClient
 
 
 
-    Template.classroom_edit_feature.onRendered ->
-    Template.classroom_edit_feature.onCreated ->
+    Template.school_edit_feature.onRendered ->
+    Template.school_edit_feature.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'feature_by_slug', Router.current().params.feature_slug
-    Template.classroom_edit_feature.helpers
+    Template.school_edit_feature.helpers
         current_feature: ->
             Docs.findOne
                 model:'feature'
@@ -315,7 +312,7 @@ if Meteor.isClient
 
         feature_edit_template: ->
             # console.log @
-            "classroom_edit_#{@slug}"
+            "school_edit_#{@slug}"
 
 
 
@@ -324,37 +321,37 @@ if Meteor.isClient
     Template.template.onCreated ->
         @editing_template = new ReactiveVar false
         console.log @data
-        @autorun => Meteor.subscribe 'classroom_docs', 'credit_type', @data.classroom_id
-        @autorun => Meteor.subscribe 'classroom_docs', 'debit_type', @data.classroom_id
+        @autorun => Meteor.subscribe 'school_docs', 'credit_type', @data.school_id
+        @autorun => Meteor.subscribe 'school_docs', 'debit_type', @data.school_id
         @autorun => Meteor.subscribe 'model_docs', 'debit_type'
         @autorun => Meteor.subscribe 'model_docs', 'credit_type'
 
     Template.template.helpers
         editing_template: -> Template.instance().editing_template.get()
-        classroom_debits: ->
+        school_debits: ->
             Docs.find
                 model:'debit_type'
                 template_id: $exists: false
-                classroom_id: @classroom_id
-        classroom_credits: ->
+                school_id: @school_id
+        school_credits: ->
             Docs.find
                 model:'credit_type'
                 template_id: $exists: false
-                classroom_id: @classroom_id
+                school_id: @school_id
     Template.template.events
         'click .clone_template': ->
             # console.log @
-            classroom_credits =
+            school_credits =
                 Docs.find(
                     model:'credit_type'
-                    classroom_id: @classroom_id
+                    school_id: @school_id
                     template_id: $exists: false
                 ).fetch()
-            for credit in classroom_credits
+            for credit in school_credits
                 # console.log 'cloning credit', credit
                 new_credit_object = {}
                 new_credit_object.model = 'credit_type'
-                new_credit_object.classroom_id = Router.current().params.doc_id
+                new_credit_object.school_id = Router.current().params.doc_id
                 new_credit_object.template_id = @_id
 
                 if credit.title
@@ -380,17 +377,17 @@ if Meteor.isClient
                     # showProgress: 'bottom'
                 })
 
-            classroom_debits =
+            school_debits =
                 Docs.find(
                     model:'debit_type'
-                    classroom_id: @classroom_id
+                    school_id: @school_id
                     template_id: $exists: false
                 ).fetch()
-            for debit in classroom_debits
+            for debit in school_debits
                 # console.log 'cloning debit', debit
                 new_debit_object = {}
                 new_debit_object.model = 'debit_type'
-                new_debit_object.classroom_id = Router.current().params.doc_id
+                new_debit_object.school_id = Router.current().params.doc_id
                 new_debit_object.template_id = @_id
 
                 if debit.title
@@ -415,7 +412,7 @@ if Meteor.isClient
                     class:'success'
                     # showProgress: 'bottom'
                 })
-            console.log classroom_debits
+            console.log school_debits
         'click .save_template': (e,t)->
             t.editing_template.set false
         'click .edit_template': (e,t)->

@@ -3,8 +3,12 @@ if Meteor.isClient
         @render 'classrooms'
     Router.route '/classroom/:doc_id/', (->
         @layout 'classroom_view_layout'
-        @render 'classroom_dashboard'
+        @render 'classroom_students'
         ), name:'classroom_view'
+    Router.route '/classroom/:doc_id/dashboard', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_dashboard'
+        ), name:'classroom_dashboard'
     Router.route '/classroom/:doc_id/reports', (->
         @layout 'classroom_view_layout'
         @render 'classroom_reports'
