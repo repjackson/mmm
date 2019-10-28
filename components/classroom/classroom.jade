@@ -12,26 +12,26 @@ template(name='classroom_view_layout')
                     .ui.center.aligned.huge.header
                         | #{title}
                     img.ui.centered.rounded.small.image(src="{{c.url image_id gravity='face' crop='fit'}}")
-                    .ui.large.fluid.vertical.pointing.menu
+                    .ui.big.fluid.vertical.pointing.menu
                         a.item(href="/classroom/#{current_doc._id}/students" class="{{isActiveRoute regex='classroom_students'}}")
                             |dashboard
                             i.dashboard.icon    
-                    .ui.vertical.large.fluid.pointing.large.menu
+                    .ui.vertical.big.fluid.pointing.large.menu
                         a.item(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
                             i.home.grey.icon
                             | home
                         a.item(href="/classroom/#{current_doc._id}/files" class="{{isActiveRoute regex='classroom_files'}}")
                             | files
-                            i.file.icon
+                            i.file.grey.icon
                         a.item(href="/classroom/#{current_doc._id}/lunch" class="{{isActiveRoute regex='classroom_lunch'}}")
                             | lunch
-                            i.file.icon
+                            i.food.grey.icon
                         a.item(href="/classroom/#{current_doc._id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
                             | reports
-                            i.line.chart.icon
+                            i.line.chart.grey.icon
                         a.item(href="/classroom/#{current_doc._id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
                             | shop
-                            i.shop.icon
+                            i.shop.grey.icon
                         //- each enabled_features
                         //-     a.item(href="/classroom/#{current_doc._id}/f/#{slug}")
                         //-         |#{title}

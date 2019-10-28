@@ -3,10 +3,11 @@ template(name='login')
         .centered.row
             .eight.wide.column
                 .ui.center.aligned.basic.segment
-                    //- a.ui.button(href="/")
-                    //-     i.chevron.left.icon
-                    //-     i.home.icon
-                    //-     |home
+                    a.ui.button(href="/")
+                        i.chevron.left.icon
+                        i.home.icon
+                        |home
+                    .spacer
                     img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
                     .ui.inline.large.header login
                 div

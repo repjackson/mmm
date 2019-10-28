@@ -9,11 +9,12 @@ template(name='student_selector')
             .ui.fluid.input 
                 input#last_name(type='text' placeholder='last name')
         .column
-            .ui.small.header 
-                i.search.grey.icon
-                |lookup existing student
-            .ui.large.fluid.input
-                input#student_input(type='text' placeholder="lookup existing student..")
+            if is_admin
+                .ui.small.header 
+                    i.search.grey.icon
+                    |lookup existing student
+                .ui.large.fluid.input
+                    input#student_input(type='text' placeholder="lookup existing student..")
             each selections
                 a.ui.basic.label(href="/student/#{username}")
                     |#{first_name} #{last_name} @#{username}

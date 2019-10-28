@@ -3,6 +3,11 @@ template(name='register')
         .centered.row
             .ten.wide.column
                 .ui.center.aligned.basic.segment
+                    a.ui.button(href="/")
+                        i.left.chevron.icon
+                        |back
+                    div
+            
                     img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
                     //- +i name='add-user-male' classes='ui mini inline image'
                     .ui.inline.header registration
@@ -51,6 +56,10 @@ template(name='choose_personas')
         .centered.row
             .eight.wide.column
                 .ui.center.aligned.basic.segment
+                    a.ui.button(href="/")
+                        i.left.chevron.icon
+                        |back
+                    div
                     img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
                     //- +i name='add-user-male' classes='ui mini inline image'
                     //- .ui.inline.header registration
@@ -59,10 +68,10 @@ template(name='choose_personas')
                     a.ui.huge.fluid.button.choose_teacher(href="/register")
                         +i name='teacher' classes='ui inline image'
                         |teacher
-                    a.ui.huge.fluid.button.choose_student(href='/student_connect')
+                    a.ui.huge.fluid.disabled.button.choose_student(href='/student_connect')
                         +i name='students' classes='ui inline image'
                         |student
-                    a.ui.huge.fluid.button.choose_parent(href="/parent_connect")
+                    a.ui.huge.fluid.disabled.button.choose_parent(href="/parent_connect")
                         +i name='manager' classes='ui inline image'
                         |parent
                     //- .ui.huge.fluid.button
@@ -84,13 +93,19 @@ template(name='student_connect')
         .centered.row
             .twelve.wide.column
                 .ui.center.aligned.basic.segment
+                    a.ui.button(href="/choose_personas")
+                        i.left.chevron.icon
+                        |back
+            
                     img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
-                    .ui.header enter student code
+                    .ui.header 
+                        +i name='students'
+                        |enter student code
                     .ui.fluid.inverted.blue.center.aligned.segment
                         .ui.massive.fluid.transparent.inverted.input 
                             input.student_code(type='text' maxlength='6' autofocus='autofocus')
-                    if found_user 
-                        .ui.header #{found_user.username}   
+                    if found_student 
+                        .ui.header #{found_student.username}   
                         .ui.header set password
                         .ui.massive.fluid.input 
                             input.new_student_password(type='password' minlength='3' autofocus='autofocus')
@@ -98,7 +113,35 @@ template(name='student_connect')
                             .ui.fluid.green.button.continue
                                 |continue
                     else 
-                        .ui.header no user found         
+                        .ui.header no student found         
+                                
+                                
+template(name='parent_connect')
+    .ui.padded.stackable.grid
+        .centered.row
+            .twelve.wide.column
+                .ui.center.aligned.basic.segment
+                    a.ui.button(href="/choose_personas")
+                        i.left.chevron.icon
+                        |back
+                    img.ui.rounded.small.centered.inline.image(src="{{c.url 'mmmlogo' width=400 height=400}}")
+                    .ui.header enter parent code
+                    .ui.fluid.inverted.teal.center.aligned.segment
+                        .ui.massive.fluid.transparent.inverted.input 
+                            input.parent_code(type='text' maxlength='6' autofocus='autofocus')
+                    if found_student 
+                        .ui.header found student #{found_student.username}   
+                        .ui.header set username
+                        .ui.massive.fluid.input 
+                            input.new_parent_username(type='text' minlength='3' autofocus='autofocus')
+                        .ui.header set password
+                        .ui.massive.fluid.input 
+                            input.new_parent_password(type='password' minlength='3' autofocus='autofocus')
+                        if can_continue 
+                            .ui.fluid.green.button.continue
+                                |continue
+                    else 
+                        .ui.header no student found         
                                 
                                 
                                 

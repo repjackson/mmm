@@ -58,7 +58,9 @@ template(name='build_classroom_info')
                     .spacer
                     +text_edit key='teacher_name' label='teacher Name' placeholder='enter your name' tooltip='examples: john smith' direct=true
                     .spacer
-                    +text_edit key='school_name' label='school name'  tooltip='examples: Acme students, Inc' placeholder='enter your classroom name' direct=true
+                    +text_edit key='title' label='classroom name'  tooltip='examples: Acme students, Inc' placeholder='enter your classroom name' direct=true
+                    .spacer
+                    +number_edit key='grade_level' tooltip='for customized experience' label='grade level' direct=true
                     .spacer
                     +image_edit key='image_id' tooltip='this is the image that shows up in the classroom profile' label='image' direct=true
                     .spacer
@@ -101,15 +103,13 @@ template(name='build_classroom_finance')
                             i.dashboard.icon
                             .content
                                 .title dashboard
-                    
-                    
             .centered.row
                 .seven.wide.center.aligned.column
                     .ui.center.aligned.header 
                         +i name='request-money'
                         |income
                     .spacer
-                    +number_edit key='salary_amount' label='salary amount' icon='housekeeper-male' direct=true
+                    +number_edit key='salary_amount' label='salary amount' icon='money' direct=true
                     .spacer
                     +number_edit key='bonus_amount' label='bonus amount' icon='trust' direct=true
                     .spacer
