@@ -105,9 +105,15 @@ template(name='build_classroom_finance')
                                 .title dashboard
             .centered.row
                 .seven.wide.center.aligned.column
+                    .ui.button.generate_trans_types
+                        |generate
                     .ui.center.aligned.header 
                         +i name='request-money'
                         |income
+                    .ui.header auto
+                    each credits
+                        +number_edit key=amount label=title icon=icon direct=true
+            
                     .spacer
                     +number_edit key='salary_amount' label='salary amount' icon='money' direct=true
                     .spacer
@@ -119,6 +125,10 @@ template(name='build_classroom_finance')
                         +i name='initiate-money-transfer'
                         |expenses
                     .spacer
+                    .ui.header auto
+                    each debits
+                        +number_edit key=amount label=title icon=icon direct=true
+                    .ui.divider
                     +number_edit key='desk_rental_amount' label='desk rental amount' icon='table' direct=true
                     .spacer
                     +number_edit key='fines_amount' label='fines amount' icon='foul' direct=true

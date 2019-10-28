@@ -25,24 +25,24 @@ template(name='school_edit_layout')
                         //-     |features
                         //-     i.th.icon                    
                     .ui.vertical.large.fluid.pointing.large.menu
-                        a.item(href="/school/#{current_doc._id}/edit/files" class="{{isActiveRoute regex='school_edit_files'}}")
+                        a.disabled.item(href="/school/#{current_doc._id}/edit/files" class="{{isActiveRoute regex='school_edit_files'}}")
                             |files
                             i.file.icon
-                        a.item(href="/school/#{current_doc._id}/edit/debits" class="{{isActiveRoute regex='school_edit_debits'}}")
+                        a.disabled.item(href="/school/#{current_doc._id}/edit/debits" class="{{isActiveRoute regex='school_edit_debits'}}")
                             |debits
                             i.minus.icon
-                        a.item(href="/school/#{current_doc._id}/edit/credits" class="{{isActiveRoute regex='school_edit_credits'}}")
+                        a.disabled.item(href="/school/#{current_doc._id}/edit/credits" class="{{isActiveRoute regex='school_edit_credits'}}")
                             |credits
                             i.plus.icon
-                        a.item(href="/school/#{current_doc._id}/edit/shop" class="{{isActiveRoute regex='school_edit_shop'}}")
+                        a.disabled.item(href="/school/#{current_doc._id}/edit/shop" class="{{isActiveRoute regex='school_edit_shop'}}")
                             |shop
                             i.shop.icon
-                        a.item(href="/school/#{current_doc._id}/edit/students" class="{{isActiveRoute regex='school_edit_students'}}")
+                        a.disabled.item(href="/school/#{current_doc._id}/edit/students" class="{{isActiveRoute regex='school_edit_students'}}")
                             |students
                             i.users.icon
                     //- .ui.vertical.large.fluid.pointing.menu
                     //-     each enabled_features
-                    //-         a.item(href="/school/#{current_doc._id}/edit/f/#{slug}")
+                    //-         a.disabled.item(href="/school/#{current_doc._id}/edit/f/#{slug}")
                     //-             |#{title}
                     //-             i.icon(class=icon)
                 .twelve.wide.column

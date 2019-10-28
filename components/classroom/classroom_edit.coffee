@@ -79,11 +79,8 @@ if Meteor.isClient
         # @autorun => Meteor.subscribe 'model_docs', 'debit_type'
         # Session.set 'permission', false
 
-
     Template.classroom_edit_settings.onCreated ->
         @autorun => Meteor.subscribe 'all_classroom_docs', Router.current().params.doc_id
-
-
     Template.classroom_edit_settings.events
         'click .remove_classroom': ->
             console.log @

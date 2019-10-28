@@ -88,6 +88,8 @@ template(name='classroom_edit_info')
                 //- +array_edit key='tags' label='tags' icon='tags' direct=true
                 div
                 if is_admin
+                    +text_edit key='slug' label='slug' direct=true
+                    +boolean_edit key='template' label='template' direct=true
                     +teacher_selector
                     +school_selector
         .row
