@@ -77,26 +77,11 @@ template(name='classroom_edit_info')
     .ui.two.column.grid
         .column
             +text_edit key='title' label='classroom title' direct=true
-            +text_edit key='teacher_name' label='teacher name' placeholder='enter your name' tooltip='examples: john smith' direct=true
-            +text_edit key='school_name' label='school name' direct=true
             +image_edit key='image_id' label='image' direct=true
         .column
             +textarea_edit key='description' label='description' direct=true
             +array_edit key='tags' label='tags' icon='tags' direct=true
             div
-            //- +boolean_edit key='phone_exists' label='phone' icon='phone' direct=true
-            //- if phone_exists 
-            //-     +phone_edit key='phone_number' label='phone number' direct=true
-            //- div
-            //- +boolean_edit key='address_exists' label='address' icon='address' direct=true
-            //- if address_exists 
-            //-     +text_edit key='address' label='address' direct=true
-            //-     +array_edit key='location_tags' label='location tags' direct=true
-            //- div
-            //- +boolean_edit key='hours_exist' label='hours' icon='clock' direct=true
-            //- if hours_exist 
-            //-     +text_edit key='hours' label='hours' direct=true
-            //-     +array_edit key='availability_tags' label='availability tags' direct=true
             if is_admin
                 +teacher_selector
                 +school_selector

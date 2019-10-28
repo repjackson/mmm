@@ -230,7 +230,7 @@ if Meteor.isClient
     Template.school_stats.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'school_stats'
     Template.school_stats.helpers
-        gsd: ->
+        csd: ->
             Docs.findOne
                 model:'school_stats'
                 school_id:Router.current().params.doc_id

@@ -13,9 +13,9 @@ template(name='classroom_view_layout')
                         | #{title}
                     img.ui.centered.rounded.small.image(src="{{c.url image_id gravity='face' crop='fit'}}")
                     .ui.large.fluid.vertical.pointing.menu
-                        a.item(href="/classroom/#{current_doc._id}/students" class="{{isActiveRoute regex='classroom_dashboard'}}")
-                            |students
-                            i.users.icon    
+                        a.item(href="/classroom/#{current_doc._id}/students" class="{{isActiveRoute regex='classroom_students'}}")
+                            |dashboard
+                            i.dashboard.icon    
                     .ui.vertical.large.fluid.pointing.large.menu
                         a.item(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
                             i.home.grey.icon
@@ -63,7 +63,9 @@ template(name='classroom_dashboard')
 template(name='classroom_school')
     .ui.header school
     with school_classroom
-        +school_card
+        a.ui.large.button(href="/school/#{_id}") 
+            .ui.header #{title}
+        //- +school_card
 
 
 template(name='classroom_students_small')   
@@ -368,22 +370,22 @@ template(name='classroom_stats')
                 i.line.chart.icon
                 |stats
             div
-            .ui.green.inline.header $#{gsd.classroom_balance}
+            .ui.green.inline.header $#{csd.classroom_balance}
             | balance
             div
-            .ui.green.inline.header $#{gsd.total_credit_amount}
+            .ui.green.inline.header $#{csd.total_credit_amount}
             | income
             div
-            .ui.red.inline.header -$#{gsd.total_debit_amount}
+            .ui.red.inline.header -$#{csd.total_debit_amount}
             | expenses
         .column
             .ui.big.list
                 .item #{views} views
-                .item #{gsd.student_count} students
-                .item #{gsd.credit_count} total credits
-                .item #{gsd.debit_count} total debits
-                .item $#{gsd.average_credit_per_student} credit/student
-                .item $#{gsd.average_debit_per_student} debit/student
+                .item #{csd.student_count} students
+                .item #{csd.credit_count} total credits
+                .item #{csd.debit_count} total debits
+                .item $#{csd.average_credit_per_student} credit/student
+                .item $#{csd.average_debit_per_student} debit/student
 
 
 

@@ -124,7 +124,7 @@ if Meteor.isClient
     Template.classroom_stats.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'classroom_stats'
     Template.classroom_stats.helpers
-        gsd: ->
+        csd: ->
             Docs.findOne
                 model:'classroom_stats'
                 classroom_id:Router.current().params.doc_id
@@ -169,6 +169,12 @@ if Meteor.isClient
         , 1000
 
 
+
+    Template.classroom_school.helpers
+        school_classroom: ->
+            Docs.findOne
+                model:'school'
+                _id: @school_id
 
     Template.classroom_students.helpers
         # bulk_action_class: ->

@@ -26,9 +26,9 @@ template(name='school_card')
             //- img.ui.fluid.image(src="{{c.url school_image_id crop='lpad'}}")
         .content
             a.ui.header(href="/school/#{_id}") #{title}
-            .ui.green.inline.header $#{gsd.school_balance}
-            .ui.green.inline.small.header(title='income') ($#{gsd.total_credit_amount}
-            .ui.red.inline.small.header(title='expenses') / -$#{gsd.total_debit_amount})
+            .ui.green.inline.header $#{csd.school_balance}
+            .ui.green.inline.small.header(title='income') ($#{csd.total_credit_amount}
+            .ui.red.inline.small.header(title='expenses') / -$#{csd.total_debit_amount})
         a.ui.fluid.tertiary.button(href="/school/#{_id}")
             |view details
             i.right.chevron.icon
@@ -82,6 +82,10 @@ template(name='school_view_layout')
                         a.disabled.item(href="/school/#{current_doc._id}/stats" class="{{isActiveRoute regex='school_stats'}}")
                             i.line.chart.icon
                             |stats
+                    if can_edit 
+                        a.ui.fluid.button(href="/school/#{_id}/edit") 
+                            i.pencil.icon
+                            |edit
                 .thirteen.wide.column
                     +yield
     +footer
@@ -129,9 +133,9 @@ template(name='school_card_by_id')
                 //- img.ui.fluid.image(src="{{c.url school_image_id crop='lpad'}}")
             .content
                 a.ui.header(href="/school/#{_id}") #{title}
-                .ui.green.inline.header $#{gsd.school_balance}
-                .ui.green.inline.small.header(title='income') ($#{gsd.total_credit_amount}
-                .ui.red.inline.small.header(title='expenses') / -$#{gsd.total_debit_amount})
+                .ui.green.inline.header $#{csd.school_balance}
+                .ui.green.inline.small.header(title='income') ($#{csd.total_credit_amount}
+                .ui.red.inline.small.header(title='expenses') / -$#{csd.total_debit_amount})
             a.ui.fluid.tertiary.button(href="/school/#{_id}")
                 |view
                 i.right.chevron.icon
@@ -188,8 +192,9 @@ template(name='school_classrooms')
     .ui.header 
         +i name='classroom' classes='ui mini inline image'
         |classrooms
-    each classrooms 
-        a.ui.small.header(href="/classroom/#{_id}") #{title}
+    .ui.large.link.list
+        each classrooms 
+            a.item(href="/classroom/#{_id}") #{title}
                     
                     
                     
@@ -302,20 +307,20 @@ template(name='school_stats')
     .ui.header.refresh_school_stats
         |school stats
     div
-    .ui.green.inline.small.header $#{gsd.school_balance}
+    .ui.green.inline.small.header $#{csd.school_balance}
     | balance
     div
-    .ui.green.inline.small.header $#{gsd.total_credit_amount}
+    .ui.green.inline.small.header $#{csd.total_credit_amount}
     | income
     div
-    .ui.red.inline.small.header -$#{gsd.total_debit_amount}
+    .ui.red.inline.small.header -$#{csd.total_debit_amount}
     | expenses
     .ui.list
         .item #{views} views
-        .item #{gsd.student_count} students
-        .item #{gsd.credit_count} total credits
-        .item #{gsd.debit_count} total debits
-        .item $#{gsd.average_credit_per_student} credit/student
-        .item $#{gsd.average_debit_per_student} debit/student
+        .item #{csd.student_count} students
+        .item #{csd.credit_count} total credits
+        .item #{csd.debit_count} total debits
+        .item $#{csd.average_credit_per_student} credit/student
+        .item $#{csd.average_debit_per_student} debit/student
         
     //- +html_raw_view key='google_map' direct=true

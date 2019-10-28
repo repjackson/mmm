@@ -2,8 +2,10 @@ if Meteor.isClient
     Template.classrooms.onRendered ->
     Template.classrooms.onCreated ->
         # @autorun => Meteor.subscribe 'model_docs', 'classroom'
+        @autorun => Meteor.subscribe 'users'
         @autorun -> Meteor.subscribe('classroom_facet_docs',
             selected_classroom_tags.array()
+            Session.get('selected_school_id')
             # Session.get('sort_key')
         )
 

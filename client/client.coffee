@@ -61,7 +61,7 @@ Template.registerHelper 'gs', () ->
         model:'global_settings'
 
 Template.registerHelper 'classroom_students', ->
-    console.log @
+    # console.log @
     if @student_ids
         Meteor.users.find
             _id: $in: @student_ids
@@ -115,7 +115,7 @@ Template.registerHelper 'cal_time', (input) -> moment(input).calendar()
 Template.registerHelper 'last_initial', (user) ->
     @last_name[0]+'.'
 
-Template.registerHelper 'gsd', () ->
+Template.registerHelper 'csd', () ->
     if Router.current().params.doc_id
         Docs.findOne
             model:'classroom_stats'
@@ -157,11 +157,12 @@ Template.registerHelper 'hsd', () ->
         model:'home_stats'
 
 Template.registerHelper 'classroom_school', () ->
-    console.log @
-    Docs.findOne
+    # console.log @
+    school = Docs.findOne
         model:'school'
         _id: @school_id
-
+    console.log school
+    school
 # Template.registerHelper 'parent_template', () -> Template.parentData()
     # Session.get 'displaying_profile'
 
