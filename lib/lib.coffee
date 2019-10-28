@@ -5,7 +5,7 @@
 @Rental_tags = new Meteor.Collection 'rental_tags'
 @Classroom_tags = new Meteor.Collection 'classroom_tags'
 @Shop_tags = new Meteor.Collection 'shop_tags'
-@classroom_location_tags = new Meteor.Collection 'classroom_location_tags'
+@Classroom_location_tags = new Meteor.Collection 'classroom_location_tags'
 @Question_tags = new Meteor.Collection 'question_tags'
 @Test_tags = new Meteor.Collection 'test_tags'
 @User_section_tags = new Meteor.Collection 'user_section_tags'

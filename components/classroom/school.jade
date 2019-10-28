@@ -2,7 +2,7 @@ template(name='schools')
     .ui.stackable.padded.grid
         .row
             .twelve.wide.column
-                .ui.inline.header 
+                .ui.inline.center.aligned.header 
                     +i name='school'
                     |schools
                 if currentUser
@@ -48,19 +48,19 @@ template(name='school_view_layout')
                     //-     small principal
                     //-     | #{principal_name}
                     div
-                    .ui.big.fluid.vertical.menu
-                        a.item(href="/school/#{current_doc._id}/students" class="{{isActiveRoute regex='school_students'}}")
-                            i.icon
-                                +ismall name='students'
-                            |students
-                        a.item(href="/school/#{current_doc._id}/teachers" class="{{isActiveRoute regex='school_teachers'}}")
-                            i.icon
-                                +ismall name='teacher'
-                            |teachers
-                        a.item(href="/school/#{current_doc._id}/teachers" class="{{isActiveRoute regex='school_teachers'}}")
-                            i.icon
-                                +ismall name='classroom'
-                            |classroom
+                    //- .ui.big.fluid.vertical.menu
+                    //-     a.item(href="/school/#{current_doc._id}/students" class="{{isActiveRoute regex='school_students'}}")
+                    //-         i.icon
+                    //-             +ismall name='students'
+                    //-         |students
+                    //-     a.item(href="/school/#{current_doc._id}/teachers" class="{{isActiveRoute regex='school_teachers'}}")
+                    //-         i.icon
+                    //-             +ismall name='teacher'
+                    //-         |teachers
+                    //-     a.item(href="/school/#{current_doc._id}/teachers" class="{{isActiveRoute regex='school_teachers'}}")
+                    //-         i.icon
+                    //-             +ismall name='classroom'
+                    //-         |classroom
                 .thirteen.wide.column
                     +yield
     +footer
@@ -73,10 +73,6 @@ template(name='school_loans')
 
 template(name='school_shop')        
     +shop
-
-template(name='school_grades')        
-    .ui.header grades
-
 
 
 template(name='school_credits')
@@ -240,4 +236,4 @@ template(name='school_stats')
         .item $#{gsd.average_credit_per_student} credit/student
         .item $#{gsd.average_debit_per_student} debit/student
         
-    +html_raw_view key='google_map' direct=true
+    //- +html_raw_view key='google_map' direct=true

@@ -21,24 +21,24 @@ template(name='user_edit_layout')
                         a.item(href="/user/#{current_user.username}/edit/friends" class="{{isActiveRoute regex='user_edit_friends'}}") 
                             |friends
                             i.users.icon
-                        a.item(href="/user/#{current_user.username}/edit/styles" class="{{isActiveRoute regex='user_edit_styles'}}") 
-                            |styles
-                            i.brush.icon
-                        a.item(href="/user/#{current_user.username}/edit/notifications" class="{{isActiveRoute regex='user_edit_notifications'}}") 
-                            |notifications
-                            i.bell.icon
-                        a.item(href="/user/#{current_user.username}/edit/payment" class="{{isActiveRoute regex='user_edit_payment'}}") 
-                            |payment
-                            i.money.icon
+                        //- a.item(href="/user/#{current_user.username}/edit/styles" class="{{isActiveRoute regex='user_edit_styles'}}") 
+                        //-     |styles
+                        //-     i.brush.icon
+                        //- a.item(href="/user/#{current_user.username}/edit/notifications" class="{{isActiveRoute regex='user_edit_notifications'}}") 
+                        //-     |notifications
+                        //-     i.bell.icon
+                        //- a.item(href="/user/#{current_user.username}/edit/payment" class="{{isActiveRoute regex='user_edit_payment'}}") 
+                        //-     |payment
+                        //-     i.money.icon
                         a.item(href="/user/#{current_user.username}/edit/account" class="{{isActiveRoute regex='user_edit_account'}}") 
                             |account
                             i.cog.icon
                         a.item(href="/user/#{current_user.username}/edit/tags" class="{{isActiveRoute regex='user_edit_tags'}}") 
                             |tags
                             i.tags.icon
-                        a.item(href="/user/#{current_user.username}/edit/ads" class="{{isActiveRoute regex='user_edit_ads'}}") 
-                            |ads
-                            i.bullhorn.icon
+                        //- a.item(href="/user/#{current_user.username}/edit/ads" class="{{isActiveRoute regex='user_edit_ads'}}") 
+                        //-     |ads
+                        //-     i.bullhorn.icon
                 .twelve.wide.column
                     +yield
 

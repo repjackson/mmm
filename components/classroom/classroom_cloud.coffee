@@ -5,7 +5,7 @@ if Meteor.isClient
     Template.classroom_cloud.helpers
         all_classroom_tags: ->
             classroom_count = Docs.find(model:'classroom').count()
-            if 0 < classroom_count < 3 then classroom_tags.find { count: $lt: classroom_count } else classroom_tags.find({},{limit:42})
+            if 0 < classroom_count < 3 then Classroom_tags.find { count: $lt: classroom_count } else Classroom_tags.find({},{limit:42})
         selected_classroom_tags: -> selected_classroom_tags.array()
     # Template.sort_item.events
     #     'click .set_sort': ->
@@ -33,7 +33,7 @@ if Meteor.isServer
             { $match: match }
             { $project: tags: 1 }
             { $unwind: "$tags" }
-            { $classroom: _id: '$tags', count: $sum: 1 }
+            { $group: _id: '$tags', count: $sum: 1 }
             { $match: _id: $nin: selected_classroom_tags }
             { $sort: count: -1, _id: 1 }
             { $limit: 100 }

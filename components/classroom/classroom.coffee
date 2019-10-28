@@ -13,6 +13,18 @@ if Meteor.isClient
         @layout 'classroom_view_layout'
         @render 'classroom_stats'
         ), name:'classroom_stats'
+    Router.route '/classroom/:doc_id/files', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_files'
+        ), name:'classroom_files'
+    Router.route '/classroom/:doc_id/shop', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_shop'
+        ), name:'classroom_shop'
+    Router.route '/classroom/:doc_id/students', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_students'
+        ), name:'classroom_students'
     Router.route '/classroom/:doc_id/lunch', (->
         @layout 'mlayout'
         @render 'classroom_lunch'
@@ -130,7 +142,7 @@ if Meteor.isClient
                 })
         , 700
     Template.classroom_dashboard.helpers
-        individual_credit_types: ->
+        student_credit_types: ->
             Docs.find
                 model:'credit_type'
                 # weekly:$ne:true
@@ -223,17 +235,17 @@ if Meteor.isClient
             classroom = Docs.findOne Router.current().params.doc_id
             Meteor.users.find
                 _id: $in: classroom.student_ids
-        individual_credit_types: ->
+        student_credit_types: ->
             Docs.find
                 model:'credit_type'
                 dispersion_type: 'manual'
-                scope: 'individual'
+                scope: 'student'
                 classroom_id: Router.current().params.doc_id
-        individual_debit_types: ->
+        student_debit_types: ->
             Docs.find
                 model:'debit_type'
                 dispersion_type: 'manual'
-                scope: 'individual'
+                scope: 'student'
                 classroom_id: Router.current().params.doc_id
         classroom_debit_types: ->
             Docs.find
@@ -440,7 +452,7 @@ if Meteor.isClient
 
 
 
-    Template.individual_credit_button.events
+    Template.student_credit_button.events
         'click .credit_student': ->
             student = Template.parentData()
             # console.log @
@@ -460,7 +472,7 @@ if Meteor.isClient
                 showProgress: 'bottom'
             })
 
-    Template.individual_debit_button.events
+    Template.student_debit_button.events
         'click .debit_student': ->
             student = Template.parentData()
             # console.log @

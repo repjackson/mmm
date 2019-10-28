@@ -16,10 +16,26 @@ template(name='classroom_view_layout')
                         a.item(href="/classroom/#{_id}/" class="{{isActiveRoute regex='classroom_students'}}")
                             i.dashboard.grey.icon
                             | dashboard
-                        each enabled_features
-                            a.item(href="/classroom/#{current_doc._id}/f/#{slug}")
-                                |#{title}
-                                i.grey.icon(class=icon)
+                    .ui.vertical.large.fluid.pointing.large.menu
+                        a.item(href="/classroom/#{current_doc._id}/students")
+                            |students
+                            i.users.icon    
+                        a.item(href="/classroom/#{current_doc._id}/files")
+                            |files
+                            i.file.icon
+                        a.item(href="/classroom/#{current_doc._id}/lunch")
+                            |lunch
+                            i.file.icon
+                        a.item(href="/classroom/#{current_doc._id}/reports")
+                            |reports
+                            i.line.chart.icon
+                        a.item(href="/classroom/#{current_doc._id}/shop")
+                            |shop
+                            i.shop.icon
+                        //- each enabled_features
+                        //-     a.item(href="/classroom/#{current_doc._id}/f/#{slug}")
+                        //-         |#{title}
+                        //-         i.grey.icon(class=icon)
                     .ui.header
                         small teacher
                         | #{teacher_name}
@@ -42,7 +58,6 @@ template(name='classroom_dashboard')
             .eight.wide.column
                 +classroom_info
                 +classroom_students_small
-                +classroom_votes
             .eight.wide.column
                 +classroom_feed
 
@@ -60,9 +75,8 @@ template(name='classroom_students_small')
                         .header 
                             |#{name}
 
-template(name='classroom_votes')   
-    .ui.segment 
-        +voting_full
+template(name='classroom_shop')   
+    +shop
 
 template(name='classroom_info')
     .ui.segment 
@@ -78,15 +92,15 @@ template(name='classroom_info')
         if tags.length
             each tags
                 .ui.label #{this}
-        .ui.list
-            .item #{phone}    
-            .item #{address}    
-            .item #{link}    
-            .item #{email}    
-            .item #{contact}    
-            .item
-                each location_tags
-                    |#{this}
+        //- .ui.list
+        //-     .item #{phone}    
+        //-     .item #{address}    
+        //-     .item #{link}    
+        //-     .item #{email}    
+        //-     .item #{contact}    
+        //-     .item
+        //-         each location_tags
+        //-             |#{this}
 
 template(name='classroom_loans')
     .ui.header 
@@ -96,15 +110,14 @@ template(name='classroom_loans')
 
 
 
-template(name='classroom_tasks')
-    +classroom_delta model='task' feature=this
-
-
 template(name='classroom_files')
+    .ui.large.header
+        i.file.icon
+        |files
     .ui.large.linked.list
         each classroom_files
             .item 
-                a.ui.grey.header(href=link target='_window' title='click to download')
+                a.ui.grey.small.header(href=link target='_window' title='click to download')
                     |#{title}
                 //- a.ui.header(href=link target='_window') #{label}
                 //- a.ui.small.header(href=link target='_window') #{link}
@@ -128,23 +141,22 @@ template(name='classroom_lunch')
                 .ui.center.aligned.large.header 
                     i.food.icon
                     |lunch
-            .four.wide.column
-            .ui.four.stackable.cards
-                each classroom_students
-                    unless lunch_chosen
-                        .ui.card
-                            img.ui.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
-                            .content
-                                .ui.header #{name}
-                                .ui.huge.labeled.icon.fluid.basic.button.choose_home
-                                    i.home.icon
-                                    |home 
-                                    span.ui.red.text -3c
-                                .spacer
-                                .ui.huge.labeled.icon.fluid.basic.button.choose_cafeteria
-                                    i.food.icon
-                                    |cafeteria
-                                    span.ui.red.text -5c
+    .ui.four.stackable.cards
+        each classroom_students
+            unless lunch_chosen
+                .ui.card
+                    img.ui.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
+                    .content
+                        .ui.header #{name}
+                        .ui.huge.labeled.icon.fluid.basic.button.choose_home
+                            i.home.icon
+                            |home 
+                            span.ui.red.text -3c
+                        .spacer
+                        .ui.huge.labeled.icon.fluid.basic.button.choose_cafeteria
+                            i.food.icon
+                            |cafeteria
+                            span.ui.red.text -5c
 
 
 
@@ -237,20 +249,20 @@ template(name='classroom_students')
                 .description
                     .ui.two.column.stackable.grid
                         .column
-                            each individual_credit_types
-                                +individual_credit_button
+                            each student_credit_types
+                                +student_credit_button
                         .column
-                            each individual_debit_types
-                                +individual_debit_button
+                            each student_debit_types
+                                +student_debit_button
 
 
-template(name='individual_credit_button')
+template(name='student_credit_button')
     .ui.button.credit_student 
         |#{title}
         span.ui.green.text
             |+#{amount}
 
-template(name='individual_debit_button')
+template(name='student_debit_button')
     .ui.button.debit_student 
         |#{title}
         span.ui.red.text

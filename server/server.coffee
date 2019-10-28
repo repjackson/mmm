@@ -186,7 +186,7 @@ Meteor.publish 'doc_tags', (selected_tags)->
         { $match: match }
         { $project: tags: 1 }
         { $unwind: "$tags" }
-        { $classroom: _id: '$tags', count: $sum: 1 }
+        { $group: _id: '$tags', count: $sum: 1 }
         { $match: _id: $nin: selected_tags }
         { $sort: count: -1, _id: 1 }
         { $limit: 50 }

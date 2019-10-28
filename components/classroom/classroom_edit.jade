@@ -11,24 +11,40 @@ template(name='classroom_edit_layout')
                         div
                         small classroom
                     a.ui.icon.fluid.button(href="/classroom/#{_id}" title='save')
-                        i.checkmark.green.icon
+                        i.checkmark.green.large.icon
                         //- |Save
                     //- if is_admin
-                    .ui.vertical.fluid.pointing.menu
+                    .ui.vertical.fluid.pointing.large.menu
                         a.item(href="/classroom/#{_id}/edit/info" class="{{isActiveRoute regex='classroom_edit_info'}}") 
                             |info
                             i.info.icon
                         a.item(href="/classroom/#{_id}/edit/settings" class="{{isActiveRoute regex='classroom_edit_settings'}}") 
                             |settings
                             i.cog.icon
-                        a.item(href="/classroom/#{_id}/edit/features" class="{{isActiveRoute regex='classroom_edit_features'}}")
-                            |features
-                            i.th.icon                    
-                    .ui.vertical.large.fluid.pointing.menu
-                        each enabled_features
-                            a.item(href="/classroom/#{current_doc._id}/edit/f/#{slug}")
-                                |#{title}
-                                i.icon(class=icon)
+                        //- a.item(href="/classroom/#{_id}/edit/features" class="{{isActiveRoute regex='classroom_edit_features'}}")
+                        //-     |features
+                        //-     i.th.icon                    
+                    .ui.vertical.large.fluid.pointing.large.menu
+                        a.item(href="/classroom/#{current_doc._id}/edit/files" class="{{isActiveRoute regex='classroom_edit_files'}}")
+                            |files
+                            i.file.icon
+                        a.item(href="/classroom/#{current_doc._id}/edit/debits" class="{{isActiveRoute regex='classroom_edit_debits'}}")
+                            |debits
+                            i.minus.icon
+                        a.item(href="/classroom/#{current_doc._id}/edit/credits" class="{{isActiveRoute regex='classroom_edit_credits'}}")
+                            |credits
+                            i.plus.icon
+                        a.item(href="/classroom/#{current_doc._id}/edit/shop" class="{{isActiveRoute regex='classroom_edit_shop'}}")
+                            |shop
+                            i.shop.icon
+                        a.item(href="/classroom/#{current_doc._id}/edit/students" class="{{isActiveRoute regex='classroom_edit_students'}}")
+                            |students
+                            i.users.icon
+                    //- .ui.vertical.large.fluid.pointing.menu
+                    //-     each enabled_features
+                    //-         a.item(href="/classroom/#{current_doc._id}/edit/f/#{slug}")
+                    //-             |#{title}
+                    //-             i.icon(class=icon)
                 .twelve.wide.column
                     +yield
 
@@ -70,23 +86,23 @@ template(name='classroom_edit_info')
             +textarea_edit key='description' label='description' direct=true
             +array_edit key='tags' label='tags' icon='tags' direct=true
             div
-            +boolean_edit key='phone_exists' label='phone' icon='phone' direct=true
-            if phone_exists 
-                +phone_edit key='phone_number' label='phone number' direct=true
-            div
-            +boolean_edit key='address_exists' label='address' icon='address' direct=true
-            if address_exists 
-                +text_edit key='address' label='address' direct=true
-                +array_edit key='location_tags' label='location tags' direct=true
-            div
-            +boolean_edit key='hours_exist' label='hours' icon='clock' direct=true
-            if hours_exist 
-                +text_edit key='hours' label='hours' direct=true
-                +array_edit key='availability_tags' label='availability tags' direct=true
+            //- +boolean_edit key='phone_exists' label='phone' icon='phone' direct=true
+            //- if phone_exists 
+            //-     +phone_edit key='phone_number' label='phone number' direct=true
+            //- div
+            //- +boolean_edit key='address_exists' label='address' icon='address' direct=true
+            //- if address_exists 
+            //-     +text_edit key='address' label='address' direct=true
+            //-     +array_edit key='location_tags' label='location tags' direct=true
+            //- div
+            //- +boolean_edit key='hours_exist' label='hours' icon='clock' direct=true
+            //- if hours_exist 
+            //-     +text_edit key='hours' label='hours' direct=true
+            //-     +array_edit key='availability_tags' label='availability tags' direct=true
             if is_admin
                 +teacher_selector
 
-template(name='classroom_edit_students')                                    
+template(name='classroom_edit_students')                 
     +student_selector
 
 template(name='classroom_edit_credits')

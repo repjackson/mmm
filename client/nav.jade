@@ -70,14 +70,14 @@ template(name='footer')
                 //- img.ui.small.image(src="{{c.url 'stripe_badge' }}")
                 //- img.ui.small.image(src="{{c.url 'builtin' }}")
             .four.wide.column
-                a.ui.fluid.button(href='/donate')
-                    +ismall name='donate'
-                    |donate
                 if is_admin
                     a.ui.button(href='/admin' title='admin')
                         i.shield.icon
                         |admin
                 .ui.link.large.list
+                    a.item(href='/donate')
+                        //- +ismall name='donate'
+                        |donate
                     //- a.item(href='/m/blog') 
                     //-     //- +ismall name='blog'
                     //-     |blog

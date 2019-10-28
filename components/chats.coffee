@@ -126,7 +126,7 @@ if Meteor.isServer
                     { $match: match }
                     { $project: participant_ids: 1 }
                     { $unwind: "$participant_ids" }
-                    { $classroom: _id: '$participant_ids', count: $sum: 1 }
+                    { $group: _id: '$participant_ids', count: $sum: 1 }
                     { $match: _id: $nin: selected_participant_ids }
                     { $sort: count: -1, _id: 1 }
                     { $limit: 20 }

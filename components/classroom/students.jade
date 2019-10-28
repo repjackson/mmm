@@ -25,7 +25,7 @@ template(name='student_selector')
                             .item
                                 img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
                                 strong #{first_name} #{last_name}
-                                //- |@#{username}
+                                small @#{username}
             +clear_value                
     .ui.big.list
         each current_doc.student_ids
