@@ -99,6 +99,7 @@ template(name='classroom_edit_info')
             //-     +array_edit key='availability_tags' label='availability tags' direct=true
             if is_admin
                 +teacher_selector
+                +school_selector
 
 template(name='classroom_edit_students')                 
     +student_selector
@@ -107,6 +108,7 @@ template(name='classroom_edit_credits')
     .ui.large.header 
         i.plus.icon
         |credits
+    +number_edit key='bonus_amount' label='bonus amount' direct=true
     a.ui.button(href="/classroom/#{_id}/edit/templates" class="{{isActiveRoute regex='classroom_edit_templates'}}")
         i.download.icon
         |templates
@@ -135,7 +137,7 @@ template(name='credit_menu_item')
         small +$#{amount}
         if is_automatic
             i.lightning.yellow.icon
-        if is_individual
+        if is_student
             i.user.outline.icon(title='student scope')
         if is_classroom 
             i.users.icon(title='classroom scope')
@@ -151,6 +153,7 @@ template(name='classroom_edit_debits')
     .ui.large.header 
         i.chevron.up.icon
         |debits
+    +number_edit key='fines_amount' label='fines amount' direct=true
     a.ui.button(href="/classroom/#{current_doc._id}/edit/templates" class="{{isActiveRoute regex='classroom_edit_templates'}}")
         i.download.icon
         |templates
@@ -185,7 +188,7 @@ template(name='debit_menu_item')
             i.lightning.yellow.icon
         else 
             i.hand.icon
-        if is_individual
+        if is_student
             i.user.outline.icon(title='student scope')
         if is_classroom 
             i.users.icon(title='classroom scope')
@@ -225,7 +228,7 @@ template(name='transaction')
                 //-     +number_edit key='limit_amount' label='limit amount'
             div
             .ui.small.grey.inline.header scope
-            +key_value_edit key='scope' value='individual' label='student'
+            +key_value_edit key='scope' value='student' label='student'
             +key_value_edit key='scope' value='classroom' label='classroom'
             div
             .ui.button.remove_transaction 

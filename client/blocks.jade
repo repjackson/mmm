@@ -128,8 +128,8 @@ template(name='small_horizontal_user_card')
             .image
                 if profile_photo
                     img.ui.rounded.tiny.image(src="{{c.url profile_photo width=200 height=200 gravity='face' crop='fill'}}")
-                else if kiosk_photo
-                    img.ui.rounded.image(src="{{c.url kiosk_photo width=300 height=300 gravity='face' crop='fill'}}")
+                else if image_id
+                    img.ui.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
                 else if image_id
                     img.ui.rounded.image(src="{{c.url image_id width=300 height=300 gravity='face' crop='fill'}}")
             .content    
@@ -183,8 +183,8 @@ template(name='unit_key_checkout')
 
 template(name='user_info')
     a.ui.compact.button(href="/user/#{user.username}/")
-        if user.kiosk_photo
-            img.ui.avatar.inline.image(src="{{c.url user.kiosk_photo width=300 height=300 gravity='face' crop='fill'}}")
+        if user.image_id
+            img.ui.avatar.inline.image(src="{{c.url user.image_id width=300 height=300 gravity='face' crop='fill'}}")
         else if user.image_id
             img.ui.avatar.inline.image(src="{{c.url user.image_id width=300 height=100 gravity='face' crop='fill'}}")
         //- .visible.content
@@ -212,8 +212,8 @@ template(name='role_editor')
 template(name='author_info')
     with author
         a.ui.compact.basic.button(href="/user/#{username}")
-            if kiosk_photo
-                img.ui.avatar.image(src="{{c.url kiosk_photo width=100 height=100 gravity='face' crop='fill'}}")
+            if image_id
+                img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
             else if image_id
                 img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
             |by #{first_name} #{last_name}

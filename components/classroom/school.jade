@@ -16,19 +16,26 @@ template(name='schools')
                     each schools
                         +school_card
 
+
+
+
 template(name='school_card')
     .ui.card
         a(href="/school/#{_id}")
             img.ui.image(src="{{c.url image_id width=200 height=200 crop='lpad'}}")
             //- img.ui.fluid.image(src="{{c.url school_image_id crop='lpad'}}")
         .content
-            a.ui.header(href="/school/#{_id}" title='balance') #{title}
+            a.ui.header(href="/school/#{_id}") #{title}
             .ui.green.inline.header $#{gsd.school_balance}
             .ui.green.inline.small.header(title='income') ($#{gsd.total_credit_amount}
             .ui.red.inline.small.header(title='expenses') / -$#{gsd.total_debit_amount})
         a.ui.fluid.tertiary.button(href="/school/#{_id}")
             |view details
             i.right.chevron.icon
+                    
+                    
+                    
+                    
                     
 template(name='school_view_layout')
     +nav
@@ -40,30 +47,106 @@ template(name='school_view_layout')
                         i.chevron.left.icon
                         +i name='school' classes='ui inline mini image'
                         |schools
-                    +image_view key='image' label='image' direct=true
+                    +image_view key='image_id' label='image' direct=true
                     div
-                    .ui.inline.center.aligned.header
+                    .ui.center.aligned.header
                         | #{title}
                     //- .ui.header
                     //-     small principal
                     //-     | #{principal_name}
                     div
-                    //- .ui.big.fluid.vertical.menu
-                    //-     a.item(href="/school/#{current_doc._id}/students" class="{{isActiveRoute regex='school_students'}}")
-                    //-         i.icon
-                    //-             +ismall name='students'
-                    //-         |students
-                    //-     a.item(href="/school/#{current_doc._id}/teachers" class="{{isActiveRoute regex='school_teachers'}}")
-                    //-         i.icon
-                    //-             +ismall name='teacher'
-                    //-         |teachers
-                    //-     a.item(href="/school/#{current_doc._id}/teachers" class="{{isActiveRoute regex='school_teachers'}}")
-                    //-         i.icon
-                    //-             +ismall name='classroom'
-                    //-         |classroom
+                    .ui.big.fluid.vertical.menu
+                        a.disabled.item(href="/school/#{current_doc._id}/students" class="{{isActiveRoute regex='school_students'}}")
+                            i.icon
+                                +ismall name='students'
+                            |students
+                        a.disabled.item(href="/school/#{current_doc._id}/teachers" class="{{isActiveRoute regex='school_teachers'}}")
+                            i.icon
+                                +ismall name='teacher'
+                            |teachers
+                        a.disabled.item(href="/school/#{current_doc._id}/classroms" class="{{isActiveRoute regex='school_classrooms'}}")
+                            i.icon
+                                +ismall name='classroom'
+                            |classroom
+                    .ui.big.fluid.vertical.menu
+                        a.disabled.item(href="/school/#{current_doc._id}/classroms" class="{{isActiveRoute regex='school_classrooms'}}")
+                            i.icon
+                                +ismall name='debt'
+                            |loans
+                        a.disabled.item(href="/school/#{current_doc._id}/classroms" class="{{isActiveRoute regex='school_classrooms'}}")
+                            i.plus.icon
+                            |credits
+                        a.disabled.item(href="/school/#{current_doc._id}/debits" class="{{isActiveRoute regex='school_debits'}}")
+                            i.minus.icon
+                            |debits
+                        a.disabled.item(href="/school/#{current_doc._id}/stats" class="{{isActiveRoute regex='school_stats'}}")
+                            i.line.chart.icon
+                            |stats
                 .thirteen.wide.column
                     +yield
     +footer
+
+
+template(name='school_selector')
+    div
+    .ui.inline.header 
+        |school selector
+    if current_doc.school_id
+        .clear_school.ui.icon.button(title='remove school')
+            i.remove.icon
+    unless current_doc.school_id
+        .ui.input
+            input#school_lookup(type='text' placeholder='lookup school..')
+            each selections
+                .ui.basic.label
+                    |#{title}
+        if school_results
+            .ui.attached.smoothed.segment
+                .ui.middle.aligned.selection.animated.list
+                    each school_results
+                        .select_school.item
+                            h4.ui.header
+                                img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
+                                |#{title}
+    if current_doc.school_id
+        +school_card_by_id school_id
+        //- |#{this}
+        //- .item
+        //-     .right.floated.content
+        //-         i.pull_school.remove.link.icon
+        //-     .image
+        //-         img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
+        //-     .content
+        //-         h4.ui.header
+        //-             |#{first_name} #{last_name}
+        //-             @#{schoolname}
+
+template(name='school_card_by_id')     
+    with school
+        .ui.card
+            a(href="/school/#{_id}")
+                img.ui.image(src="{{c.url image_id width=200 height=200 crop='lpad'}}")
+                //- img.ui.fluid.image(src="{{c.url school_image_id crop='lpad'}}")
+            .content
+                a.ui.header(href="/school/#{_id}") #{title}
+                .ui.green.inline.header $#{gsd.school_balance}
+                .ui.green.inline.small.header(title='income') ($#{gsd.total_credit_amount}
+                .ui.red.inline.small.header(title='expenses') / -$#{gsd.total_debit_amount})
+            a.ui.fluid.tertiary.button(href="/school/#{_id}")
+                |view
+                i.right.chevron.icon
+
+
+
+
+
+
+
+
+
+
+
+
 
 template(name='school_jobs')        
     +jobs
@@ -92,12 +175,9 @@ template(name='school_dashboard')
                 .column
                     +school_feed
                 .column
-                    +school_stats
-                .column
                     +school_teachers
                 .column
                     +school_students
-            .three.colum.row
                 .column
                     +school_classrooms
                     
@@ -105,8 +185,11 @@ template(name='school_dashboard')
                     
                     
 template(name='school_classrooms')
-    .ui.header classrooms        
-                    
+    .ui.header 
+        +i name='classroom' classes='ui mini inline image'
+        |classrooms
+    each classrooms 
+        a.ui.small.header(href="/classroom/#{_id}") #{title}
                     
                     
                     
@@ -217,17 +300,16 @@ template(name='school_feed')
 
 template(name='school_stats')
     .ui.header.refresh_school_stats
-        +i name='line-chart'
         |school stats
-        div
-        .ui.green.inline.small.header $#{gsd.school_balance}
-        | balance
-        div
-        .ui.green.inline.small.header $#{gsd.total_credit_amount}
-        | income
-        div
-        .ui.red.inline.small.header -$#{gsd.total_debit_amount}
-        | expenses
+    div
+    .ui.green.inline.small.header $#{gsd.school_balance}
+    | balance
+    div
+    .ui.green.inline.small.header $#{gsd.total_credit_amount}
+    | income
+    div
+    .ui.red.inline.small.header -$#{gsd.total_debit_amount}
+    | expenses
     .ui.list
         .item #{views} views
         .item #{gsd.student_count} students

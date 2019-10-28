@@ -420,14 +420,3 @@ if Meteor.isClient
             t.editing_template.set false
         'click .edit_template': (e,t)->
             t.editing_template.set true
-
-
-
-
-
-
-if Meteor.isServer
-    Meteor.publish 'feature_by_slug', (slug)->
-        Docs.find
-            model:'feature'
-            slug:slug

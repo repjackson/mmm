@@ -1100,7 +1100,7 @@ template(name='single_user_edit')
                     each user_results
                         .select_user.item
                             h4.ui.header
-                                img.ui.avatar.image(src="{{c.url kiosk_photo width=100 height=100 gravity='face' crop='fill'}}")
+                                img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
                                 |#{first_name} #{last_name} #{username}
     if field_value
         +user_card field_value

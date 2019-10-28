@@ -13,24 +13,24 @@ template(name='classroom_view_layout')
                         | #{title}
                     img.ui.centered.rounded.small.image(src="{{c.url image_id gravity='face' crop='fit'}}")
                     .ui.large.fluid.vertical.pointing.menu
-                        a.item(href="/classroom/#{current_doc._id}/students")
+                        a.item(href="/classroom/#{current_doc._id}/students" class="{{isActiveRoute regex='classroom_dashboard'}}")
                             |students
                             i.users.icon    
                     .ui.vertical.large.fluid.pointing.large.menu
-                        a.item(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_students'}}")
-                            i.dashboard.grey.icon
-                            | dashboard
-                        a.item(href="/classroom/#{current_doc._id}/files")
-                            |files
+                        a.item(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
+                            i.home.grey.icon
+                            | home
+                        a.item(href="/classroom/#{current_doc._id}/files" class="{{isActiveRoute regex='classroom_files'}}")
+                            | files
                             i.file.icon
-                        a.item(href="/classroom/#{current_doc._id}/lunch")
-                            |lunch
+                        a.item(href="/classroom/#{current_doc._id}/lunch" class="{{isActiveRoute regex='classroom_lunch'}}")
+                            | lunch
                             i.file.icon
-                        a.item(href="/classroom/#{current_doc._id}/reports")
-                            |reports
+                        a.item(href="/classroom/#{current_doc._id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
+                            | reports
                             i.line.chart.icon
-                        a.item(href="/classroom/#{current_doc._id}/shop")
-                            |shop
+                        a.item(href="/classroom/#{current_doc._id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
+                            | shop
                             i.shop.icon
                         //- each enabled_features
                         //-     a.item(href="/classroom/#{current_doc._id}/f/#{slug}")
@@ -50,16 +50,20 @@ template(name='classroom_view_layout')
 
 
 template(name='classroom_dashboard')
-    //- .ui.header
-    //-     img.ui.rounded.small.image(src="{{c.url image_id gravity='face' crop='fit'}}")
-    //-     |#{title}
     .ui.stackable.grid
         .row
             .eight.wide.column
                 +classroom_info
+                +classroom_school
                 +classroom_students_small
             .eight.wide.column
                 +classroom_feed
+
+
+template(name='classroom_school')
+    .ui.header school
+    with school_classroom
+        +school_card
 
 
 template(name='classroom_students_small')   
@@ -171,9 +175,9 @@ template(name='classroom_credits')
 
 
 template(name='classroom_students')
-    //- .ui.header 
-    //-     i.dashboard.grey.icon
-    //-     |classroom dashboard
+    .ui.header 
+        i.dashboard.grey.icon
+        |classroom dashboard
     with current_doc
         .ui.styled.fluid.accordion 
             .title 
@@ -319,15 +323,16 @@ template(name='classroom_reports')
 
 
 template(name='classroom_feed')
-    .ui.inline.header 
-        +i name='rss'
+    .ui.inline.grey.header 
+        //- +i name='rss'
+        i.feed.icon
         |feed
     if is_admin 
         .ui.button.remove_all_events
             i.shield.icon
             |remove all events
     div
-    .ui.feed.scrolling
+    .ui.small.feed.scrolling
         each classroom_events
             .event 
                 .label

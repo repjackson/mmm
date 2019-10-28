@@ -122,7 +122,7 @@ Meteor.methods
 
         doc.font('Times-Roman').text("The first subsequent incident within one year shall be subject to a $200 fine plus a $35 administrative fee; any further incidents within one year will be subject to a $500 fine plus a $35 administrative fee for each occurrence.", {align:'left'})
 
-        doc.font('Times-Roman').text("Projectiles: No person residing within the Gold Run Condominium Community shall throw, launch, shoot or otherwise project any object, including pellets, BBs, fireworks, trash or water balloons from a Unit onto or at the Common Elements or at any individual within the Community. 3. Damage to Common Elements. No person residing within the Gold Run", {align:'left'})
+        doc.font('Times-Roman').text("Projectiles: No person residing within the Gold Run Condominium Community shall throw, launch, shoot or otherwise project any object, including pellets, BBs, fireworks, trash or water balloons from a Unit onto or at the Common Elements or at any student within the Community. 3. Damage to Common Elements. No person residing within the Gold Run", {align:'left'})
 
         doc.font('Times-Roman').text("Community shall cause or permit to be caused any damage to the common elements either by their act or failure to act.", {align:'left'})
 
@@ -196,7 +196,7 @@ Meteor.methods
 
         doc.font('Times-Roman').text("9. Members and guests are not allowed in the health club, volleyball court or tennis court while under the influence of drugs or alcohol.", {align:'left'})
 
-        doc.font('Times-Roman').text("10. There is no lifeguard on duty. Therefore, swimming is at the sole risk of the individual. Running on the pool deck and diving or jumping into the pool is not allowed.", {align:'left'})
+        doc.font('Times-Roman').text("10. There is no lifeguard on duty. Therefore, swimming is at the sole risk of the student. Running on the pool deck and diving or jumping into the pool is not allowed.", {align:'left'})
 
         doc.font('Times-Roman').text("11. Bathing suits must be worn at all times in the deck areas, pool areas, and hot tubs, as required by Colorado law. Members and guests must shower before entering spa or pool.", {align:'left'})
 

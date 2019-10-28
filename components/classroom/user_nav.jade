@@ -128,7 +128,7 @@
 //-         each chat_messages
 //-             .item(title="by #{author.name} #{when}")
 //-                 if author
-//-                     img.ui.avatar.image(src="{{c.url author.kiosk_photo width=200 height=200 gravity='face' crop='fill'}}")
+//-                     img.ui.avatar.image(src="{{c.url author.image_id width=200 height=200 gravity='face' crop='fill'}}")
 //-                 |#{text}
 //-                 //- small #{when}
 //-                 if is_author
@@ -150,7 +150,7 @@
 //- //-     .ui.list
 //- //-         each my_latest_activity
 //- //-             .item 
-//- //-                 img.ui.avatar.image(src="{{c.url author.kiosk_photo width=200 height=200 gravity='face' crop='fill'}}")
+//- //-                 img.ui.avatar.image(src="{{c.url author.image_id width=200 height=200 gravity='face' crop='fill'}}")
 //- //-                 |#{text} #{body}
 //- //-                 small #{when}
 //- //- 
@@ -163,7 +163,7 @@
 //- //-     .ui.list
 //- //-         each latest_activity
 //- //-             .item 
-//- //-                 img.ui.avatar.image(src="{{c.url author.kiosk_photo width=200 height=200 gravity='face' crop='fill'}}")
+//- //-                 img.ui.avatar.image(src="{{c.url author.image_id width=200 height=200 gravity='face' crop='fill'}}")
 //- //-                 |#{text} #{body} 
 //- //-                 .ui.basic.label #{log_type}
 //- //-                 small #{when}

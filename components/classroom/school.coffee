@@ -88,7 +88,7 @@ if Meteor.isClient
                 })
         , 700
     Template.school_dashboard.helpers
-        individual_credit_types: ->
+        student_credit_types: ->
             Docs.find
                 model:'credit_type'
                 # weekly:$ne:true
@@ -100,99 +100,26 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'model_docs', 'debit_type'
         @autorun => Meteor.subscribe 'model_docs', 'school_event'
     Template.school_students.onRendered ->
-        Meteor.setTimeout ->
-            $('.accordion').accordion(
-                selector: {
-                    trigger: '.title .header'
-                }
-            )
-        , 1000
 
     Template.school_students.helpers
         school_students: ->
             Meteor.users.find()
-        individual_credit_types: ->
+        student_credit_types: ->
             Docs.find
                 model:'credit_type'
-                # weekly:$ne:true
                 school_id: Router.current().params.doc_id
         school_debit_types: ->
             Docs.find
                 model:'debit_type'
-                # weekly:$ne:true
                 school_id: Router.current().params.doc_id
-        student_events: ->
-            Docs.find
-                model:'school_event'
-                user_id: @_id
-
     Template.school_students.events
-        'click .add_bonus': (e,t)->
-            # alert 'hi'
-            # console.log @
-            school = Docs.findOne Router.current().params.doc_id
-            $(e.currentTarget).closest('.title').transition('bounce', 1000)
-            # console.log @
-            $('body').toast({
-                message: 'bonus given'
-                class:'success'
-                showProgress: 'bottom'
-            })
-
-            Meteor.users.update @_id,
-                $inc:credit:school.bonus_amount
-            Docs.insert
-                model:'school_event'
-                event_type:'credit'
-                amount: school.bonus_amount
-                text:"was credited #{school.bonus_amount}"
-                user_id: @_id
-                school_id: Router.current().params.doc_id
 
 
-        'click .add_fine': (e,t)->
-            school = Docs.findOne Router.current().params.doc_id
-
-            $(e.currentTarget).closest('.title').transition('shake', 1000)
-            $('body').toast({
-                message: 'fine given'
-                class:'error'
-                showProgress: 'bottom'
-            })
-
-            Meteor.users.update @_id,
-                $inc:credit:-school.fines_amount
-            Docs.insert
-                model:'school_event'
-                event_type:'debit'
-                amount: school.fines_amount
-                text:"was fined #{school.fines_amount}"
-                user_id: @_id
-                school_id: Router.current().params.doc_id
-
-
-
-        'change .date_select': ->
-            console.log $('.date_select').val()
-
-
-
-
-    Template.school_students.onRendered ->
-        # Meteor.setTimeout ->
-        #     $('.accordion').accordion()
-        # , 1000
 
     Template.school_reports.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'school_students', Router.current().params.doc_id
     Template.school_reports.onRendered ->
-        Meteor.setTimeout ->
-            $('#date_calendar')
-                .calendar({
-                    type: 'date'
-                })
-        , 700
     Template.school_reports.helpers
         school_students: ->
             Meteor.users.find()
@@ -206,39 +133,30 @@ if Meteor.isClient
 
 
 
+    Template.school_classrooms.onCreated ->
+        @autorun => Meteor.subscribe 'school_classrooms', Router.current().params.doc_id
+    Template.school_classrooms.onRendered ->
+    Template.school_classrooms.helpers
+        classrooms: ->
+            Docs.find(
+                model:'classroom'
+            )
+    Template.school_classrooms.events
+
+
+
+
+
+
 
 
 
     Template.school_view_layout.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        # @autorun => Meteor.subscribe 'model_docs', 'feature'
-        # @autorun => Meteor.subscribe 'model_docs', 'school_section'
-
     Template.school_view_layout.onRendered ->
         Meteor.call 'increment_view', Router.current().params.doc_id, ->
-        # Meteor.setTimeout ->
-        #     $('.tabular.menu .item').tab()
-        # , 1000
-
     Template.school_view_layout.helpers
-        school_sections: ->
-            Docs.find {
-                model:'school_section'
-            }, title:1
-        route_slug: -> "school_#{@slug}"
 
-        features: ->
-            Docs.find
-                model:'feature'
-        feature_view_template: ->
-            "#{@title}_view_template"
-
-        selected_features: ->
-            school = Docs.findOne Router.current().params.doc_id
-            Docs.find(
-                _id: $in: school.feature_ids
-                model:'feature'
-            ).fetch()
 
 
 
@@ -251,7 +169,6 @@ if Meteor.isClient
                 model:'school_event'
                 school_id:Router.current().params.doc_id
             }, sort: _timestamp:-1
-
     Template.school_feed.events
         'click .remove': (e,t)->
             if confirm  "undo #{@event_type}?"
@@ -269,13 +186,49 @@ if Meteor.isClient
 
 
 
+    Template.school_selector.onCreated ->
+        @school_results = new ReactiveVar
+    Template.school_selector.helpers
+        school_results: -> Template.instance().school_results.get()
+    Template.school_selector.events
+        'click .clear_results': (e,t)->
+            t.school_results.set null
+
+        'keyup #school_lookup': (e,t)->
+            search_value = $(e.currentTarget).closest('#school_lookup').val().trim()
+            if search_value.length > 1
+                Meteor.call 'lookup_school', search_value, (err,res)=>
+                    if err then console.error err
+                    else
+                        t.school_results.set res
+
+        'click .select_school': (e,t) ->
+            classroom = Docs.findOne Router.current().params.doc_id
+            Docs.update classroom._id,
+                $set:school_id:@_id
+            t.school_results.set null
+            $('#school_lookup').val ''
+
+        'click .clear_school': ->
+            classroom = Docs.findOne Router.current().params.doc_id
+            Docs.update classroom._id,
+                $unset:school_id:1
+
+
+    Template.school_card_by_id.onCreated ->
+        @autorun => Meteor.subscribe 'doc_by_id', @data
+    Template.school_card_by_id.helpers
+        school: -> Docs.findOne Template.currentData()
+
+
+
+
+
 
 
 
     Template.school_stats.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'school_stats'
-
-
     Template.school_stats.helpers
         gsd: ->
             Docs.findOne
@@ -294,38 +247,27 @@ if Meteor.isServer
         Meteor.users.find
             username: $in: school.students
 
+    Meteor.publish 'school_classrooms', (school_id)->
+        school = Docs.findOne school_id
+        Docs.find
+            model:'classroom'
+            school_id: school_id
+
     Meteor.publish 'schools', (product_id)->
         Docs.find
             model:'school'
             product_id:product_id
 
-    Meteor.publish 'reservation_by_day', (product_id, month_day)->
-        # console.log month_day
-        # console.log product_id
-        reservations = Docs.find(model:'reservation',product_id:product_id).fetch()
-        # for reservation in reservations
-            # console.log 'id', reservation._id
-            # console.log reservation.paid_amount
-        Docs.find
-            model:'reservation'
-            product_id:product_id
-
-    Meteor.publish 'reservation_slot', (moment_ob)->
-        schools_return = []
-        for day in [0..6]
-            day_number++
-            # long_form = moment(now).add(day, 'days').format('dddd MMM Do')
-            date_string =  moment(now).add(day, 'days').format('YYYY-MM-DD')
-            console.log date_string
-            schools.return.push date_string
-        schools_return
-
-        # data.long_form
-        # Docs.find
-        #     model:'reservation_slot'
-
 
     Meteor.methods
+        lookup_school: (title_query)->
+            console.log 'searching for school', title_query
+            Docs.find({
+                title: {$regex:"#{title_query}", $options: 'i'}
+                model:'school'
+                },{limit:10}).fetch()
+
+
         refresh_school_stats: (school_id)->
             school = Docs.findOne school_id
             # console.log school

@@ -89,7 +89,7 @@ template(name='teacher_selector')
                     each teacher_results
                         .select_teacher.item
                             h4.ui.header
-                                img.ui.avatar.image(src="{{c.url kiosk_photo width=100 height=100 gravity='face' crop='fill'}}")
+                                img.ui.avatar.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
                                 |#{first_name} #{last_name} #{teachername}
     if current_doc.teacher_id
         +teacher_card teacher_id
@@ -108,11 +108,10 @@ template(name='teacher_selector')
 
 
 template(name='teacher_card')            
-    .item
-        with teacher
+    with teacher
+        .ui.segment
             img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
-            .content
-                .header #{first_name} #{last_name}
-                |$#{credit}
+            .ui.inline.header #{first_name} #{last_name}
+                //- |$#{credit}
                 //- |@#{username} $#{credit}
                 //- i.grey.link.remove.icon.remove_teacher

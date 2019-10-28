@@ -72,8 +72,8 @@ Template.registerHelper 'classroom_students', ->
 Template.registerHelper 'is_automatic', -> @dispersion_type is 'automatic'
 Template.registerHelper 'is_manual', -> @dispersion_type is 'manual'
 Template.registerHelper 'is_manual_daily', -> @manual_period is 'daily'
-Template.registerHelper 'is_individual', ->
-    @scope is 'individual'
+Template.registerHelper 'is_student', ->
+    @scope is 'student'
     # console.log @
 Template.registerHelper 'is_classroom', ->
     @scope is 'classroom'
@@ -155,6 +155,12 @@ Template.registerHelper 'current_delta', () -> Docs.findOne model:'delta'
 Template.registerHelper 'hsd', () ->
     Docs.findOne
         model:'home_stats'
+
+Template.registerHelper 'classroom_school', () ->
+    console.log @
+    Docs.findOne
+        model:'school'
+        _id: @school_id
 
 # Template.registerHelper 'parent_template', () -> Template.parentData()
     # Session.get 'displaying_profile'

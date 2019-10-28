@@ -42,7 +42,7 @@ if Meteor.isClient
 
     Template.classroom_view_layout.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'model_docs', 'feature'
+        @autorun => Meteor.subscribe 'model_docs', 'school'
         @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
 
     Template.classroom_view_layout.onRendered ->
@@ -336,45 +336,39 @@ if Meteor.isClient
             $(e.currentTarget).closest('.title').transition('bounce', 500)
             # console.log @
             if Meteor.user()
+                amount = if classroom.bonus_amount then classroom.bonus_amount else 1
                 $('body').toast({
-                    message: "#{classroom.bonus_amount}c bonus given to #{@first_name} #{@last_name}"
+                    message: "#{amount}c bonus given to #{@first_name} #{@last_name}"
                     class:'success'
                     showProgress: 'bottom'
                 })
-
                 Meteor.users.update @_id,
-                    $inc:credit:classroom.bonus_amount
+                    $inc:credit:amount
                 Docs.insert
                     model:'classroom_event'
                     event_type:'credit'
-                    amount: classroom.bonus_amount
+                    amount: amount
                     text:"was credited #{classroom.bonus_amount}"
                     user_id: @_id
                     classroom_id: Router.current().params.doc_id
-            else
-                $('body').toast({
-                    message: 'need to be logged in to give bonus'
-                    class:'success'
-                    showProgress: 'bottom'
-                })
 
         'click .add_fine': (e,t)->
             classroom = Docs.findOne Router.current().params.doc_id
 
             $(e.currentTarget).closest('.title').transition('shake', 500)
             if Meteor.user()
+                amount = if classroom.fines_amount then classroom.fines_amount else 1
                 $('body').toast({
-                    message: "#{classroom.fines_amount}c fine given to #{@first_name} #{@last_name}"
+                    message: "#{amount}c fine given to #{@first_name} #{@last_name}"
                     class:'error'
                     showProgress: 'bottom'
                 })
-
                 Meteor.users.update @_id,
-                    $inc:credit:-classroom.fines_amount
+                    $inc:credit:-amount
                 Docs.insert
                     model:'classroom_event'
                     event_type:'debit'
-                    amount: classroom.fines_amount
+                    amount: amount
                     text:"was fined #{classroom.fines_amount}"
                     user_id: @_id
                     classroom_id: Router.current().params.doc_id

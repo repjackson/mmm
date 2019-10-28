@@ -171,8 +171,11 @@ Meteor.publish 'page_blocks', (slug)->
             parent_id:page._id
 
 
-Meteor.publish 'doc_tags', (selected_tags)->
+Meteor.publish 'doc_by_id', (doc_id)->
+    Docs.find doc_id
 
+
+Meteor.publish 'doc_tags', (selected_tags)->
     user = Meteor.users.findOne @userId
     # current_herd = user.profile.current_herd
 
