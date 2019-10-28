@@ -4,14 +4,14 @@ template(name='classroom_view_layout')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column
-                    //- a.ui.fluid.button(href="/my_classrooms")
-                    //-     i.chevron.left.grey.icon
-                    //-     i.school.icon
-                    //-     //- +i name='classroom' classes='ui inline mini image'
-                    //-     |classrooms
+                    a.ui.fluid.button(href="/classrooms")
+                        i.chevron.left.grey.icon
+                        i.school.icon
+                        //- +i name='classroom' classes='ui inline mini image'
+                        |classrooms
                     .ui.center.aligned.huge.header
                         | #{title}
-                    img.ui.centered.rounded.small.image(src="{{c.url classroom_image_id gravity='face' crop='fit'}}")
+                    img.ui.centered.rounded.small.image(src="{{c.url image_id gravity='face' crop='fit'}}")
                     .ui.large.fluid.vertical.pointing.menu
                         a.item(href="/classroom/#{_id}/" class="{{isActiveRoute regex='classroom_students'}}")
                             i.dashboard.grey.icon
@@ -35,7 +35,7 @@ template(name='classroom_view_layout')
 
 template(name='classroom_dashboard')
     //- .ui.header
-    //-     img.ui.rounded.small.image(src="{{c.url classroom_image_id gravity='face' crop='fit'}}")
+    //-     img.ui.rounded.small.image(src="{{c.url image_id gravity='face' crop='fit'}}")
     //-     |#{title}
     .ui.stackable.grid
         .row

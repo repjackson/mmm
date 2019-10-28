@@ -37,18 +37,6 @@ if Meteor.isClient
         @layout 'school_view_layout'
         @render 'school_loans'
         ), name:'school_loans'
-    Router.route '/school/:doc_id/teacherboard', (->
-        @layout 'school_view_layout'
-        @render 'school_teacherboard'
-        ), name:'school_teacherboard'
-    Router.route '/school/:doc_id/grades', (->
-        @layout 'school_view_layout'
-        @render 'school_grades'
-        ), name:'school_grades'
-    Router.route '/school/:doc_id/stock', (->
-        @layout 'school_view_layout'
-        @render 'school_stock'
-        ), name:'school_stock'
     Router.route '/school/:doc_id/sponsor', (->
         @layout 'school_view_layout'
         @render 'school_sponsor'
@@ -61,10 +49,6 @@ if Meteor.isClient
         @layout 'school_view_layout'
         @render 'school_jobs'
         ), name:'school_jobs'
-    Router.route '/school/:doc_id/services', (->
-        @layout 'school_view_layout'
-        @render 'school_services'
-        ), name:'school_services'
     Router.route '/school/:doc_id/info', (->
         @layout 'school_view_layout'
         @render 'school_info'

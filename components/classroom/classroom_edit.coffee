@@ -84,7 +84,7 @@ if Meteor.isClient
                         class:'info'
                     })
                 Docs.remove @_id
-                Router.go '/my_classrooms'
+                Router.go '/classrooms'
 
 
 

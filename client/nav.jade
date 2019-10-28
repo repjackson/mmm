@@ -3,9 +3,9 @@ template(name='nav')
         if is_loading
             .item
                 i.large.loading.notched.circle.icon
+        a.compact.item(href='/' class="{{isActivePath '/'}}") 
+            img.ui.tiny.compact.image(src="{{c.url 'mmm_logo_small' height=200 }}" title='Home')
         unless currentUser
-            a.compact.item(href='/' class="{{isActivePath '/'}}") 
-                img.ui.tiny.compact.image(src="{{c.url 'mmm_logo_small' height=200 }}" title='Home')
             a.ui.item(href='/p/about')
                 |our work
             a.item(href='/p/team')
@@ -15,20 +15,19 @@ template(name='nav')
                 //- +ismall name='treasure-chest'
                 span.mobile.hidden &nbsp; contact
                 i.phone.icon.mobile.only
+        a.item(href='/schools')
+            +ismall name='school'
+            span.mobile.hidden &nbsp; schools
         a.item(href='/classrooms')
-            //- +ismall name='treasure-chest'
+            +ismall name='classroom'
             span.mobile.hidden &nbsp; classrooms
-            i.users.icon.mobile.only
         //- a.item(href='/offers')
         //-     //- +ismall name='treasure-chest'
         //-     span.mobile.hidden &nbsp; offers
         //-     i.give.icon.mobile.only
         a.item(href='/shop')
-            //- +ismall name='treasure-chest'
+            +ismall name='shop'
             span.mobile.hidden &nbsp; shop
-            i.give.icon.mobile.only
-                
-            
         .right.menu
             unless currentUser
                 a.item(href='/login') 
@@ -103,27 +102,26 @@ template(name='footer')
                         
             .three.wide.column
                 .ui.link.large.list
+                    a.item(href='/schools')
+                        +ismall name='school'
+                        .content
+                            |schools
+                    a.item(href='/teachers')
+                        +ismall name='teacher'
+                        .content
+                            |teachers
                     a.item(href='/classrooms')
+                        +ismall name='classroom'
                         .content
-                            i.users.grey.icon 
                             |classrooms
-                    a.item(href='/offers') 
+                    a.item(href='/students') 
                         .content
-                            i.donate.grey.icon
-                            |offers
-                    a.item(href='/rentals')
-                        .content
-                            i.grey.clock.icon
-                            |rentals
+                            +ismall name='students'
+                            |students
                     a.item(href='/shop')
                         .content
-                            i.shop.grey.icon
+                            +ismall name='shop'
                             | shop
-                    a.item(href='/services')
-                        .content
-                            i.wrench.grey.icon
-                            |services
-
             .six.wide.column
                 +footer_chat
                 unless currentUser

@@ -3,7 +3,7 @@
 #         'click .shortcut_modal': ->
 #             $('.ui.shortcut.modal').modal('show')
 #     Template.user_nav.onRendered ->
-#         # @autorun => Meteor.subscribe 'my_classrooms'
+#         # @autorun => Meteor.subscribe 'classrooms'
 #
 #         # Meteor.setTimeout ->
 #         #     $('.dropdown').dropdown(
@@ -105,7 +105,7 @@
 #             }).count()
 #             if unread_count then 'red' else ''
 #
-#         my_classrooms: ->
+#         classrooms: ->
 #             Docs.find {
 #                 model:'classroom'
 #             }, sort: _timestamp: -1

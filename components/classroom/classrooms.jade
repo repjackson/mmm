@@ -51,7 +51,6 @@ template(name='classrooms')
                                 +set_limit amount=10
                                 +set_limit amount=20
                                 +set_limit amount=50
-
                 each classrooms
                     +classroom_card_template
 
@@ -91,7 +90,7 @@ template(name='classroom_card_template')
     .ui.segment.stackable.grid
         .four.wide.column
             a(href="/classroom/#{_id}")
-                img.ui.tiny.image(src="{{c.url classroom_image_id crop='lpad'}}")
+                img.ui.tiny.image(src="{{c.url image_id crop='lpad'}}")
         .twelve.wide.column
             a.ui.header(href="/classroom/#{_id}" title='balance') #{title} #{school_name}
             .content
