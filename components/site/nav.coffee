@@ -26,6 +26,17 @@ if Meteor.isClient
                 on:'hover'
             )
 
+        'click .header_nav_image': ->
+            $('.herbie').transition(
+                animation: 'fly left'
+                duration: 3000
+            )
+        'click .item': (e,t)->
+            $(e.currentTarget).closest('.item').transition(
+                animation: 'pulse'
+                duration: 250
+            )
+
 
         'click #logout': ->
             Session.set 'logging_out', true

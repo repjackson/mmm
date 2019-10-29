@@ -20,6 +20,20 @@ if Meteor.isClient
     Template.home.events
         'click .recalc_stats': ->
             Meteor.call 'calc_home_stats', ->
+        'click .logo_image': ->
+            $('.logo_image').transition(
+                animation: 'jiggle'
+                duration: 2000
+            )
+            # $('.logo_image').transition(
+            #     animation: 'pulse'
+            #     duration: 2000
+            # )
+        'click .title_header': ->
+            $('.logo_image').transition(
+                animation: 'tada'
+                duration: 2000
+            )
 
 
 

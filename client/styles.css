@@ -5,7 +5,7 @@ body {
     font-family: 'Ubuntu', sans-serif !important;
     /* font-size: 110% !important; */
     /*line-height: 200% !important;*/
-    background: rgba(0,0,0,.08) !important;
+    background: rgba(0,0,0,.03) !important;
     /* filter: invert(.9) !important; */
     /* background: rgba(250, 250, 250, .05) !important */
     /* background: #0e0e44 !important; */
@@ -20,6 +20,14 @@ body {
   height: 10px;
 }
 
+.step {
+  border-radius: 20px !important;
+}
+
+.steps {
+  border: 0px !important;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -29,6 +37,16 @@ body {
   background: lightgrey;
 }
 
+.herbie {
+    left:-500px !important;
+    display:inline !important;
+    position:absolute !important;
+    top: 100px;
+    transform: rotate(100deg) !important;
+    z-index: -1000 !important;
+
+    /* top: 200px */
+}
 .red.button {
     background-color:#DB2828 !important;
 }
@@ -172,9 +190,9 @@ body {
 .checkin_header {
     font-size: 4em !important;
 }
-/* .menu > .item {
+.menu > .item {
     border-radius:10px !important; */
-} */
+}
 .ui.popup {
     border-radius:10px !important;
 }
@@ -183,16 +201,16 @@ body {
 }
 .topnav > .item:hover {
     filter: drop-shadow(0px 0px 5px rgba(250,250,250,.9)) !important;
-    /* transform: scale(1.1); */
+    transform: scale(1.1);
 }
 .topnav > .right.menu > .item:hover {
     filter: drop-shadow(0px 0px 5px rgba(250,250,250,.9)) !important;
-    /* transform: rotate(10deg) scale(1.1); */
-    /* transform: scale(1.1); */
+    transform: rotate(10deg) scale(1.1);
+    transform: scale(1.1);
 }
 .topnav > .item > .image:hover {
     filter: drop-shadow(0px 0px 5px rgba(250,250,250,.9)) !important;
-    /* transform: rotate(5deg) scale(1.07); */
+    transform: rotate(5deg) scale(1.07);
 }
 
 .image {

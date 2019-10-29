@@ -147,6 +147,10 @@ template(name='icon_view')
         //- img(src="https://img.icons8.com/ios/48/000000/#{field_value}.png")
 
 
+template(name='ibig')
+    img(src="https://img.icons8.com/color/480/000000/#{name}.png" class=classes title=title)
+
+
 template(name='i')
     //- if currentUser.icon_theme
     //-     img(src="https://img.icons8.com/#{currentUser.icon_theme}/48/000000/#{name}.png" class=classes title=title)
@@ -577,22 +581,23 @@ template(name='number_view')
 
 
 template(name='number_edit')
-    .ui.inline.small.grey.header(title=tooltip)
-        if icon
-            +i name=icon classes='ui middle aligned image'
-        if title
-            |#{title}
-        else if label
-            |#{label}
-        else
-            |#{key}
+    unless no_header
+        .ui.inline.small.grey.header(title=tooltip)
+            if icon
+                +i name=icon classes='ui middle aligned image'
+            if title
+                |#{title}
+            else if label
+                |#{label}
+        //- else
+        //-     |#{key}
     //- if tooltip
     //-     .ui.tiny.grey.inline.header #{tooltip}
     //-     div
     //- +clear_value  
     div  
-    .ui.input            
-        input.edit_number(type='number' min=min max=max class=classes value=field_value placeholder=placeholder autocomplete="off")
+    .ui.input(class=classes)
+        input.edit_number(type='number' min=min max=max value=field_value placeholder=placeholder autocomplete="off")
                 
 
 

@@ -22,7 +22,7 @@ if Meteor.isClient
             if e.which is 13
                 Meteor.call 'add_student', first_name, last_name, Router.current().params.doc_id, (err,res)=>
                     if err
-                        alert err
+                        console.log err
                     else
                         Docs.update Router.current().params.doc_id,
                             $addToSet:student_ids:res

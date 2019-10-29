@@ -197,7 +197,9 @@ if Meteor.isClient
                         #     Session.set 'enter_mode', 'register'
                         #     Session.set 'username', "#{username}"
                     else
-                        Router.go "/build_classroom"
+                        new_classroom_id = Docs.insert
+                            model:'classroom'
+                        Router.go "/build_classroom/#{new_classroom_id}/info"
             # else
             #     Meteor.loginWithPassword username, password, (err,res)=>
             #         if err

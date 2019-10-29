@@ -196,6 +196,12 @@ if Meteor.isClient
 
 
     Template.profile_layout.events
+        'click .profile_image': (e,t)->
+            $(e.currentTarget).closest('.profile_image').transition(
+                animation: 'jiggle'
+                duration: 750
+            )
+
         'click .toggle_size': ->
             Session.set 'view_side', !Session.get('view_side')
         'click .recalc_student_stats': ->
