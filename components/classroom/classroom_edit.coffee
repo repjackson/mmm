@@ -126,7 +126,7 @@ if Meteor.isClient
                 model:'debit_type'
                 classroom_id: Router.current().params.doc_id
                 template_id:$exists:true
-        custom_debit_types: ->
+        classroom_debit_types: ->
             Docs.find
                 model:'debit_type'
                 classroom_id: Router.current().params.doc_id
@@ -137,16 +137,16 @@ if Meteor.isClient
 
 
     Template.classroom_edit_credits.helpers
-        template_credit_types: ->
+        classroom_credit_types: ->
             Docs.find
                 model:'credit_type'
                 classroom_id: Router.current().params.doc_id
-                template_id:$exists:true
-        custom_credit_types: ->
-            Docs.find
-                model:'credit_type'
-                classroom_id: Router.current().params.doc_id
-                template_id:$exists:false
+                # template_id:$exists:true
+        # custom_credit_types: ->
+        #     Docs.find
+        #         model:'credit_type'
+        #         classroom_id: Router.current().params.doc_id
+        #         template_id:$exists:false
         selected_credit: ->
             Docs.findOne Session.get('selected_credit_id')
     Template.classroom_edit_credits.events

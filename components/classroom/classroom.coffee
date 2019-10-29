@@ -13,6 +13,10 @@ if Meteor.isClient
         @layout 'classroom_view_layout'
         @render 'classroom_reports'
         ), name:'classroom_reports'
+    Router.route '/classroom/:doc_id/feed', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_feed'
+        ), name:'classroom_feed'
     Router.route '/classroom/:doc_id/stats', (->
         @layout 'classroom_view_layout'
         @render 'classroom_stats'
@@ -41,11 +45,6 @@ if Meteor.isClient
         @layout 'mlayout'
         @render 'classroom_lunch'
         ), name:'classroom_lunch'
-    Router.route '/classroom/:doc_id/f/:feature_slug', (->
-        @layout 'classroom_view_layout'
-        @render 'classroom_view_feature'
-        ), name:'classroom_view_feature'
-
 
 
     Template.classroom_view_layout.onCreated ->
@@ -60,36 +59,6 @@ if Meteor.isClient
         # , 1000
 
     Template.classroom_view_layout.helpers
-        features: ->
-            Docs.find
-                model:'feature'
-        feature_view_template: ->
-            "#{@title}_view_template"
-
-        enabled_features: ->
-            classroom = Docs.findOne Router.current().params.doc_id
-            Docs.find(
-                _id: $in: classroom.enabled_feature_ids
-                model:'feature'
-            ).fetch()
-
-
-
-    Template.classroom_view_feature.onRendered ->
-    Template.classroom_view_feature.onCreated ->
-        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'feature_by_slug', Router.current().params.feature_slug
-    Template.classroom_view_feature.helpers
-        current_feature: ->
-            Docs.findOne
-                model:'feature'
-                slug:Router.current().params.feature_slug
-
-        feature_view_template: ->
-            # console.log @
-            "classroom_#{@slug}"
-
-
 
 
     Template.classroom_feed.onCreated ->
@@ -146,12 +115,6 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'model_docs', 'credit_type'
     Template.classroom_dashboard.onRendered ->
-        Meteor.setTimeout ->
-            $('#date_calendar')
-                .calendar({
-                    type: 'date'
-                })
-        , 700
     Template.classroom_dashboard.helpers
         student_credit_types: ->
             Docs.find
@@ -392,11 +355,6 @@ if Meteor.isClient
                     showProgress: 'bottom'
                 })
 
-        'change .date_select': ->
-            console.log $('.date_select').val()
-
-
-
 
     Template.classroom_students.onRendered ->
         # Meteor.setTimeout ->
@@ -450,23 +408,12 @@ if Meteor.isClient
     Template.classroom_reports.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'classroom_students', Router.current().params.doc_id
-    # Template.classroom_reports.onRendered ->
-    #     Meteor.setTimeout ->
-    #         $('#date_calendar')
-    #             .calendar({
-    #                 type: 'date'
-    #             })
-    #     , 700
     Template.classroom_reports.helpers
         classroom_students: ->
             classroom = Docs.findOne Router.current().params.doc_id
-            Meteor.users.find
+            Meteor.users.find {
                 _id: $in: classroom.student_ids
-    Template.classroom_reports.events
-        'change .date_select': ->
-            console.log $('.date_select').val()
-
-
+            }, sort: last_name: 1
 
 
     Template.classroom_files.onCreated ->

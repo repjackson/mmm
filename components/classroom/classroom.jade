@@ -17,9 +17,12 @@ template(name='classroom_view_layout')
                             |dashboard
                             i.dashboard.icon    
                     .ui.vertical.big.fluid.pointing.large.menu
-                        a.item(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
-                            i.home.grey.icon
-                            | home
+                        a.item(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
+                            i.list.grey.icon
+                            | feed
+                        //- a.item(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
+                        //-     i.home.grey.icon
+                        //-     | home
                         a.item(href="/classroom/#{current_doc._id}/files" class="{{isActiveRoute regex='classroom_files'}}")
                             | files
                             i.file.grey.icon
@@ -371,7 +374,7 @@ template(name='classroom_student')
                                             |#{text}
                                             .date #{when}
                                         .meta
-                                            +voting_small
+                                            //- +voting_small
                                             a.note(title='create note')
                                                 i.comment.icon 
                                             a.view(title='view full')
@@ -394,7 +397,7 @@ template(name='credit_event_item')
                 |#{text}
                 .date #{when}
             .meta
-                +voting_small
+                //- +voting_small
                 a.note(title='create note')
                     i.comment.icon 
                 a.view(title='view full')
@@ -441,7 +444,7 @@ template(name='classroom_feed')
                         |#{text}
                         .date #{when}
                     .meta
-                        +voting_small
+                        //- +voting_small
                         a.remove
                             i.undo.icon
                         //- if is_dev
@@ -473,13 +476,3 @@ template(name='classroom_stats')
                 .item #{csd.debit_count} total debits
                 .item $#{csd.average_credit_per_student} credit/student
                 .item $#{csd.average_debit_per_student} debit/student
-
-
-
-template(name='classroom_view_feature')
-    with current_feature
-        .ui.header  
-            if icon 
-                i.icon(class=icon)
-            |#{title}
-        +Template.dynamic template=feature_view_template

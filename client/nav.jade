@@ -28,6 +28,9 @@ template(name='nav')
         a.item(href='/shop' class="{{isActiveRoute regex='shop'}}")
             +ismall name='shop'
             span.mobile.hidden &nbsp; shop
+        //- a.item(href='/ads' class="{{isActiveRoute regex='ads'}}")
+        //-     +ismall name='advertisement'
+        //-     span.mobile.hidden &nbsp; ads
         .right.menu
             unless currentUser
                 a.item(href='/login') 
