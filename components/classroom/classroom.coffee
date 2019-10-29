@@ -21,10 +21,18 @@ if Meteor.isClient
         @layout 'classroom_view_layout'
         @render 'classroom_files'
         ), name:'classroom_files'
+    Router.route '/classroom/:doc_id/lunch_small', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_lunch_small'
+        ), name:'classroom_lunch_small'
     Router.route '/classroom/:doc_id/shop', (->
         @layout 'classroom_view_layout'
         @render 'classroom_shop'
         ), name:'classroom_shop'
+    Router.route '/classroom/:doc_id/student/:student_id', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_student'
+        ), name:'classroom_student'
     Router.route '/classroom/:doc_id/students', (->
         @layout 'classroom_view_layout'
         @render 'classroom_students'
@@ -92,7 +100,6 @@ if Meteor.isClient
                 model:'classroom_event'
                 classroom_id:Router.current().params.doc_id
             }, sort: _timestamp:-1
-
     Template.classroom_feed.events
         'click .remove_all_events': ->
             if confirm 'remove all events?'
@@ -534,6 +541,53 @@ if Meteor.isClient
 
 
 
+    Template.classroom_student.onCreated ->
+        @autorun => Meteor.subscribe 'user_by_id', Router.current().params.student_id
+        @autorun => Meteor.subscribe 'user_events_by_id', Router.current().params.student_id
+        @autorun -> Meteor.subscribe 'student_stats_by_id', Router.current().params.student_id
+    Template.classroom_student.helpers
+        calculating: ->
+            Session.get 'calculating'
+
+        ssd: ->
+            user = Meteor.users.findOne Router.current().params.student_id
+            Docs.findOne
+                model:'student_stats'
+                user_id:user._id
+
+        current_student: ->
+            Meteor.users.findOne Router.current().params.student_id
+        student_debits: ->
+            Docs.find
+                model:'classroom_event'
+                user_id:Router.current().params.student_id
+
+        student_classrooms: ->
+            user = Meteor.users.findOne username:Router.current().params.username
+            Docs.find
+                model:'classroom'
+                student_ids: $in: [user._id]
+        user_events: ->
+            Docs.find {
+                model:'classroom_event'
+            }, sort: _timestamp: -1
+        user_credits: ->
+            Docs.find {
+                model:'classroom_event'
+                event_type:'credit'
+            }, sort: _timestamp: -1
+        user_debits: ->
+            Docs.find {
+                model:'classroom_event'
+                event_type:'debit'
+            }, sort: _timestamp: -1
+
+
+    Template.classroom_student.events
+        'click .recalc_student_stats': ->
+            Session.set 'calculating', true
+            Meteor.call 'recalc_student_stats', Router.current().params.student_id, ->
+                Session.set 'calculating', false
 
 
 
@@ -546,6 +600,24 @@ if Meteor.isServer
         classroom = Docs.findOne classroom_id
         Meteor.users.find
             _id: $in: classroom.student_ids
+
+    Meteor.publish 'user_events_by_id', (student_id)->
+        # classroom = Docs.findOne classroom_id
+        # Meteor.users.find
+        #     _id: $in: classroom.student_ids
+        Docs.find
+            model:'classroom_event'
+            user_id:student_id
+
+
+    Meteor.publish 'student_stats_by_id', (student_id)->
+        # classroom = Docs.findOne classroom_id
+        # Meteor.users.find
+        #     _id: $in: classroom.student_ids
+        Docs.find
+            model:'student_stats'
+            user_id:student_id
+
 
     Meteor.publish 'classroom_docs', (model, classroom_id)->
         Docs.find

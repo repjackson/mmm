@@ -1,14 +1,18 @@
 template(name='student_selector')
     .ui.one.column.stackable.grid
         .column
-            .ui.small.header 
-                i.user.plus.grey.icon
-                |create new student
-                
-            .ui.fluid.input 
-                input#first_name(type='text' placeholder='first name')
-            .ui.fluid.input 
-                input#last_name(type='text' placeholder='last name')
+            .ui.two.column.stackable.grid
+                .row
+                    .ui.small.header 
+                        i.user.plus.grey.icon
+                        |create new student
+                .row
+                    .column
+                        .ui.fluid.input 
+                            input#first_name(type='text' placeholder='first name')
+                    .column
+                        .ui.fluid.input 
+                            input#last_name(type='text' placeholder='last name')
             if is_admin
                 .ui.small.header 
                     i.search.grey.icon

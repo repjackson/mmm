@@ -67,6 +67,13 @@ template(name='classroom_school')
             .ui.header #{title}
         //- +school_card
 
+template(name='classroom_lunch_small')
+    .ui.header school
+    with school_classroom
+        a.ui.large.button(href="/school/#{_id}") 
+            .ui.header #{title}
+        //- +school_card
+
 
 template(name='classroom_students_small')   
     .ui.segment 
@@ -249,7 +256,7 @@ template(name='classroom_students')
             //- .ui.item
             //- .image
             .content
-                a.ui.basic.green.large.right.floated.button(href="/user/#{username}")
+                a.ui.basic.green.large.right.floated.button(href="/classroom/#{current_doc._id}/student/#{_id}")
                     |view profile
                     i.right.chevron.icon
                 .description
@@ -302,7 +309,7 @@ template(name='classroom_reports')
                         each classroom_students
                             tr
                                 td 
-                                    a.ui.header(href="/user/#{username}") 
+                                    a.ui.header(href="/classroom/#{current_doc._id}/student/#{_id}") 
                                         img.ui.rounded.avatar.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
                                         |#{first_name} #{last_name}
                                 //- td 
@@ -322,6 +329,109 @@ template(name='classroom_reports')
                                         .ui.header.credit_view $#{credit}
 
 
+template(name='classroom_student')
+    .ui.header student
+    with current_student 
+        .ui.inline.header
+            |#{name}
+            small #{username}
+        if calculating
+            i.loading.refresh.icon
+        else 
+            i.circular.refresh.link.icon.recalc_student_stats(title='recalculate')
+        div
+        .ui.grid      
+            .three.column.row
+                .column
+                    .ui.segment
+                        .ui.small.header 
+                            +ismall name='money-bag'
+                            strong $#{ssd.total_credit_amount}
+                            small total weekly income
+                        .ui.small.header
+                            //- +ismall name='hashtag'
+                            i.hashtag.inline.icon
+                            strong #{ssd.credit_count}
+                            small credits
+                .column
+                    .ui.segment
+                        .ui.small.header
+                            +ismall name='shopping-cart-loaded'
+                            strong $#{ssd.total_debit_amount}
+                            small total weekly expenses
+                        .ui.small.header
+                            i.hashtag.inline.icon
+                            //- +ismall name='hashtag'
+                            strong #{ssd.debit_count}
+                            small debits
+                .column
+                    .ui.segment
+                        .ui.small.header
+                            +i name='economic-improvement'
+                            |growth from last week
+            .two.column.row
+                .column
+                    .ui.segment
+                        .ui.header 
+                            +i name='deposit'
+                            |weekly paycheck (credits)
+                        //- .ui.bulleted.list
+                        //-     each user_credits
+                        //-         .item 
+                        //-             |#{amount}
+                        //-             if icon
+                        //-                 +i name=icon
+                        //-             strong #{text}
+                        //-             small #{when}
+                        .ui.feed.mediumscroll
+                            each user_credits
+                                .event 
+                                    .label
+                                        if is_credit
+                                            i.green.plus.icon
+                                            //- +i name='deposit' classes='ui inline mini image'
+                                    .content
+                                        .summary
+                                            a.user(href="/user/#{target_user.username}")
+                                                |#{target_user.name}
+                                            |#{text}
+                                            .date #{when}
+                                        .meta
+                                            +voting_small
+                                            //- a.like
+                                            //-     i.like.icon 
+                                            //-     |4 likes
+                                            a.remove
+                                                i.undo.icon
+                                            //- if is_dev
+                                            //-     +remove_button
+                .column
+                    .ui.segment
+                        .ui.header 
+                            +i name='withdrawal'
+                            |weekly expenses (debits)
+                        .ui.feed.mediumscroll
+                            each user_debits
+                                .event 
+                                    .label
+                                        i.red.minus.icon
+                                    .content
+                                        .summary
+                                            a.user(href="/user/#{target_user.username}")
+                                                |#{target_user.name}
+                                            |#{text}
+                                            .date #{when}
+                                        .meta
+                                            +voting_small
+                                            //- a.like
+                                            //-     i.like.icon 
+                                            //-     |4 likes
+                                            a.remove
+                                                i.undo.icon
+                                            //- if is_dev
+                                            //-     +remove_button
+                    
+                            //- +range_edit                
 
 
 template(name='classroom_feed')

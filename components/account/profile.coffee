@@ -255,6 +255,8 @@ if Meteor.isServer
     Meteor.methods
         recalc_student_stats: (username)->
             user = Meteor.users.findOne username:username
+            unless user
+                user = Meteor.users.findOne username
             user_id = user._id
             # console.log classroom
             student_stats_doc = Docs.findOne
