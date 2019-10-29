@@ -1,0 +1,11 @@
+template(name='admin')
+    .ui.stackable.padded.grid
+        .row
+            .sixteen.wide.column
+                .ui.header admin
+                .ui.small.header for mmm project managment
+                .ui.button.add_task 
+                    i.plus.icon
+                .ui.header tasks
+                each tasks
+                    .ui.header #{title}

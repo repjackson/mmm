@@ -7,27 +7,27 @@ template(name='nav')
             img.ui.tiny.compact.image(src="{{c.url 'mmm_logo_small' height=200 }}" title='Home')
         unless currentUser
             a.ui.item(href='/p/about')
-                |our work
+                |Our Work
             a.item(href='/p/team')
                 //- +ismall name='question'
-                span.mobile.hidden &nbsp; team
+                span.mobile.hidden &nbsp; Team
             a.item(href='/contact')
                 //- +ismall name='treasure-chest'
-                span.mobile.hidden &nbsp; contact
+                span.mobile.hidden &nbsp; Contact
                 i.phone.icon.mobile.only
-        a.item(href='/schools' class="{{isActiveRoute regex='schools'}}")
-            +ismall name='school'
-            span.mobile.hidden &nbsp; schools
-        a.item(href='/classrooms' class="{{isActiveRoute regex='classrooms'}}")
-            +ismall name='classroom'
-            span.mobile.hidden &nbsp; classrooms
+        //- a.item(href='/schools' class="{{isActiveRoute regex='schools'}}")
+        //-     +ismall name='school'
+        //-     span.mobile.hidden &nbsp; schools
+        //- a.item(href='/classrooms' class="{{isActiveRoute regex='classrooms'}}")
+        //-     +ismall name='classroom'
+        //-     span.mobile.hidden &nbsp; classrooms
         //- a.item(href='/offers')
         //-     //- +ismall name='treasure-chest'
         //-     span.mobile.hidden &nbsp; offers
         //-     i.give.icon.mobile.only
-        a.item(href='/shop' class="{{isActiveRoute regex='shop'}}")
-            +ismall name='shop'
-            span.mobile.hidden &nbsp; shop
+        //- a.item(href='/shop' class="{{isActiveRoute regex='shop'}}")
+        //-     +ismall name='shop'
+        //-     span.mobile.hidden &nbsp; shop
         //- a.item(href='/ads' class="{{isActiveRoute regex='ads'}}")
         //-     +ismall name='advertisement'
         //-     span.mobile.hidden &nbsp; ads
@@ -43,6 +43,8 @@ template(name='nav')
                 if is_dev
                     a.icon.item.set_models(href="/m/model")
                         i.large.grey.database.icon
+                    a.icon.item(href="/admin" title='admin')
+                        i.large.grey.shield.icon
                 unless logging_out
                     a.item(href="/user/#{currentUser.username}" class=user_nav_button_class)
                         if currentUser.profile_image_id
@@ -60,18 +62,6 @@ template(name='nav')
 template(name='user_footer')
     .ui.stackable.secondary.padded.grid.segment
         .row
-            //- .three.wide.column
-                //- .ui.link.large.list
-                //-     a.icon.item.set_reference(href='/m/reference')
-                //-         +ismall name='university'
-                //-         |reference
-                //-     a.icon.item.set_tool(href='/m/tool')
-                //-         +ismall name='calculator'
-                //-         |tools
-
-                //- img.ui.tiny.inline.image(src="{{c.url 'bcorp' }}")
-                //- img.ui.small.image(src="{{c.url 'stripe_badge' }}")
-                //- img.ui.small.image(src="{{c.url 'builtin' }}")
             .four.wide.column
                 if is_admin
                     a.ui.button(href='/admin' title='admin')
@@ -104,18 +94,6 @@ template(name='footer')
 template(name='public_footer')
     .ui.stackable.secondary.padded.grid.segment
         .row
-            //- .three.wide.column
-                //- .ui.link.large.list
-                //-     a.icon.item.set_reference(href='/m/reference')
-                //-         +ismall name='university'
-                //-         |reference
-                //-     a.icon.item.set_tool(href='/m/tool')
-                //-         +ismall name='calculator'
-                //-         |tools
-
-                //- img.ui.tiny.inline.image(src="{{c.url 'bcorp' }}")
-                //- img.ui.small.image(src="{{c.url 'stripe_badge' }}")
-                //- img.ui.small.image(src="{{c.url 'builtin' }}")
             .four.wide.column
                 if is_admin
                     a.ui.button(href='/admin' title='admin')
@@ -208,8 +186,7 @@ template(name='footer_chat')
 
 template(name='my_latest_activity')
     .ui.grey.header 
-        //- i.grey.rss.icon
-        +ismall name='rss'
+        i.grey.rss.icon
         |your activity
     .ui.list
         each my_latest_activity
@@ -221,8 +198,7 @@ template(name='my_latest_activity')
 
 template(name='latest_activity')
     .ui.grey.header 
-        //- i.grey.rss.icon
-        +ismall name='rss'
+        i.grey.rss.icon
         |all activity
     .ui.list
         each latest_activity
