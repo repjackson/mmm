@@ -10,7 +10,7 @@ if Meteor.isClient
 
     Template.classroom_lunch.events
         'click .back_to_classroom': ->
-            Router.go "/classroom/#{Router.current().params.doc_id}/lunch"
+            Router.go "/classroom/#{Router.current().params.doc_id}/lunch_small"
         'click .choose_home': (e,t)->
             $(e.currentTarget).closest('.button').transition('zoom', 1000)
             $(e.currentTarget).closest('.card').transition('fade left', 1000)
@@ -53,7 +53,7 @@ if Meteor.isClient
                 debit_type:'lunch'
                 date:today
                 user_id: @_id
-            console.log chosen_lunch
+            # console.log chosen_lunch
             chosen_lunch
         classroom_debit_types: ->
             Docs.find

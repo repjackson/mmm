@@ -100,60 +100,6 @@ if Meteor.isClient
 
 
 
-    Template.school_edit_debits.events
-        'click .select_debit': -> Session.set 'selected_debit_id', @_id
-        'click .add_debit_type': ->
-            new_debit_id = Docs.insert
-                model:'debit_type'
-                school_id: Router.current().params.doc_id
-            Session.set 'selected_debit_id', new_debit_id
-    Template.debit_menu_item.helpers
-        debit_class: ->
-            if Session.equals('selected_debit_id',@_id) then 'active' else ''
-    Template.school_edit_debits.helpers
-        selected_debit: ->
-            Docs.findOne Session.get('selected_debit_id')
-        template_debit_types: ->
-            Docs.find
-                model:'debit_type'
-                school_id: Router.current().params.doc_id
-                template_id:$exists:true
-        custom_debit_types: ->
-            Docs.find
-                model:'debit_type'
-                school_id: Router.current().params.doc_id
-                template_id:$exists:false
-
-
-
-
-
-    Template.school_edit_credits.helpers
-        template_credit_types: ->
-            Docs.find
-                model:'credit_type'
-                school_id: Router.current().params.doc_id
-                template_id:$exists:true
-        custom_credit_types: ->
-            Docs.find
-                model:'credit_type'
-                school_id: Router.current().params.doc_id
-                template_id:$exists:false
-        selected_credit: ->
-            Docs.findOne Session.get('selected_credit_id')
-    Template.school_edit_credits.events
-        'click .select_credit': -> Session.set 'selected_credit_id', @_id
-        'click .add_credit_type': ->
-            new_credit_id = Docs.insert
-                model:'credit_type'
-                school_id: Router.current().params.doc_id
-            Session.set 'selected_credit_id', new_credit_id
-        'click .remove_credit': ->
-            Docs.remove @_id
-
-
-
-
     Template.transaction.onCreated ->
         @editing_transaction = new ReactiveVar false
     Template.transaction.helpers

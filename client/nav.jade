@@ -54,7 +54,51 @@ template(name='nav')
                         i.loading.circle.notch.icon
 
 
+template(name='user_footer')
+    .ui.stackable.secondary.padded.grid.segment
+        .row
+            //- .three.wide.column
+                //- .ui.link.large.list
+                //-     a.icon.item.set_reference(href='/m/reference')
+                //-         +ismall name='university'
+                //-         |reference
+                //-     a.icon.item.set_tool(href='/m/tool')
+                //-         +ismall name='calculator'
+                //-         |tools
+
+                //- img.ui.tiny.inline.image(src="{{c.url 'bcorp' }}")
+                //- img.ui.small.image(src="{{c.url 'stripe_badge' }}")
+                //- img.ui.small.image(src="{{c.url 'builtin' }}")
+            .four.wide.column
+                if is_admin
+                    a.ui.button(href='/admin' title='admin')
+                        i.shield.icon
+                        |admin
+                .ui.link.large.list
+                    a.item(href='/donate')
+                        //- +ismall name='donate'
+                        | contact
+                        
+            .three.wide.column
+                .ui.link.large.list
+                    a.item(href='/shop')
+                        .content
+                            +ismall name='shop'
+                            | shop
+            .six.wide.column
+                +footer_chat
+                if is_admin
+                    with currentUser
+                        +role_switcher
+
+
 template(name='footer')
+    if currentUser 
+        +user_footer
+    else 
+        +public_footer
+        
+template(name='public_footer')
     .ui.stackable.secondary.padded.grid.segment
         .row
             //- .three.wide.column

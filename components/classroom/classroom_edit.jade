@@ -116,39 +116,40 @@ template(name='classroom_edit_credits')
         i.plus.green.icon
         |credits
     +number_edit key='bonus_amount' label='bonus amount' direct=true
-    a.ui.button(href="/classroom/#{_id}/edit/templates" class="{{isActiveRoute regex='classroom_edit_templates'}}")
-        i.download.icon
-        |templates
-    .ui.small.header from template
-    .ui.fluid.vertical.pointing.menu
-        each template_credit_types
-            +credit_menu_item
-    div
-    .ui.small.inline.header custom
+    //- a.ui.button(href="/classroom/#{_id}/edit/templates" class="{{isActiveRoute regex='classroom_edit_templates'}}")
+    //-     i.download.icon
+    //-     |templates
+    //- .ui.small.header from template
+    //- .ui.fluid.vertical.pointing.menu
+    //-     each template_credit_types
+    //-         +credit_menu_item
+    //- div
+    //- .ui.small.inline.header custom
     .ui.icon.button.add_credit_type
         i.plus.icon
-    .ui.fluid.vertical.pointing.menu
+    .ui.styled.fluid.accordion 
         each custom_credit_types
-            +credit_menu_item
-    div
-    with selected_credit
-        +transaction
-
-
-template(name='credit_menu_item')                        
-    a.item.select_credit(class=credit_class) 
-        if icon
-            +ismall name=icon     
-        |#{title}
-        small +$#{amount}
-        if is_automatic
-            i.lightning.yellow.icon
-        if is_student
-            i.user.outline.icon(title='student scope')
-        if is_classroom 
-            i.users.icon(title='classroom scope')
-        if is_admin
-            i.circular.remove.icon.remove_credit
+            .title
+                if icon
+                    +ismall name=icon     
+                |#{title}
+                small +$#{amount}
+                if is_automatic
+                    i.lightning.yellow.icon
+                if is_student
+                    i.user.outline.icon(title='student scope')
+                if is_classroom 
+                    i.users.icon(title='classroom scope')
+                if is_admin
+                    i.circular.remove.icon.remove_credit
+            .content
+                +transaction
+    //- .ui.fluid.vertical.pointing.menu
+    //-     each custom_credit_types
+    //-         +credit_menu_item
+    //- div
+    //- with selected_credit
+    //-     +transaction
 
 
 template(name='classroom_edit_shop')       
@@ -164,122 +165,105 @@ template(name='classroom_edit_debits')
         i.red.minus.icon
         |debits
     +number_edit key='fines_amount' label='fines amount' direct=true
-    a.ui.button(href="/classroom/#{current_doc._id}/edit/templates" class="{{isActiveRoute regex='classroom_edit_templates'}}")
-        i.download.icon
-        |templates
-
-    .ui.small.header from template
-    .ui.fluid.vertical.pointing.menu
-        each template_debit_types
-            +debit_menu_item
-    div
-    .ui.small.inline.header custom
     .ui.icon.button.add_debit_type
         i.plus.icon
-    .ui.fluid.vertical.pointing.menu
+    //- a.ui.button(href="/classroom/#{current_doc._id}/edit/templates" class="{{isActiveRoute regex='classroom_edit_templates'}}")
+    //-     i.download.icon
+    //-     |templates
+    .ui.styled.fluid.accordion 
         each custom_debit_types
-            +debit_menu_item
-    with selected_debit
-        +transaction
+            .title.f6
+                if icon
+                    +ismall name=icon 
+                |#{title}
+                small $#{amount}
+                if is_automatic
+                    i.lightning.yellow.icon
+                else 
+                    i.hand.icon
+                if is_student
+                    i.user.outline.icon(title='student scope')
+                if is_classroom 
+                    i.users.icon(title='classroom scope')
+            .content
+                +transaction
 
-
-
-
-
-template(name='debit_menu_item')
-    a.item.select_debit(class=debit_class) 
-        if icon
-            +ismall name=icon 
-        |#{title}
-        small $#{amount}
-        if is_automatic
-            i.lightning.yellow.icon
-        else 
-            i.hand.icon
-        if is_student
-            i.user.outline.icon(title='student scope')
-        if is_classroom 
-            i.users.icon(title='classroom scope')
 
 
 
 template(name='transaction')
-    .ui.segment
-        if editing_transaction
-            //- +image_edit key='image_id' label='image' direct=true
-            +text_edit key='title' direct=true
-            +text_edit key='slug' direct=true
-            +number_edit key='amount' direct=true
-            +icon_edit key='icon' direct=true
+    if editing_transaction
+        //- +image_edit key='image_id' label='image' direct=true
+        +text_edit key='title' direct=true
+        +text_edit key='slug' direct=true
+        +number_edit key='amount' direct=true
+        +icon_edit key='icon' direct=true
+        div
+        .ui.small.grey.inline.header dispersion type
+        //- +boolean_edit key='automatic' direct=true
+        +key_value_edit key='dispersion_type' value='automatic' label='automatic'
+        +key_value_edit key='dispersion_type' value='manual' label='manual'
+        div
+        if is_automatic
+            .ui.small.grey.inline.header automatic period
+            +key_value_edit key='automatic_period' value='daily' label='daily'
+            +key_value_edit key='automatic_period' value='weekly' label='weekly'
             div
-            .ui.small.grey.inline.header dispersion type
-            //- +boolean_edit key='automatic' direct=true
-            +key_value_edit key='dispersion_type' value='automatic' label='automatic'
-            +key_value_edit key='dispersion_type' value='manual' label='manual'
+        div
+        if is_manual
             div
-            if is_automatic
-                .ui.small.grey.inline.header automatic period
-                +key_value_edit key='automatic_period' value='daily' label='daily'
-                +key_value_edit key='automatic_period' value='weekly' label='weekly'
+            .ui.small.grey.inline.header manual period
+            +key_value_edit key='manual_period' value='daily' label='daily'
+            +key_value_edit key='manual_period' value='weekly' label='weekly'
+            if is_manual_daily
                 div
+                .ui.small.grey.inline.header manual limit type
+                +key_value_edit key='manual_limit_type' value='single' label='single'
+                +key_value_edit key='manual_limit_type' value='multi' label='multi'
+            //- div
+            //- if limit
+            //-     +number_edit key='limit_amount' label='limit amount'
+        div
+        .ui.small.grey.inline.header scope
+        +key_value_edit key='scope' value='student' label='student'
+        +key_value_edit key='scope' value='classroom' label='classroom'
+        div
+        .ui.button.remove_transaction 
+            i.remove.icon
+            |remove
+        .ui.fluid.button.save_transaction
+            i.green.checkmark.icon
+            |save
+    else 
+        //- .ui.header 
+        //-     if icon 
+        //-         +i name=icon 
+        //-     | #{title}:  
+        //-     | $#{amount}
+        //- .ui.header 
+        //-     small amount
+        div
+        .ui.small.grey.inline.header dispersion type
+        .ui.inline.header #{dispersion_type}
+        div
+        if is_automatic
+            .ui.small.grey.inline.header automatic period
+            .ui.inline.header #{automatic_period}
             div
-            if is_manual
+        if is_manual
+            div
+            .ui.small.grey.inline.header manual period
+            .ui.inline.header #{manual_period}
+            if is_manual_daily
                 div
-                .ui.small.grey.inline.header manual period
-                +key_value_edit key='manual_period' value='daily' label='daily'
-                +key_value_edit key='manual_period' value='weekly' label='weekly'
-                if is_manual_daily
-                    div
-                    .ui.small.grey.inline.header manual limit type
-                    +key_value_edit key='manual_limit_type' value='single' label='single'
-                    +key_value_edit key='manual_limit_type' value='multi' label='multi'
-                //- div
-                //- if limit
-                //-     +number_edit key='limit_amount' label='limit amount'
-            div
-            .ui.small.grey.inline.header scope
-            +key_value_edit key='scope' value='student' label='student'
-            +key_value_edit key='scope' value='classroom' label='classroom'
-            div
-            .ui.button.remove_transaction 
-                i.remove.icon
-                |remove
-            .ui.divider
-
-            .ui.fluid.button.save_transaction
-                i.green.checkmark.icon
-                |save
-        else 
-            .ui.header 
-                if icon 
-                    +i name=icon 
-                | #{title}:  
-                | $#{amount}
-            //- .ui.header 
-            //-     small amount
-            div
-            .ui.small.grey.inline.header dispersion type
-            .ui.inline.header #{dispersion_type}
-            div
-            if is_automatic
-                .ui.small.grey.inline.header automatic period
-                .ui.inline.header #{automatic_period}
-                div
-            if is_manual
-                div
-                .ui.small.grey.inline.header manual period
-                .ui.inline.header #{manual_period}
-                if is_manual_daily
-                    div
-                    .ui.small.grey.inline.header manual limit type
-                    .ui.inline.header #{manual_limit_type}
-            div
-            .ui.small.grey.inline.header scope
-            .ui.inline.header #{scope}
-            .ui.divider
-            .ui.fluid.button.edit_transaction
-                i.pencil.icon
-                |edit
+                .ui.small.grey.inline.header manual limit type
+                .ui.inline.header #{manual_limit_type}
+        div
+        .ui.small.grey.inline.header scope
+        .ui.inline.header #{scope}
+        .ui.fluid.button.edit_transaction
+            i.pencil.icon
+            |edit
 
 
 

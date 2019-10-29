@@ -15,10 +15,6 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_karma'
         ), name:'user_karma'
-    Router.route '/user/:username/services', (->
-        @layout 'profile_layout'
-        @render 'user_services'
-        ), name:'user_services'
     Router.route '/user/:username/payment', (->
         @layout 'profile_layout'
         @render 'user_payment'
@@ -27,10 +23,6 @@ if Meteor.isClient
         @layout 'profile_layout'
         @render 'user_finance'
         ), name:'user_finance'
-    Router.route '/user/:username/workhistory', (->
-        @layout 'profile_layout'
-        @render 'user_workhistory'
-        ), name:'user_workhistory'
     Router.route '/user/:username/offers', (->
         @layout 'profile_layout'
         @render 'user_offers'

@@ -73,6 +73,16 @@ if Meteor.isClient
     Template.classroom_edit_debits.onCreated ->
         # @autorun => Meteor.subscribe 'model_docs', 'credit_type'
         @autorun => Meteor.subscribe 'classroom_docs', 'debit_type', Router.current().params.doc_id
+    Template.classroom_edit_debits.onRendered ->
+        Meteor.setTimeout ->
+            $('.accordion').accordion()
+        , 1500
+
+    Template.classroom_edit_credits.onRendered ->
+        Meteor.setTimeout ->
+            $('.accordion').accordion()
+        , 1500
+
 
     Template.classroom_edit_credits.onCreated ->
         @autorun => Meteor.subscribe 'classroom_docs', 'credit_type', Router.current().params.doc_id
@@ -108,9 +118,6 @@ if Meteor.isClient
                 model:'debit_type'
                 classroom_id: Router.current().params.doc_id
             Session.set 'selected_debit_id', new_debit_id
-    Template.debit_menu_item.helpers
-        debit_class: ->
-            if Session.equals('selected_debit_id',@_id) then 'active' else ''
     Template.classroom_edit_debits.helpers
         selected_debit: ->
             Docs.findOne Session.get('selected_debit_id')
@@ -129,9 +136,6 @@ if Meteor.isClient
 
 
 
-    Template.credit_menu_item.helpers
-        credit_class: ->
-            if Session.equals('selected_credit_id',@_id) then 'active' else ''
     Template.classroom_edit_credits.helpers
         template_credit_types: ->
             Docs.find

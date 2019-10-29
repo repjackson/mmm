@@ -81,8 +81,11 @@ template(name='classroom_students_small')
                         .header 
                             |#{name}
 
-template(name='classroom_shop')   
-    +shop
+template(name='classroom_shop')
+    .ui.header shop
+    each products 
+        .ui.header #{title}
+    //- +shop
 
 template(name='classroom_info')
     .ui.segment 
@@ -350,26 +353,7 @@ template(name='classroom_student')
                         //-             small #{when}
                         .ui.feed.mediumscroll
                             each user_credits
-                                .event 
-                                    .label
-                                        if is_credit
-                                            i.green.plus.icon
-                                            //- +i name='deposit' classes='ui inline mini image'
-                                    .content
-                                        .summary
-                                            a.user(href="/user/#{target_user.username}")
-                                                |#{target_user.name}
-                                            |#{text}
-                                            .date #{when}
-                                        .meta
-                                            +voting_small
-                                            //- a.like
-                                            //-     i.like.icon 
-                                            //-     |4 likes
-                                            a.remove
-                                                i.undo.icon
-                                            //- if is_dev
-                                            //-     +remove_button
+                                +credit_event_item        
                 .column
                     .ui.segment
                         .ui.header 
@@ -388,15 +372,43 @@ template(name='classroom_student')
                                             .date #{when}
                                         .meta
                                             +voting_small
-                                            //- a.like
-                                            //-     i.like.icon 
-                                            //-     |4 likes
+                                            a.note(title='create note')
+                                                i.comment.icon 
+                                            a.view(title='view full')
+                                                i.right.chevron.icon 
                                             a.remove
                                                 i.undo.icon
                                             //- if is_dev
                                             //-     +remove_button
                     
-                            //- +range_edit                
+template(name='credit_event_item')
+    .event 
+        .label
+            if is_credit
+                i.green.plus.icon
+                //- +i name='deposit' classes='ui inline mini image'
+        .content
+            .summary
+                a.user(href="/user/#{target_user.username}")
+                    |#{target_user.name}
+                |#{text}
+                .date #{when}
+            .meta
+                +voting_small
+                a.note(title='create note')
+                    i.comment.icon 
+                a.view(title='view full')
+                    i.right.chevron.icon 
+                a.remove
+                    i.undo.icon
+                //- if is_dev
+                //-     +remove_button
+                if is_commenting
+                    .ui.form 
+                        textarea(rows='3')
+
+
+
 
 
 template(name='classroom_feed')
@@ -451,7 +463,7 @@ template(name='classroom_stats')
             .ui.green.inline.header $#{csd.total_credit_amount}
             | income
             div
-            .ui.red.inline.header -$#{csd.total_debit_amount}
+            .ui.red.inline.header $#{csd.total_debit_amount}
             | expenses
         .column
             .ui.big.list

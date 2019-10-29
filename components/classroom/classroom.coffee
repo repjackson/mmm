@@ -531,6 +531,30 @@ if Meteor.isClient
                 Session.set 'calculating', false
 
 
+    Template.credit_event_item.onCreated ->
+        @commenting = new ReactiveVar false
+
+    Template.credit_event_item.helpers
+        is_commenting: -> Template.instance().commenting.get()
+
+    Template.credit_event_item.events
+        'click .note': (e,t)->
+            t.commenting.set !t.commenting.get()
+            # console.log @
+
+        'click .remove': (e,t)->
+            if confirm  "undo #{@event_type}?"
+                $(e.currentTarget).closest('.event').transition('fly right', 1000)
+                Meteor.setTimeout =>
+                    Docs.remove @_id
+                , 500
+                if @event_type is 'credit'
+                    Meteor.users.update @user_id,
+                        $inc:credit:-@amount
+                else if @event_type is 'debit'
+                    Meteor.users.update @user_id,
+                        $inc:credit:@amount
+
 
 
 
