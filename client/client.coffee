@@ -161,7 +161,7 @@ Template.registerHelper 'classroom_school', () ->
     school = Docs.findOne
         model:'school'
         _id: @school_id
-    console.log school
+    # console.log school
     school
 # Template.registerHelper 'parent_template', () -> Template.parentData()
     # Session.get 'displaying_profile'

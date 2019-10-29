@@ -23,7 +23,7 @@ template(name='classroom_view_layout')
                         a.item(href="/classroom/#{current_doc._id}/files" class="{{isActiveRoute regex='classroom_files'}}")
                             | files
                             i.file.grey.icon
-                        a.item(href="/classroom/#{current_doc._id}/lunch" class="{{isActiveRoute regex='classroom_lunch'}}")
+                        a.item(href="/classroom/#{current_doc._id}/lunch_small" class="{{isActiveRoute regex='classroom_lunch'}}")
                             | lunch
                             i.food.grey.icon
                         a.item(href="/classroom/#{current_doc._id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
@@ -61,13 +61,6 @@ template(name='classroom_dashboard')
 
 
 template(name='classroom_school')
-    .ui.header school
-    with school_classroom
-        a.ui.large.button(href="/school/#{_id}") 
-            .ui.header #{title}
-        //- +school_card
-
-template(name='classroom_lunch_small')
     .ui.header school
     with school_classroom
         a.ui.large.button(href="/school/#{_id}") 
@@ -142,34 +135,6 @@ template(name='classroom_files')
     //- +big_link_view key='link6' label='link6' direct=true
     //- +big_link_view key='link7' label='link7' direct=true
 
-
-template(name='classroom_lunch')        
-    .ui.padded.stackable.grid
-        .row
-            .four.wide.column
-                .ui.center.aligned.large.button.back_to_classroom
-                    i.chevron.left.icon
-                    |#{current_doc.title}
-            .eight.wide.column
-                .ui.center.aligned.large.header 
-                    i.food.icon
-                    |lunch
-    .ui.four.stackable.cards
-        each classroom_students
-            unless lunch_chosen
-                .ui.card
-                    img.ui.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
-                    .content
-                        .ui.header #{name}
-                        .ui.huge.labeled.icon.fluid.basic.button.choose_home
-                            i.home.icon
-                            |home 
-                            span.ui.red.text -3c
-                        .spacer
-                        .ui.huge.labeled.icon.fluid.basic.button.choose_cafeteria
-                            i.food.icon
-                            |cafeteria
-                            span.ui.red.text -5c
 
 
 
