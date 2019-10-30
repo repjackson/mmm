@@ -3,6 +3,14 @@ if Meteor.isClient
         @layout 'admin_layout'
         @render 'tasks'
         ), name:'tasks'
+    Router.route '/task/:doc_id/view', (->
+        @layout 'admin_layout'
+        @render 'task_view'
+        ), name:'task_view'
+    Router.route '/task/:doc_id/edit', (->
+        @layout 'admin_layout'
+        @render 'task_edit'
+        ), name:'task_edit'
 
     Template.tasks.onCreated ->
         @autorun -> Meteor.subscribe('task_facet_docs',
@@ -10,6 +18,11 @@ if Meteor.isClient
             # Session.get('selected_school_id')
             # Session.get('sort_key')
         )
+    Template.task_view.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+    Template.task_edit.onCreated ->
+        @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
+        @autorun => Meteor.subscribe 'users_by_role', 'admin'
 
     Template.tasks.helpers
         tasks: ->

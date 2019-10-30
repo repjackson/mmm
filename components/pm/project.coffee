@@ -20,10 +20,10 @@ Router.route '/project/:doc_id/finance', (->
     @layout 'project_layout'
     @render 'project_finance'
     ), name:'project_finance'
-Router.route '/project/:doc_id/photos', (->
+Router.route '/project/:doc_id/tasks', (->
     @layout 'project_layout'
-    @render 'project_photos'
-    ), name:'project_photos'
+    @render 'project_tasks'
+    ), name:'project_tasks'
 Router.route '/project/:doc_id/chat', (->
     @layout 'project_layout'
     @render 'project_chat'
@@ -47,7 +47,7 @@ if Meteor.isClient
     #     @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
     Template.project_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-        @autorun => Meteor.subscribe 'users_by_role', 'board_member'
+        @autorun => Meteor.subscribe 'users_by_role', 'admin'
 
     # Template.project_card_template.onRendered ->
     #     Meteor.setTimeout ->
@@ -98,9 +98,9 @@ if Meteor.isClient
 
 
     Template.project_edit.helpers
-        board_members: ->
+        admins: ->
             Meteor.users.find
-                roles:$in:['board_member']
+                roles:$in:['admin']
 
 
 
@@ -171,6 +171,25 @@ if Meteor.isClient
                 model:'file'
                 project_id: Router.current().params.doc_id
     Template.project_files.helpers
+        files: ->
+            Docs.find {
+                model:'file'
+            },
+                limit:10
+                sort:file_date:-1
+
+
+
+
+    Template.project_tasks.onCreated ->
+        @autorun => Meteor.subscribe 'model_docs', 'task'
+    Template.project_tasks.events
+        'click .add_task': ->
+            new_task_id = Docs.insert
+                model:'task'
+                project_id: Router.current().params.doc_id
+            Router.go "/task/#{new_task_id}/edit"
+    Template.project_tasks.helpers
         files: ->
             Docs.find {
                 model:'file'

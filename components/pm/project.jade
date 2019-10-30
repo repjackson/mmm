@@ -1,8 +1,10 @@
  
 template(name='projects')
+    img.ui.fluid.image.checkin_banner(src="{{c.url 'frontrange' width=1000 height=1000 crop='crop'}}")    
     .ui.padded.stackable.grid
         .sixteen.wide.column
-            .ui.header Gold Run Current Projects
+            .ui.header mmm projects
+            +add_button model='project'
             each projects
                 .four.wide.column
                     +project_card_template
@@ -141,41 +143,33 @@ template(name='project_layout')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .sixteen.wide.column
-                    .ui.fluid.large.three.item.borderless.menu
-                        a.item(href="/project/#{_id}/feed" class="{{isActiveRoute 'project_feed'}}") 
-                            i.newspaper.icon
-                            //- +ismall name='news'
-                            |summary
-                        a.item(href="/project/#{_id}/finance" class="{{isActiveRoute 'project_finance'}}") 
-                            //- +ismall name='invoice'
-                            i.money.icon
-                            |finance
-                        //- a.item(href="/project/#{_id}/photos" class="{{isActiveRoute 'project_photos'}}") 
-                        //-     +ismall name='image'
-                        //-     //- i.image.icon
-                        //-     |photos
-                        //- a.item(href="/project/#{_id}/chat" class="{{isActiveRoute 'project_chat'}}") 
-                        //-     +ismall name='comments'
-                        //-     //- i.chat.icon
-                        //-     |chat
-                        a.item(href="/project/#{_id}/files" class="{{isActiveRoute 'project_files'}}") 
-                            //- +ismall name='database'
-                            i.file.outline.icon
-                            |files
-                .six.wide.column 
-                    //- a.ui.button(href="/projects" title='view projects')
-                    //-     i.left.chevron.icon
-                    //-     +i name='work' classes='ui avatar image'
-                    //-     |projects
+                .four.wide.column
+                    a.ui.small.fluid.button(href="/projects" title='view projects')
+                        i.left.chevron.icon
+                        +i name='work' classes='ui avatar image'
+                        |projects
+                        
                     .ui.inline.header
                         //- if icon
                         //-     +i name=icon
                         +text_view key='title' label='title' direct=true
-                            
-            .row
-                .four.wide.column 
-                    if is_manager
+                    .ui.fluid.large.vertical.borderless.menu
+                        a.item(href="/project/#{_id}/feed" class="{{isActiveRoute 'project_feed'}}") 
+                            i.newspaper.icon
+                            |summary
+                        a.item(href="/project/#{_id}/finance" class="{{isActiveRoute 'project_finance'}}") 
+                            i.money.icon
+                            |finance
+                        a.item(href="/project/#{_id}/tasks" class="{{isActiveRoute 'project_tasks'}}") 
+                            i.tasks.icon
+                            |tasks
+                        a.item(href="/project/#{_id}/chat" class="{{isActiveRoute 'project_chat'}}") 
+                            i.chat.icon
+                            |chat
+                        a.item(href="/project/#{_id}/files" class="{{isActiveRoute 'project_files'}}") 
+                            i.file.outline.icon
+                            |files
+                    if is_admin
                         a.ui.fluid.button(href="/project/#{_id}/edit")
                             i.pencil.icon
                             |edit
@@ -201,9 +195,9 @@ template(name='project_layout')
                                 +image_view key='image' icon='image' label='image' direct=true
                             .item
                                 +number_view key='budget' label='budget' direct=true prefix='$'
-                    //- +voting_full
-                    //- .ui.small.header #{views} views
-                    //- +viewing
+                    +voting_full
+                    .ui.small.header #{views} views
+                    +viewing
                 .twelve.wide.column 
                     +yield
         unless is_frontdesk
@@ -215,7 +209,7 @@ template(name='project_files')
     .ui.inline.header 
         +i name='file'
         | documents
-    if is_manager
+    if is_admin
         .ui.icon.button.add_file
             i.plus.icon
     if editing_doc
@@ -252,7 +246,7 @@ template(name='project_chat')
 template(name='project_finance')
     .ui.inline.header
         |payments 
-    if is_manager
+    if is_admin
         .ui.small.icon.button.add_payment
             i.plus.icon
     .ui.list
@@ -270,23 +264,25 @@ template(name='project_finance')
     div
     .ui.inline.header
         |totals
-    if is_manager
+    if is_admin
         i.circular.refresh.icon(title='refresh')
     with current_doc
         |$#{payment_total}
 
-template(name='project_photos')
+template(name='project_tasks')
     .ui.header 
-        +i name='gallery'
-        |photos
-    if is_manager
-        .ui.button add photo
+        +i name='task'
+        |tasks
+    if is_admin
+        .ui.button.add_task 
+            i.plus.icon
+            | task
 
 
 template(name='project_feed')
     .ui.inline.header 
         |activity    
-    if is_manager
+    if is_admin
         .ui.button.add_update
             i.plus.icon
             |update
@@ -314,7 +310,7 @@ template(name='update_item')
                 .extra.text !{text}
                 //- .meta
                 //-     +voting_small
-                if is_manager
+                if is_admin
                     +session_edit_button
                     +remove_button
 

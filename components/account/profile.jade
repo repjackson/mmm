@@ -152,11 +152,11 @@ template(name='student_dashboard')
             .column
                 .ui.segment
                     .ui.small.header 
-                        +ismall name='money-bag'
+                        +i name='money-bag' classes='ui mini inline image'
                         strong $#{ssd.total_credit_amount}
                         small total weekly income
                     .ui.small.header
-                        +ismall name='hashtag'
+                        +i name='hashtag' classes='ui mini inline image'
                         strong #{ssd.credit_count}
                         small credits
             .column

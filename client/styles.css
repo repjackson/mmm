@@ -185,7 +185,13 @@ body {
 } */
 
 
+.vertical.menu {
+    border-radius:10px !important;
+}
 
+.header_nav_image {
+    padding:5px !important;
+}
 
 .checkin_header {
     font-size: 4em !important;
@@ -229,6 +235,7 @@ body {
 .topnav.menu {
     border-radius: 0 0 10px 10px !important;
     transition: background-color 3s ease !important;
+    background-color: rgba(250,250,250,.6) !important;
 }
 .menu:not(.topnav, .techernav) {
     border-radius: 10px !important;
@@ -384,7 +391,7 @@ body {
     top:-40px;
     /* filter: invert(1); */
     z-index: -1000;
-    opacity: 0.5;
+    opacity: 0.3;
     -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
     mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
 }
@@ -631,7 +638,7 @@ input.parent_code{
 
 
 .button, .selector, .card, body, .item{
-    animation: fadein .75s;
+    animation: fadein 1s;
     /* -webkit-transition: opacity 2s ease-out; */
     /* animation: fadeout 1s; */
 }
@@ -839,9 +846,10 @@ h1.ui.header{
   font-size: 225%;
 }
 .footer {
-    /* position: absolute; */
+    /* position: absolute !important; */
     height: auto;
-    /* bottom: 0; */
+    width: 100%;
+    /* bottom: 0 !important; */
 }
 
 

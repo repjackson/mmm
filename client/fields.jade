@@ -70,11 +70,11 @@ template(name='html_edit')
     .froala-container
         +froalaReactive getFEContext
     //- if is_dev
-    +call_watson mode='html' key=key
-    div
-    //- +tone mode='html'
-    if watson
-        +watson_view
+    //- +call_watson mode='html' key=key
+    //- div
+    //- //- +tone mode='html'
+    //- if watson
+    //-     +watson_view
         
         
         
@@ -584,7 +584,7 @@ template(name='number_edit')
     unless no_header
         .ui.inline.small.grey.header(title=tooltip)
             if icon
-                +i name=icon classes='ui middle aligned image'
+                +i name=icon classes='ui mini inline image'
             if title
                 |#{title}
             else if label
@@ -662,7 +662,7 @@ template(name='date_view')
         div
         if icon
             +ismall name=icon classes='ui middle aligned image'
-        .ui.grey.inline.header
+        .ui.grey.inline.small.header
             if title
                 |#{title}
             else if label

@@ -3,8 +3,9 @@ template(name='nav')
         if is_loading
             .item
                 i.large.loading.notched.circle.icon
-        a.compact.header_nav_image.item(href='/' class="{{isActivePath '/'}}") 
-            img.ui.tiny.compact.image(src="{{c.url 'mmm_logo_small' height=200 }}" title='Home')
+        else 
+            a.compact.header_nav_image.item(href='/' class="{{isActivePath '/'}}") 
+                img.ui.tiny.compact.inline.image(src="{{c.url 'mmm_logo_small' height=200 }}" title='Home')
         unless currentUser
             a.ui.item(href='/p/about')
                 |Our Work
@@ -24,6 +25,10 @@ template(name='nav')
                     i.user.plus.grey.icon
                     |Sign Up
             if currentUser
+                a.icon.item(href='/mail')
+                    i.envelope.large.grey.icon
+                a.icon.item(href='/alerts')
+                    i.bell.large.grey.icon
                 if is_dev
                     a.icon.item.set_models(href="/m/model")
                         i.large.grey.database.icon
@@ -47,7 +52,7 @@ template(name='nav')
 
 
 template(name='user_footer')
-    .ui.stackable.secondary.padded.grid.segment
+    .ui.stackable.secondary.padded.grid.segment.footer
         .row
             .four.wide.column
                 if is_admin

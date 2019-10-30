@@ -91,11 +91,11 @@ if Meteor.isServer
         Docs.find
             model:'reservation'
             teacher_id: teacher_id
-
-    Meteor.publish 'teachers', (product_id)->
-        Docs.find
-            model:'teacher'
-            product_id:product_id
+    #
+    # Meteor.publish 'teachers', (product_id)->
+    #     Docs.find
+    #         model:'teacher'
+    #         product_id:product_id
 
 
 

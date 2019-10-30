@@ -134,7 +134,9 @@ template(name='task_edit')
                 .twelve.wide.column 
                     +text_edit key='title' label='title' icon='title' direct=true
                     +html_edit key='description' label='description' icon='content' direct=true
+                    div
                     +boolean_edit key='complete' label='complete' icon='checkmark' direct=true
+                    div
                     +number_edit key='estimated_minutes' label='estimated minutes' icon='clock' direct=true
                     //- +single_user_edit key='assigned_to' role_filter='user' label='assigned to' icon='user-male' direct=true
                     +multi_user_edit key='assigned_to_multiple' role_filter='user' label='assigned to' direct=true
@@ -146,7 +148,7 @@ template(name='task_view')
             .row
                 .four.wide.column 
                     a.ui.fluid.button(href="/tasks")
-                        +i name='tasks' classes='ui avatar image'
+                        +i name='task' classes='ui avatar image'
                         |tasks
                     .ui.header view task
                     a.ui.big.icon.button(href="/task/#{_id}/edit")
