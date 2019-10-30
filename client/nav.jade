@@ -37,7 +37,10 @@ template(name='nav')
                 a.icon.item(href='/mail')
                     i.envelope.large.grey.icon
                 a.icon.item(href='/alerts')
-                    i.bell.large.grey.icon
+                    if unread_alert_count
+                        i.bell.large.yellow.icon(title="#{unread_alert_count} unread alerts")
+                    else 
+                        i.bell.large.grey.icon(title="#{unread_alert_count} unread alerts")
                 if is_dev
                     a.icon.item.set_models(href="/m/model")
                         i.large.grey.database.icon

@@ -29,14 +29,16 @@ if Meteor.isClient
                 'green'
             else
                 ''
-        user_nav_button_title: ->
-            if Meteor.user().handling_active
-                'clocked in as handler'
-            else
-                'click to view profile'
         alerts: ->
             Docs.find
                 model:'alert'
+        unread_alert_count: ->
+            Docs.find(
+                model:'alert'
+                target_username: Meteor.user().username
+                read_ids: $nin: [Meteor.userId()]
+            ).count()
+
         role_models: ->
             if Meteor.user()
                 if Meteor.user() and Meteor.user().roles
@@ -204,7 +206,15 @@ if Meteor.isClient
 
         'click .submit_report': ->
             console.log window.location.href
+            bug_id = Session.get('reporting_bug_id')
             Session.set('reporting_bug_id', null)
+            Docs.insert
+                model:'alert'
+                target_username:'dev'
+                reference_doc_id: bug_id
+                text: 'bug submitted'
+                reference_model:'bug'
+                reference_link: "/m/bug/#{bug_id}/view"
             $('body').toast({
                 message: "bug reported"
                 class:'info'

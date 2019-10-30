@@ -3,7 +3,7 @@ template(name='classroom_view_layout')
     with current_doc
         .ui.stackable.padded.grid
             .row
-                .four.wide.column
+                .three.wide.column
                     //- a.ui.fluid.button(href="/classrooms")
                     //-     i.chevron.left.grey.icon
                     //-     i.school.icon
@@ -49,7 +49,7 @@ template(name='classroom_view_layout')
                         a.ui.fluid.large.button(href="/classroom/#{_id}/edit/info")
                             i.pencil.icon
                             | edit
-                .twelve.wide.column
+                .thirteen.wide.column
                     +yield
     +footer
 

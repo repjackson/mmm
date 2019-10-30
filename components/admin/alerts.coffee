@@ -5,12 +5,19 @@ if Meteor.isClient
         ), name:'alerts'
 
     Template.alerts.onCreated ->
-        @autorun => Meteor.subscribe 'model_docs', 'alerts'
+        @autorun => Meteor.subscribe 'model_docs', 'alert'
 
     Template.alerts.helpers
+        my_alerts: ->
+            Docs.find
+                model:'alert'
+                target_username: Meteor.user().username
         alerts: ->
             Docs.find
-                model:'alerts'
+                model:'alert'
+
+
+
     Template.alerts.events
         'click .submit_message': ->
             message = $('.message').val()

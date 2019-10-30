@@ -29,9 +29,9 @@ template(name='viewing')
             .ui.icon.button.mark_read
                 i.eye.icon
         else 
-            if is_dev
-                .ui.icon.button.mark_unread
-                    i.cancel.icon
+            //- if is_dev
+            .ui.icon.button.mark_unread
+                i.cancel.icon
     .ui.inline.header viewed by
     each read_ids
         +user_info
