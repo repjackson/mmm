@@ -1,14 +1,14 @@
 if Meteor.isClient
-    Router.route '/loans', (->
-        @layout 'layout'
-        @render 'loans'
-        ), name:'loans'
-    Router.route '/loan/:doc_id/edit', (->
-        @layout 'layout'
+    Router.route '/classroom/:doc_id/loans', (->
+        @layout 'classroom_view_layout'
+        @render 'classroom_loans'
+        ), name:'classroom_loans'
+    Router.route '/classroom/:doc_id/loan/:doc_id/edit', (->
+        @layout 'classroom_view_layout'
         @render 'loan_edit'
         ), name:'loan_edit'
-    Router.route '/loan/:doc_id/view', (->
-        @layout 'layout'
+    Router.route '/classroom/:doc_id/loan/:doc_id/view', (->
+        @layout 'classroom_view_layout'
         @render 'loan_view'
         ), name:'loan_view'
 
@@ -22,35 +22,27 @@ if Meteor.isClient
 
     Template.loan_edit.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
-
     Template.loan_edit.events
-        'click .add_loan_item': ->
-            new_mi_id = Docs.insert
-                model:'loan_item'
-                classroom_id: Router.current().params.doc_id
-            Router.go "/loan/#{_id}/edit"
-
 
     Template.loan_view.onCreated ->
         @autorun => Meteor.subscribe 'doc', Router.current().params.doc_id
     Template.loan_view.onRendered ->
         Meteor.call 'increment_view', Router.current().params.doc_id, ->
 
-    Template.loans.onRendered ->
-        @autorun => Meteor.subscribe 'model_docs', 'loan'
-    Template.loans.helpers
+    Template.classroom_loans.onRendered ->
+        @autorun => Meteor.subscribe 'classroom_docs', 'loan', Router.current().params.doc_id
+    Template.classroom_loans.helpers
         loans: ->
             Docs.find
                 model:'loan'
 
-
-
-
-    Template.loans.events
-        'click .add_loan': ->
+    Template.classroom_loans.events
+        'click .new_loan': ->
+            classroom_id = Router.current().params.doc_id
             new_loan_id = Docs.insert
                 model:'loan'
-            Router.go "/loan/#{new_loan_id}/edit"
+                classroom_id: classroom_id
+            Router.go "/classroom/#{classroom_id}/loan/#{new_loan_id}/edit"
 
 
 

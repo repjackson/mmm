@@ -44,7 +44,7 @@ template(name='nav')
                 if is_admin
                     //- a.icon.item(href="/grid")
                     //-     i.large.grey.th.icon
-                    a.icon.item(href="/grid" title='grid')
+                    a.icon.item(href="/grid" title='admin')
                         i.large.grey.shield.icon
                 unless logging_out
                     a.item(href="/user/#{currentUser.username}" class=user_nav_button_class)
@@ -72,22 +72,25 @@ template(name='user_footer')
                     a.item(href='/donate')
                         | contact
             .five.wide.column
-                .ui.button.start_report
-                    i.bug.icon
-                    |report bug
-                if reporting_bug
-                    with new_bug
-                        |#{pathname}
-                        +text_edit key='text' direct=true
-                        .ui.green.large.icon.button.submit_report
-                            i.checkmark.icon
-                        .ui.small.icon.red.button.cancel_bug
-                            i.remove.icon
+                +bug_reporter
             .six.wide.column
                 +footer_chat
                 if is_admin
                     with currentUser
                         +role_switcher
+
+template(name='bug_reporter')
+    .ui.button.start_report
+        i.bug.icon
+        |report bug
+    if reporting_bug
+        with new_bug
+            |#{pathname}
+            +text_edit key='text' direct=true
+            .ui.green.large.icon.button.submit_report
+                i.checkmark.icon
+            .ui.small.icon.red.button.cancel_bug
+                i.remove.icon
 
 
 template(name='footer')
@@ -115,6 +118,7 @@ template(name='public_footer')
                         | Contact
                         
             .three.wide.column
+                +bug_reporter    
             .six.wide.column
                 +footer_chat
                 unless currentUser

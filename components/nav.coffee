@@ -181,12 +181,15 @@ if Meteor.isClient
                 sort:_timestamp:-1
                 limit:5
 
-    Template.user_footer.onCreated ->
+
+    Template.bug_reporter.onCreated ->
         @autorun -> Meteor.subscribe 'doc', Session.get('reporting_bug_id')
-    Template.user_footer.helpers
+    Template.bug_reporter.helpers
         reporting_bug: -> Session.get('reporting_bug_id')
         new_bug: -> Docs.findOne Session.get('reporting_bug_id')
-    Template.user_footer.events
+
+
+    Template.bug_reporter.events
         'click .start_report': ->
             new_bug_id = Docs.insert
                 model:'bug'

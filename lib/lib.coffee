@@ -239,7 +239,10 @@ Meteor.methods
 if Meteor.isServer
     Docs.allow
         insert: (userId, doc) ->
-            userId and doc._author_id is userId
+            if doc.model is 'bug'
+                true
+            else
+                userId and doc._author_id is userId
         update: (userId, doc) ->
             if doc.model in ['calculator_doc','simulated_rental_item','healthclub_session']
                 true

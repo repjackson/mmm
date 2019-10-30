@@ -35,6 +35,9 @@ template(name='classroom_view_layout')
                         //- a.item(href="/classroom/#{current_doc._id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
                         //-     | shop
                         //-     i.shop.grey.icon
+                        a.item(href="/classroom/#{current_doc._id}/loans" class="{{isActiveRoute regex='classroom_loans'}}")
+                            | loans
+                            i.clock.grey.icon
                         //- each enabled_features
                         //-     a.item(href="/classroom/#{current_doc._id}/f/#{slug}")
                         //-         |#{title}
@@ -113,12 +116,6 @@ template(name='classroom_info')
         //-     .item
         //-         each location_tags
         //-             |#{this}
-
-template(name='classroom_loans')
-    .ui.header 
-        i.money.icon
-        |classroom loans
-    +loans
 
 
 

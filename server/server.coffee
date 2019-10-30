@@ -1,7 +1,7 @@
 Meteor.users.allow
     insert: (user_id, doc, fields, modifier) ->
-        user_id
-        # true
+        # user_id
+        true
         # if user_id and doc._id == user_id
         #     true
     update: (user_id, doc, fields, modifier) ->

@@ -215,8 +215,9 @@ if Meteor.isClient
                 manual_period:'daily'
         classroom_students: ->
             classroom = Docs.findOne Router.current().params.doc_id
-            Meteor.users.find
+            Meteor.users.find {
                 _id: $in: classroom.student_ids
+            }, sort:last_name:-1
         student_credit_types: ->
             Docs.find
                 model:'credit_type'
