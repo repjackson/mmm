@@ -1,6 +1,9 @@
 if Meteor.isClient
     Router.route '/students', -> @render 'students'
-    Router.route '/users', -> @render 'users'
+    Router.route '/users/', (->
+        @layout 'admin_layout'
+        @render 'users'
+        ), name:'users'
 
     Template.students.onCreated ->
         @autorun => Meteor.subscribe 'user_search', Session.get('username_query'), 'student'
@@ -12,7 +15,7 @@ if Meteor.isClient
             Meteor.users.find({
                 username: {$regex:"#{username_query}", $options: 'i'}
                 # healthclub_checkedin:$ne:true
-                # roles:$in:['student','owner']
+                # roles:$in:['student','teacher']
                 },{ limit:20 }).fetch()
     Template.students.events
         # 'click #add_user': ->
@@ -58,17 +61,30 @@ if Meteor.isClient
 
 
     Template.users.onCreated ->
-        # @autorun -> Meteor.subscribe('users')
-        @autorun => Meteor.subscribe 'user_search', Session.get('username_query'), 'user'
+        @autorun -> Meteor.subscribe('users')
+        # @autorun => Meteor.subscribe 'user_search', Session.get('username_query'), 'user'
     Template.users.helpers
         users: ->
+            limit = Session.get('limit')
             username_query = Session.get('username_query')
-            Meteor.users.find({
-                username: {$regex:"#{username_query}", $options: 'i'}
-                # healthclub_checkedin:$ne:true
-                # roles:$in:['student','owner']
-                },{ limit:20 }).fetch()
+            if username_query and username_query.length > 0
+                Meteor.users.find({
+                    username: {$regex:"#{username_query}", $options: 'i'}
+                    # healthclub_checkedin:$ne:true
+                    # roles:$in:['student','teacher']
+                    },{ limit:20 }).fetch()
+            else
+                Meteor.users.find({
+                    # username: {$regex:"#{username_query}", $options: 'i'}
+                    # healthclub_checkedin:$ne:true
+                    # roles:$in:['student','teacher']
+                    },{ limit:20 }).fetch()
     Template.users.events
+        'click .remove_user': ->
+            console.log @
+            if confirm "delete #{@username}? cannot be undone"
+                Meteor.users.remove @_id
+                alert "#{@username} deleted"
         # 'click #add_user': ->
         #     id = Docs.insert model:'person'
         #     Router.go "/person/edit/#{id}"
@@ -112,19 +128,19 @@ if Meteor.isClient
 
 
 
-    Router.route '/owners', -> @render 'owners'
-    Template.owners.onCreated ->
-        @autorun -> Meteor.subscribe('owners')
-        @autorun => Meteor.subscribe 'user_search', Session.get('username_query'), 'owner'
-    Template.owners.helpers
-        owners: ->
+    # Router.route '/teachers', -> @render 'teachers'
+    Template.teachers.onCreated ->
+        @autorun -> Meteor.subscribe('teachers')
+        @autorun => Meteor.subscribe 'user_search', Session.get('username_query'), 'teacher'
+    Template.teachers.helpers
+        teachers: ->
             username_query = Session.get('username_query')
             Meteor.users.find({
                 username: {$regex:"#{username_query}", $options: 'i'}
                 # healthclub_checkedin:$ne:true
-                roles:$in:['owner']
+                roles:$in:['teacher']
                 },{ limit:20 }).fetch()
-    Template.owners.events
+    Template.teachers.events
         # 'click #add_user': ->
         #     id = Docs.insert model:'person'
         #     Router.go "/person/edit/#{id}"
@@ -147,11 +163,11 @@ if Meteor.isServer
         else
             Meteor.users.find()
 
-    Meteor.publish 'owners', (limit)->
+    Meteor.publish 'teachers', (limit)->
         if limit
             Meteor.users.find({},limit:limit)
         else
-            Meteor.users.find(owner:true)
+            Meteor.users.find(teacher:true)
 
     Meteor.publish 'profiles', ()->
         Meteor.users.find
@@ -161,10 +177,16 @@ if Meteor.isServer
 
     Meteor.publish 'user_search', (username, role)->
         if role
-            Meteor.users.find({
-                username: {$regex:"#{username}", $options: 'i'}
-                roles:$in:[role]
-            },{ limit:20})
+            if username
+                Meteor.users.find({
+                    username: {$regex:"#{username}", $options: 'i'}
+                    roles:$in:[role]
+                },{ limit:20})
+            else
+                Meteor.users.find({
+                    # username: {$regex:"#{username}", $options: 'i'}
+                    roles:$in:[role]
+                },{ limit:20})
         else
             Meteor.users.find({
                 username: {$regex:"#{username}", $options: 'i'}

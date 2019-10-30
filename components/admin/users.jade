@@ -59,17 +59,25 @@ template(name='users')
     .ui.padded.grid
         .row
             .sixteen.wide.column
-                //- .ui.center.aligned.header 
-                //-     +i name='classrooms'
-                //-     //- i.users.icon
-                //-     |users
-                .ui.left.icon.fluid.input
+                .ui.inline.header 
+                    i.users.icon
+                    |users
+                .ui.left.icon.input
                     i.search.icon
                     input.username_search(type='text' placeholder='lookup user' autofocus='autofocus')
                 .ui.hidden.divider
-                .ui.centered.five.stackable.cards
-                    each users
-                        +user
+                .ui.list 
+                    each users 
+                        .item 
+                            .ui.header #{username}
+                            |#{first_name} #{last_name}
+                            each roles 
+                                .ui.basic.label #{this}
+                            if is_dev
+                                i.circular.link.remove.icon.remove_user
+                //- .ui.centered.five.stackable.cards
+                //-     each users
+                //-         +user
                 
 template(name='user')                
     .ui.card

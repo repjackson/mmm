@@ -1,0 +1,26 @@
+template(name='tasks')
+    .ui.stackable.grid
+        .four.wide.column
+            .ui.inline.header 
+                i.tasks.icon
+                |tasks
+            .ui.icon.button.add_task 
+                i.plus.icon
+            div
+            +task_cloud
+        .twelve.wide.column
+            each tasks
+                .ui.segment
+                    unless is_editing
+                        .ui.small.header #{title}
+                        each tags
+                            .ui.small.basic.label #{this}
+                        .ui.icon.circular.button.edit
+                            i.pencil.icon
+                        +author_info
+                        +voting
+                    else 
+                        +text_edit key='title' direct=true
+                        +array_edit key='tags' direct=true
+                        .ui.icon.circular.green.button.save
+                            i.checkmark.icon
