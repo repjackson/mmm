@@ -43,17 +43,17 @@ template(name='profiles')
         each profiles
             +profile
     
-template(name='owners') 
-    .ui.padded.grid
-        .row
-            .sixteen.wide.column
-                .ui.left.icon.fluid.input
-                    i.search.icon
-                    input.username_search(type='text' placeholder='lookup owner' autofocus='autofocus')
-                .ui.hidden.divider
-                .ui.centered.five.stackable.cards
-                    each owners
-                        +owner
+//- template(name='teachers') 
+//-     .ui.padded.grid
+//-         .row
+//-             .sixteen.wide.column
+//-                 .ui.left.icon.fluid.input
+//-                     i.search.icon
+//-                     input.username_search(type='text' placeholder='lookup teacher' autofocus='autofocus')
+//-                 .ui.hidden.divider
+//-                 .ui.centered.five.stackable.cards
+//-                     each teachers
+//-                         +teacher
                 
 template(name='users') 
     .ui.padded.grid
@@ -69,8 +69,11 @@ template(name='users')
                 .ui.list 
                     each users 
                         .item 
-                            .ui.header #{username}
-                            |#{first_name} #{last_name}
+                            .ui.inline.header 
+                                if admin 
+                                    i.shield.icon(title='admin')
+                                |#{first_name} #{last_name}
+                            small #{username}
                             each roles 
                                 .ui.basic.label #{this}
                             if is_dev
@@ -139,7 +142,7 @@ template(name='profile')
 
 
                 
-template(name='owner')                
+template(name='teacher')                
     .ui.card
         .image
             //- a(href="/user/#{username}/")

@@ -1,7 +1,7 @@
 @selected_tags = new ReactiveArray []
 @selected_classroom_tags = new ReactiveArray []
 @selected_shop_tags = new ReactiveArray []
-@selected_rental_tags = new ReactiveArray []
+@selected_bug_tags = new ReactiveArray []
 @selected_task_tags = new ReactiveArray []
 @selected_classroom_tags = new ReactiveArray []
 
@@ -268,9 +268,8 @@ Template.registerHelper 'in_list', (key) ->
 
 
 Template.registerHelper 'is_admin', () ->
-    if Meteor.user() and Meteor.user().roles
-        # if _.intersection(['dev','admin'], Meteor.user().roles) then true else false
-        if 'admin' in Meteor.user().roles then true else false
+    Meteor.user() and Meteor.user().admin
+
 Template.registerHelper 'is_current_admin', () ->
     if Meteor.user() and Meteor.user().roles
         # if _.intersection(['dev','admin'], Meteor.user().roles) then true else false

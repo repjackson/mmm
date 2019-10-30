@@ -1,18 +1,20 @@
-template(name='tasks')
+template(name='bugs')
     .ui.stackable.grid
         .four.wide.column
             .ui.inline.header 
-                i.tasks.icon
-                |tasks
-            .ui.icon.button.add_task 
+                i.bugs.icon
+                |bugs
+            .ui.icon.button.add_bug 
                 i.plus.icon
             div
-            +task_cloud
+            +bug_cloud
         .twelve.wide.column
-            each tasks
+            each bugs
                 .ui.segment
                     unless is_editing
-                        .ui.small.header #{title}
+                        .ui.small.header #{text}
+                        .ui.small.header url: #{url}
+                        .ui.small.header pathname: #{pathname}
                         each tags
                             .ui.small.basic.label #{this}
                         .ui.icon.circular.button.edit
@@ -22,12 +24,14 @@ template(name='tasks')
                     else 
                         +text_edit key='title' direct=true
                         +array_edit key='tags' direct=true
+                        +remove_button
                         .ui.icon.circular.green.button.save
                             i.checkmark.icon
 
 
 
-template(name='task_cloud')
+
+template(name='bug_cloud')
     .ui.hidden.divider
     .ui.grey.small.header 
         |targets    
@@ -43,12 +47,12 @@ template(name='task_cloud')
     .ui.grey.small.inline.header 
         i.tags.icon
         |tags    
-    if selected_task_tags
-        #clear_task_tags.ui.active.icon.circular.button
+    if selected_bug_tags
+        #clear_bug_tags.ui.active.icon.circular.button
             i.remove.icon
-        each selected_task_tags
-            .unselect_task_tag.ui.active.circular.button
+        each selected_bug_tags
+            .unselect_bug_tag.ui.active.circular.button
                 strong #{this}
-    each all_task_tags
-        .ui.compact.circular.button.select_task_tag(class=cloud_tag_class) 
+    each all_bug_tags
+        .ui.compact.circular.button.select_bug_tag(class=cloud_tag_class) 
             strong #{this.name}

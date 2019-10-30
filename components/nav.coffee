@@ -26,16 +26,11 @@ if Meteor.isClient
                 on:'hover'
             )
 
-        # 'click .header_nav_image': ->
-        #     $('.herbie').transition(
-        #         animation: 'fly left'
-        #         duration: 3000
-            # )
-        # 'click .item': (e,t)->
-        #     $(e.currentTarget).closest('.item').transition(
-        #         animation: 'pulse'
-        #         duration: 250
-        #     )
+        'click .item': (e,t)->
+            $(e.currentTarget).closest('.item').transition(
+                animation: 'pulse'
+                duration: 200
+            )
 
 
         'click #logout': ->
@@ -173,16 +168,34 @@ if Meteor.isClient
                 sort:_timestamp:-1
                 limit:5
 
+    Template.user_footer.onCreated ->
+        @autorun -> Meteor.subscribe 'doc', Session.get('reporting_bug_id')
+    Template.user_footer.helpers
+        reporting_bug: -> Session.get('reporting_bug_id')
+        new_bug: -> Docs.findOne Session.get('reporting_bug_id')
+    Template.user_footer.events
+        'click .start_report': ->
+            new_bug_id = Docs.insert
+                model:'bug'
+                url: window.location.href
+                pathname: window.location.pathname
+            Session.set 'reporting_bug_id', new_bug_id
 
-    Template.latest_activity.onCreated ->
-        @autorun -> Meteor.subscribe 'latest_activity'
-    Template.latest_activity.helpers
-        latest_activity: ->
-            Docs.find {
-                model:'log_event'
-            },
-                sort:_timestamp:-1
-                limit:5
+        'click .cancel_bug': ->
+            new_bug_id = Session.get('reporting_bug_id')
+            Docs.remove new_bug_id
+            Session.set 'reporting_bug_id', null
+
+        'click .submit_report': ->
+            console.log window.location.href
+            Session.set('reporting_bug_id', null)
+            $('body').toast({
+                message: "bug reported"
+                class:'info'
+            })
+
+
+
 
 if Meteor.isServer
     Meteor.publish 'my_notifications', ->
@@ -198,12 +211,6 @@ if Meteor.isServer
             limit:5
             sort:_timestamp:-1
 
-    Meteor.publish 'latest_activity', ->
-        Docs.find {
-            model:'log_event'
-        },
-            limit:5
-            sort:_timestamp:-1
 
     Meteor.publish 'bookmarked_models', ->
         if Meteor.userId()

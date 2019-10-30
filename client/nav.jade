@@ -15,22 +15,6 @@ template(name='nav')
                 //- +ismall name='treasure-chest'
                 span.mobile.hidden &nbsp; Contact
                 i.phone.icon.mobile.only
-        //- a.item(href='/schools' class="{{isActiveRoute regex='schools'}}")
-        //-     +ismall name='school'
-        //-     span.mobile.hidden &nbsp; schools
-        //- a.item(href='/classrooms' class="{{isActiveRoute regex='classrooms'}}")
-        //-     +ismall name='classroom'
-        //-     span.mobile.hidden &nbsp; classrooms
-        //- a.item(href='/offers')
-        //-     //- +ismall name='treasure-chest'
-        //-     span.mobile.hidden &nbsp; offers
-        //-     i.give.icon.mobile.only
-        //- a.item(href='/shop' class="{{isActiveRoute regex='shop'}}")
-        //-     +ismall name='shop'
-        //-     span.mobile.hidden &nbsp; shop
-        //- a.item(href='/ads' class="{{isActiveRoute regex='ads'}}")
-        //-     +ismall name='advertisement'
-        //-     span.mobile.hidden &nbsp; ads
         .right.menu
             unless currentUser
                 a.item(href='/login') 
@@ -43,6 +27,7 @@ template(name='nav')
                 if is_dev
                     a.icon.item.set_models(href="/m/model")
                         i.large.grey.database.icon
+                if is_admin
                     a.icon.item(href="/grid")
                         i.large.grey.th.icon
                     a.icon.item(href="/admin" title='admin')
@@ -71,15 +56,18 @@ template(name='user_footer')
                         |admin
                 .ui.link.large.list
                     a.item(href='/donate')
-                        //- +ismall name='donate'
                         | contact
-                        
-            .three.wide.column
-                .ui.link.large.list
-                    a.item(href='/shop')
-                        .content
-                            +ismall name='shop'
-                            | shop
+            .five.wide.column
+                .ui.button.start_report
+                    i.bug.icon
+                    |report bug
+                if reporting_bug
+                    with new_bug
+                        +text_edit key='text' direct=true
+                        .ui.green.large.icon.button.submit_report
+                            i.checkmark.icon
+                        .ui.small.icon.red.button.cancel_bug
+                            i.remove.icon
             .six.wide.column
                 +footer_chat
                 if is_admin
@@ -98,53 +86,20 @@ template(name='public_footer')
         .row
             .four.wide.column
                 .ui.link.large.list
-                    a.item(href='/donate')
-                        //- +ismall name='donate'
-                        |donate
-                    //- a.item(href='/m/blog') 
-                    //-     //- +ismall name='blog'
-                    //-     |blog
                     a.item(href='/p/about')
-                        //- +ismall name='info'
-                        |about
+                        |About
                     a.item(href="/p/terms") 
-                        //- +ismall name='invoice'
-                        |terms of service
+                        |Terms of Service
                     a.item(href='/p/privacy') 
-                        //- +ismall name='lock'
-                        |privacy policy
-                    //- a.item(href='/stats') 
-                    //-     //- +ismall name='line-chart'
-                    //-     |stats
+                        |Privacy Policy
                     a.item(href='/team')
-                        //- +ismall name='classrooms'
-                        | our team
+                        | Team
+                    a.item(href='/team')
+                        | Our Work
                     a.item(href='/contact')
-                        //- +ismall name='phone'
-                        | contact
+                        | Contact
                         
             .three.wide.column
-                .ui.link.large.list
-                    a.item(href='/schools')
-                        +ismall name='school'
-                        .content
-                            |schools
-                    //- a.item(href='/teachers')
-                    //-     +ismall name='teacher'
-                    //-     .content
-                    //-         |teachers
-                    //- a.item(href='/classrooms')
-                    //-     +ismall name='classroom'
-                    //-     .content
-                    //-         |classrooms
-                    //- a.item(href='/students') 
-                    //-     .content
-                    //-         +ismall name='students'
-                    //-         |students
-                    //- a.item(href='/shop')
-                    //-     .content
-                    //-         +ismall name='shop'
-                    //-         | shop
             .six.wide.column
                 +footer_chat
                 unless currentUser
@@ -190,18 +145,6 @@ template(name='my_latest_activity')
                 |#{text} #{body}
                 small #{when}
 
-
-template(name='latest_activity')
-    .ui.grey.header 
-        i.grey.rss.icon
-        |all activity
-    .ui.list
-        each latest_activity
-            .item 
-                img.ui.avatar.image(src="{{c.url author.image_id width=200 height=200 gravity='face' crop='fill'}}")
-                |#{text} #{body} 
-                .ui.basic.label #{log_type}
-                small #{when}
 
 
 template(name='role_switcher')
