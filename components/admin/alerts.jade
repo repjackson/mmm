@@ -12,15 +12,23 @@ template(name='alerts')
             .twelve.wide.column
                 .ui.header my alerts
                 each my_alerts
-                    .ui.segment 
-                        |#{when} #{text}
-                        a.ui.button(href=reference_link) view doc
-                        +viewing
-                        +remove_button
+                    +alert_segment
                 unless my_alerts
                     .ui.header no alerts
                 .ui.header all alerts
                 each alerts
-                    .ui.segment
-                        |#{when} #{message}
-                        +remove_button
+                    +alert_segment
+
+
+
+template(name='alert_segment')
+    .ui.segment 
+        .ui.small.header #{text}
+        |#{when} 
+        a.ui.button(href=reference_link) view doc
+        div
+        +viewing
+        if is_dev
+            +remove_button
+    
+    

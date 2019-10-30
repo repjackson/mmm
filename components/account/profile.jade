@@ -78,16 +78,16 @@ template(name='profile_layout')
                             +yield    
     +footer
                 
-template(name='user_section_cloud')
-    if selected_user_section_tags
-        #clear_tags.ui.active.icon.circular.tiny.button
-            i.remove.icon
-        each selected_user_section_tags
-            .unselect_user_section_tag.ui.active.circular.tiny.button
-                strong #{this}
-    each all_user_section_tags
-        .ui.compact.circular.basic.tiny.button.select_user_section_tag(class=cloud_tag_class) 
-            strong #{this.name}
+//- template(name='user_section_cloud')
+//-     if selected_user_section_tags
+//-         #clear_tags.ui.active.icon.circular.tiny.button
+//-             i.remove.icon
+//-         each selected_user_section_tags
+//-             .unselect_user_section_tag.ui.active.circular.tiny.button
+//-                 strong #{this}
+//-     each all_user_section_tags
+//-         .ui.compact.circular.basic.tiny.button.select_user_section_tag(class=cloud_tag_class) 
+//-             strong #{this.name}
                 
                     
 template(name='user_dashboard')                    
@@ -111,6 +111,8 @@ template(name='user_dashboard')
                 .ui.inline.small.grey.header current balance $#{current_user.credit}
     if user_is_student
         +student_dashboard
+    if user_is_teacher
+        +teacher_dashboard
         
         
         
@@ -143,9 +145,18 @@ template(name='user_actions')
         
         
         
-        
-        
-        
+template(name='teacher_dashboard')  
+    .ui.grid      
+        .row
+            .sixteen.wide.column 
+                .ui.header teacher classrooms
+                each teacher_classrooms 
+                    +classroom_card_template
+                    
+                    
+                    
+                    
+                    
 template(name='student_dashboard')  
     .ui.grid      
         .three.column.row

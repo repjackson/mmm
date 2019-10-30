@@ -73,10 +73,10 @@ Template.registerHelper 'classroom_students', ->
 Template.registerHelper 'is_automatic', -> @dispersion_type is 'automatic'
 Template.registerHelper 'is_manual', -> @dispersion_type is 'manual'
 Template.registerHelper 'is_manual_daily', -> @manual_period is 'daily'
-Template.registerHelper 'is_student', ->
+Template.registerHelper 'scope_is_student', ->
     @scope is 'student'
     # console.log @
-Template.registerHelper 'is_classroom', ->
+Template.registerHelper 'scope_is_classroom', ->
     @scope is 'classroom'
     # console.log @
 # Template.registerHelper 'is_student', -> @scope is 'student'

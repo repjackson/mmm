@@ -132,9 +132,9 @@ template(name='classroom_edit_credits')
                 small +$#{amount}
                 if is_automatic
                     i.lightning.yellow.icon
-                if is_student
+                if scope_is_student
                     i.user.outline.icon(title='student scope')
-                if is_classroom 
+                if scope_is_classroom 
                     i.users.icon(title='classroom scope')
                 if is_admin
                     i.circular.remove.icon.remove_credit
@@ -178,9 +178,9 @@ template(name='classroom_edit_debits')
                     i.lightning.yellow.icon
                 else 
                     i.hand.icon
-                if is_student
+                if scope_is_student
                     i.user.outline.icon(title='student scope')
-                if is_classroom 
+                if scope_is_classroom 
                     i.users.icon(title='classroom scope')
             .content
                 +transaction
@@ -208,16 +208,16 @@ template(name='transaction')
             +key_value_edit key='automatic_period' value='weekly' label='weekly' icon='calendar'
             div
         div
-        if is_manual
-            div
-            .ui.small.grey.inline.header manual period
-            +key_value_edit key='manual_period' value='daily' label='daily' icon='sun'
-            +key_value_edit key='manual_period' value='weekly' label='weekly' icon='calendar'
-            if is_manual_daily
-                div
-                .ui.small.grey.inline.header manual limit type
-                +key_value_edit key='manual_limit_type' value='single' label='single'
-                +key_value_edit key='manual_limit_type' value='multi' label='multi'
+        //- if is_manual
+            //- div
+            //- .ui.small.grey.inline.header manual period
+            //- +key_value_edit key='manual_period' value='daily' label='daily' icon='sun'
+            //- +key_value_edit key='manual_period' value='weekly' label='weekly' icon='calendar'
+            //- if is_manual_daily
+            //-     div
+            //-     .ui.small.grey.inline.header manual limit type
+            //-     +key_value_edit key='manual_limit_type' value='single' label='single'
+            //-     +key_value_edit key='manual_limit_type' value='multi' label='multi'
             //- div
             //- if limit
             //-     +number_edit key='limit_amount' label='limit amount'
@@ -226,7 +226,7 @@ template(name='transaction')
         +key_value_edit key='scope' value='student' label='student' icon='user'
         +key_value_edit key='scope' value='classroom' label='classroom' icon='users'
         div
-        .ui.button.remove_transaction 
+        .ui.compact.button.remove_transaction 
             i.remove.icon
             |remove
         .ui.fluid.button.save_transaction
@@ -253,17 +253,22 @@ template(name='transaction')
             .ui.small.grey.inline.header automatic period
             .ui.inline.header #{automatic_period}
             div
-        if is_manual
-            div
-            .ui.small.grey.inline.header manual period
-            .ui.inline.header #{manual_period}
-            if is_manual_daily
-                div
-                .ui.small.grey.inline.header manual limit type
-                .ui.inline.header #{manual_limit_type}
+        //- if is_manual
+        //-     div
+        //-     .ui.small.grey.inline.header manual period
+        //-     .ui.inline.header #{manual_period}
+        //-     if is_manual_daily
+        //-         div
+        //-         .ui.small.grey.inline.header manual limit type
+        //-         .ui.inline.header #{manual_limit_type}
         div
         .ui.small.grey.inline.header scope
         .ui.inline.header #{scope}
+        if scope_is_student
+            i.user.icon 
+        if scope_is_classroom
+            i.users.icon 
+        
         .ui.fluid.button.edit_transaction
             i.pencil.icon
             |edit

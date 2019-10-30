@@ -35,12 +35,12 @@ template(name='nav')
                     |Sign Up
             if currentUser
                 a.icon.item(href='/mail')
-                    i.envelope.large.grey.icon
-                a.icon.item(href='/alerts')
+                    i.envelope.large.outline.grey.icon
+                a.icon.item(href='/alerts' title="#{unread_alert_count} unread alerts")
                     if unread_alert_count
-                        i.bell.large.yellow.icon(title="#{unread_alert_count} unread alerts")
+                        i.bell.large.yellow.icon
                     else 
-                        i.bell.large.grey.icon(title="#{unread_alert_count} unread alerts")
+                        i.bell.large.grey.outline.icon
                 if is_dev
                     a.icon.item.set_models(href="/m/model")
                         i.large.grey.database.icon
