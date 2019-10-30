@@ -19,7 +19,10 @@ template(name='nav')
         if is_teacher 
             each my_classrooms
                 a.item(href="/classroom/#{_id}/dashboard")
-                    i.dashboard.large.icon
+                    if image_id 
+                        img.ui.avatar.inline.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
+                    else 
+                        i.dashboard.large.icon
                     |#{title}
 
         .right.menu

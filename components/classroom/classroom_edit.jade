@@ -125,7 +125,7 @@ template(name='classroom_edit_credits')
         i.plus.icon
     .ui.styled.fluid.accordion 
         each classroom_credit_types
-            .title
+            .title.f6
                 if icon
                     +ismall name=icon     
                 |#{title}
@@ -194,25 +194,25 @@ template(name='transaction')
         +text_edit key='title' direct=true
         if is_dev
             +text_edit key='slug' direct=true
-        +number_edit key='amount' direct=true
-        +icon_edit key='icon' direct=true
+        +number_edit key='amount' label='amount' direct=true
+        //- +icon_edit key='icon' direct=true
         div
-        .ui.small.grey.inline.header dispersion type
+        .ui.small.grey.inline.header dispersion
         //- +boolean_edit key='automatic' direct=true
-        +key_value_edit key='dispersion_type' value='automatic' label='automatic'
-        +key_value_edit key='dispersion_type' value='manual' label='manual'
+        +key_value_edit key='dispersion_type' value='automatic' label='automatic' icon='yellow lightning'
+        +key_value_edit key='dispersion_type' value='manual' label='manual' icon='hand point down outline'
         div
         if is_automatic
             .ui.small.grey.inline.header automatic period
-            +key_value_edit key='automatic_period' value='daily' label='daily'
-            +key_value_edit key='automatic_period' value='weekly' label='weekly'
+            +key_value_edit key='automatic_period' value='daily' label='daily' icon='sun'
+            +key_value_edit key='automatic_period' value='weekly' label='weekly' icon='calendar'
             div
         div
         if is_manual
             div
             .ui.small.grey.inline.header manual period
-            +key_value_edit key='manual_period' value='daily' label='daily'
-            +key_value_edit key='manual_period' value='weekly' label='weekly'
+            +key_value_edit key='manual_period' value='daily' label='daily' icon='sun'
+            +key_value_edit key='manual_period' value='weekly' label='weekly' icon='calendar'
             if is_manual_daily
                 div
                 .ui.small.grey.inline.header manual limit type
@@ -223,8 +223,8 @@ template(name='transaction')
             //-     +number_edit key='limit_amount' label='limit amount'
         div
         .ui.small.grey.inline.header scope
-        +key_value_edit key='scope' value='student' label='student'
-        +key_value_edit key='scope' value='classroom' label='classroom'
+        +key_value_edit key='scope' value='student' label='student' icon='user'
+        +key_value_edit key='scope' value='classroom' label='classroom' icon='users'
         div
         .ui.button.remove_transaction 
             i.remove.icon
@@ -241,8 +241,13 @@ template(name='transaction')
         //- .ui.header 
         //-     small amount
         div
-        .ui.small.grey.inline.header dispersion type
-        .ui.inline.header #{dispersion_type}
+        .ui.small.grey.inline.header dispersion
+        .ui.inline.header 
+            if is_automatic
+                i.yellow.lightning.icon
+            else
+                i.hand.point.down.outline.icon
+            |#{dispersion_type}
         div
         if is_automatic
             .ui.small.grey.inline.header automatic period
