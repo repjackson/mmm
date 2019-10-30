@@ -35,14 +35,16 @@ template(name='nav')
             unless currentUser
                 a.item(href='/login') 
                     i.sign.in.grey.icon
-                    |log In
+                    |Log In
                 a.item(href='/choose_personas')
                     i.user.plus.grey.icon
-                    |sign up
+                    |Sign Up
             if currentUser
                 if is_dev
                     a.icon.item.set_models(href="/m/model")
                         i.large.grey.database.icon
+                    a.icon.item(href="/grid")
+                        i.large.grey.th.icon
                     a.icon.item(href="/admin" title='admin')
                         i.large.grey.shield.icon
                 unless logging_out
@@ -95,10 +97,6 @@ template(name='public_footer')
     .ui.stackable.secondary.padded.grid.segment
         .row
             .four.wide.column
-                if is_admin
-                    a.ui.button(href='/admin' title='admin')
-                        i.shield.icon
-                        |admin
                 .ui.link.large.list
                     a.item(href='/donate')
                         //- +ismall name='donate'
@@ -131,31 +129,28 @@ template(name='public_footer')
                         +ismall name='school'
                         .content
                             |schools
-                    a.item(href='/teachers')
-                        +ismall name='teacher'
-                        .content
-                            |teachers
-                    a.item(href='/classrooms')
-                        +ismall name='classroom'
-                        .content
-                            |classrooms
-                    a.item(href='/students') 
-                        .content
-                            +ismall name='students'
-                            |students
-                    a.item(href='/shop')
-                        .content
-                            +ismall name='shop'
-                            | shop
+                    //- a.item(href='/teachers')
+                    //-     +ismall name='teacher'
+                    //-     .content
+                    //-         |teachers
+                    //- a.item(href='/classrooms')
+                    //-     +ismall name='classroom'
+                    //-     .content
+                    //-         |classrooms
+                    //- a.item(href='/students') 
+                    //-     .content
+                    //-         +ismall name='students'
+                    //-         |students
+                    //- a.item(href='/shop')
+                    //-     .content
+                    //-         +ismall name='shop'
+                    //-         | shop
             .six.wide.column
                 +footer_chat
                 unless currentUser
                     a.ui.big.button(href='/login')
                         i.sign.in.icon
                         |login
-                if is_admin
-                    with currentUser
-                        +role_switcher
                 .ui.grey.small.header 
                     i.copyright.outline.icon
                     | Mini Money Management 2019

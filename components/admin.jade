@@ -1,11 +1,76 @@
 template(name='admin')
     .ui.stackable.padded.grid
         .row
-            .sixteen.wide.column
-                .ui.header admin
+            .four.wide.column
+                .ui.header 
+                    i.shield.icon
+                    |admin
                 .ui.small.header for mmm project managment
-                .ui.button.add_task 
+                .ui.header admins
+                each admins 
+                    .ui.small.header #{name}
+            .twelve.wide.column
+                .ui.stackable.grid
+                    .four.wide.column
+                        .ui.inline.header 
+                            i.tasks.icon
+                            |tasks
+                        .ui.icon.button.add_task 
+                            i.plus.icon
+                        div
+                        +task_cloud
+                    .twelve.wide.column
+                        each tasks
+                            .ui.segment
+                                unless is_editing
+                                    .ui.header #{title}
+                                    each tags
+                                        .ui.small.basic.label #{this}
+                                    .ui.icon.circular.button.edit
+                                        i.pencil.icon
+                                    +author_info
+                                    +voting
+                                else 
+                                    +text_edit key='title' direct=true
+                                    +array_edit key='tags' direct=true
+                                    .ui.icon.circular.green.button.save
+                                        i.checkmark.icon
+            .eight.wide.column
+                .ui.button.add_post
                     i.plus.icon
-                .ui.header tasks
-                each tasks
-                    .ui.header #{title}
+                    |post
+                .ui.header
+                    i.blog.icon
+                    |admin blog
+                each admin_posts
+                    .ui.header #{content}
+
+
+
+
+
+template(name='task_cloud')
+    .ui.hidden.divider
+    .ui.grey.small.header 
+        |targets    
+    if selected_target_id
+        with selected_target
+            .unselect_target.ui.active.circular.button
+                strong #{title}
+    else 
+        each targets
+            .ui.compact.circular.button.select_target 
+                strong #{title}
+    .spacer
+    .ui.grey.small.inline.header 
+        i.tags.icon
+        |tags    
+    if selected_task_tags
+        #clear_task_tags.ui.active.icon.circular.button
+            i.remove.icon
+        each selected_task_tags
+            .unselect_task_tag.ui.active.circular.button
+                strong #{this}
+    each all_task_tags
+        .ui.compact.circular.button.select_task_tag(class=cloud_tag_class) 
+            strong #{this.name}

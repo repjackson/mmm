@@ -2,6 +2,7 @@
 @selected_classroom_tags = new ReactiveArray []
 @selected_shop_tags = new ReactiveArray []
 @selected_rental_tags = new ReactiveArray []
+@selected_task_tags = new ReactiveArray []
 @selected_classroom_tags = new ReactiveArray []
 
 Meteor.startup ->

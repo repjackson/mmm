@@ -1,13 +1,14 @@
 template(name='grid')
-    //- .ui.left.icon.input
-    //-     input.model_filter(type='text' autofocus='autofocus')
-    //-     if model_filter_value
-    //-         i.remove.link.icon
-    //-     else 
-    //-         i.search.icon
+    .ui.inline.header models (admin only)
+    .ui.left.icon.input
+        input.model_filter(type='text' autofocus='autofocus')
+        if model_filter_value
+            i.remove.link.icon
+        else 
+            i.search.icon
     //- unless model_filter_value
     //-     +cloud filter='model'
-    .ui.stackable.four.column.padded.grid
+    .ui.stackable.five.column.padded.grid
         .row
             each role_models
                 .column
