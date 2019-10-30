@@ -99,6 +99,8 @@ if Meteor.isClient
 
     Template.classroom_stats.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'classroom_stats'
+        Meteor.call 'refresh_classroom_stats', Router.current().params.doc_id
+
     Template.classroom_stats.helpers
         csd: ->
             Docs.findOne
@@ -250,11 +252,11 @@ if Meteor.isClient
                     event_type:'debit'
                     amount: @amount
                     event_type_id: @_id
-                    text:"was debited #{@amount} for #{@title}"
+                    text:"was debited $#{@amount} for #{@title}"
                     user_id: student._id
                     classroom_id: Router.current().params.doc_id
                 $('body').toast({
-                    message: "#{student.first_name} #{student.last_name} was debited #{@amount} for #{@title}"
+                    message: "#{student.first_name} #{student.last_name} was debited $#{@amount} for #{@title}"
                     class:'error'
                     showProgress: 'bottom'
                 })
@@ -265,10 +267,10 @@ if Meteor.isClient
                 event_type:'debit'
                 amount: @amount
                 event_type_id: @_id
-                text:"classroom was debited #{@amount} for #{@title}"
+                text:"classroom was debited $#{@amount} for #{@title}"
                 classroom_id: Router.current().params.doc_id
             $('body').toast({
-                message: "classroom was debited #{@amount} for #{@title}"
+                message: "classroom was debited $#{@amount} for #{@title}"
                 class:'error'
                 showProgress: 'bottom'
             })
@@ -279,7 +281,7 @@ if Meteor.isClient
             for student_id in classroom.student_ids
                 student = Meteor.users.findOne student_id
                 $('body').toast({
-                    message: "#{student.first_name} #{student.last_name} was credited #{@amount} for #{@title}"
+                    message: "#{student.first_name} #{student.last_name} was credited $#{@amount} for #{@title}"
                     class:'success'
                     showProgress: 'bottom'
                 })
@@ -289,7 +291,7 @@ if Meteor.isClient
                     model:'classroom_event'
                     event_type:'credit'
                     amount: @amount
-                    text:"was credited #{@amount} for #{@title}"
+                    text:"was credited $#{@amount} for #{@title}"
                     user_id: student._id
                     classroom_id: Router.current().params.doc_id
             Docs.insert
@@ -297,10 +299,10 @@ if Meteor.isClient
                 event_type:'credit'
                 amount: @amount
                 event_type_id: @_id
-                text:"classroom was credited #{@amount} for #{@title}"
+                text:"classroom was credited $#{@amount} for #{@title}"
                 classroom_id: Router.current().params.doc_id
             $('body').toast({
-                message: "classroom was credited #{@amount} for #{@title}"
+                message: "classroom was credited $#{@amount} for #{@title}"
                 class:'success'
                 showProgress: 'bottom'
             })
@@ -314,7 +316,7 @@ if Meteor.isClient
             if Meteor.user()
                 amount = if classroom.bonus_amount then classroom.bonus_amount else 1
                 $('body').toast({
-                    message: "#{amount}c bonus given to #{@first_name} #{@last_name}"
+                    message: "$#{amount} bonus given to #{@first_name} #{@last_name}"
                     class:'success'
                     showProgress: 'bottom'
                 })
@@ -335,7 +337,7 @@ if Meteor.isClient
             if Meteor.user()
                 amount = if classroom.fines_amount then classroom.fines_amount else 1
                 $('body').toast({
-                    message: "#{amount}c fine given to #{@first_name} #{@last_name}"
+                    message: "$#{amount} fine given to #{@first_name} #{@last_name}"
                     class:'error'
                     showProgress: 'bottom'
                 })
@@ -373,11 +375,11 @@ if Meteor.isClient
                 event_type:'credit'
                 amount: @amount
                 event_type_id: @_id
-                text:"was credited #{@amount} for #{@title}"
+                text:"was credited $#{@amount} for #{@title}"
                 user_id: student._id
                 classroom_id: Router.current().params.doc_id
             $('body').toast({
-                message: "#{student.first_name} #{student.last_name} was credited #{@amount} for #{@title}"
+                message: "#{student.first_name} #{student.last_name} was credited $#{@amount} for #{@title}"
                 class:'success'
                 showProgress: 'bottom'
             })
@@ -393,11 +395,11 @@ if Meteor.isClient
                 event_type:'debit'
                 amount: @amount
                 event_type_id: @_id
-                text:"was debited #{@amount} for #{@title}"
+                text:"was debited $#{@amount} for #{@title}"
                 user_id: student._id
                 classroom_id: Router.current().params.doc_id
             $('body').toast({
-                message: "#{student.first_name} #{student.last_name} was debited #{@amount} for #{@title}"
+                message: "#{student.first_name} #{student.last_name} was debited $#{@amount} for #{@title}"
                 class:'error'
                 showProgress: 'bottom'
             })
@@ -433,6 +435,9 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'user_by_id', Router.current().params.student_id
         @autorun => Meteor.subscribe 'user_events_by_id', Router.current().params.student_id
         @autorun -> Meteor.subscribe 'student_stats_by_id', Router.current().params.student_id
+    Template.classroom_student.onRendered ->
+        Meteor.call 'recalc_student_stats', Router.current().params.student_id, ->
+
     Template.classroom_student.helpers
         calculating: ->
             Session.get 'calculating'

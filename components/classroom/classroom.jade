@@ -17,12 +17,12 @@ template(name='classroom_view_layout')
                             |dashboard
                             i.dashboard.grey.icon    
                     .ui.vertical.big.fluid.pointing.large.menu
-                        a.item(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
-                            i.list.grey.icon
-                            | feed
                         a.item(href="/classroom/#{current_doc._id}/lunch_small" class="{{isActiveRoute regex='classroom_lunch'}}")
                             | lunch
                             i.food.grey.icon
+                        a.item(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
+                            i.list.grey.icon
+                            | feed
                         //- a.item(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
                         //-     i.home.grey.icon
                         //-     | home
@@ -32,9 +32,9 @@ template(name='classroom_view_layout')
                         a.item(href="/classroom/#{current_doc._id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
                             | reports
                             i.line.chart.grey.icon
-                        a.item(href="/classroom/#{current_doc._id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
-                            | shop
-                            i.shop.grey.icon
+                        //- a.item(href="/classroom/#{current_doc._id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
+                        //-     | shop
+                        //-     i.shop.grey.icon
                         //- each enabled_features
                         //-     a.item(href="/classroom/#{current_doc._id}/f/#{slug}")
                         //-         |#{title}
@@ -216,11 +216,11 @@ template(name='classroom_students')
     .ui.accordion
         each classroom_students
             .title
+                .ui.inline.right.floated.header $#{credit}
                 img.ui.avatar.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
                 .ui.inline.header
                     i.dropdown.icon
                     |#{first_name} #{last_name} 
-                .ui.small.inline.header #{credit}c
                 i.green.plus.circle.big.link.icon.add_bonus
                 i.red.minus.circle.big.link.icon.add_fine
                 //- .ui.icon.circular.button.
@@ -301,15 +301,16 @@ template(name='classroom_reports')
 
 
 template(name='classroom_student')
-    .ui.header student
     with current_student 
+        .ui.small.grey.inline.header 
+            |view student
         .ui.inline.header
             |#{name}
-            small #{username}
-        if calculating
-            i.loading.refresh.icon
-        else 
-            i.circular.refresh.link.icon.recalc_student_stats(title='recalculate')
+            small @#{username}
+        //- if calculating
+        //-     i.loading.refresh.icon
+        //- else 
+        //-     i.circular.refresh.link.icon.recalc_student_stats(title='recalculate')
         div
         .ui.grid      
             .three.column.row

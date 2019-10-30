@@ -18,7 +18,7 @@ template(name='nav')
                 i.phone.icon.mobile.only
         if is_teacher 
             each my_classrooms
-                a.item(href="/classroom/#{_id}/dashboard")
+                a.item(href="/classroom/#{_id}/students")
                     if image_id 
                         img.ui.avatar.inline.image(src="{{c.url image_id width=100 height=100 gravity='face' crop='fill'}}")
                     else 

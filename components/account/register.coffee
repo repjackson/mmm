@@ -189,6 +189,9 @@ if Meteor.isClient
                 password:password
                 }
             Meteor.call 'create_user', options, (err,res)->
+                console.log res
+                Meteor.users.update res,
+                    $addToSet: roles: 'teacher'
                 Meteor.loginWithPassword username, password, (err,res)=>
                     if err
                         alert err.reason
@@ -200,6 +203,10 @@ if Meteor.isClient
                         new_classroom_id = Docs.insert
                             model: 'classroom'
                             teacher_id: Meteor.userId()
+                            bonus_amount: 1
+                            fines_amount: 1
+                        Meteor.call 'generate_trans_types', new_classroom_id, ->
+
                         Router.go "/build_classroom/#{new_classroom_id}/info"
             # else
             #     Meteor.loginWithPassword username, password, (err,res)=>

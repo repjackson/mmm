@@ -24,14 +24,14 @@ template(name='build_classroom_info')
             .centered.row
                 .sixteen.wide.column
                     .ui.center.aligned.basic.segment
+                        .ui.inline.header
+                            //- +i name='classroom'
+                            |building
                         if teacher_name
-                            .ui.small.inline.header
-                                //- +i name='classroom'
-                                |building
-                            .ui.inline.header #{teacher_name}'s #{title}
-                            .ui.small.inline.header
-                                //- +i name='classroom'
-                                |classroom
+                            .ui.inline.header #{teacher_name}'s' #{title}
+                        .ui.small.inline.header
+                            //- +i name='classroom'
+                            |classroom
                     .ui.four.steps
                         .active.step
                             i.info.icon
@@ -57,13 +57,22 @@ template(name='build_classroom_info')
                     //-     +i name='info'
                     //-     |info
                     .spacer
-                    +text_edit key='teacher_name' label='teacher Name' placeholder='enter your name' tooltip='examples: john smith' direct=true
+                    +text_edit key='teacher_name' label='Teacher Name' placeholder='enter your name' tooltip='examples: john smith' direct=true
                     .spacer
-                    +text_edit key='title' label='classroom name'  tooltip='examples: Acme students, Inc' placeholder='enter your classroom name' direct=true
+                    +text_edit key='title' label='Classroom Name'  tooltip='examples: Acme students, Inc' placeholder='enter your classroom name' direct=true
                     .spacer
-                    +number_edit key='grade_level' tooltip='for customized experience' label='grade level' direct=true
+                    .ui.small.grey.inline.header Grade
+                    
+                    //- +number_edit key='grade_level' tooltip='for customized experience' label='Grade Level' direct=true
+                    +key_value_edit key='grade_level' value=1 label='1st' icon=''
+                    +key_value_edit key='grade_level' value=2 label='2nd' icon=''
+                    +key_value_edit key='grade_level' value=3 label='3rd' icon=''
+                    +key_value_edit key='grade_level' value=4 label='4th' icon=''
+                    +key_value_edit key='grade_level' value=5 label='5th' icon=''
+                    +key_value_edit key='grade_level' value=6 label='6th' icon=''
+
                     .spacer
-                    +image_edit key='image_id' tooltip='this is the image that shows up in the classroom profile' label='image' direct=true
+                    +image_edit key='image_id' tooltip='this is the image that shows up in the classroom profile' label='Class Image' direct=true
                     .spacer
                     a.ui.fluid.large.basic.button(href="/build_classroom/#{_id}/finance")
                         i.green.checkmark.icon
@@ -106,9 +115,9 @@ template(name='build_classroom_finance')
                                 .title dashboard
             .centered.row
                 .seven.wide.column
-                    .ui.button.generate_trans_types
-                        |generate
-                    .ui.large.header 
+                    //- .ui.button.generate_trans_types
+                    //-     |generate
+                    .ui.center.aligned.header 
                         +i name='request-money'
                         |income
                     each credits
@@ -119,7 +128,7 @@ template(name='build_classroom_finance')
                             +number_edit key='amount' direct=true no_header=true classes='large'
                         +remove_button
                 .seven.wide.column
-                    .ui.large.header 
+                    .ui.center.aligned.header 
                         +i name='initiate-money-transfer'
                         |expenses
                     .spacer
@@ -130,7 +139,8 @@ template(name='build_classroom_finance')
                             |#{title}
                             +number_edit key='amount' direct=true no_header=true classes='large'
                         +remove_button
-                    .ui.divider
+            .centered.row
+                .seven.wide.column
                     a.ui.fluid.large.basic.button(href="/build_classroom/#{_id}/students")
                         i.green.checkmark.icon
                         |Save
@@ -168,7 +178,7 @@ template(name='build_classroom_students')
                                 .title dashboard
                     
             .centered.row
-                .twelve.wide.center.aligned.column
+                .twelve.wide.column
                     //- .ui.center.aligned.header 
                     //-     +i name='students'
                     //-     |students
@@ -177,7 +187,9 @@ template(name='build_classroom_students')
                     //-     each classroom_students
                     //-         .item #{first_name} #{last_name}
                     //-             i.remove.grey.link.icon.remove_student
-                    .ui.header student selector
+                    .ui.center.aligned.header 
+                        +i name='students'
+                        |student selector
                     +student_selector
                     .spacer
                     a.ui.fluid.large.basic.button(href="/classroom/#{_id}/students")
