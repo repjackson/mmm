@@ -16,6 +16,12 @@ template(name='nav')
                 //- +ismall name='treasure-chest'
                 span.mobile.hidden &nbsp; Contact
                 i.phone.icon.mobile.only
+        if is_teacher 
+            each my_classrooms
+                a.item(href="/classroom/#{_id}/dashboard")
+                    i.dashboard.large.icon
+                    |#{title}
+
         .right.menu
             unless currentUser
                 a.item(href='/login') 

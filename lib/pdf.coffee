@@ -54,7 +54,7 @@ Meteor.methods
 
         doc.font('Times-Roman').text("Failure to Timely Request Hearing. If the alleged Violator fails to request a hearing within 10 days of any letter, or fails to appear at any hearing, the Board may make a decision with respect to the alleged violation based on the Complaint, results of the investigation, and any other available information without the necessity of holding a formal hearing. If a violation is found to exist, the alleged Violator may be assessed a fine pursuant to these policies and procedures.", {align:'left'})
 
-        doc.font('Times-Roman').text("Notification of Decision. The decision of the Board, committee or other person, shall be in writing and provided to the Violator and Complainant within 15 days of the hearing, or if no hearing is requested, within 10 days of the final decision.", {align:'left'})
+        doc.font('Times-Roman').text("alert of Decision. The decision of the Board, committee or other person, shall be in writing and provided to the Violator and Complainant within 15 days of the hearing, or if no hearing is requested, within 10 days of the final decision.", {align:'left'})
 
         doc.font('Times-Roman').text("Fine Schedule. Unless a larger fine is identified below in these Rules and Regulations, the following fine schedule has been adopted for all recurring covenant violations:", {align:'left'})
 

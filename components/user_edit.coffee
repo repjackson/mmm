@@ -23,10 +23,10 @@ if Meteor.isClient
         @layout 'user_edit_layout'
         @render 'user_edit_styles'
         ), name:'user_edit_styles'
-    Router.route '/user/:username/edit/notifications', (->
+    Router.route '/user/:username/edit/alerts', (->
         @layout 'user_edit_layout'
-        @render 'user_edit_notifications'
-        ), name:'user_edit_notifications'
+        @render 'user_edit_alerts'
+        ), name:'user_edit_alerts'
     Router.route '/user/:username/edit/ads', (->
         @layout 'user_edit_layout'
         @render 'user_edit_ads'

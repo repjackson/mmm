@@ -1,7 +1,4 @@
 if Meteor.isClient
-    Template.footer.events
-        'click .shortcut_modal': ->
-            $('.ui.shortcut.modal').modal('show')
     Template.nav.onRendered ->
         Meteor.setTimeout ->
             $('.dropdown').dropdown(
@@ -16,75 +13,9 @@ if Meteor.isClient
             )
         , 1000
 
-
-
-    Template.nav.events
-        # 'mouseenter .item': (e,t)->
-            # $(e.currentTarget).closest('.item').transition('pulse', 400)
-        'click .menu_dropdown': ->
-            $('.menu_dropdown').dropdown(
-                on:'hover'
-            )
-
-        'click .item': (e,t)->
-            $(e.currentTarget).closest('.item').transition(
-                animation: 'pulse'
-                duration: 200
-            )
-
-
-        'click #logout': ->
-            Session.set 'logging_out', true
-            Meteor.logout ->
-                Session.set 'logging_out', false
-                Router.go '/'
-
-        'click .set_models': ->
-            Session.set 'loading', true
-            Meteor.call 'set_facets', 'model', ->
-                Session.set 'loading', false
-
-        'click .set_model': ->
-            Session.set 'loading', true
-            # Meteor.call 'increment_view', @_id, ->
-            Meteor.call 'set_facets', @slug, ->
-                Session.set 'loading', false
-
-        'click .set_reference': ->
-            Session.set 'loading', true
-            # Meteor.call 'increment_view', @_id, ->
-            Meteor.call 'set_facets', 'reference', ->
-                Session.set 'loading', false
-
-        'click .spinning': ->
-            Session.set 'loading', false
-
-    Template.footer_chat.onCreated ->
-        @autorun -> Meteor.subscribe 'model_docs', 'footer_chat'
-    Template.footer_chat.helpers
-        chat_messages: ->
-            Docs.find
-                model:'footer_chat'
-    Template.footer_chat.events
-        'keyup .new_footer_chat_message': (e,t)->
-            if e.which is 13
-                new_message = $('.new_footer_chat_message').val()
-                Docs.insert
-                    model:'footer_chat'
-                    text:new_message
-                $('.new_footer_chat_message').val('')
-
-        'click .remove_message': (e,t)->
-            # if confirm 'remove message?'
-            $(e.currentTarget).closest('.item').transition('fade right')
-            Meteor.setTimeout =>
-                Docs.remove @_id
-            , 750
-
-    Template.mlayout.onCreated ->
-        @autorun -> Meteor.subscribe 'me'
     Template.nav.onCreated ->
         @autorun -> Meteor.subscribe 'me'
+        @autorun -> Meteor.subscribe 'my_classrooms'
         # @autorun -> Meteor.subscribe 'role_models'
         # @autorun -> Meteor.subscribe 'users_by_role','staff'
         @autorun => Meteor.subscribe 'global_settings'
@@ -103,9 +34,9 @@ if Meteor.isClient
                 'clocked in as handler'
             else
                 'click to view profile'
-        notifications: ->
+        alerts: ->
             Docs.find
-                model:'notification'
+                model:'alert'
         role_models: ->
             if Meteor.user()
                 if Meteor.user() and Meteor.user().roles
@@ -156,6 +87,88 @@ if Meteor.isClient
                     model:'model'
                     bookmark_ids:$in:[Meteor.userId()]
 
+        my_classrooms: ->
+            if Meteor.userId()
+                Docs.find
+                    model:'classroom'
+                    teacher_id:Meteor.userId()
+
+
+    Template.nav.events
+        # 'mouseenter .item': (e,t)->
+            # $(e.currentTarget).closest('.item').transition('pulse', 400)
+        'click .menu_dropdown': ->
+            $('.menu_dropdown').dropdown(
+                on:'hover'
+            )
+
+        'click .item': (e,t)->
+            $(e.currentTarget).closest('.item').transition(
+                animation: 'pulse'
+                duration: 200
+            )
+
+
+        'click #logout': ->
+            Session.set 'logging_out', true
+            Meteor.logout ->
+                Session.set 'logging_out', false
+                Router.go '/'
+
+        'click .set_models': ->
+            Session.set 'loading', true
+            Meteor.call 'set_facets', 'model', ->
+                Session.set 'loading', false
+
+        'click .set_model': ->
+            Session.set 'loading', true
+            # Meteor.call 'increment_view', @_id, ->
+            Meteor.call 'set_facets', @slug, ->
+                Session.set 'loading', false
+
+        'click .set_reference': ->
+            Session.set 'loading', true
+            # Meteor.call 'increment_view', @_id, ->
+            Meteor.call 'set_facets', 'reference', ->
+                Session.set 'loading', false
+
+        'click .spinning': ->
+            Session.set 'loading', false
+
+
+
+
+
+
+    Template.footer.events
+        'click .shortcut_modal': ->
+            $('.ui.shortcut.modal').modal('show')
+
+    Template.footer_chat.onCreated ->
+        @autorun -> Meteor.subscribe 'model_docs', 'footer_chat'
+    Template.footer_chat.helpers
+        chat_messages: ->
+            Docs.find
+                model:'footer_chat'
+    Template.footer_chat.events
+        'keyup .new_footer_chat_message': (e,t)->
+            if e.which is 13
+                new_message = $('.new_footer_chat_message').val()
+                Docs.insert
+                    model:'footer_chat'
+                    text:new_message
+                $('.new_footer_chat_message').val('')
+
+        'click .remove_message': (e,t)->
+            # if confirm 'remove message?'
+            $(e.currentTarget).closest('.item').transition('fade right')
+            Meteor.setTimeout =>
+                Docs.remove @_id
+            , 750
+
+    Template.mlayout.onCreated ->
+        @autorun -> Meteor.subscribe 'me'
+
 
     Template.my_latest_activity.onCreated ->
         @autorun -> Meteor.subscribe 'my_latest_activity'
@@ -198,10 +211,15 @@ if Meteor.isClient
 
 
 if Meteor.isServer
-    Meteor.publish 'my_notifications', ->
+    Meteor.publish 'my_alerts', ->
         Docs.find
-            model:'notification'
+            model:'alert'
             user_id: Meteor.userId()
+
+    Meteor.publish 'my_classrooms', ->
+        Docs.find
+            model:'classroom'
+            teacher_id: Meteor.userId()
 
     Meteor.publish 'my_latest_activity', ->
         Docs.find {

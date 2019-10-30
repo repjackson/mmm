@@ -61,10 +61,6 @@ template(name='classroom_edit_settings')
         //- if is_admin 
         .column
             +boolean_edit key='classroom' label='classroom' icon='classroom' direct=true
-            if classroom 
-                .ui.header need to set school, have school overview, be able to see and compare amongst classrooms
-                .ui.header need to allow sponsorships, make it clear that using this platform is a fundraising tool
-                .ui.header classes want to show progress to earn sponsorships
             +boolean_edit key='allow_sponsorship' label='allow sponsorships' direct=true
             +boolean_edit key='published' label='published' icon='eye' direct=true
             +boolean_edit key='private' label='private' icon='invisible' direct=true
@@ -88,7 +84,7 @@ template(name='classroom_edit_info')
                 //- +textarea_edit key='description' label='description' direct=true
                 //- +array_edit key='tags' label='tags' icon='tags' direct=true
                 div
-                if is_admin
+                if is_dev
                     +text_edit key='slug' label='slug' direct=true
                     +boolean_edit key='template' label='template' direct=true
                     +teacher_selector
@@ -116,9 +112,9 @@ template(name='classroom_edit_credits')
         i.plus.green.icon
         |credits
     +number_edit key='bonus_amount' label='bonus amount' direct=true
-    //- a.ui.button(href="/classroom/#{_id}/edit/templates" class="{{isActiveRoute regex='classroom_edit_templates'}}")
-    //-     i.download.icon
-    //-     |templates
+    a.ui.button(href="/classroom/#{_id}/edit/templates" class="{{isActiveRoute regex='classroom_edit_templates'}}")
+        i.download.icon
+        |templates
     //- .ui.small.header from template
     //- .ui.fluid.vertical.pointing.menu
     //-     each template_credit_types
@@ -165,8 +161,9 @@ template(name='classroom_edit_debits')
         i.red.minus.icon
         |debits
     +number_edit key='fines_amount' label='fines amount' direct=true
-    .ui.icon.button.add_debit_type
+    .ui.button.add_debit_type
         i.plus.icon
+        |debit type
     //- a.ui.button(href="/classroom/#{current_doc._id}/edit/templates" class="{{isActiveRoute regex='classroom_edit_templates'}}")
     //-     i.download.icon
     //-     |templates
@@ -195,7 +192,8 @@ template(name='transaction')
     if editing_transaction
         //- +image_edit key='image_id' label='image' direct=true
         +text_edit key='title' direct=true
-        +text_edit key='slug' direct=true
+        if is_dev
+            +text_edit key='slug' direct=true
         +number_edit key='amount' direct=true
         +icon_edit key='icon' direct=true
         div

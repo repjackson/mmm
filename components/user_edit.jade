@@ -24,8 +24,8 @@ template(name='user_edit_layout')
                         //- a.item(href="/user/#{current_user.username}/edit/styles" class="{{isActiveRoute regex='user_edit_styles'}}") 
                         //-     |styles
                         //-     i.brush.icon
-                        //- a.item(href="/user/#{current_user.username}/edit/notifications" class="{{isActiveRoute regex='user_edit_notifications'}}") 
-                        //-     |notifications
+                        //- a.item(href="/user/#{current_user.username}/edit/alerts" class="{{isActiveRoute regex='user_edit_alerts'}}") 
+                        //-     |alerts
                         //-     i.bell.icon
                         //- a.item(href="/user/#{current_user.username}/edit/payment" class="{{isActiveRoute regex='user_edit_payment'}}") 
                         //-     |payment
@@ -145,10 +145,10 @@ template(name='user_edit_friends')
         i.users.icon
         | friends
     
-template(name='user_edit_notifications')
+template(name='user_edit_alerts')
     .ui.header
         i.bell.icon
-        | notifications
+        | alerts
     
 template(name='user_edit_styles')
     .ui.header

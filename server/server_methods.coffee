@@ -75,7 +75,7 @@ Meteor.methods
         	Email.send({
                 to:["<#{to_user.emails[0].address}>"]
                 from:"relay@goldrun.online"
-                subject:"Gold Run Message Notification from #{message._author_username}"
+                subject:"Gold Run Message alert from #{message._author_username}"
                 html: "<h3> #{message._author_username} sent you the message:</h3>"+"<h2> #{message.body}.</h2>"+
                     "<br><h4>View your messages here:<a href=#{message_link}>#{message_link}</a>.</h4>"
             })

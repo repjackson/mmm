@@ -513,7 +513,7 @@ input.parent_code{
     /* -webkit-border-radius: 5px !important; */
     /* -moz-border-radius: 5px !important; */
     opacity:.4 !important;
-    border-radius: 7px !important;
+    border-radius: 10px !important;
 }
 
 /* .segment {
@@ -535,9 +535,9 @@ input.parent_code{
     /* font-size: 110% !important; */
 
     background-color: rgba(250,250,250,1) !important;
-    /* border: solid !important; */
-    /* border-width: 1px !important; */
-    /* border-color: rgba(0,0,0,.1) !important; */
+    border: dotted !important;
+    border-width: 1px !important;
+    border-color: rgba(0,0,0,.2) !important;
     /* transform: translate(0, 4px); */
 }
 
