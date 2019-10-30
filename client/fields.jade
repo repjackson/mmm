@@ -472,7 +472,7 @@ template(name='text_view')
         //-     div
         //-     if icon
         //-         +ismall name=icon                
-        .ui.inline.grey.header
+        .ui.inline.grey.small.header
             if title
                 |#{title}
             else if label
@@ -1407,12 +1407,12 @@ template(name='textarea_edit')
                 //- else
                 //-     |#{this}
             textarea.edit_textarea(rows='5') #{field_value}
-    if is_admin
-        +call_watson mode='text' key=key
-        //- div
-    //- +tone mode='html'
-    if watson
-        +watson_view
+    //- if is_admin
+    //-     +call_watson mode='text' key=key
+    //-     //- div
+    //- //- +tone mode='html'
+    //- if watson
+    //-     +watson_view
 
 
 template(name='document_edit')

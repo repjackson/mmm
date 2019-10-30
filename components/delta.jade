@@ -207,7 +207,8 @@ template(name='delta_result')
             .ui.result.cloud.fluid.segment(class=loading_class tabindex="0")
                 .content
                     each fields
-                        +Template.dynamic template=view_template 
+                        +Template.dynamic template=view_template
+                        div
                     .extra
                         if is_model
                             +user_list_toggle key='bookmark_ids' icon='bookmark' label='Bookmark' color='red'
