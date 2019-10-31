@@ -28,8 +28,11 @@ template(name='mlayout')
 
 
 template(name='verification_confirmation')
-    .ui.text.container
-        h1.ui.header your email has been verified; you may close the window. 
+    .ui.padded.grid 
+        .row 
+            .sixteen.wide.column 
+                h1.ui.center.aligned.header Thank you, your email has been verified.
+                .ui.center.aligned.header You may close the window. 
 
 
 

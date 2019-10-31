@@ -11,8 +11,8 @@
 #   siteName: 'Henry Health'
 
 
-Accounts.emailTemplates.siteName = 'gold run';
-Accounts.emailTemplates.from = 'gold run <noreply@goldrun.online>';
+Accounts.emailTemplates.siteName = 'Mini Money Management';
+Accounts.emailTemplates.from = 'Mini Money Management <noreply@minimoneymanagement.com>';
 #
 # Accounts.emailTemplates.enrollAccount.subject = (user) => {
 #   return `Welcome to Awesome Town, ${user.profile.name}`;
@@ -30,8 +30,8 @@ Accounts.emailTemplates.from = 'gold run <noreply@goldrun.online>';
 #   return 'AwesomeSite Password Reset <no-reply@example.com>';
 # };
 Accounts.emailTemplates.verifyEmail =
-   subject: -> "gold run activation"
-   text: (user, url)-> "Hi #{user.username}.\n Please verify your e-mail by clicking here: #{url}.\n\n If you did not request this verification, please ignore this email. If you feel something is wrong, please contact our support team: admin@goldrun.page."
+   subject: -> "Mini Money Management Email Verification"
+   text: (user, url)-> "Hi #{user.username}.\n Please verify your e-mail by clicking here: #{url}.\n\n If you did not request this verification, please ignore this email. If you feel something is wrong, please contact our support team: admin@minimoneymanagement.com."
 
 
 Accounts.urls.verifyEmail = (token)->
@@ -55,8 +55,8 @@ Meteor.methods
 
 
 Mailer.config
-    from: 'Gold Run <goldrunreccenter@gmail.com>',     # Default 'From:' address. Required.
-    replyTo: 'Gold Run <goldrunreccenter@gmail.com>',  # Defaults to `from`.
+    from: 'Mini Money Management <admin@minimoneymanagement.com>',     # Default 'From:' address. Required.
+    replyTo: 'Mini Money Management <admin@minimoneymanagement.com>',  # Defaults to `from`.
     routePrefix: 'emails',              # Route prefix.
     baseUrl: "process.env.ROOT_URL",      # The base domain to build absolute link URLs from in the emails.
     testEmail: "repjackson@gmail.com",                    # Default address to send test emails to.
@@ -85,10 +85,10 @@ Meteor.methods
         new_user = Meteor.users.findOne new_user_id
         Mailer.send
             to: ['EJ <repjackson@gmail.com>']          # 'To: ' address. Required.
-            subject: 'New Gold Run Enrollment'                     # Required.
+            subject: 'New Mini Money Management Enrollment'                     # Required.
             template: 'admin_enrollment_email'               # Required.
-            replyTo: 'Gold Run <admin@goldrun.page>'      # Override global 'ReplyTo: ' option.
-            from: 'Gold Run <admin@goldrun.page>'         # Override global 'From: ' option.
+            replyTo: 'Mini Money Management <admin@admin@minimoneymanagement.com>'      # Override global 'ReplyTo: ' option.
+            from: 'Mini Money Management <admin@admin@minimoneymanagement.com>'         # Override global 'From: ' option.
             # cc: 'Name <name@domain.com>'           # Optional.
             # bcc: 'Name <name@domain.com>'          # Optional.
             data: {new_user:new_user}               # Optional. Render your email with a data object.

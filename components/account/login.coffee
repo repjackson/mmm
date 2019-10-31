@@ -43,10 +43,10 @@ if Meteor.isClient
                     })
                 else
                     # console.log res
-                    if Meteor.user().roles and 'staff' in Meteor.user().roles
-                        Router.go "/staff"
+                    if Meteor.user().roles and 'admin' in Meteor.user().roles
+                        Router.go "/admin"
                     else
-                        Router.go "/classrooms"
+                        Router.go "/user/#{Meteor.user().username}"
                     # Router.go "/user/#{username}"
 
         'keyup .password, keyup .username': (e,t)->
@@ -68,10 +68,10 @@ if Meteor.isClient
                             })
                         else
                             # Router.go "/user/#{username}"
-                            if Meteor.user().roles and 'staff' in Meteor.user().roles
-                                Router.go "/staff"
+                            if Meteor.user().roles and 'admin' in Meteor.user().roles
+                                Router.go "/admin"
                             else
-                                Router.go "/classrooms"
+                                Router.go "/user/#{Meteor.user().username}"
 
 
     Template.login.helpers

@@ -3,11 +3,11 @@ if Meteor.isClient
         @layout 'classroom_view_layout'
         @render 'classroom_loans'
         ), name:'classroom_loans'
-    Router.route '/classroom/:doc_id/loan/:doc_id/edit', (->
+    Router.route '/classroom/:classroom_id/loan/:doc_id/edit', (->
         @layout 'classroom_view_layout'
         @render 'loan_edit'
         ), name:'loan_edit'
-    Router.route '/classroom/:doc_id/loan/:doc_id/view', (->
+    Router.route '/classroom/:classroom_id/loan/:doc_id/view', (->
         @layout 'classroom_view_layout'
         @render 'loan_view'
         ), name:'loan_view'

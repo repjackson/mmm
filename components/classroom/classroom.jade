@@ -194,10 +194,10 @@ template(name='classroom_students')
                         //- .ui.button.pay_salary disperse weekly paycheck
                         //-     span.ui.green.text +#{salary_amount}
                         each weekly_manual_credits
-                            .ui.button.trigger(class=bulk_action_class) #{title}
+                            .ui.button.credit_classroom(class=bulk_action_class) #{title}
                                 span.ui.green.text +#{amount}
                         each weekly_manual_debits
-                            .ui.button.trigger(class=bulk_action_class) #{title}
+                            .ui.button.debit_classroom(class=bulk_action_class) #{title}
                                 span.ui.red.text -#{amount}
                     .column
                         .ui.small.header

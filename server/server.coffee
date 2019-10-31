@@ -33,18 +33,11 @@ Cloudinary.config
 
 
 SyncedCron.add({
-        name: 'check out students'
+        name: 'class auto actions'
         schedule: (parser) ->
-            parser.text 'every 2 hours'
+            parser.text 'every 1 week'
         job: ->
             Meteor.call 'checkout_students', (err, res)->
-    },{
-        name: 'check leases'
-        schedule: (parser) ->
-            # parser is a later.parse object
-            parser.text 'every 24 hours'
-        job: ->
-            Meteor.call 'check_lease_status', (err, res)->
     }
 )
 

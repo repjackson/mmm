@@ -112,17 +112,18 @@ template(name='classroom_edit_credits')
         i.plus.green.icon
         |credits
     +number_edit key='bonus_amount' label='bonus amount' direct=true
-    a.ui.button(href="/classroom/#{_id}/edit/templates" class="{{isActiveRoute regex='classroom_edit_templates'}}")
-        i.download.icon
-        |templates
+    //- a.ui.button(href="/classroom/#{_id}/edit/templates" class="{{isActiveRoute regex='classroom_edit_templates'}}")
+    //-     i.download.icon
+    //-     |templates
     //- .ui.small.header from template
     //- .ui.fluid.vertical.pointing.menu
     //-     each template_credit_types
     //-         +credit_menu_item
     //- div
     //- .ui.small.inline.header custom
-    .ui.icon.button.add_credit_type
+    .ui.button.add_credit_type
         i.plus.icon
+        |credit type
     .ui.styled.fluid.accordion 
         each classroom_credit_types
             .title.f6
@@ -208,19 +209,19 @@ template(name='transaction')
             +key_value_edit key='automatic_period' value='weekly' label='weekly' icon='calendar'
             div
         div
-        //- if is_manual
-            //- div
-            //- .ui.small.grey.inline.header manual period
-            //- +key_value_edit key='manual_period' value='daily' label='daily' icon='sun'
-            //- +key_value_edit key='manual_period' value='weekly' label='weekly' icon='calendar'
-            //- if is_manual_daily
-            //-     div
-            //-     .ui.small.grey.inline.header manual limit type
-            //-     +key_value_edit key='manual_limit_type' value='single' label='single'
-            //-     +key_value_edit key='manual_limit_type' value='multi' label='multi'
-            //- div
-            //- if limit
-            //-     +number_edit key='limit_amount' label='limit amount'
+        if is_manual
+            div
+            .ui.small.grey.inline.header manual period
+            +key_value_edit key='manual_period' value='daily' label='daily' icon='sun'
+            +key_value_edit key='manual_period' value='weekly' label='weekly' icon='calendar'
+            if is_manual_daily
+                div
+                .ui.small.grey.inline.header manual limit type
+                +key_value_edit key='manual_limit_type' value='single' label='single'
+                +key_value_edit key='manual_limit_type' value='multi' label='multi'
+            div
+            if limit
+                +number_edit key='limit_amount' label='limit amount'
         div
         .ui.small.grey.inline.header scope
         +key_value_edit key='scope' value='student' label='student' icon='user'
