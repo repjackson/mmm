@@ -7,34 +7,10 @@ if Meteor.isClient
         @layout 'user_edit_layout'
         @render 'user_edit_info'
         ), name:'user_edit_info'
-    Router.route '/user/:username/edit/friends', (->
-        @layout 'user_edit_layout'
-        @render 'user_edit_friends'
-        ), name:'user_edit_friends'
-    Router.route '/user/:username/edit/payment', (->
-        @layout 'user_edit_layout'
-        @render 'user_edit_payment'
-        ), name:'user_edit_payment'
     Router.route '/user/:username/edit/account', (->
         @layout 'user_edit_layout'
         @render 'user_edit_account'
         ), name:'user_edit_account'
-    Router.route '/user/:username/edit/styles', (->
-        @layout 'user_edit_layout'
-        @render 'user_edit_styles'
-        ), name:'user_edit_styles'
-    Router.route '/user/:username/edit/alerts', (->
-        @layout 'user_edit_layout'
-        @render 'user_edit_alerts'
-        ), name:'user_edit_alerts'
-    Router.route '/user/:username/edit/ads', (->
-        @layout 'user_edit_layout'
-        @render 'user_edit_ads'
-        ), name:'user_edit_ads'
-    Router.route '/user/:username/edit/tags', (->
-        @layout 'user_edit_layout'
-        @render 'user_edit_tags'
-        ), name:'user_edit_tags'
 
     Template.user_edit_layout.onCreated ->
         @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
@@ -124,9 +100,28 @@ if Meteor.isClient
 
 
 
+    Template.password_edit.helpers
+        passwords_matching: ->
+            if Session.get('old_password') and Session.get('old_password').length > 3
+                if Session.get('new_password') and Session.get('new_password').length > 3
+                    Session.equals('new_password', Session.get('new_password2'))
+
+
     Template.password_edit.events
+        'keyup #old_password': ->
+            old_password = $('#old_password').val()
+            Session.set 'old_password', old_password
+
+        'keyup #new_password': ->
+            new_password = $('#new_password').val()
+            Session.set 'new_password', new_password
+
+        'keyup #new_password2': ->
+            new_password2 = $('#new_password2').val()
+            Session.set 'new_password2', new_password2
+
         'click .change_password': (e, t) ->
-            Accounts.changePassword $('#password').val(), $('#new_password').val(), (err, res) ->
+            Accounts.changePassword $('#old_password').val(), $('#new_password').val(), (err, res) ->
                 if err
                     alert err.reason
                 else

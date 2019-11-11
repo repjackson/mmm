@@ -40,7 +40,6 @@ template(name='user_edit_layout')
                     +yield
 
 template(name='user_edit_info')
-        
     .ui.two.column.grid
         .column
             +text_edit key='first_name' label='first name' direct=true
@@ -90,21 +89,31 @@ template(name='phone_editor')
 
 template(name='password_edit')
     .ui.small.grey.header
-        +i name='password'
         |Change Password
-    //- .ui.fluid.input
-    //-     input#password(type='password', placeholder='old password')
+    .ui.fluid.input
+        input#old_password(type='password', placeholder='old password')
     .ui.fluid.icon.input
         input#new_password(type='password', placeholder='new password')
+    .ui.fluid.icon.input
+        input#new_password2(type='password', placeholder='new password again')
+        if passwords_matching
+            i.checkmark.green.icon 
+        else 
+            i.red.remove.icon
     if is_dev
         .ui.fluid.basic.button.send_enrollment_email
             |Send Enrollment Email
     if is_admin
         .ui.fluid.basic.button.reset_password
             |Reset Password
-    .ui.fluid.large.basic.button.set_password
-        +i name='password' classes='ui mini inline image'
-        | Set Password
+        .ui.fluid.large.basic.button.set_password
+            +i name='password' classes='ui mini inline image'
+            | Set Password
+    if passwords_matching        
+        .ui.fluid.basic.button.change_password
+            i.refresh.icon
+            //- +i name='password' classes='ui mini inline image'
+            | Change Password
             
             
             
@@ -141,18 +150,6 @@ template(name='emails_edit')
 
 
 
-template(name='user_edit_alerts')
-    .ui.header
-        i.bell.icon
-        | alerts
-    
-template(name='user_edit_styles')
-    .ui.header
-        i.brush.icon
-        | styles
-    +text_edit key='icon_theme' label='icon theme' direct=true
-    +boolean_edit key='invert_mode' direct=true
-
 template(name='user_edit_account')
     .ui.header 
         i.cog.icon
@@ -166,7 +163,9 @@ template(name='user_edit_account')
                         i.remove.icon
                         | Delete User
         .column
-            +username_edit
+            if is_admin
+                +username_edit
+            
         //- +phone_editor
 
 
