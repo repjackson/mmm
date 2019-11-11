@@ -4,23 +4,23 @@ template(name='classroom_edit_layout')
         .ui.stackable.padded.grid
             .row
                 .four.wide.column 
-                    .ui.header 
-                        small editing 
-                        div
-                        strong #{title}
-                        div
-                        small classroom
+                    //- .ui.header 
+                    //-     small editing 
+                    //-     div
+                    //-     strong #{title}
+                    //-     div
+                    //-     small classroom
                     a.ui.icon.fluid.button(href="/classroom/#{_id}" title='save')
                         i.checkmark.green.large.icon
-                        //- |Save
+                        |Save
                     //- if is_admin
                     .ui.vertical.fluid.pointing.large.menu
                         a.item(href="/classroom/#{_id}/edit/info" class="{{isActiveRoute regex='classroom_edit_info'}}") 
-                            |info
-                            i.info.icon
+                            |Classroom Info
+                            i.info.blue.icon
                         if is_admin
                             a.item(href="/classroom/#{_id}/edit/settings" class="{{isActiveRoute regex='classroom_edit_settings'}}") 
-                                |settings
+                                |Settings
                                 i.cog.icon
                         //- a.item(href="/classroom/#{_id}/edit/features" class="{{isActiveRoute regex='classroom_edit_features'}}")
                         //-     |features
@@ -30,8 +30,8 @@ template(name='classroom_edit_layout')
                         //-     |files
                         //-     i.file.icon
                         a.item(href="/classroom/#{current_doc._id}/edit/finance" class="{{isActiveRoute regex='classroom_edit_files'}}")
-                            |finance
-                            i.money.icon
+                            |Finance
+                            i.money.green.icon
                                 
                         //- a.item(href="/classroom/#{current_doc._id}/edit/debits" class="{{isActiveRoute regex='classroom_edit_debits'}}")
                         //-     |debits
@@ -56,7 +56,7 @@ template(name='classroom_edit_layout')
 template(name='classroom_edit_settings')
     .ui.header 
         i.cog.icon
-        |settings
+        |Settings
     .ui.one.column.grid
         //- if is_admin 
         .column
@@ -68,18 +68,18 @@ template(name='classroom_edit_settings')
                 +multi_user_edit key='visible_user_ids' label='visible to users' icon='users' direct=true
             .ui.orange.button.remove_classroom
                 i.remove.icon
-                |remove classroom
+                |Remove Classroom
 
 
 template(name='classroom_edit_info')
-    .ui.header 
+    .ui.center.aligned.header 
         i.info.icon
-        |info
+        |Classroom Info
     .ui.two.column.grid
         .row
             .column
-                +text_edit key='title' label='classroom title' direct=true
-                +image_edit key='image_id' label='image' direct=true
+                +text_edit key='title' label='Classroom Title' direct=true
+                +image_edit key='image_id' label='Image' direct=true
             .column
                 //- +textarea_edit key='description' label='description' direct=true
                 //- +array_edit key='tags' label='tags' icon='tags' direct=true
@@ -110,8 +110,8 @@ template(name='classroom_edit_students')
 template(name='classroom_edit_credits')
     .ui.large.header 
         i.plus.green.icon
-        |credits
-    +number_edit key='bonus_amount' label='bonus amount' direct=true
+        |Credits
+    +number_edit key='bonus_amount' label='Bonus Amount' direct=true
     //- a.ui.button(href="/classroom/#{_id}/edit/templates" class="{{isActiveRoute regex='classroom_edit_templates'}}")
     //-     i.download.icon
     //-     |templates
@@ -123,7 +123,7 @@ template(name='classroom_edit_credits')
     //- .ui.small.inline.header custom
     .ui.button.add_credit_type
         i.plus.icon
-        |credit type
+        | Credit Type
     .ui.styled.fluid.accordion 
         each classroom_credit_types
             .title.f6
@@ -152,7 +152,7 @@ template(name='classroom_edit_credits')
 template(name='classroom_edit_shop')       
     .ui.large.header 
         i.cart.icon
-        |shop edit
+        | Shop Edit
         
         
         
@@ -160,11 +160,11 @@ template(name='classroom_edit_shop')
 template(name='classroom_edit_debits')       
     .ui.large.header 
         i.red.minus.icon
-        |debits
+        | Debits
     +number_edit key='fines_amount' label='fines amount' direct=true
     .ui.button.add_debit_type
         i.plus.icon
-        |debit type
+        | Debit Type
     //- a.ui.button(href="/classroom/#{current_doc._id}/edit/templates" class="{{isActiveRoute regex='classroom_edit_templates'}}")
     //-     i.download.icon
     //-     |templates
@@ -209,19 +209,19 @@ template(name='transaction')
             +key_value_edit key='automatic_period' value='weekly' label='weekly' icon='calendar'
             div
         div
-        if is_manual
-            div
-            .ui.small.grey.inline.header manual period
-            +key_value_edit key='manual_period' value='daily' label='daily' icon='sun'
-            +key_value_edit key='manual_period' value='weekly' label='weekly' icon='calendar'
-            if is_manual_daily
-                div
-                .ui.small.grey.inline.header manual limit type
-                +key_value_edit key='manual_limit_type' value='single' label='single'
-                +key_value_edit key='manual_limit_type' value='multi' label='multi'
-            div
-            if limit
-                +number_edit key='limit_amount' label='limit amount'
+        //- if is_manual
+        //-     div
+        //-     .ui.small.grey.inline.header manual period
+        //-     +key_value_edit key='manual_period' value='daily' label='daily' icon='sun'
+        //-     +key_value_edit key='manual_period' value='weekly' label='weekly' icon='calendar'
+        //-     if is_manual_daily
+        //-         div
+        //-         .ui.small.grey.inline.header manual limit type
+        //-         +key_value_edit key='manual_limit_type' value='single' label='single'
+        //-         +key_value_edit key='manual_limit_type' value='multi' label='multi'
+        //-     div
+        //-     if limit
+        //-         +number_edit key='limit_amount' label='limit amount'
         div
         .ui.small.grey.inline.header scope
         +key_value_edit key='scope' value='student' label='student' icon='user'

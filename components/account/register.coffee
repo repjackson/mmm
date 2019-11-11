@@ -38,9 +38,7 @@ if Meteor.isClient
 
         'click .choose_teacher': ->
 
-
         'click .choose_student': ->
-
 
         'click .choose_parent': ->
 
@@ -169,30 +167,47 @@ if Meteor.isClient
 
 
     Template.register.onCreated ->
-        Session.set 'username', null
+        Session.set 'email', null
     Template.register.events
-        'keyup .username': ->
-            username = $('.username').val()
-            Session.set 'username', username
-            Meteor.call 'find_username', username, (err,res)->
-                if res
-                    Session.set 'enter_mode', 'login'
+        'keyup .first_name': ->
+            first_name = $('.first_name').val()
+            Session.set 'first_name', first_name
+        'keyup .last_name': ->
+            last_name = $('.last_name').val()
+            Session.set 'last_name', last_name
+        'keyup .email': ->
+            email = $('.email').val()
+            Session.set 'email', email
+            email = $('.email').val()
+            Meteor.call 'validate_email', email, (err,res)->
+                console.log res
+                if res is true
+                    Session.set 'email_status', 'valid'
                 else
-                    Session.set 'enter_mode', 'register'
+                    Session.set 'email_status', 'invalid'
+
+
+            # Meteor.call 'find_username', email, (err,res)->
+            #     if res
+            #         Session.set 'enter_mode', 'login'
+            #     else
+            #         Session.set 'enter_mode', 'register'
         'click .enter': (e,t)->
-            username = $('.username').val()
+            email = $('.email').val()
             password = $('.password').val()
             # if Session.equals 'enter_mode', 'register'
             # if confirm "register #{username}?"
+            # Meteor.call 'validate_email', email, (err,res)->
+            #     console.log res
             options = {
-                username:username
+                email:email
                 password:password
                 }
-            Meteor.call 'create_user', options, (err,res)->
+            Meteor.call 'create_user', options, (err,res)=>
                 console.log res
                 Meteor.users.update res,
                     $addToSet: roles: 'teacher'
-                Meteor.loginWithPassword username, password, (err,res)=>
+                Meteor.loginWithPassword email, password, (err,res)=>
                     if err
                         alert err.reason
                         # if err.error is 403
@@ -200,14 +215,18 @@ if Meteor.isClient
                         #     Session.set 'enter_mode', 'register'
                         #     Session.set 'username', "#{username}"
                     else
+                        Meteor.users.update Meteor.userId(),
+                            $set:
+                                first_name: Session.get('first_name')
+                                last_name: Session.get('last_name')
                         new_classroom_id = Docs.insert
                             model: 'classroom'
                             teacher_id: Meteor.userId()
+                            teacher_username: Meteor.user().username
                             bonus_amount: 1
                             fines_amount: 1
-                        Meteor.call 'generate_trans_types', new_classroom_id, ->
-
                         Router.go "/build_classroom/#{new_classroom_id}/info"
+                        Meteor.call 'generate_trans_types', new_classroom_id, ->
             # else
             #     Meteor.loginWithPassword username, password, (err,res)=>
             #         if err
@@ -220,10 +239,17 @@ if Meteor.isClient
 
 
     Template.register.helpers
-        username: -> Session.get 'username'
+        can_register: ->
+            Session.get('first_name') and Session.get('last_name') and Session.get('email')
+        email: -> Session.get 'email'
+        first_name: -> Session.get 'first_name'
+        last_name: -> Session.get 'last_name'
         registering: -> Session.equals 'enter_mode', 'register'
         enter_class: -> if Meteor.loggingIn() then 'loading disabled' else ''
-
+        email_valid: ->
+            Session.equals 'email_status', 'valid'
+        email_invalid: ->
+            Session.equals 'email_status', 'invalid'
 
 if Meteor.isServer
     Meteor.methods
@@ -231,6 +257,9 @@ if Meteor.isServer
             result = Accounts.setPassword(user._id, password)
             console.log result
             result
+
+        # verify_email: (email)->
+        #     (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
 
 
 
@@ -257,6 +286,7 @@ if Meteor.isServer
 
 
         create_user: (options)->
+            console.log 'creating user', options
             Accounts.createUser options
 
         can_submit: ->

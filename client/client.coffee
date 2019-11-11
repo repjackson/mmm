@@ -64,8 +64,12 @@ Template.registerHelper 'gs', () ->
 Template.registerHelper 'classroom_students', ->
     # console.log @
     if @student_ids
-        Meteor.users.find
+        Meteor.users.find {
             _id: $in: @student_ids
+        },
+            sort:
+                last_name: -1
+                first_name: -1
 
 
 
@@ -138,6 +142,7 @@ Template.registerHelper 'is_debit', () -> @event_type is 'debit'
 Template.registerHelper 'is_rental', () -> @model is 'rental'
 Template.registerHelper 'is_service', () -> @model is 'service'
 Template.registerHelper 'is_product', () -> @model is 'product'
+
 Template.registerHelper 'upvote_class', () ->
     if Meteor.userId()
         if @upvoter_ids and Meteor.userId() in @upvoter_ids then 'green' else 'outline'
@@ -188,14 +193,6 @@ Template.registerHelper 'classroom_school', () ->
 #         _id:$in:session_document.guest_ids
 
 
-
-Template.registerHelper 'student_status_class', ()->
-    # console.log @
-    unless @rules_and_regs_signed
-        'red_flagged'
-    else unless @email_validated
-        'orange_flagged'
-    else ''
 
 Template.registerHelper 'author', () -> Meteor.users.findOne @_author_id
 Template.registerHelper 'target_user', () -> Meteor.users.findOne @user_id

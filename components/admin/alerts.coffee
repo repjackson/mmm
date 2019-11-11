@@ -6,6 +6,17 @@ if Meteor.isClient
 
     Template.alerts.onCreated ->
         @autorun => Meteor.subscribe 'model_docs', 'alert'
+    Template.alerts.onRendered ->
+        Meteor.setTimeout ->
+            # $('.dropdown').dropdown(
+            #     on:'click'
+            # )
+            $('.ui.dropdown').dropdown(
+                clearable:true
+                action: 'activate'
+                onChange: (text,value,$selectedItem)->
+                    )
+        , 1000
 
     Template.alerts.helpers
         my_alerts: ->

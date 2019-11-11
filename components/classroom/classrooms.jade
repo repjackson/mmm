@@ -113,27 +113,26 @@ template(name='classroom_cloud')
 
 
 template(name='classroom_card_template')
-    .ui.segment.stackable.grid
+    a.ui.link.segment.stackable.grid(href="/classroom/#{_id}")
         .four.wide.column
-            a(href="/classroom/#{_id}")
-                img.ui.tiny.image(src="{{c.url image_id crop='lpad'}}")
+            img.ui.small.image(src="{{c.url image_id crop='lpad'}}")
         .eight.wide.column
             a.ui.header(href="/classroom/#{_id}" title='balance') #{title} #{school_name}
             .content
             each tags
                 .ui.label #{this}
-            .ui.green.inline.header $#{csd.classroom_balance}
-            .ui.green.inline.small.header(title='income') ($#{csd.total_credit_amount}
-            .ui.red.inline.small.header(title='expenses') / -$#{csd.total_debit_amount})
+            //- .ui.green.inline.header $#{csd.classroom_balance}
+            //- .ui.green.inline.small.header(title='income') ($#{csd.total_credit_amount}
+            //- .ui.red.inline.small.header(title='expenses') / -$#{csd.total_debit_amount})
             div
             each classroom_students
                 if profile_image_id
                     img.ui.avatar.image(src="{{c.url profile_image_id}}" title=username)
                 else 
                     i.user.icon
-            a.ui.header(href="/classroom/#{_id}")
-                |view 
-                i.right.chevron.icon
+            //- a.ui.header(href="/classroom/#{_id}")
+            //-     |view 
+            //-     i.right.chevron.icon
         .four.wide.column
             with classroom_school
                 .ui.header #{title} #{company_name}

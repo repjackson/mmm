@@ -319,7 +319,7 @@ Meteor.methods
                 meta.string = true
                 meta.length = value.length
 
-                html_check = /<[a-z][\s\S]*>/i
+                html_check = /<[a-z][\s\S]*>/i/
                 html_result = html_check.test value
 
                 url_check = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/

@@ -217,7 +217,9 @@ if Meteor.isClient
             classroom = Docs.findOne Router.current().params.doc_id
             Meteor.users.find {
                 _id: $in: classroom.student_ids
-            }, sort:last_name:-1
+            }, sort:
+                last_name:1
+                first_name:1
         student_credit_types: ->
             Docs.find
                 model:'credit_type'
@@ -416,7 +418,7 @@ if Meteor.isClient
             classroom = Docs.findOne Router.current().params.doc_id
             Meteor.users.find {
                 _id: $in: classroom.student_ids
-            }, sort: last_name: 1
+            }, sort: last_name: -1
 
 
     Template.classroom_files.onCreated ->

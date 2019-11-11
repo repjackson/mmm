@@ -15,10 +15,24 @@ template(name='register')
                     h4.ui.center.aligned.header #{message}
                 .ui.small.inline.header 
                     //- +i name='user-male'
-                    i.user.grey.icon
-                    |username
+                    |First Name
                 .ui.fluid.input(class=login_class)
-                    input.username(type='text')
+                    input.first_name(type='text')
+                .ui.small.inline.header 
+                    //- +i name='user-male'
+                    |Last Name
+                .ui.fluid.input(class=login_class)
+                    input.last_name(type='text')
+                .ui.small.inline.header 
+                    //- +i name='user-male'
+                    i.envelope.grey.icon
+                    |Email
+                .ui.fluid.icon.input(class=login_class)
+                    if email_valid
+                        i.green.checkmark.icon
+                    if email_invalid
+                        i.red.ban.icon
+                    input.email(type='text')
                 .ui.small.inline.header 
                     //- +i name='password'
                     i.lock.grey.icon
@@ -30,16 +44,16 @@ template(name='register')
                 //-         i.lock.grey.icon
                 //-         | password again
                 //-     input.password2(type='password')
-                if username
-                    if registering
-                        .ui.fluid.large.circular.button.enter(class=enter_class)
-                            +i name='enter-2' classes='ui mini inline image'  
-                            |register '#{username}'
-                    else
-                        .ui.small.header username "#{username}" found
-                        a.ui.basic.fluid.button(href='/login') 
-                            +i name='enter-2' classes='ui mini inline image'                    
-                            |login
+                if can_register
+                    //- if registering
+                    .ui.fluid.large.circular.button.enter(class=enter_class)
+                        +i name='enter-2' classes='ui mini inline image'  
+                        |register '#{email}'
+                    //- else
+                    //-     .ui.small.header username "#{username}" found
+                    //-     a.ui.basic.fluid.button(href='/login') 
+                    //-         +i name='enter-2' classes='ui mini inline image'                    
+                    //-         |login
                         
                         
                 .ui.center.aligned.basic.segment    

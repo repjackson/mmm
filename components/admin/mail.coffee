@@ -65,7 +65,7 @@ if Meteor.isClient
 
     Template.mail_view_menu_item.helpers
         view_count: ->
-            console.log @
+            # console.log @
             match = {}
             # if @
             Docs.find(

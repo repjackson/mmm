@@ -8,12 +8,12 @@ template(name='user_edit_layout')
                         | #{current_user.first_name} #{current_user.last_name}
                     //- +i name='pencil'
                     .ui.small.inline.header @#{current_user.username}
-                    a.ui.fluid.basic.button(href="/user/#{current_user.username}/") 
+                    a.ui.fluid.basic.large.button(href="/user/#{current_user.username}/") 
                         i.checkmark.large.green.icon
                         strong save
-                    .ui.vertical.fluid.big.secondary.menu
+                    .ui.vertical.fluid.big.menu
                         a.item(href="/user/#{current_user.username}/edit/info" class="{{isActiveRoute regex='user_edit_info'}}") 
-                            |info
+                            | Info
                             i.info.icon
                         //- a.item(href="/user/#{current_user.username}/edit/friends" class="{{isActiveRoute regex='user_edit_friends'}}") 
                         //-     |friends
@@ -28,7 +28,7 @@ template(name='user_edit_layout')
                         //-     |payment
                         //-     i.money.icon
                         a.item(href="/user/#{current_user.username}/edit/account" class="{{isActiveRoute regex='user_edit_account'}}") 
-                            |account
+                            | Account
                             i.cog.icon
                         //- a.item(href="/user/#{current_user.username}/edit/tags" class="{{isActiveRoute regex='user_edit_tags'}}") 
                         //-     |tags
@@ -48,28 +48,28 @@ template(name='user_edit_info')
             +image_edit key='profile_image_id' icon='picture' title='profile image' direct=true
             .ui.header 
                 i.envelope.outline.icon
-                |emails
+                |Emails
             +emails_edit
         .column
             if is_admin
                 .ui.segment 
                     .ui.small.header 
                         i.shield.icon 
-                        |admin
+                        |Admin
                     +text_edit key='student_code' label='student code' direct=true
                     +text_edit key='parent_code' label='parent code' direct=true
                     +number_edit key='credit' label='credit' icon='money' direct=true
             
             div
             +phone_edit key='phone' label='phone' icon='phone' direct=true
-            +array_edit key='tags' label='tags' direct=true
+            //- +array_edit key='tags' label='tags' direct=true
 
 
      
 template(name='phone_editor')
     .ui.small.header    
         i.phone.icon
-        |phone
+        |Phone
     .ui.icon.fluid.input(title='Add Phone')
         i.plus.icon
         input#phone.form-control(type='phone', name='phone', value='{{newNumber}}')
@@ -91,20 +91,20 @@ template(name='phone_editor')
 template(name='password_edit')
     .ui.small.grey.header
         +i name='password'
-        |change password
+        |Change Password
     //- .ui.fluid.input
     //-     input#password(type='password', placeholder='old password')
     .ui.fluid.icon.input
         input#new_password(type='password', placeholder='new password')
     if is_dev
         .ui.fluid.basic.button.send_enrollment_email
-            |send enrollment email
+            |Send Enrollment Email
     if is_admin
         .ui.fluid.basic.button.reset_password
-            |reset password
+            |Reset Password
     .ui.fluid.large.basic.button.set_password
         +i name='password' classes='ui mini inline image'
-        | set password
+        | Set Password
             
             
             
@@ -141,11 +141,6 @@ template(name='emails_edit')
 
 
 
-template(name='user_edit_friends')
-    .ui.header
-        i.users.icon
-        | friends
-    
 template(name='user_edit_alerts')
     .ui.header
         i.bell.icon
@@ -158,32 +153,10 @@ template(name='user_edit_styles')
     +text_edit key='icon_theme' label='icon theme' direct=true
     +boolean_edit key='invert_mode' direct=true
 
-template(name='user_edit_payment')
-    .ui.header
-        i.money.icon
-        | payment
-    
-template(name='user_edit_tags')
-    .ui.header
-        i.tags.icon
-        | tags
-    
-template(name='user_edit_ads')
-    .ui.header
-        i.bullhorn.icon
-        | ads
-    .ui.header 
-        |create ads
-    |buy targeted ads using credit
-    .ui.header
-        |consume ads
-    |earn credit by opting in to targeted ads 
-        
-    
 template(name='user_edit_account')
     .ui.header 
-        i.cog.icons
-        |account
+        i.cog.icon
+        | Account
     .ui.two.column.grid
         .column
             +password_edit
@@ -191,7 +164,7 @@ template(name='user_edit_account')
                 with current_user
                     .ui.orange.basic.button.remove_user 
                         i.remove.icon
-                        |delete user
+                        | Delete User
         .column
             +username_edit
         //- +phone_editor

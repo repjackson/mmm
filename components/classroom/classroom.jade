@@ -14,30 +14,38 @@ template(name='classroom_view_layout')
                     img.ui.centered.rounded.small.image(src="{{c.url image_id gravity='face' crop='fit'}}")
                     .ui.big.fluid.vertical.pointing.menu
                         a.item(href="/classroom/#{current_doc._id}/students" class="{{isActiveRoute regex='classroom_students'}}")
-                            |dashboard
-                            i.dashboard.grey.icon    
+                            | Dashboard
+                            i.dashboard.icon
+                                //- +ismall name='dashboard'
+                            //- i.dashboard.grey.icon    
                     .ui.vertical.big.fluid.pointing.large.menu
                         a.item(href="/classroom/#{current_doc._id}/lunch_small" class="{{isActiveRoute regex='classroom_lunch'}}")
-                            | lunch
-                            i.food.grey.icon
-                        a.item(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
-                            i.list.grey.icon
-                            | feed
-                        //- a.item(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
-                        //-     i.home.grey.icon
-                        //-     | home
-                        a.item(href="/classroom/#{current_doc._id}/files" class="{{isActiveRoute regex='classroom_files'}}")
-                            | files
-                            i.file.grey.icon
-                        a.item(href="/classroom/#{current_doc._id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
-                            | reports
-                            i.line.chart.grey.icon
+                            | Lunch
+                            i.food.icon
+                                //- +ismall name='food'    
                         //- a.item(href="/classroom/#{current_doc._id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
-                        //-     | shop
-                        //-     i.shop.grey.icon
-                        a.item(href="/classroom/#{current_doc._id}/loans" class="{{isActiveRoute regex='classroom_loans'}}")
-                            | loans
-                            i.clock.grey.icon
+                        //-     | Shop
+                        //-     i.icon
+                        //-         +ismall name='shopping-cart'    
+                        //- //- a.item(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
+                        //- //-     i.home.grey.icon
+                        //- //-     | home
+                        //- a.item(href="/classroom/#{current_doc._id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
+                        //-     | Reports
+                        //-     i.icon
+                        //-         +ismall name='line-chart'    
+                        //- a.item(href="/classroom/#{current_doc._id}/loans" class="{{isActiveRoute regex='classroom_loans'}}")
+                        //-     | Loans
+                        //-     i.icon
+                        //-         +ismall name='debt'    
+                        a.item(href="/classroom/#{_id}/feed" class="{{isActiveRoute regex='classroom_feed'}}")
+                            i.list.icon
+                                //- +ismall name='list'    
+                            | Feed
+                        a.item(href="/classroom/#{current_doc._id}/files" class="{{isActiveRoute regex='classroom_files'}}")
+                            | Files
+                            i.file.icon
+                                //- +ismall name='file'    
                         //- each enabled_features
                         //-     a.item(href="/classroom/#{current_doc._id}/f/#{slug}")
                         //-         |#{title}
@@ -48,7 +56,7 @@ template(name='classroom_view_layout')
                     if can_edit
                         a.ui.fluid.large.button(href="/classroom/#{_id}/edit/info")
                             i.pencil.icon
-                            | edit
+                            | Edit
                 .thirteen.wide.column
                     +yield
     +footer
@@ -78,7 +86,7 @@ template(name='classroom_students_small')
     .ui.segment 
         .ui.grey.header
             i.users.icon
-            | students
+            | Students
         .ui.large.list
             each classroom_students
                 .item
@@ -88,25 +96,27 @@ template(name='classroom_students_small')
                             |#{name}
 
 template(name='classroom_shop')
-    .ui.header shop
+    .ui.center.aligned.header
+        i.cart.icon
+        | Shop
     each products 
         .ui.header #{title}
     //- +shop
 
 template(name='classroom_info')
     .ui.segment 
-        .ui.small.header 
-            i.info.icon
-            |info
+        .ui.header 
+            i.blue.info.icon
+            | Info
         if description
             p #{description}
         if teacher_name
             .ui.small.inline.header #{teacher_name}
         if school_name
             .ui.small.inline.header #{school_name}
-        if tags.length
-            each tags
-                .ui.label #{this}
+        //- if tags.length
+        //-     each tags
+        //-         .ui.label #{this}
         //- .ui.list
         //-     .item #{phone}    
         //-     .item #{address}    
@@ -120,9 +130,9 @@ template(name='classroom_info')
 
 
 template(name='classroom_files')
-    .ui.large.header
-        i.file.icon
-        |files
+    .ui.center.aligned.header
+        +i name='file'
+        |Files
     .ui.large.linked.list
         each classroom_files
             .item 
@@ -144,19 +154,20 @@ template(name='classroom_files')
 
 
 template(name='classroom_credits')
-    .ui.header 
+    .ui.center.aligned.header 
         i.money.icon
-        |classroom loans
+        |Classroom Loans
     +loans
 
 
 
 template(name='classroom_students')
-    .ui.header 
-        i.dashboard.grey.icon
-        |classroom dashboard
+    .ui.center.aligned.header 
+        //- i.dashboard.grey.icon
+        +i name='dashboard' classes='ui inline image'
+        | Classroom Dashboard
     with current_doc
-        .ui.styled.fluid.accordion 
+        .ui.fluid.accordion 
             .title 
                 .ui.header
                     | classroom actions
@@ -167,7 +178,7 @@ template(name='classroom_students')
                         .ui.small.header 
                             i.calendar.grey.inline.icon
                             i.retweet.grey.inline.icon
-                            |weekly automatic actions
+                            |Weekly Automatic Actions
                         each weekly_automatic_credits
                             .ui.disabled.button(class=bulk_action_class) #{title}
                                 span.ui.green.text +#{amount}
@@ -178,7 +189,7 @@ template(name='classroom_students')
                         .ui.small.header 
                             i.clock.grey.inline.icon
                             i.retweet.grey.inline.icon
-                            |daily automatic actions
+                            | Daily Automatic Actions
                         each daily_automatic_credits
                             .ui.disabled.button.trigger(class=bulk_action_class) #{title}
                                 span.ui.green.text +#{amount}
@@ -190,7 +201,7 @@ template(name='classroom_students')
                         .ui.small.header 
                             i.calendar.grey.inline.icon
                             i.hand.point.up.outline.grey.inline.icon
-                            |weekly manual classroom actions
+                            | Weekly Manual Classroom Actions
                         //- .ui.button.pay_salary disperse weekly paycheck
                         //-     span.ui.green.text +#{salary_amount}
                         each weekly_manual_credits
@@ -203,7 +214,7 @@ template(name='classroom_students')
                         .ui.small.header
                             i.clock.grey.inline.icon
                             i.hand.point.up.outline.grey.inline.icon
-                            | daily manual classroom actions
+                            | Daily Manual Classroom Actions
                         each daily_manual_classroom_credits
                             .ui.button.credit_classroom(class=bulk_action_class) #{title}
                                 span.ui.green.text +#{amount}
@@ -213,19 +224,19 @@ template(name='classroom_students')
     .ui.accordion
         each classroom_students
             .title
-                .ui.inline.right.floated.header $#{credit}
                 img.ui.avatar.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
                 .ui.inline.header
                     i.dropdown.icon
                     |#{first_name} #{last_name} 
                 i.green.plus.circle.big.link.icon.add_bonus
                 i.red.minus.circle.big.link.icon.add_fine
+                .ui.inline.header $#{credit}
                 //- .ui.icon.circular.button.
             //- .ui.item
             //- .image
             .content
                 a.ui.basic.green.large.right.floated.button(href="/classroom/#{current_doc._id}/student/#{_id}")
-                    |view profile
+                    | View Profile
                     i.right.chevron.icon
                 .description
                     .ui.two.column.stackable.grid
@@ -252,6 +263,9 @@ template(name='student_debit_button')
 
 
 template(name='classroom_reports')
+    .ui.center.aligned.header 
+        +i name='line chart'
+        |Reports
     with current_doc
         +classroom_stats
         .ui.stackable.padded.grid
@@ -310,11 +324,11 @@ template(name='classroom_student')
         //-     i.circular.refresh.link.icon.recalc_student_stats(title='recalculate')
         div
         .ui.grid      
-            .three.column.row
+            .two.column.row
                 .column
                     .ui.segment
                         .ui.small.header 
-                            +ismall name='money-bag'
+                            +i name='money-bag'
                             strong $#{ssd.total_credit_amount}
                             small total weekly income
                         .ui.small.header
@@ -325,7 +339,7 @@ template(name='classroom_student')
                 .column
                     .ui.segment
                         .ui.small.header
-                            +ismall name='shopping-cart-loaded'
+                            +i name='shopping-cart-loaded'
                             strong $#{ssd.total_debit_amount}
                             small total weekly expenses
                         .ui.small.header
@@ -333,16 +347,16 @@ template(name='classroom_student')
                             //- +ismall name='hashtag'
                             strong #{ssd.debit_count}
                             small debits
-                .column
-                    .ui.segment
-                        .ui.small.header
-                            +i name='economic-improvement'
-                            |growth from last week
+                //- .column
+                //-     .ui.segment
+                //-         .ui.small.header
+                //-             +i name='economic-improvement'
+                //-             |growth from last week
             .two.column.row
                 .column
                     .ui.segment
                         .ui.header 
-                            +i name='deposit'
+                            +i name='deposit' classes='ui inline mini image'
                             |weekly paycheck (credits)
                         //- .ui.bulleted.list
                         //-     each user_credits
@@ -358,7 +372,7 @@ template(name='classroom_student')
                 .column
                     .ui.segment
                         .ui.header 
-                            +i name='withdrawal'
+                            +i name='withdrawal' classes='ui inline mini image'
                             |weekly expenses (debits)
                         .ui.feed.mediumscroll
                             each user_debits
@@ -413,10 +427,9 @@ template(name='credit_event_item')
 
 
 template(name='classroom_feed')
-    .ui.inline.grey.header 
-        //- +i name='rss'
-        i.feed.icon
-        |feed
+    .ui.center.aligned.grey.header 
+        +i name='list'
+        | Feed
     if is_admin 
         .ui.button.remove_all_events
             i.shield.icon
@@ -453,10 +466,10 @@ template(name='classroom_feed')
 template(name='classroom_stats')
     .ui.two.column.grid
         .column
-            .ui.header.refresh_classroom_stats
-                //- +ismall name='line-chart'
-                i.line.chart.icon
-                |stats
+            //- .ui.header.refresh_classroom_stats
+            //-     //- +ismall name='line-chart'
+            //-     i.line.chart.icon
+            //-     |stats
             div
             .ui.green.inline.header $#{csd.classroom_balance}
             | balance
@@ -467,7 +480,7 @@ template(name='classroom_stats')
             .ui.red.inline.header $#{csd.total_debit_amount}
             | expenses
         .column
-            .ui.big.list
+            .ui.list
                 .item #{views} views
                 .item #{csd.student_count} students
                 .item #{csd.credit_count} total credits

@@ -1,22 +1,27 @@
 template(name='classroom_lunch_small')
-    .ui.inline.header lunch
+    .ui.center.aligned.header
+        +i name='food'
+        |Lunch - Teacher View
     a.ui.button(href="/classroom/#{_id}/lunch")
         i.external.icon
-        |full 
-    div
-    each classroom_students
-        unless lunch_chosen
-            .ui.segment
-                img.ui.mini.inline.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
-                .ui.inline.header #{name}
-                .ui.labeled.icon.basic.large.button.choose_home
-                    i.home.icon
-                    |home 
-                    span.ui.red.text $-3
-                .ui.labeled.icon.basic.large.button.choose_cafeteria
-                    i.food.icon
-                    |cafeteria
-                    span.ui.red.text $-5
+        //- |Full 
+        | Student View
+    .ui.divided.relaxed.list
+        each classroom_students
+            unless lunch_chosen
+                .ui.item
+                    img.ui.mini.inline.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
+                    .ui.inline.header #{name}
+                    .ui.basic.large.button.choose_home
+                        i.home.icon
+                        //- +ismall name='home'
+                        | Home
+                        span.ui.red.text -$3
+                    .ui.basic.large.button.choose_cafeteria
+                        //- +ismall name='food'
+                        i.food.icon
+                        | Cafeteria
+                        span.ui.red.text -$5
 
 
 
@@ -26,11 +31,13 @@ template(name='classroom_lunch')
             .four.wide.column
                 .ui.center.aligned.large.button.back_to_classroom
                     i.chevron.left.icon
-                    |#{current_doc.title}
+                    |Lunch - Teacher View
             .eight.wide.column
                 .ui.center.aligned.large.header 
+                    //- +i name='food'
                     i.food.icon
-                    |lunch
+                    |#{current_doc.title}
+                    |Lunch - Student View
     .ui.four.stackable.cards
         each classroom_students
             unless lunch_chosen
@@ -38,12 +45,12 @@ template(name='classroom_lunch')
                     img.ui.image(src="{{c.url profile_image_id width=300 height=300 gravity='face' crop='fill'}}")
                     .content
                         .ui.header #{name}
-                        .ui.huge.labeled.icon.fluid.basic.button.choose_home
-                            i.home.icon
-                            |home 
-                            span.ui.red.text $-3
+                        .ui.huge.fluid.basic.button.choose_home
+                            +ismall name='lunchbox'
+                            | Home 
+                            span.ui.red.text -$3
                         .spacer
-                        .ui.huge.labeled.icon.fluid.basic.button.choose_cafeteria
-                            i.food.icon
-                            |cafeteria
-                            span.ui.red.text $-5c
+                        .ui.huge.fluid.basic.button.choose_cafeteria
+                            +ismall name='food'
+                            | Cafeteria
+                            span.ui.red.text -$5

@@ -13,7 +13,7 @@ if Meteor.isClient
             Router.go "/classroom/#{Router.current().params.doc_id}/lunch_small"
         'click .choose_home': (e,t)->
             $(e.currentTarget).closest('.button').transition('zoom', 1000)
-            $(e.currentTarget).closest('.card').transition('fade left', 1000)
+            $(e.currentTarget).closest('.card').transition('zoom', 1000)
             Meteor.setTimeout =>
                 Docs.insert
                     model:'classroom_event'
@@ -28,7 +28,7 @@ if Meteor.isClient
 
         'click .choose_cafeteria': (e,t)->
             $(e.currentTarget).closest('.button').transition('zoom', 1000)
-            $(e.currentTarget).closest('.card').transition('fade left', 1000)
+            $(e.currentTarget).closest('.card').transition('zoom', 1000)
             Meteor.setTimeout =>
                 Docs.insert
                     model:'classroom_event'
@@ -42,10 +42,15 @@ if Meteor.isClient
             , 1000
 
     Template.classroom_lunch.helpers
-        classroom_students: ->
-            classroom = Docs.findOne Router.current().params.doc_id
-            Meteor.users.find
-                _id: $in: classroom.student_ids
+        # classroom_students: ->
+        #     classroom = Docs.findOne Router.current().params.doc_id
+        #     Meteor.users.find({
+        #         _id: $in: classroom.student_ids
+        #     }, {
+        #         sort:
+        #             last_name:-1
+        #             first_name:-1
+        #     })
 
         lunch_chosen: ->
             today = moment().format("MM-DD-YYYY")
@@ -95,10 +100,10 @@ if Meteor.isClient
             , 1000
 
     Template.classroom_lunch_small.helpers
-        classroom_students: ->
-            classroom = Docs.findOne Router.current().params.doc_id
-            Meteor.users.find
-                _id: $in: classroom.student_ids
+        # classroom_students: ->
+        #     classroom = Docs.findOne Router.current().params.doc_id
+        #     Meteor.users.find
+        #         _id: $in: classroom.student_ids
 
         lunch_chosen: ->
             today = moment().format("MM-DD-YYYY")

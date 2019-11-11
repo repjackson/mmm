@@ -1,8 +1,32 @@
 if Meteor.isClient
     Template.student_item.onCreated ->
         @autorun => Meteor.subscribe 'user_by_id', @data
+        @editing_student = new ReactiveVar false
     Template.student_item.helpers
         student: -> Meteor.users.findOne Template.currentData()
+        editing_student: ->
+            # console.log @
+            Template.instance().editing_student.get() is @_id
+    Template.student_item.events
+        'click .remove_student': ->
+            if confirm "Remove #{@first_name} #{@last_name} from classroom?"
+                student = Docs.findOne Router.current().params.doc_id
+                Docs.update student._id,
+                    $pull:student_ids:@_id
+
+        'click .edit_student': ->
+            Template.instance().editing_student.set(@_id)
+        'click .save_student': (e,t)->
+            Template.instance().editing_student.set(null)
+            first_name = $('.first_name').val().trim()
+            last_name = $('.last_name').val().trim()
+            console.log @
+            Meteor.users.update @_id,
+                $set:
+                    first_name: first_name
+                    last_name: last_name
+
+
 
     Template.student_selector.onCreated ->
         @student_results = new ReactiveVar
@@ -45,12 +69,6 @@ if Meteor.isClient
             $('#student_input').val ''
             # Docs.update page_doc._id,
             #     $set: assignment_timestamp:Date.now()
-
-        'click .remove_student': ->
-            if confirm "remove #{first_name} #{last_name} from student?"
-                student = Docs.findOne Router.current().params.doc_id
-                Docs.update student._id,
-                    $pull:student_ids:@_id
 
 
 if Meteor.isServer

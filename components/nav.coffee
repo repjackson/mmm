@@ -1,9 +1,14 @@
 if Meteor.isClient
     Template.nav.onRendered ->
         Meteor.setTimeout ->
-            $('.dropdown').dropdown(
-                on:'click'
-            )
+            # $('.dropdown').dropdown(
+            #     on:'click'
+            # )
+            $('.ui.dropdown').dropdown(
+                clearable:true
+                action: 'activate'
+                onChange: (text,value,$selectedItem)->
+                    )
         , 1000
 
         Meteor.setTimeout ->
@@ -104,11 +109,11 @@ if Meteor.isClient
                 on:'hover'
             )
 
-        'click .item': (e,t)->
-            $(e.currentTarget).closest('.item').transition(
-                animation: 'pulse'
-                duration: 200
-            )
+        # 'click .item': (e,t)->
+        #     $(e.currentTarget).closest('.item').transition(
+        #         animation: 'pulse'
+        #         duration: 100
+        #     )
 
 
         'click #logout': ->

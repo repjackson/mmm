@@ -59,9 +59,13 @@ if Meteor.isClient
 if Meteor.isServer
     Meteor.publish 'classroom_students_by_classroom_id', (classroom_id)->
         classroom = Docs.findOne classroom_id
-        Meteor.users.find
+        Meteor.users.find {
             roles:$in:['student']
             classroom_id:classroom_id
+        },
+            sort:
+                last_name:-1
+                first_name:-1
 
     Meteor.methods
         generate_trans_types: (classroom_id)->
