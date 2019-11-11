@@ -83,13 +83,13 @@ if Meteor.isClient
                 $(e.currentTarget).closest('.event').transition('fly right', 1000)
                 Meteor.setTimeout =>
                     Docs.remove @_id
+                    if @event_type is 'credit'
+                        Meteor.users.update @user_id,
+                            $inc:credit:-@amount
+                    else if @event_type is 'debit'
+                        Meteor.users.update @user_id,
+                            $inc:credit:@amount
                 , 500
-                if @event_type is 'credit'
-                    Meteor.users.update @user_id,
-                        $inc:credit:-@amount
-                else if @event_type is 'debit'
-                    Meteor.users.update @user_id,
-                        $inc:credit:@amount
 
 
 

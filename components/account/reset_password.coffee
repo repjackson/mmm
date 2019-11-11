@@ -31,7 +31,7 @@ if Meteor.isClient
                 # if (isNotEmpty(password) && areValidPasswords(password, password_confirm)) {
                 Accounts.resetPassword resetPassword, password, (err) ->
                     if err
-                        console.error 'error'
+                        console.error 'error', err
                     else
                         Session.set 'resetPassword', null
                         Router.go '/'

@@ -62,7 +62,6 @@ template(name='user_dashboard')
                 .ui.center.aligned.header.recalc_student_stats
                     +i name='dashboard'
                     |#{current_user.name}'s dashboard
-                //- .ui.inline.small.grey.header current balance $#{current_user.credit}
     if user_is_student
         +student_dashboard
     if user_is_teacher

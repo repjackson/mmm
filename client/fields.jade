@@ -322,7 +322,7 @@ template(name='image_edit')
         .field
             if field_value
                 //- label Image
-                img.ui.large.centered.rounded.image(src="{{c.url field_value height=500 gravity='face' crop='fill'}}")
+                img.ui.centered.rounded.image(src="{{c.url field_value height=500 gravity='face' crop='fill'}}" class=classes)
                 a#remove_photo.ui.right.corner.link.label
                     i.remove.red.link.icon
             else 

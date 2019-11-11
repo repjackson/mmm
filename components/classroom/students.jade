@@ -55,6 +55,7 @@ template(name='student_item')
             img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
             .content
                 if editing_student
+                    +image_edit key='profile_image_id' label='profile image' direct=true classes='ui avatar inline image'
                     .ui.inline.small.input 
                         input.first_name(type='text' value=first_name)
                     .ui.inline.small.input 

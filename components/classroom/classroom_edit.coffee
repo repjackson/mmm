@@ -16,16 +16,12 @@ if Meteor.isClient
         @render 'classroom_edit_students'
         ), name:'classroom_edit_students'
 
-    Router.route '/classroom/:user_id/edit/teacher', (->
+    Router.route '/classroom/:doc_id/edit/teacher/:user_id', (->
         @layout 'classroom_edit_layout'
         @render 'user_edit_info'
         ), name:'classroom_edit_teacher'
 
 
-    Router.route '/classroom/:doc_id/edit/f/:feature_slug', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_feature'
-        ), name:'classroom_edit_feature'
     Router.route '/classroom/:doc_id/edit/finance', (->
         @layout 'classroom_edit_layout'
         @render 'classroom_edit_finance'

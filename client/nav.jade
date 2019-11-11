@@ -15,7 +15,7 @@ template(name='nav')
                 span.mobile.hidden &nbsp; Contact
                 //- i.phone.icon.mobile.only
         if current_doc 
-            .ui.center.aligned.header.item 
+            a.ui.center.aligned.header.item(href="/classroom/#{current_doc._id}")
                 |#{current_doc.title}
         //- if is_teacher 
         //-     each my_classrooms

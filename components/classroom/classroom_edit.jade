@@ -27,7 +27,7 @@ template(name='classroom_edit_layout')
                             i.money.green.icon
                             
                     .ui.vertical.fluid.big.menu
-                        a.item(href="/classroom/#{currentUser._id}/edit/teacher" class="{{isActiveRoute regex='classroom_edit_teacher'}}") 
+                        a.item(href="/classroom/#{currentUser._id}/edit/teacher/#{currentUser._id}" class="{{isActiveRoute regex='classroom_edit_teacher'}}") 
                             | Teacher Info
                             i.info.icon
                 .twelve.wide.column

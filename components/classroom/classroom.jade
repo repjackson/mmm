@@ -48,10 +48,10 @@ template(name='classroom_view_layout')
                     //- .ui.header
                     //-     small teacher
                     //-     | #{teacher_name}
-                    if can_edit
-                        a.ui.fluid.large.button(href="/classroom/#{_id}/edit/info")
-                            i.pencil.icon
-                            | Edit
+                    //- if can_edit
+                    a.ui.fluid.large.button(href="/classroom/#{_id}/edit/info")
+                        i.pencil.icon
+                        | Edit
                 .thirteen.wide.column
                     +yield
     +footer
@@ -291,6 +291,8 @@ template(name='classroom_student')
             |Viewing Student
         .ui.inline.header
             |#{name}
+        .ui.inline.grey.header(title='current balance') $#{credit}
+        .spacer
             //- small @#{username}
         //- if calculating
         //-     i.loading.refresh.icon
@@ -300,27 +302,27 @@ template(name='classroom_student')
         .ui.grid      
             .two.column.row
                 .column
-                    .ui.segment
-                        .ui.small.header 
-                            +i name='money-bag'
-                            strong $#{ssd.total_credit_amount}
-                            small total weekly income
-                        .ui.small.header
-                            //- +ismall name='hashtag'
-                            i.hashtag.inline.icon
-                            strong #{ssd.credit_count}
-                            small credits
+                    //- .ui.segment
+                    .ui.header 
+                        //- +i name='money-bag'
+                        strong $#{ssd.total_credit_amount}
+                        small total weekly income
+                        //- .ui.header
+                        //-     //- +ismall name='hashtag'
+                        //-     i.hashtag.inline.icon
+                        //-     strong #{ssd.credit_count}
+                        //-     small credits
                 .column
-                    .ui.segment
-                        .ui.small.header
-                            +i name='shopping-cart-loaded'
-                            strong $#{ssd.total_debit_amount}
-                            small total weekly expenses
-                        .ui.small.header
-                            i.hashtag.inline.icon
-                            //- +ismall name='hashtag'
-                            strong #{ssd.debit_count}
-                            small debits
+                    //- .ui.segment
+                    .ui.header
+                        //- +i name='shopping-cart-loaded'
+                        strong $#{ssd.total_debit_amount}
+                        small total weekly expenses
+                        //- .ui.header
+                        //-     i.hashtag.inline.icon
+                        //-     //- +ismall name='hashtag'
+                        //-     strong #{ssd.debit_count}
+                        //-     small debits
                 //- .column
                 //-     .ui.segment
                 //-         .ui.small.header
