@@ -1,0 +1,97 @@
+template(name='classroom_edit_debits')       
+    .ui.large.header 
+        i.red.minus.icon
+        | Debits
+    //- +number_edit key='fines_amount' label='Fines Amount' direct=true
+    .ui.button.add_debit_type
+        i.plus.icon
+        | Debit Type
+    each classroom_debit_types
+        .ui.segment
+            .ui.inline.header
+                //- if icon
+                //-     +ismall name=icon 
+                |#{title}
+                span.ui.red.text -$#{amount}
+                //- if is_automatic
+                //-     i.lightning.yellow.icon
+                //- else 
+                //-     i.hand.icon
+                //- if scope_is_student
+                //-     i.user.outline.icon(title='student scope')
+                //- if scope_is_classroom 
+                //-     i.users.icon(title='classroom scope')
+            +debit
+
+
+
+template(name='debit')
+    if editing_debit
+        //- +image_edit key='image_id' label='image' direct=true
+        +text_edit key='title' direct=true
+        if is_dev
+            +text_edit key='slug' direct=true
+        +number_edit key='amount' label='amount' direct=true
+        //- +icon_edit key='icon' direct=true
+        div
+        .ui.small.grey.inline.header dispersion
+        //- +boolean_edit key='automatic' direct=true
+        +key_value_edit key='dispersion_type' value='automatic' label='automatic' icon='yellow lightning'
+        +key_value_edit key='dispersion_type' value='manual' label='manual' icon='hand point down outline'
+        div
+        if is_automatic
+            .ui.small.grey.inline.header day
+            +key_value_edit key='day' value='m' label='M'
+            +key_value_edit key='day' value='t' label='T'
+            +key_value_edit key='day' value='w' label='W'
+            +key_value_edit key='day' value='th' label='Th'
+            +key_value_edit key='day' value='f' label='F'
+            div
+        div
+        .ui.small.grey.inline.header scope
+        +key_value_edit key='scope' value='student' label='student' icon='user'
+        +key_value_edit key='scope' value='classroom' label='classroom' icon='users'
+        div
+        .ui.compact.button.remove_debit 
+            i.remove.icon
+            |remove
+        .ui.fluid.button.save_debit
+            i.green.checkmark.icon
+            |save
+    else 
+        .ui.icon.circular.button.edit_debit(title='edit')
+            i.pencil.icon
+            //- |edit
+        //- .ui.header 
+        //-     if icon 
+        //-         +i name=icon 
+        //-     | #{title}:  
+        //-     | $#{amount}
+        //- .ui.header 
+        //-     small amount
+        if is_automatic
+            i.yellow.lightning.icon(title='automatic')
+        else
+            i.hand.point.down.outline.icon(title='manual')
+        //- |#{dispersion_type}
+        div
+        if is_automatic
+            .ui.small.grey.inline.header day
+            .ui.inline.header #{day}
+            div
+        //- if is_manual
+        //-     div
+        //-     .ui.small.grey.inline.header manual period
+        //-     .ui.inline.header #{manual_period}
+        //-     if is_manual_daily
+        //-         div
+        //-         .ui.small.grey.inline.header manual limit type
+        //-         .ui.inline.header #{manual_limit_type}
+        div
+        .ui.small.grey.inline.header scope
+        .ui.inline.header #{scope}
+        if scope_is_student
+            i.user.icon 
+        if scope_is_classroom
+            i.users.icon 
+        

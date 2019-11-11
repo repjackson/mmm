@@ -1,0 +1,108 @@
+template(name='classroom_edit_credits')
+    .ui.large.header 
+        i.plus.green.icon
+        |Credits
+    //- +number_edit key='bonus_amount' label='Bonus Amount' direct=true
+    //- a.ui.button(href="/classroom/#{_id}/edit/templates" class="{{isActiveRoute regex='classroom_edit_templates'}}")
+    //-     i.download.icon
+    //-     |templates
+    //- .ui.small.header from template
+    //- .ui.fluid.vertical.pointing.menu
+    //-     each template_credit_types
+    //-         +credit_menu_item
+    //- div
+    //- .ui.small.inline.header custom
+    .ui.button.add_credit_type
+        i.plus.icon
+        | Credit Type
+    //- .ui.styled.fluid.accordion 
+    each classroom_credit_types
+        .ui.fluid.segment
+            .ui.inline.header 
+                if icon
+                    +ismall name=icon     
+                |#{title}
+                span.ui.green.text +$#{amount}
+            if is_admin
+                i.circular.remove.icon.remove_credit
+            +credit
+    //- .ui.fluid.vertical.pointing.menu
+    //-     each custom_credit_types
+    //-         +credit_menu_item
+    //- div
+    //- with selected_credit
+    //-     +transaction
+
+
+
+template(name='credit')
+    if editing_credit
+        //- +image_edit key='image_id' label='image' direct=true
+        +text_edit key='title' direct=true
+        if is_dev
+            +text_edit key='slug' direct=true
+        +number_edit key='amount' label='amount' direct=true
+        //- +icon_edit key='icon' direct=true
+        div
+        .ui.small.grey.inline.header dispersion
+        //- +boolean_edit key='automatic' direct=true
+        +key_value_edit key='dispersion_type' value='automatic' label='automatic' icon='yellow lightning'
+        +key_value_edit key='dispersion_type' value='manual' label='manual' icon='hand point down outline'
+        div
+        if is_automatic
+            .ui.small.grey.inline.header day
+            +key_value_edit key='day' value='m' label='M'
+            +key_value_edit key='day' value='t' label='T'
+            +key_value_edit key='day' value='w' label='W'
+            +key_value_edit key='day' value='th' label='Th'
+            +key_value_edit key='day' value='f' label='F'
+            div
+        div
+        .ui.small.grey.inline.header scope
+        +key_value_edit key='scope' value='student' label='student' icon='user'
+        +key_value_edit key='scope' value='classroom' label='classroom' icon='users'
+        div
+        .ui.compact.button.remove_credit 
+            i.remove.icon
+            |remove credit
+        .ui.fluid.button.save_credit
+            i.green.checkmark.icon
+            |save credit
+    else 
+        .ui.circular.icon.button.edit_credit(title='edit credit')
+            i.pencil.icon
+            //- |edit
+    
+        //- .ui.header 
+        //-     if icon 
+        //-         +i name=icon 
+        //-     | #{title}:  
+        //-     | $#{amount}
+        //- .ui.header 
+        //-     small amount
+        if is_automatic
+            i.yellow.lightning.icon(title='automatic')
+        else
+            i.hand.point.down.outline.icon(title='manual')
+        //- |#{dispersion_type}
+        div
+        if is_automatic
+            .ui.small.grey.inline.header day
+            .ui.inline.header #{day}
+            div
+        //- if is_manual
+        //-     div
+        //-     .ui.small.grey.inline.header manual period
+        //-     .ui.inline.header #{manual_period}
+        //-     if is_manual_daily
+        //-         div
+        //-         .ui.small.grey.inline.header manual limit type
+        //-         .ui.inline.header #{manual_limit_type}
+        div
+        .ui.small.grey.inline.header scope
+        .ui.inline.header #{scope}
+        if scope_is_student
+            i.user.icon 
+        if scope_is_classroom
+            i.users.icon 
+        
