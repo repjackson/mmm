@@ -1,19 +1,19 @@
 if Meteor.isClient
-    Router.route '/user/:username/edit/', (->
+    Router.route '/user/:user_id/edit/', (->
         @layout 'user_edit_layout'
         @render 'user_edit_info'
         ), name:'user_edit_home'
-    Router.route '/user/:username/edit/info', (->
+    Router.route '/user/:user_id/edit/info', (->
         @layout 'user_edit_layout'
         @render 'user_edit_info'
         ), name:'user_edit_info'
-    Router.route '/user/:username/edit/account', (->
+    Router.route '/user/:user_id/edit/account', (->
         @layout 'user_edit_layout'
         @render 'user_edit_account'
         ), name:'user_edit_account'
 
     Template.user_edit_layout.onCreated ->
-        @autorun -> Meteor.subscribe 'user_from_username', Router.current().params.username
+        @autorun -> Meteor.subscribe 'user_from_id', Router.current().params.username
 
     Template.user_edit_layout.onRendered ->
         Meteor.setTimeout ->
@@ -88,7 +88,7 @@ if Meteor.isClient
     Template.username_edit.events
         'click .change_username': (e,t)->
             new_username = t.$('.new_username').val()
-            current_user = Meteor.users.findOne username:Router.current().params.username
+            current_user = Meteor.users.findOne Router.current().params.user_id
             if new_username
                 if confirm "change username from #{current_user.username} to #{new_username}?"
                     Meteor.call 'change_username', current_user._id, new_username, (err,res)->
@@ -130,18 +130,18 @@ if Meteor.isClient
 
         'click .set_password': (e, t) ->
             new_password = $('#new_password').val()
-            current_user = Meteor.users.findOne username:Router.current().params.username
+            current_user = Meteor.users.findOne Router.current().params.user_id
             Meteor.call 'set_password', current_user._id, new_password, ->
                 alert "password set to #{new_password}."
 
         'click .send_password_reset_email': (e,t)->
-            current_user = Meteor.users.findOne username:Router.current().params.username
+            current_user = Meteor.users.findOne Router.current().params.user_id
             Meteor.call 'send_password_reset_email', current_user._id, @address, ->
                 alert 'password reset email sent'
 
 
         'click .send_enrollment_email': (e,t)->
-            current_user = Meteor.users.findOne username:Router.current().params.username
+            current_user = Meteor.users.findOne Router.current().params.user_id
             Meteor.call 'send_enrollment_email', current_user._id, @address, ->
                 alert 'enrollment email sent'
 
@@ -153,7 +153,7 @@ if Meteor.isClient
     Template.emails_edit.events
         'click #add_email': ->
             new_email = $('#new_email').val().trim()
-            current_user = Meteor.users.findOne username:Router.current().params.username
+            current_user = Meteor.users.findOne Router.current().params.user_id
 
             re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             valid_email = re.test(new_email)
@@ -169,13 +169,13 @@ if Meteor.isClient
 
         'click .remove_email': ->
             if confirm 'remove email?'
-                current_user = Meteor.users.findOne username:Router.current().params.username
+                current_user = Meteor.users.findOne Router.current().params.user_id
                 Meteor.call 'remove_email', current_user._id, @address, (error,result)->
                     if error
                         alert "error removing email: #{error.reason}"
 
 
         'click .send_verification_email': (e,t)->
-            current_user = Meteor.users.findOne username:Router.current().params.username
+            current_user = Meteor.users.findOne Router.current().params.user_id
             Meteor.call 'verify_email', current_user._id, @address, ->
                 alert 'verification email sent'

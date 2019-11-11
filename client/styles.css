@@ -20,6 +20,10 @@ body {
   height: 10px;
 }
 
+.full_right {
+  min-width: 300px !important;
+}
+
 .step {
   border-radius: 20px !important;
 }

@@ -54,8 +54,9 @@ Template.registerHelper 'parent', () -> Template.parentData()
 Template.registerHelper 'parent_doc', () ->
     Docs.findOne @parent_id
     # Template.parentData()
-Template.registerHelper 'rental', () ->
-    Docs.findOne @rental_id
+Template.registerHelper 'my_classroom', () ->
+    Docs.findOne
+        model:'classroom'
     # Template.parentData()
 Template.registerHelper 'gs', () ->
     Docs.findOne
@@ -351,9 +352,9 @@ Template.registerHelper 'user_is_student_or_teacher', () -> if @roles and _.inte
 
 Template.registerHelper 'is_eric', () -> if Meteor.userId() and Meteor.userId() in ['SqAW5apg4YXsk8Gab','rDqxdcTBTszjeMh9T'] then true else false
 
-Template.registerHelper 'current_user', () ->  Meteor.users.findOne username:Router.current().params.username
+Template.registerHelper 'current_user', () ->  Meteor.users.findOne Router.current().params.user_id
 Template.registerHelper 'is_current_user', () ->
-    if Meteor.user().username is Router.current().params.username
+    if Meteor.userId() is Router.current().params.user_id
         true
     else
         if Meteor.user().roles and 'dev' in Meteor.user().roles

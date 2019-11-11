@@ -9,27 +9,31 @@ template(name='student_selector')
                     input#first_name(type='text' placeholder='first name')
                 .ui.fluid.input 
                     input#last_name(type='text' placeholder='last name')
+                if last_name 
+                    button.ui.fluid.basic.green.button.create_student
+                        |Add #{first_name} #{last_name}
             .column
-                .ui.small.inline.header 
-                    i.search.grey.icon
-                    | Lookup Existing Student
-                .ui.large.fluid.input
-                    input#student_input(type='text' placeholder="lookup existing student..")
-                .spacer
-                each selections
-                    a.ui.basic.label(href="/student/#{username}")
-                        |#{first_name} #{last_name} 
-                        //- @#{username}
-                if student_results
-                    div
-                    .ui.small.inline.header Search Results
-                    .ui.middle.aligned.selection.animated.large.list
-                        each student_results
-                            .select_student.item
-                                .item
-                                    img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
-                                    strong #{first_name} #{last_name}
-                                    small @#{username}
+                if is_admin
+                    .ui.small.inline.header 
+                        i.search.grey.icon
+                        | Lookup Existing Student
+                    .ui.large.fluid.input
+                        input#student_input(type='text' placeholder="lookup existing student..")
+                    .spacer
+                    each selections
+                        a.ui.basic.label(href="/student/#{username}")
+                            |#{first_name} #{last_name} 
+                            //- @#{username}
+                    if student_results
+                        div
+                        .ui.small.inline.header Search Results
+                        .ui.middle.aligned.selection.animated.large.list
+                            each student_results
+                                .select_student.item
+                                    .item
+                                        img.ui.avatar.image(src="{{c.url profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
+                                        strong #{first_name} #{last_name}
+                                        small @#{username}
             +clear_value    
         .row
             .sixteen.wide.column

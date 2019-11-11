@@ -23,27 +23,11 @@ template(name='profile_layout')
                                 .ui.center.aligned.header
                                     | #{user.first_name} #{user.last_name}
                                     //- .ui.small.header @#{user.username}        
-                            //- .ui.big.fluid.vertical.menu
-                            //-     a.item(href="/user/#{user.username}/offers" class="{{isActiveRoute regex=user_offers}}")
-                            //-         i.right.chevron.icon
-                            //-         |offers
-                            //- +user_section_cloud
-                            //- .ui.big.fluid.vertical.menu
-                            //-     .item sections
-                            //-     each user_sections
-                            //-         a.item(href="/user/#{user.username}/#{slug}" class="{{isActiveRoute regex=route_slug}}")
-                            //-             i.icon
-                            //-                 +ismall name=icon
-                            //-             |#{title}
                             if is_current_user
-                                a.ui.large.fluid.button(href="/user/#{current_user.username}/edit")
+                                a.ui.large.fluid.button(href="/user/#{current_user._id}/edit")
                                     i.cog.grey.icon
                                         //- +ismall name='settings' classes='ui inline mini image'
                                     |Profile
-                                //- a.ui.fluid.button(href="/choose_personas")
-                                //-     i.list.icon
-                                //-     //- +ismall name='exit' 
-                                //-     |onboarding
                                 a.ui.fluid.button.logout(href="#")
                                     i.sign.out.alternate.icon
                                     //- +ismall name='exit' 
@@ -52,15 +36,6 @@ template(name='profile_layout')
                                 //-     //- i.globe.icon
                                 //-     +ismall name='globe' 
                                 //-     |log out other clients
-                            //- .ui.header classrooms
-                            //- .ui.large.fluid.vertical.menu
-                            //-     a.item.select_all
-                            //-         |all 
-                            //-     each student_classrooms
-                            //-         a.ui.item
-                            //-             |#{title}
-                            //-             a.ui.icon.button(href="/classroom/#{_id}" title='goto classroom')
-                            //-                 i.external.icon
                             if is_admin
                                 .ui.basic.segment
                                     .ui.header 
@@ -79,37 +54,15 @@ template(name='profile_layout')
                             +yield    
     +footer
                 
-//- template(name='user_section_cloud')
-//-     if selected_user_section_tags
-//-         #clear_tags.ui.active.icon.circular.tiny.button
-//-             i.remove.icon
-//-         each selected_user_section_tags
-//-             .unselect_user_section_tag.ui.active.circular.tiny.button
-//-                 strong #{this}
-//-     each all_user_section_tags
-//-         .ui.compact.circular.basic.tiny.button.select_user_section_tag(class=cloud_tag_class) 
-//-             strong #{this.name}
-                
                     
 template(name='user_dashboard')                    
     .ui.stackable.padded.grid
-        //- .row
-        //-     .sixteen.wide.column
-        //-         .ui.header personas
-        //-         each current_user.personas
-        //-             .ui.large.label #{this}
-        //- 
-        //-         .ui.header interests
-        //-         each current_user.interests
-        //-             .ui.large.label #{this}
-        //-         +user_offers_small
-        //-         +user_actions
         .row
             .sixteen.wide.column
-                .ui.inline.header.recalc_student_stats
+                .ui.center.aligned.header.recalc_student_stats
                     +i name='dashboard'
                     |#{current_user.name}'s dashboard
-                .ui.inline.small.grey.header current balance $#{current_user.credit}
+                //- .ui.inline.small.grey.header current balance $#{current_user.credit}
     if user_is_student
         +student_dashboard
     if user_is_teacher
@@ -150,7 +103,7 @@ template(name='teacher_dashboard')
     .ui.grid      
         .row
             .sixteen.wide.column 
-                .ui.header teacher classrooms
+                .ui.header Your Classrooms
                 each teacher_classrooms 
                     +classroom_card_template
                     

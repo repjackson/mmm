@@ -50,9 +50,9 @@ template(name='classroom_view_layout')
                         //-     a.item(href="/classroom/#{current_doc._id}/f/#{slug}")
                         //-         |#{title}
                         //-         i.grey.icon(class=icon)
-                    .ui.header
-                        small teacher
-                        | #{teacher_name}
+                    //- .ui.header
+                    //-     small teacher
+                    //-     | #{teacher_name}
                     if can_edit
                         a.ui.fluid.large.button(href="/classroom/#{_id}/edit/info")
                             i.pencil.icon
@@ -168,57 +168,32 @@ template(name='classroom_students')
         | Classroom Dashboard
     with current_doc
         .ui.fluid.accordion 
-            .title 
+            .active.title 
                 .ui.header
-                    | classroom actions
+                    | Classroom Actions
                     i.dropdown.icon
-            .content
+            .active.content
                 .ui.two.column.grid
                     .column
                         .ui.small.header 
-                            i.calendar.grey.inline.icon
-                            i.retweet.grey.inline.icon
-                            |Weekly Automatic Actions
-                        each weekly_automatic_credits
+                            i.refresh.grey.inline.icon
+                            |Automatic
+                        each automatic_credits
                             .ui.disabled.button(class=bulk_action_class) #{title}
                                 span.ui.green.text +#{amount}
-                        each weekly_automatic_debits
+                                |#{day}
+                        each automatic_debits
                             .ui.disabled.button(class=bulk_action_class) #{title}
-                                span.ui.green.text +#{amount}
-                    .column
-                        .ui.small.header 
-                            i.clock.grey.inline.icon
-                            i.retweet.grey.inline.icon
-                            | Daily Automatic Actions
-                        each daily_automatic_credits
-                            .ui.disabled.button.trigger(class=bulk_action_class) #{title}
-                                span.ui.green.text +#{amount}
-                        each daily_automatic_debits
-                            .ui.disabled.button.trigger(class=bulk_action_class) #{title}
-                                span.ui.green.text +#{amount}
-                .ui.two.column.grid
-                    .column
-                        .ui.small.header 
-                            i.calendar.grey.inline.icon
-                            i.hand.point.up.outline.grey.inline.icon
-                            | Weekly Manual Classroom Actions
-                        //- .ui.button.pay_salary disperse weekly paycheck
-                        //-     span.ui.green.text +#{salary_amount}
-                        each weekly_manual_credits
-                            .ui.button.credit_classroom(class=bulk_action_class) #{title}
-                                span.ui.green.text +#{amount}
-                        each weekly_manual_debits
-                            .ui.button.debit_classroom(class=bulk_action_class) #{title}
                                 span.ui.red.text -#{amount}
+                                |#{day}
                     .column
                         .ui.small.header
-                            i.clock.grey.inline.icon
                             i.hand.point.up.outline.grey.inline.icon
-                            | Daily Manual Classroom Actions
-                        each daily_manual_classroom_credits
+                            | Manual
+                        each manual_classroom_credits
                             .ui.button.credit_classroom(class=bulk_action_class) #{title}
                                 span.ui.green.text +#{amount}
-                        each daily_manual_classroom_debits
+                        each manual_classroom_debits
                             .ui.button.debit_classroom(class=bulk_action_class) #{title}
                                 span.ui.red.text -#{amount}
     .ui.accordion
@@ -230,7 +205,7 @@ template(name='classroom_students')
                     |#{first_name} #{last_name} 
                 i.green.plus.circle.big.link.icon.add_bonus
                 i.red.minus.circle.big.link.icon.add_fine
-                .ui.inline.header $#{credit}
+                .ui.inline.header.full_right $#{credit}
                 //- .ui.icon.circular.button.
             //- .ui.item
             //- .image
@@ -314,10 +289,10 @@ template(name='classroom_reports')
 template(name='classroom_student')
     with current_student 
         .ui.small.grey.inline.header 
-            |view student
+            |Viewing Student
         .ui.inline.header
             |#{name}
-            small @#{username}
+            //- small @#{username}
         //- if calculating
         //-     i.loading.refresh.icon
         //- else 
@@ -357,7 +332,7 @@ template(name='classroom_student')
                     .ui.segment
                         .ui.header 
                             +i name='deposit' classes='ui inline mini image'
-                            |weekly paycheck (credits)
+                            |weekly credits
                         //- .ui.bulleted.list
                         //-     each user_credits
                         //-         .item 
@@ -368,98 +343,94 @@ template(name='classroom_student')
                         //-             small #{when}
                         .ui.feed.mediumscroll
                             each user_credits
-                                +credit_event_item        
+                                +transaction_event_item        
                 .column
                     .ui.segment
                         .ui.header 
                             +i name='withdrawal' classes='ui inline mini image'
-                            |weekly expenses (debits)
+                            |weekly debits
                         .ui.feed.mediumscroll
                             each user_debits
-                                .event 
-                                    .label
-                                        i.red.minus.icon
-                                    .content
-                                        .summary
-                                            a.user(href="/user/#{target_user.username}")
-                                                |#{target_user.name}
-                                            |#{text}
-                                            .date #{when}
-                                        .meta
-                                            //- +voting_small
-                                            a.note(title='create note')
-                                                i.comment.icon 
-                                            a.view(title='view full')
-                                                i.right.chevron.icon 
-                                            a.remove
-                                                i.undo.icon
-                                            //- if is_dev
-                                            //-     +remove_button
-                    
-template(name='credit_event_item')
+                                +transaction_event_item
+                                
+template(name='transaction_event_item')
     .event 
         .label
             if is_credit
                 i.green.plus.icon
-                //- +i name='deposit' classes='ui inline mini image'
+            else 
+                i.red.minus.icon
         .content
             .summary
-                a.user(href="/user/#{target_user.username}")
+                a.user(href="/#{current_doc._id}/student/#{target_user._id}")
                     |#{target_user.name}
                 |#{text}
                 .date #{when}
             .meta
                 //- +voting_small
-                a.note(title='create note')
-                    i.comment.icon 
-                a.view(title='view full')
-                    i.right.chevron.icon 
+                //- a.view(title='view full')
+                //-     i.right.chevron.icon 
                 a.remove
-                    i.undo.icon
+                    i.undo.large.icon
                 //- if is_dev
                 //-     +remove_button
-                if is_commenting
-                    .ui.form 
-                        textarea(rows='3')
-
+                +event_comment
+                
+                
+template(name='event_comment')   
+    a.note(title='create note')
+        i.comment.large.icon 
+    if is_commenting
+        .ui.form 
+            textarea.note_area(rows='3') #{note}
+    else if note 
+        |#{note}
 
 
 
 
 template(name='classroom_feed')
-    .ui.center.aligned.grey.header 
-        +i name='list'
+    .ui.center.aligned.header 
+        //- +i name='list'
+        i.list.icon
         | Feed
     if is_admin 
         .ui.button.remove_all_events
             i.shield.icon
             |remove all events
-    div
-    .ui.small.feed.scrolling
-        each classroom_events
-            .event 
-                .label
-                    img.ui.avatar.image(src="{{c.url target_user.profile_image_id height=100 gravity='face' crop='fill'}}")
-                    if is_credit
-                        i.green.plus.icon
-                        //- +i name='deposit' classes='ui inline mini image'
-                    if is_debit
-                        i.red.minus.icon
-                        //- +i name='withdrawal' classes='ui inline mini image'
-                    else if icon
-                        +i name=icon
-                .content
-                    .summary
-                        a.user(href="/user/#{target_user.username}")
-                            |#{target_user.name}
-                        |#{text}
-                        .date #{when}
-                    .meta
-                        //- +voting_small
-                        a.remove
-                            i.undo.icon
-                        //- if is_dev
-                        //-     +remove_button
+    .ui.stackable.grid
+        .twelve.wide.column
+            .ui.small.feed.scrolling
+                each classroom_events
+                    .event 
+                        .label
+                            img.ui.avatar.image(src="{{c.url target_user.profile_image_id height=100 gravity='face' crop='fill'}}")
+                            if is_credit
+                                i.green.plus.icon
+                                //- +i name='deposit' classes='ui inline mini image'
+                            if is_debit
+                                i.red.minus.icon
+                                //- +i name='withdrawal' classes='ui inline mini image'
+                            else if icon
+                                +i name=icon
+                        .content
+                            .summary
+                                a.user(href="/#{current_doc._id}/student/#{target_user._id}")
+                                    |#{target_user.name}
+                                |#{text}
+                                .date #{when}
+                            .meta
+                                //- +voting_small
+                                a.remove
+                                    i.large.undo.icon
+                                +event_comment
+                                //- if is_dev
+                                //-     +remove_button
+        .four.wide.column 
+            .ui.disabled.button.view_debits
+                |View Debits
+            .ui.disabled.button.view_credits
+                |View Credits
 
 
 

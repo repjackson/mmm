@@ -16,16 +16,17 @@ template(name='classroom_edit_credits')
         i.plus.icon
         | Credit Type
     //- .ui.styled.fluid.accordion 
-    each classroom_credit_types
-        .ui.fluid.segment
-            .ui.inline.header 
-                if icon
-                    +ismall name=icon     
-                |#{title}
-                span.ui.green.text +$#{amount}
-            if is_admin
-                i.circular.remove.icon.remove_credit
-            +credit
+    .ui.small.segments
+        each classroom_credit_types
+            .ui.fluid.segment
+                .ui.inline.header 
+                    if icon
+                        +ismall name=icon     
+                    |#{title}
+                    span.ui.green.text +$#{amount}
+                if is_admin
+                    i.circular.remove.icon.remove_credit
+                +credit
     //- .ui.fluid.vertical.pointing.menu
     //-     each custom_credit_types
     //-         +credit_menu_item
@@ -51,11 +52,11 @@ template(name='credit')
         div
         if is_automatic
             .ui.small.grey.inline.header day
-            +key_value_edit key='day' value='m' label='M'
-            +key_value_edit key='day' value='t' label='T'
-            +key_value_edit key='day' value='w' label='W'
-            +key_value_edit key='day' value='th' label='Th'
-            +key_value_edit key='day' value='f' label='F'
+            +boolean_edit key='fire_monday' label='M' direct=true classes='small compact'
+            +boolean_edit key='fire_tuesday' label='T' direct=true classes='small compact'
+            +boolean_edit key='fire_wednesday' label='W' direct=true classes='small compact'
+            +boolean_edit key='fire_thursday' label='Th' direct=true classes='small compact'
+            +boolean_edit key='fire_friday' label='F' direct=true classes='small compact'
             div
         div
         .ui.small.grey.inline.header scope

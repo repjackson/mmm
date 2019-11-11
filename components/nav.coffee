@@ -20,7 +20,8 @@ if Meteor.isClient
 
     Template.nav.onCreated ->
         @autorun -> Meteor.subscribe 'me'
-        @autorun -> Meteor.subscribe 'my_classrooms'
+        # @autorun -> Meteor.subscribe 'my_classrooms'
+        @autorun -> Meteor.subscribe 'my_classroom'
         @autorun -> Meteor.subscribe 'model_docs','alert'
         # @autorun -> Meteor.subscribe 'role_models'
         @autorun => Meteor.subscribe 'global_settings'
@@ -238,6 +239,12 @@ if Meteor.isServer
         Docs.find
             model:'classroom'
             teacher_id: Meteor.userId()
+
+    Meteor.publish 'my_classroom', ->
+        Docs.find {
+            model:'classroom'
+            teacher_id: Meteor.userId()
+        }, limit:1
 
     Meteor.publish 'my_latest_activity', ->
         Docs.find {

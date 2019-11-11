@@ -58,22 +58,22 @@ template(name='nav')
                     a.icon.item(href="/grid" title='admin')
                         i.grey.shield.icon
                 unless logging_out
-                    a.ui.simple.dropdown.item(href="/user/#{currentUser.username}" class=user_nav_button_class)
+                    a.ui.item(href="/user/#{currentUser._id}" class=user_nav_button_class)
                         if currentUser.profile_image_id
                             img.ui.avatar.inline.image(src="{{c.url currentUser.profile_image_id width=100 height=100 gravity='face' crop='fill'}}")
                         else
                             i.user.outline.icon
                         span.mobile.hidden #{currentUser.name} 
-                        //- #{currentUser.credit}
-                        .menu 
-                            a.item(href="/user/#{currentUser.username}") Profile
-                            //- .item credits
-                            //- .item debits
-                            //- .item loans
-                            //- .item hitng
-                            a#logout.item(href='#')
-                                |Log Out
-                                i.sign.out.grey.icon
+                        //- //- #{currentUser.credit}
+                        //- .menu 
+                        //-     a.item(href="/user/#{currentUser._id}") Profile
+                        //-     //- .item credits
+                        //-     //- .item debits
+                        //-     //- .item loans
+                        //-     //- .item hitng
+                        //-     a#logout.item(href='#')
+                        //-         |Log Out
+                        //-         i.sign.out.grey.icon
                 if logging_out
                     .item
                         i.loading.circle.notch.icon
@@ -139,11 +139,11 @@ template(name='public_footer')
             .three.wide.column
                 +bug_reporter    
             .six.wide.column
-                +footer_chat
+                //- +footer_chat
                 unless currentUser
                     a.ui.big.button(href='/login')
                         i.sign.in.icon
-                        |login
+                        |Login
                 .ui.grey.small.header 
                     i.copyright.outline.icon
                     | Mini Money Management 2019

@@ -106,6 +106,36 @@ Meteor.methods
                         logout_timestamp:Date.now()
                 # checkedin_students = Meteor.users.find(healthclub_checkedin:true).fetch()
 
+
+    disperse_automatic_transactions: ->
+        transactions = Docs.find
+            dispersion_type:'automatic'
+        today = moment().day()
+
+        for doc in transactions.fetch()
+            console.log doc.day
+            fire_today = false
+            if doc.day is 'm'
+                if today is 1
+                    fire_today = true
+            if doc.day is 't'
+                if today is 2
+                    fire_today = true
+            if doc.day is 'w'
+                if today is 3
+                    fire_today = true
+            if doc.day is 'th'
+                if today is 4
+                    fire_today = true
+            if doc.day is 'f'
+                if today is 5
+                    fire_today = true
+            if fire_today
+                console.log 'fire today'
+            # else
+            #     console.log 'DO NOT fire today'
+
+
     check_student_status: (user_id)->
         user = Meteor.users.findOne user_id
 

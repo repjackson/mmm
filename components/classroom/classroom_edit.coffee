@@ -16,6 +16,12 @@ if Meteor.isClient
         @render 'classroom_edit_students'
         ), name:'classroom_edit_students'
 
+    Router.route '/classroom/:user_id/edit/teacher', (->
+        @layout 'classroom_edit_layout'
+        @render 'user_edit_info'
+        ), name:'classroom_edit_teacher'
+
+
     Router.route '/classroom/:doc_id/edit/f/:feature_slug', (->
         @layout 'classroom_edit_layout'
         @render 'classroom_edit_feature'
@@ -32,22 +38,6 @@ if Meteor.isClient
         @layout 'classroom_edit_layout'
         @render 'classroom_edit_credits'
         ), name:'classroom_edit_credits'
-    Router.route '/classroom/:doc_id/edit/shop', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_shop'
-        ), name:'classroom_edit_shop'
-    Router.route '/classroom/:doc_id/edit/templates', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_templates'
-        ), name:'classroom_edit_templates'
-    Router.route '/classroom/:doc_id/edit/files', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_files'
-        ), name:'classroom_edit_files'
-    Router.route '/classroom/:doc_id/edit/features', (->
-        @layout 'classroom_edit_layout'
-        @render 'classroom_edit_features'
-        ), name:'classroom_edit_features'
 
 
     # Template.classroom_edit_layout.onRendered ->

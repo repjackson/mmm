@@ -29,9 +29,13 @@ if Meteor.isClient
 
 
     Template.student_selector.onCreated ->
+        Session.set('last_name',null)
+        Session.set('first_name',null)
         @student_results = new ReactiveVar
         @autorun => Meteor.subscribe 'student_ids', Router.current().params.doc_id
     Template.student_selector.helpers
+        last_name: -> Session.get('last_name')
+        first_name: -> Session.get('first_name')
         student_results: -> Template.instance().student_results.get()
         selected_students: ->
             student = Docs.findOne Router.current().params.doc_id
@@ -40,9 +44,13 @@ if Meteor.isClient
     Template.student_selector.events
         'click .clear_results': (e,t)->
             t.student_results.set null
+        'keyup #first_name': (e,t)->
+            first_name = $('#first_name').val().trim()
+            Session.set "first_name", first_name
         'keyup #last_name': (e,t)->
             first_name = $('#first_name').val().trim()
             last_name = $('#last_name').val().trim()
+            Session.set "last_name", last_name
             if e.which is 13
                 Meteor.call 'add_student', first_name, last_name, Router.current().params.doc_id, (err,res)=>
                     if err
@@ -52,6 +60,24 @@ if Meteor.isClient
                             $addToSet:student_ids:res
                         $('#first_name').val('')
                         $('#last_name').val('')
+                        Session.set "last_name", null
+                        Session.set "first_name", null
+
+        'click .create_student': (e,t)->
+            first_name = $('#first_name').val().trim()
+            last_name = $('#last_name').val().trim()
+            Session.set "last_name", last_name
+            Meteor.call 'add_student', first_name, last_name, Router.current().params.doc_id, (err,res)=>
+                if err
+                    console.log err
+                else
+                    Docs.update Router.current().params.doc_id,
+                        $addToSet:student_ids:res
+                    $('#first_name').val('')
+                    $('#last_name').val('')
+                    Session.set "last_name", null
+                    Session.set "first_name", null
+
         'keyup #student_input': (e,t)->
             search_value = $(e.currentTarget).closest('#student_input').val().trim()
             if e.which is 8

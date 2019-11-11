@@ -935,10 +935,10 @@ template(name='signature_view')
 template(name='boolean_edit')
     //- div
     .ui.button.toggle_boolean(class="#{boolean_toggle_class} #{classes}" title=tooltip)
-        if field_value
-            i.green.checkmark.icon
-        else
-            i.circle.outline.icon
+        //- if field_value
+        //-     i.green.checkmark.icon
+        //- else
+        //-     i.circle.outline.icon
         //- .ui.compact.button.toggle_boolean(class=boolean_toggle_class)
         if icon
             i.icon(class=icon)

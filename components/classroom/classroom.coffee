@@ -151,68 +151,28 @@ if Meteor.isClient
     Template.classroom_students.helpers
         # bulk_action_class: ->
         #     console.log @
-        weekly_automatic_debits: ->
+        automatic_debits: ->
             Docs.find
                 model:'debit_type'
                 classroom_id: Router.current().params.doc_id
                 dispersion_type:'automatic'
-                automatic_period:'weekly'
-        weekly_automatic_credits: ->
+        automatic_credits: ->
             Docs.find
                 model:'credit_type'
                 classroom_id: Router.current().params.doc_id
                 dispersion_type:'automatic'
-                automatic_period:'weekly'
-        daily_automatic_debits: ->
-            Docs.find
-                model:'debit_type'
-                classroom_id: Router.current().params.doc_id
-                dispersion_type:'automatic'
-                automatic_period:'daily'
-        daily_automatic_credits: ->
-            Docs.find
-                model:'credit_type'
-                classroom_id: Router.current().params.doc_id
-                dispersion_type:'automatic'
-                automatic_period:'daily'
-        weekly_manual_debits: ->
-            Docs.find
-                model:'debit_type'
-                classroom_id: Router.current().params.doc_id
-                dispersion_type:'manual'
-                manual_period:'weekly'
-        weekly_manual_credits: ->
-            Docs.find
-                model:'credit_type'
-                classroom_id: Router.current().params.doc_id
-                dispersion_type:'manual'
-                manual_period:'weekly'
-        daily_manual_debits: ->
-            Docs.find
-                model:'debit_type'
-                classroom_id: Router.current().params.doc_id
-                dispersion_type:'manual'
-                manual_period:'daily'
-        daily_manual_credits: ->
-            Docs.find
-                model:'credit_type'
-                classroom_id: Router.current().params.doc_id
-                dispersion_type:'manual'
-                manual_period:'daily'
-        daily_manual_classroom_debits: ->
+        manual_classroom_debits: ->
             Docs.find
                 model:'debit_type'
                 classroom_id: Router.current().params.doc_id
                 dispersion_type:'manual'
                 scope:'classroom'
-                manual_period:'daily'
-        daily_manual_classroom_credits: ->
+        manual_classroom_credits: ->
             Docs.find
                 model:'credit_type'
                 classroom_id: Router.current().params.doc_id
                 scope:'classroom'
                 dispersion_type:'manual'
-                manual_period:'daily'
         classroom_students: ->
             classroom = Docs.findOne Router.current().params.doc_id
             Meteor.users.find {
@@ -245,7 +205,7 @@ if Meteor.isClient
     Template.classroom_students.events
         'click .debit_classroom': ->
             classroom = Docs.findOne Router.current().params.doc_id
-            $('.title').transition('shake', 500)
+            # $('.title').transition('shake', 500)
             for student_id in classroom.student_ids
                 student = Meteor.users.findOne student_id
                 Meteor.users.update student._id,
@@ -280,7 +240,7 @@ if Meteor.isClient
 
         'click .credit_classroom': ->
             classroom = Docs.findOne Router.current().params.doc_id
-            $('.title').transition('bounce', 500)
+            # $('.title').transition('bounce', 500)
             for student_id in classroom.student_ids
                 student = Meteor.users.findOne student_id
                 $('body').toast({
@@ -314,7 +274,7 @@ if Meteor.isClient
             # alert 'hi'
             # console.log @
             classroom = Docs.findOne Router.current().params.doc_id
-            $(e.currentTarget).closest('.title').transition('bounce', 500)
+            # $(e.currentTarget).closest('.title').transition('bounce', 500)
             # console.log @
             if Meteor.user()
                 amount = if classroom.bonus_amount then classroom.bonus_amount else 1
@@ -336,7 +296,7 @@ if Meteor.isClient
         'click .add_fine': (e,t)->
             classroom = Docs.findOne Router.current().params.doc_id
 
-            $(e.currentTarget).closest('.title').transition('shake', 500)
+            # $(e.currentTarget).closest('.title').transition('shake', 500)
             if Meteor.user()
                 amount = if classroom.fines_amount then classroom.fines_amount else 1
                 $('body').toast({
@@ -486,17 +446,29 @@ if Meteor.isClient
                 Session.set 'calculating', false
 
 
-    Template.credit_event_item.onCreated ->
+    Template.event_comment.onCreated ->
         @commenting = new ReactiveVar false
-
-    Template.credit_event_item.helpers
+    Template.event_comment.helpers
         is_commenting: -> Template.instance().commenting.get()
-
-    Template.credit_event_item.events
+    Template.event_comment.events
         'click .note': (e,t)->
-            t.commenting.set !t.commenting.get()
+            if t.commenting.get() is true
+                t.commenting.set false
+            else
+                t.commenting.set true
+                Meteor.setTimeout ->
+                    $(e.currentTarget).closest('.note_area').focus()
+                , 500
+                # console.log @
+
+        'blur .note_area': (e,t)->
+            note = $(e.currentTarget).closest('.note_area').val()
+            Docs.update @_id,
+                $set: note: note
+            t.commenting.set false
             # console.log @
 
+    Template.transaction_event_item.events
         'click .remove': (e,t)->
             if confirm  "undo #{@event_type}?"
                 $(e.currentTarget).closest('.event').transition('fly right', 1000)
