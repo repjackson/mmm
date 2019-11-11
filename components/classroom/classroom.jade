@@ -23,17 +23,12 @@ template(name='classroom_view_layout')
                             | Lunch
                             i.food.icon
                                 //- +ismall name='food'    
-                        //- a.item(href="/classroom/#{current_doc._id}/shop" class="{{isActiveRoute regex='classroom_shop'}}")
-                        //-     | Shop
-                        //-     i.icon
-                        //-         +ismall name='shopping-cart'    
                         //- //- a.item(href="/classroom/#{_id}/dashboard" class="{{isActiveRoute regex='classroom_dashboard'}}")
                         //- //-     i.home.grey.icon
                         //- //-     | home
-                        //- a.item(href="/classroom/#{current_doc._id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
-                        //-     | Reports
-                        //-     i.icon
-                        //-         +ismall name='line-chart'    
+                        a.item(href="/classroom/#{current_doc._id}/reports" class="{{isActiveRoute regex='classroom_reports'}}")
+                            | Reports
+                            i.line.chart.icon
                         //- a.item(href="/classroom/#{current_doc._id}/loans" class="{{isActiveRoute regex='classroom_loans'}}")
                         //-     | Loans
                         //-     i.icon
@@ -203,8 +198,12 @@ template(name='classroom_students')
                 .ui.inline.header
                     i.dropdown.icon
                     |#{first_name} #{last_name} 
-                i.green.plus.circle.big.link.icon.add_bonus
-                i.red.minus.circle.big.link.icon.add_fine
+                .ui.compact.green.button.add_bonus
+                    i.plus.icon
+                    | bonus
+                .ui.compact.red.button.add_fine
+                    i.minus.icon
+                    | fine
                 .ui.inline.header.full_right $#{credit}
                 //- .ui.icon.circular.button.
             //- .ui.item
@@ -239,7 +238,7 @@ template(name='student_debit_button')
 
 template(name='classroom_reports')
     .ui.center.aligned.header 
-        +i name='line chart'
+        i.line.chart.icon
         |Reports
     with current_doc
         +classroom_stats
@@ -362,7 +361,7 @@ template(name='transaction_event_item')
                 i.red.minus.icon
         .content
             .summary
-                a.user(href="/#{current_doc._id}/student/#{target_user._id}")
+                a.user(href="/classroom/#{current_doc._id}/student/#{target_user._id}")
                     |#{target_user.name}
                 |#{text}
                 .date #{when}
@@ -415,7 +414,7 @@ template(name='classroom_feed')
                                 +i name=icon
                         .content
                             .summary
-                                a.user(href="/#{current_doc._id}/student/#{target_user._id}")
+                                a.user(href="/classroom/#{current_doc._id}/student/#{target_user._id}")
                                     |#{target_user.name}
                                 |#{text}
                                 .date #{when}

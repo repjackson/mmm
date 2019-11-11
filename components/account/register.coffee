@@ -226,7 +226,7 @@ if Meteor.isClient
                             bonus_amount: 1
                             fines_amount: 1
                         Router.go "/build_classroom/#{new_classroom_id}/info"
-                        Meteor.call 'generate_trans_types', new_classroom_id, ->
+                        Meteor.call 'generate_transaction_types', new_classroom_id, ->
             # else
             #     Meteor.loginWithPassword username, password, (err,res)=>
             #         if err

@@ -1,5 +1,5 @@
 template(name='classroom_edit_credits')
-    .ui.large.header 
+    .ui.large.inline.header 
         i.plus.green.icon
         |Credits
     //- +number_edit key='bonus_amount' label='Bonus Amount' direct=true
@@ -12,16 +12,16 @@ template(name='classroom_edit_credits')
     //-         +credit_menu_item
     //- div
     //- .ui.small.inline.header custom
-    .ui.button.add_credit_type
+    .ui.circular.icon.button.add_credit_type(title='add credit type')
         i.plus.icon
-        | Credit Type
+        //- | Credit Type
     //- .ui.styled.fluid.accordion 
     .ui.small.segments
         each classroom_credit_types
             .ui.fluid.segment
                 .ui.inline.header 
-                    if icon
-                        +ismall name=icon     
+                    //- if icon
+                    //-     +ismall name=icon     
                     |#{title}
                     span.ui.green.text +$#{amount}
                 if is_admin
@@ -45,6 +45,8 @@ template(name='credit')
         +number_edit key='amount' label='amount' direct=true
         //- +icon_edit key='icon' direct=true
         div
+            //- |remove credit
+
         .ui.small.grey.inline.header dispersion
         //- +boolean_edit key='automatic' direct=true
         +key_value_edit key='dispersion_type' value='automatic' label='automatic' icon='yellow lightning'
@@ -59,13 +61,13 @@ template(name='credit')
             +boolean_edit key='fire_friday' label='F' direct=true classes='small compact'
             div
         div
-        .ui.small.grey.inline.header scope
-        +key_value_edit key='scope' value='student' label='student' icon='user'
-        +key_value_edit key='scope' value='classroom' label='classroom' icon='users'
+        unless is_automatic
+            .ui.small.grey.inline.header scope
+            +key_value_edit key='scope' value='student' label='student' icon='user'
+            +key_value_edit key='scope' value='classroom' label='classroom' icon='users'
         div
-        .ui.compact.button.remove_credit 
-            i.remove.icon
-            |remove credit
+        .ui.circular.icon.compact.button.remove_credit(title='remove credit') 
+            i.remove.red.icon
         .ui.fluid.button.save_credit
             i.green.checkmark.icon
             |save credit

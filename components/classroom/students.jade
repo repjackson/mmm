@@ -9,9 +9,9 @@ template(name='student_selector')
                     input#first_name(type='text' placeholder='first name')
                 .ui.fluid.input 
                     input#last_name(type='text' placeholder='last name')
-                if last_name 
-                    button.ui.fluid.basic.green.button.create_student
-                        |Add #{first_name} #{last_name}
+                //- if last_name 
+                button.ui.fluid.basic.button.create_student(class=add_student_button_class)
+                    |Add Student #{first_name} #{last_name}
             .column
                 if is_admin
                     .ui.small.inline.header 

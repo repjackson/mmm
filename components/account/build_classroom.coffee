@@ -26,10 +26,10 @@ if Meteor.isClient
         @autorun => Meteor.subscribe 'classroom_docs', 'debit_type', Router.current().params.doc_id
         @autorun => Meteor.subscribe 'classroom_docs', 'credit_type', Router.current().params.doc_id
     Template.build_classroom_finance.events
-        'click .generate_trans_types': ->
+        'click .generate_transaction_types': ->
             classroom_id = Router.current().params.doc_id
             # console.log classroom_id
-            Meteor.call 'generate_trans_types', classroom_id, ->
+            Meteor.call 'generate_transaction_types', classroom_id, ->
     Template.build_classroom_finance.helpers
         debits: ->
             Docs.find
@@ -68,7 +68,7 @@ if Meteor.isServer
                 first_name:-1
 
     Meteor.methods
-        generate_trans_types: (classroom_id)->
+        generate_transaction_types: (classroom_id)->
             console.log 'class-id', classroom_id
             classroom = Docs.findOne classroom_id
             template =

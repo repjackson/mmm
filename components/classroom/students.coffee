@@ -36,6 +36,8 @@ if Meteor.isClient
     Template.student_selector.helpers
         last_name: -> Session.get('last_name')
         first_name: -> Session.get('first_name')
+        add_student_button_class: ->
+            if Session.get('first_name') and Session.get('last_name') then 'green' else 'disabled'
         student_results: -> Template.instance().student_results.get()
         selected_students: ->
             student = Docs.findOne Router.current().params.doc_id
@@ -62,6 +64,7 @@ if Meteor.isClient
                         $('#last_name').val('')
                         Session.set "last_name", null
                         Session.set "first_name", null
+                        $('#first_name').focus()    
 
         'click .create_student': (e,t)->
             first_name = $('#first_name').val().trim()
@@ -77,7 +80,7 @@ if Meteor.isClient
                     $('#last_name').val('')
                     Session.set "last_name", null
                     Session.set "first_name", null
-
+                    $('#first_name').focus()
         'keyup #student_input': (e,t)->
             search_value = $(e.currentTarget).closest('#student_input').val().trim()
             if e.which is 8

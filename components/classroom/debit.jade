@@ -1,11 +1,11 @@
 template(name='classroom_edit_debits')       
-    .ui.large.header 
+    .ui.large.inline.header 
         i.red.minus.icon
         | Debits
     //- +number_edit key='fines_amount' label='Fines Amount' direct=true
-    .ui.button.add_debit_type
+    .ui.circular.icon.button.add_debit_type(title='add debit type')
         i.plus.icon
-        | Debit Type
+        //- | Debit Type
     .ui.small.segments
         each classroom_debit_types
             .ui.segment
@@ -49,13 +49,14 @@ template(name='debit')
             +boolean_edit key='fire_friday' label='F' direct=true classes='small compact'
             div
         div
-        .ui.small.grey.inline.header scope
-        +key_value_edit key='scope' value='student' label='student' icon='user'
-        +key_value_edit key='scope' value='classroom' label='classroom' icon='users'
+        unless is_automatic
+            .ui.small.grey.inline.header scope
+            +key_value_edit key='scope' value='student' label='student' icon='user'
+            +key_value_edit key='scope' value='classroom' label='classroom' icon='users'
         div
-        .ui.compact.button.remove_debit 
-            i.remove.icon
-            |remove
+        .ui.compact.circular.icon.button.remove_debit(title='remove debit')
+            i.remove.red.icon
+            //- |remove
         .ui.fluid.button.save_debit
             i.green.checkmark.icon
             |save
