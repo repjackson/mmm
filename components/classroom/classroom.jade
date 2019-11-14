@@ -380,10 +380,13 @@ template(name='transaction_event_item')
                 
 template(name='event_comment')   
     a.note(title='create note')
-        i.comment.large.icon 
+        i.comment.large.outline.icon 
     if is_commenting
         .ui.form 
             textarea.note_area(rows='3') #{note}
+            .ui.small.compact.green.icon.button.save_comment
+                i.checkmark.icon 
+                |Save
     else if note 
         |#{note}
 

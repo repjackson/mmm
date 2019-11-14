@@ -90,8 +90,8 @@ template(name='user_footer')
                 //- .ui.link.list
                 //-     a.item(href='/donate')
                 //-         | contact
-            .five.wide.column
-                +bug_reporter
+            //- .five.wide.column
+            //-     +bug_reporter
             .six.wide.column
                 //- +footer_chat
                 if is_admin
@@ -136,8 +136,8 @@ template(name='public_footer')
                     a.item(href='/contact')
                         | Contact
                         
-            .three.wide.column
-                +bug_reporter    
+            //- .three.wide.column
+            //-     +bug_reporter    
             .six.wide.column
                 //- +footer_chat
                 unless currentUser

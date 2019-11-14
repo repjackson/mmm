@@ -3,7 +3,6 @@
 @selected_shop_tags = new ReactiveArray []
 @selected_bug_tags = new ReactiveArray []
 @selected_task_tags = new ReactiveArray []
-@selected_classroom_tags = new ReactiveArray []
 
 Meteor.startup ->
     process.env.TZ='America/Denver'

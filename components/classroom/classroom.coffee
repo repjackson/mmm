@@ -289,7 +289,7 @@ if Meteor.isClient
                     model:'classroom_event'
                     event_type:'credit'
                     amount: amount
-                    text:"was credited #{classroom.bonus_amount}"
+                    text:"was credited $#{classroom.bonus_amount}"
                     user_id: @_id
                     classroom_id: Router.current().params.doc_id
 
@@ -310,7 +310,7 @@ if Meteor.isClient
                     model:'classroom_event'
                     event_type:'debit'
                     amount: amount
-                    text:"was fined #{classroom.fines_amount}"
+                    text:"was fined $#{classroom.fines_amount}"
                     user_id: @_id
                     classroom_id: Router.current().params.doc_id
             else
@@ -462,6 +462,13 @@ if Meteor.isClient
                 # console.log @
 
         'blur .note_area': (e,t)->
+            note = $(e.currentTarget).closest('.note_area').val()
+            Docs.update @_id,
+                $set: note: note
+            t.commenting.set false
+            # console.log @
+
+        'click .save_comment': (e,t)->
             note = $(e.currentTarget).closest('.note_area').val()
             Docs.update @_id,
                 $set: note: note

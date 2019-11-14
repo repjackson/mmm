@@ -7,20 +7,13 @@ template(name='admin_layout')
                 .ui.header 
                     i.shield.icon
                     |admin
-                .ui.small.header for mmm project managment
                 .ui.vertical.fluid.large.menu
-                    a.item(href="/tasks")
-                        i.tasks.icon
-                        | tasks
                     a.item(href="/users")
                         i.users.icon
                         | users
                     //- a.item(href="/dev_blog")
                     //-     i.blog.icon
                     //-     | dev blog
-                    a.item(href="/feed")
-                        i.rss.icon
-                        | feed
                     a.item(href="/bugs")
                         i.bug.icon
                         | bugs
@@ -64,3 +57,5 @@ template(name='latest_activity')
                 |#{text} #{body} 
                 .ui.basic.label #{log_type}
                 small #{when}
+            if is_admin 
+                +remove_button
